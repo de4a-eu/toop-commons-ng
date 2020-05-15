@@ -117,6 +117,8 @@ import eu.toop.regrep.slot.predefined.SlotId;
  * <li>If it is a "ConceptQuery" the request Concepts must be provided.</li>
  * <li>If it is a "DocumentQuery" the request distribution must be
  * provided.</li>
+ * <li>If it is a "ObjectReference" the request Document ID must be
+ * provided.</li>
  * </ul>
  * It is recommended to use the {@link #builder()} methods to create the EDM
  * request using the builder pattern with a fluent API.

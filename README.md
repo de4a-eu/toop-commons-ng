@@ -1,11 +1,15 @@
 # TOOP Commons NG
 
 This is the successor project of the old [toop-commons](https://github.com/TOOP4EU/toop-commons) project.
+The code contained in this project is used by:
+* https://github.com/TOOP4EU/toop-connector-ng - TOOP Connector NG (TC NG)
+* https://github.com/TOOP4EU/data-services-directory - Data Services Directory (DSD)
 
 ## Status
 
 Work in progress
-* Added new 
+* Initial copy from TOOP Connector NG for easier dependency reuse
+* Added new Request query definition "Object Reference" to request a document with an ID only
 * Renamed `getReader()` to `reader()`
 * Updated the Schematron rules
 
@@ -30,25 +34,6 @@ Work in progress
 
 The rest comes via transitive dependencies.
 
-## Design considerations
-
-Compared to the old design, certain architectural decisions changed which lead to a new architecture of the TOOP Connector.
-Previously the application was designed to be a separate web application that was deployed between the DC/DP and the AS4 Gateway.
-The TOOP Connector NG is a both a library and a standalone solution that helps you do common stuff on the DC and the DP side.
-
-Major changes compared to the old TOOP Connector:
-* The semantic mapping service invocation was removed. The old solution was not satisfying.
-* The "multiple DPs" option was removed. This responsibility was moved to the DC.
-* The TOOP Directory was replaced by the DSD (Data Service Directory)
-* No more usage of ASIC
-* The content previously contained in "toop-commons" is now included in this project. The "toop-interface" project is no longer needed."
-
-What is now contained in the TOOP Connector NG:
-* Support for performing dynamic discovery lookups (as before)
-* Support for Schematron validation of the EDM Requests and Responses (as before)
-* Support for querying the DSD (new - was previously the TOOP Directory)
-* Support for communicating with the AS4 gateway (as before)
-
 ## Building
 
 Requires at least
@@ -62,6 +47,5 @@ Afterwards don't forget to add the following paths to your build path (in your I
 
 * toop-regrep/target/generated-sources/xjc
 * toop-edm/target/generated-sources/xjc
-
 
 Note: the `toop-codelist-tools` is for internal usage only.
