@@ -13,62 +13,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.toop.commons.supplementary.tools;
+package eu.toop.edm.supplementary.tools;
 
 import java.io.File;
 import java.util.Locale;
-
-import javax.annotation.Nonnull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.helger.commons.regex.RegExHelper;
-import com.helger.commons.string.StringHelper;
 import com.helger.genericode.Genericode10Helper;
 import com.helger.genericode.builder.GenericodeReader;
 import com.helger.genericode.v10.CodeListDocument;
 import com.helger.genericode.v10.Row;
 
 /**
- * Extract error category enum content from Genericode file
+ * Extract error code enum content from Genericode file
  *
  * @author Philip Helger
  */
-public final class MainCreateJavaCode_ErrorCategory_GC
+public final class MainCreateJavaCode_DataElementResponseErrorCode_GC
 {
-  private static final Logger LOGGER = LoggerFactory.getLogger (MainCreateJavaCode_ErrorCategory_GC.class);
-
-  @Nonnull
-  private static String _addUnderscores (@Nonnull final String s)
-  {
-    final StringBuilder aSB = new StringBuilder (s.length () * 2);
-    for (final char c : s.toCharArray ())
-    {
-      if (c == Character.toUpperCase (c) && aSB.length () > 0)
-        aSB.append ('_');
-      aSB.append (c);
-    }
-    // Avoid double underscores
-    return StringHelper.replaceAllRepeatedly (aSB.toString (), "__", "_");
-  }
+  private static final Logger LOGGER = LoggerFactory.getLogger (MainCreateJavaCode_DataElementResponseErrorCode_GC.class);
 
   public static void main (final String [] args)
   {
     final CodeListDocument aCLD = GenericodeReader.gc10CodeList ()
-                                                  .read (new File ("src/test/resources/codelists/gc/ErrorCategory-CodeList.gc"));
+                                                  .read (new File ("src/main/resources/codelists/gc/DataElementResponseErrorCode-CodeList.gc"));
     final StringBuilder aSB = new StringBuilder ();
     for (final Row aRow : aCLD.getSimpleCodeList ().getRow ())
     {
       final String sID = Genericode10Helper.getRowValue (aRow, "code");
       final String sName = Genericode10Helper.getRowValue (aRow, "name-en");
-      if (sName != null)
-        aSB.append ("/** ").append (sName).append (" */\n");
-      if (sID != null)
-        aSB.append (RegExHelper.getAsIdentifier (_addUnderscores (sID).toUpperCase (Locale.US)))
-           .append (" (\"")
-           .append (sID)
-           .append ("\"),\n");
+      aSB.append ("/** ").append (sName).append (" */\n");
+      aSB.append (RegExHelper.getAsIdentifier (sID.toUpperCase (Locale.US)))
+         .append (" (\"")
+         .append (sID)
+         .append ("\", \"")
+         .append (sName)
+         .append ("\"),\n");
     }
     LOGGER.info (aSB.toString ());
   }

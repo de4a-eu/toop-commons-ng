@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.toop.commons.supplementary.tools;
+package eu.toop.edm.supplementary.tools;
 
 import java.io.File;
 import java.util.Locale;
@@ -39,7 +39,7 @@ public final class MainCreateJavaCode_ErrorCode_GC
   public static void main (final String [] args)
   {
     final CodeListDocument aCLD = GenericodeReader.gc10CodeList ()
-                                                  .read (new File ("src/test/resources/codelists/gc/ErrorCode-CodeList.gc"));
+                                                  .read (new File ("src/main/resources/codelists/gc/ErrorCode-CodeList.gc"));
     final StringBuilder aSB = new StringBuilder ();
     for (final Row aRow : aCLD.getSimpleCodeList ().getRow ())
     {
