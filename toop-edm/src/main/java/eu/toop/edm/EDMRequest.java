@@ -86,6 +86,7 @@ import eu.toop.regrep.RegRep4Reader;
 import eu.toop.regrep.RegRep4Writer;
 import eu.toop.regrep.RegRepHelper;
 import eu.toop.regrep.query.QueryRequest;
+import eu.toop.regrep.query.ResponseOptionType;
 import eu.toop.regrep.rim.AnyValueType;
 import eu.toop.regrep.rim.CollectionValueType;
 import eu.toop.regrep.rim.DateTimeValueType;
@@ -143,12 +144,12 @@ public class EDMRequest
   private final AgentPojo m_aDataConsumer;
   private final String m_sConsentToken;
   private final String m_sDatasetIdentifier;
-  private final String m_sDocumentID;
   private final BusinessPojo m_aDataSubjectLegalPerson;
   private final PersonPojo m_aDataSubjectNaturalPerson;
   private final PersonPojo m_aAuthorizedRepresentative;
   private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
   private final ICommonsList <DistributionPojo> m_aDistributions = new CommonsArrayList <> ();
+  private final String m_sDocumentID;
 
   public EDMRequest (@Nonnull final EQueryDefinitionType eQueryDefinition,
                      @Nonnull @Nonempty final String sRequestID,
@@ -160,12 +161,12 @@ public class EDMRequest
                      @Nonnull final AgentPojo aDataConsumer,
                      @Nullable final String sConsentToken,
                      @Nullable final String sDatasetIdentifier,
-                     @Nullable final String sDocumentID,
                      @Nullable final BusinessPojo aDataSubjectLegalPerson,
                      @Nullable final PersonPojo aDataSubjectNaturalPerson,
                      @Nullable final PersonPojo aAuthorizedRepresentative,
                      @Nullable final ICommonsList <ConceptPojo> aConcepts,
-                     @Nullable final ICommonsList <DistributionPojo> aDistributions)
+                     @Nullable final ICommonsList <DistributionPojo> aDistributions,
+                     @Nullable final String sDocumentID)
   {
     ValueEnforcer.notNull (eQueryDefinition, "QueryDefinition");
     ValueEnforcer.notNull (eResponseOption, "ResponseOption");
@@ -177,11 +178,10 @@ public class EDMRequest
     ValueEnforcer.isFalse ((aDataSubjectLegalPerson == null && aDataSubjectNaturalPerson == null) ||
                            (aDataSubjectLegalPerson != null && aDataSubjectNaturalPerson != null),
                            "Exactly one DataSubject must be set");
-    final int nConcepts = CollectionHelper.getSize (aConcepts);
-    final int nDistributions = CollectionHelper.getSize (aDistributions);
-    ValueEnforcer.isFalse (((nConcepts == 0 && nDistributions == 0) || (nConcepts != 0 && nDistributions != 0)) &&
-                           (sDocumentID == null),
-                           "Exactly one of Concept and Distribution or a Document ID must be set");
+    final int nCount = (CollectionHelper.isNotEmpty (aConcepts) ? 1 : 0) +
+                       (CollectionHelper.isNotEmpty (aDistributions) ? 1 : 0) +
+                       (sDocumentID != null ? 1 : 0);
+    ValueEnforcer.isTrue (nCount == 1, "Exactly one of Concept and Distribution and Document ID must be set");
     switch (eQueryDefinition)
     {
       case CONCEPT:
@@ -229,6 +229,12 @@ public class EDMRequest
   public final String getRequestID ()
   {
     return m_sRequestID;
+  }
+
+  @Nonnull
+  public final EResponseOptionType getResponseOption ()
+  {
+    return m_eResponseOption;
   }
 
   @Nonnull
@@ -283,12 +289,6 @@ public class EDMRequest
   }
 
   @Nullable
-  public final String getDocumentID ()
-  {
-    return m_sDocumentID;
-  }
-
-  @Nullable
   public final BusinessPojo getDataSubjectLegalPerson ()
   {
     return m_aDataSubjectLegalPerson;
@@ -334,6 +334,12 @@ public class EDMRequest
     return m_aDistributions.getClone ();
   }
 
+  @Nullable
+  public final String getDocumentID ()
+  {
+    return m_sDocumentID;
+  }
+
   @Nonnull
   private QueryRequest _createQueryRequest (@Nonnull final ICommonsList <ISlotProvider> aProviders)
   {
@@ -341,6 +347,7 @@ public class EDMRequest
     ValueEnforcer.notEmpty (m_sRequestID, "RequestID");
     ValueEnforcer.noNullValue (aProviders, "Providers");
 
+    // Maintain original order
     final ICommonsOrderedMap <String, ISlotProvider> aProviderMap = new CommonsLinkedHashMap <> ();
     for (final ISlotProvider aItem : aProviders)
     {
@@ -461,13 +468,13 @@ public class EDMRequest
            EqualsHelper.equals (m_aFullfillingRequirements, that.m_aFullfillingRequirements) &&
            EqualsHelper.equals (m_aDataConsumer, that.m_aDataConsumer) &&
            EqualsHelper.equals (m_sConsentToken, that.m_sConsentToken) &&
-           EqualsHelper.equals (m_sDocumentID, that.m_sDocumentID) &&
            EqualsHelper.equals (m_sDatasetIdentifier, that.m_sDatasetIdentifier) &&
            EqualsHelper.equals (m_aDataSubjectLegalPerson, that.m_aDataSubjectLegalPerson) &&
            EqualsHelper.equals (m_aDataSubjectNaturalPerson, that.m_aDataSubjectNaturalPerson) &&
            EqualsHelper.equals (m_aAuthorizedRepresentative, that.m_aAuthorizedRepresentative) &&
            EqualsHelper.equals (m_aConcepts, that.m_aConcepts) &&
-           EqualsHelper.equals (m_aDistributions, that.m_aDistributions);
+           EqualsHelper.equals (m_aDistributions, that.m_aDistributions) &&
+           EqualsHelper.equals (m_sDocumentID, that.m_sDocumentID);
   }
 
   @Override
@@ -483,12 +490,12 @@ public class EDMRequest
                                        .append (m_aDataConsumer)
                                        .append (m_sConsentToken)
                                        .append (m_sDatasetIdentifier)
-                                       .append (m_sDocumentID)
                                        .append (m_aDataSubjectLegalPerson)
                                        .append (m_aDataSubjectNaturalPerson)
                                        .append (m_aAuthorizedRepresentative)
                                        .append (m_aConcepts)
                                        .append (m_aDistributions)
+                                       .append (m_sDocumentID)
                                        .getHashCode ();
   }
 
@@ -505,12 +512,12 @@ public class EDMRequest
                                        .append ("DataConsumer", m_aDataConsumer)
                                        .append ("ConsentToken", m_sConsentToken)
                                        .append ("DatasetIdentifier", m_sDatasetIdentifier)
-                                       .append ("DocumentID", m_sDocumentID)
                                        .append ("DataSubjectLegalPerson", m_aDataSubjectLegalPerson)
                                        .append ("DataSubjectNaturalPerson", m_aDataSubjectNaturalPerson)
                                        .append ("AuthorizedRepresentative", m_aAuthorizedRepresentative)
                                        .append ("Concepts", m_aConcepts)
                                        .append ("Distributions", m_aDistributions)
+                                       .append ("DocumentID", m_sDocumentID)
                                        .getToString ();
   }
 
@@ -518,20 +525,19 @@ public class EDMRequest
   public static Builder builder ()
   {
     // Use the default specification identifier
-    return new Builder ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
-                         .responseOption (EResponseOptionType.CONTAINED);
+    return new Builder ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20);
   }
 
   @Nonnull
   public static Builder builderConcept ()
   {
-    return builder ().queryDefinition (EQueryDefinitionType.CONCEPT);
+    return builder ().queryDefinition (EQueryDefinitionType.CONCEPT).responseOption (EResponseOptionType.CONTAINED);
   }
 
   @Nonnull
   public static Builder builderDocument ()
   {
-    return builder ().queryDefinition (EQueryDefinitionType.DOCUMENT);
+    return builder ().queryDefinition (EQueryDefinitionType.DOCUMENT).responseOption (EResponseOptionType.CONTAINED);
   }
 
   @Nonnull
@@ -543,7 +549,7 @@ public class EDMRequest
   @Nonnull
   public static Builder builderGetDocumentByID ()
   {
-    return builder ().queryDefinition (EQueryDefinitionType.OBJECTREF);
+    return builder ().queryDefinition (EQueryDefinitionType.OBJECTREF).responseOption (EResponseOptionType.CONTAINED);
   }
 
   /**
@@ -563,12 +569,12 @@ public class EDMRequest
     private AgentPojo m_aDataConsumer;
     private String m_sConsentToken;
     private String m_sDatasetIdentifier;
-    private String m_sDocumentID;
     private BusinessPojo m_aDataSubjectLegalPerson;
     private PersonPojo m_aDataSubjectNaturalPerson;
     private PersonPojo m_aAuthorizedRepresentative;
     private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
     private final ICommonsList <DistributionPojo> m_aDistributions = new CommonsArrayList <> ();
+    private String m_sDocumentID;
 
     protected Builder ()
     {}
@@ -610,13 +616,6 @@ public class EDMRequest
     public Builder specificationIdentifier (@Nullable final String s)
     {
       m_sSpecificationIdentifier = s;
-      return this;
-    }
-
-    @Nonnull
-    public Builder documentID (@Nullable final String s)
-    {
-      m_sDocumentID = s;
       return this;
     }
 
@@ -894,12 +893,21 @@ public class EDMRequest
       return this;
     }
 
+    @Nonnull
+    public Builder documentID (@Nullable final String s)
+    {
+      m_sDocumentID = s;
+      return this;
+    }
+
     public void checkConsistency ()
     {
       if (m_eQueryDefinition == null)
         throw new IllegalStateException ("Query Definition must be present");
       if (StringHelper.hasNoText (m_sRequestID))
         throw new IllegalStateException ("ID must be present");
+      if (m_eResponseOption == null)
+        throw new IllegalStateException ("Response Option must be present");
       if (StringHelper.hasNoText (m_sSpecificationIdentifier))
         throw new IllegalStateException ("SpecificationIdentifier must be present");
       if (m_aIssueDateTime == null)
@@ -958,12 +966,12 @@ public class EDMRequest
                              m_aDataConsumer,
                              m_sConsentToken,
                              m_sDatasetIdentifier,
-                             m_sDocumentID,
                              m_aDataSubjectLegalPerson,
                              m_aDataSubjectNaturalPerson,
                              m_aAuthorizedRepresentative,
                              m_aConcepts,
-                             m_aDistributions);
+                             m_aDistributions,
+                             m_sDocumentID);
     }
   }
 
@@ -1019,14 +1027,6 @@ public class EDMRequest
         {
           final String sValue = ((StringValueType) aSlotValue).getValue ();
           aBuilder.datasetIdentifier (sValue);
-        }
-        break;
-      case SlotId.NAME:
-        if (aSlotValue instanceof StringValueType)
-        {
-          final String sValue = ((StringValueType) aSlotValue).getValue ();
-          aBuilder.documentID (sValue);
-          aBuilder.queryDefinition (EQueryDefinitionType.OBJECTREF);
         }
         break;
       case SlotDataConsumer.NAME:
@@ -1091,6 +1091,14 @@ public class EDMRequest
           }
         }
         break;
+      case SlotId.NAME:
+        if (aSlotValue instanceof StringValueType)
+        {
+          final String sValue = ((StringValueType) aSlotValue).getValue ();
+          aBuilder.documentID (sValue);
+          aBuilder.queryDefinition (EQueryDefinitionType.OBJECTREF);
+        }
+        break;
       default:
         throw new IllegalStateException ("Slot is not defined: " + sName);
     }
@@ -1099,19 +1107,31 @@ public class EDMRequest
   @Nonnull
   public static EDMRequest create (@Nonnull final QueryRequest aQueryRequest)
   {
-    final EDMRequest.Builder aBuilder = EDMRequest.builder ().id (aQueryRequest.getId ());
+    // Enforce a default response option
+    final EDMRequest.Builder aBuilder = EDMRequest.builder ()
+                                                  .responseOption (EResponseOptionType.CONTAINED)
+                                                  .id (aQueryRequest.getId ());
 
+    // Top level slots
     for (final SlotType slot : aQueryRequest.getSlot ())
       _applySlots (slot, aBuilder);
 
-    if (aQueryRequest.getQuery () != null && aQueryRequest.getQuery ().hasSlotEntries ())
-      for (final SlotType aSlot : aQueryRequest.getQuery ().getSlot ())
+    final QueryType aQuery = aQueryRequest.getQuery ();
+    if (aQuery != null)
+      for (final SlotType aSlot : aQuery.getSlot ())
         if (aSlot != null)
           _applySlots (aSlot, aBuilder);
 
-    if (aQueryRequest.getResponseOption () != null && aQueryRequest.getResponseOption ().getReturnType () != null)
-      aBuilder.responseOption (EResponseOptionType.getFromIDOrNull (aQueryRequest.getResponseOption ()
-                                                                                 .getReturnType ()));
+    final ResponseOptionType aResponseOption = aQueryRequest.getResponseOption ();
+    if (aResponseOption != null && aResponseOption.getReturnType () != null)
+    {
+      final EResponseOptionType eResponseOption = EResponseOptionType.getFromIDOrNull (aResponseOption.getReturnType ());
+      if (eResponseOption != null)
+      {
+        // Only override it, if the value is present
+        aBuilder.responseOption (eResponseOption);
+      }
+    }
 
     return aBuilder.build ();
   }

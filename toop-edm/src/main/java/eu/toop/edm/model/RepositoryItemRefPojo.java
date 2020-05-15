@@ -15,13 +15,14 @@
  */
 package eu.toop.edm.model;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.helger.commons.equals.EqualsHelper;
 import com.helger.commons.hashcode.HashCodeGenerator;
 import com.helger.commons.string.ToStringGenerator;
-import eu.toop.regrep.rim.SimpleLinkType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import eu.toop.regrep.rim.SimpleLinkType;
 
 public class RepositoryItemRefPojo
 {
@@ -92,11 +93,7 @@ public class RepositoryItemRefPojo
     final RepositoryItemRefPojo.Builder ret = new RepositoryItemRefPojo.Builder ();
     if (a != null)
     {
-      if (a.getTitle () != null)
-        ret.title (a.getTitle ());
-      if (a.getHref () != null)
-        ret.link (a.getHref ());
-      return ret;
+      ret.title (a.getTitle ()).link (a.getHref ());
     }
     return ret;
   }
@@ -110,14 +107,14 @@ public class RepositoryItemRefPojo
     {}
 
     @Nonnull
-    public RepositoryItemRefPojo.Builder title (@Nullable final String sTitle)
+    public Builder title (@Nullable final String sTitle)
     {
       m_sTitle = sTitle;
       return this;
     }
 
     @Nonnull
-    public RepositoryItemRefPojo.Builder link (@Nullable final String sLink)
+    public Builder link (@Nullable final String sLink)
     {
       m_sLink = sLink;
       return this;
