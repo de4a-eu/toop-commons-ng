@@ -50,7 +50,7 @@ public final class EDMErrorResponseTest
     assertNotNull (aBytes);
 
     // Re-read
-    final EDMErrorResponse aResp2 = EDMErrorResponse.getReader ().read (aBytes);
+    final EDMErrorResponse aResp2 = EDMErrorResponse.reader ().read (aBytes);
 
     // Compare with original
     assertEquals (aResp, aResp2);

@@ -67,7 +67,7 @@ public final class EDMRequestTest
     assertNotNull (aBytes);
 
     // Re-read
-    final EDMRequest aReq2 = EDMRequest.getReader ().read (aBytes);
+    final EDMRequest aReq2 = EDMRequest.reader ().read (aBytes);
 
     // Compare with original
     assertEquals (aReq, aReq2);
@@ -262,26 +262,26 @@ public final class EDMRequestTest
   @Test
   public void testReadAndWriteExampleFiles ()
   {
-    EDMRequest aRequest = EDMRequest.getReader ().read (new ClassPathResource ("Concept Request_LP.xml"));
+    EDMRequest aRequest = EDMRequest.reader ().read (new ClassPathResource ("Concept Request_LP.xml"));
     _testWriteAndRead (aRequest);
 
-    aRequest = EDMRequest.getReader ().read (new ClassPathResource ("Concept Request_NP.xml"));
+    aRequest = EDMRequest.reader ().read (new ClassPathResource ("Concept Request_NP.xml"));
     _testWriteAndRead (aRequest);
 
-    aRequest = EDMRequest.getReader ().read (new ClassPathResource ("Document Request_LP.xml"));
+    aRequest = EDMRequest.reader ().read (new ClassPathResource ("Document Request_LP.xml"));
     _testWriteAndRead (aRequest);
 
-    aRequest = EDMRequest.getReader ().read (new ClassPathResource ("Document Request_NP.xml"));
+    aRequest = EDMRequest.reader ().read (new ClassPathResource ("Document Request_NP.xml"));
     _testWriteAndRead (aRequest);
   }
 
   @Test
   public void testBadCases ()
   {
-    EDMRequest aRequest = EDMRequest.getReader ().read (new ClassPathResource ("Bogus.xml"));
+    EDMRequest aRequest = EDMRequest.reader ().read (new ClassPathResource ("Bogus.xml"));
     assertNull (aRequest);
 
-    aRequest = EDMRequest.getReader ().read (new ClassPathResource ("Concept Response.xml"));
+    aRequest = EDMRequest.reader ().read (new ClassPathResource ("Concept Response.xml"));
     assertNull (aRequest);
   }
 }

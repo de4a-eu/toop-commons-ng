@@ -317,8 +317,18 @@ public class EDMResponse
                                        RegRep4Writer.queryResponse (CCCEV.XSDS).setFormattedOutput (true));
   }
 
+  /**
+   * @deprecated Since beta3; Use {@link #reader()} instead
+   */
+  @Deprecated
   @Nonnull
   public static IJAXBVersatileReader <EDMResponse> getReader ()
+  {
+    return reader ();
+  }
+
+  @Nonnull
+  public static IJAXBVersatileReader <EDMResponse> reader ()
   {
     return new JAXBVersatileReader <> (RegRep4Reader.queryResponse (CCCEV.XSDS), EDMResponse::create);
   }

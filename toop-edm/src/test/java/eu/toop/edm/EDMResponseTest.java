@@ -63,7 +63,7 @@ public final class EDMResponseTest
     assertNotNull (aBytes);
 
     // Re-read
-    final EDMResponse aResp2 = EDMResponse.getReader ().read (aBytes);
+    final EDMResponse aResp2 = EDMResponse.reader ().read (aBytes);
 
     // Compare with original
     assertEquals (aResp, aResp2);
@@ -169,7 +169,7 @@ public final class EDMResponseTest
   @Test
   public void createConceptResponse ()
   {
-    final EDMResponse aResp = EDMResponse.getReader ().read (ClassPathResource.getInputStream ("Concept Response.xml"));
+    final EDMResponse aResp = EDMResponse.reader ().read (ClassPathResource.getInputStream ("Concept Response.xml"));
     _testWriteAndRead (aResp);
   }
 
@@ -206,23 +206,23 @@ public final class EDMResponseTest
   @Test
   public void testReadAndWriteExampleFiles ()
   {
-    EDMResponse aResponse = EDMResponse.getReader ().read (new ClassPathResource ("Concept Response.xml"));
+    EDMResponse aResponse = EDMResponse.reader ().read (new ClassPathResource ("Concept Response.xml"));
     _testWriteAndRead (aResponse);
 
-    aResponse = EDMResponse.getReader ().read (new ClassPathResource ("Document Response.xml"));
+    aResponse = EDMResponse.reader ().read (new ClassPathResource ("Document Response.xml"));
     _testWriteAndRead (aResponse);
 
-    aResponse = EDMResponse.getReader ().read (new ClassPathResource ("Document Response_NoRepositoryItemRef.xml"));
+    aResponse = EDMResponse.reader ().read (new ClassPathResource ("Document Response_NoRepositoryItemRef.xml"));
     _testWriteAndRead (aResponse);
   }
 
   @Test
   public void testBadCases ()
   {
-    EDMResponse aResponse = EDMResponse.getReader ().read (new ClassPathResource ("Bogus.xml"));
+    EDMResponse aResponse = EDMResponse.reader ().read (new ClassPathResource ("Bogus.xml"));
     assertNull (aResponse);
 
-    aResponse = EDMResponse.getReader ().read (new ClassPathResource ("Concept Request_LP.xml"));
+    aResponse = EDMResponse.reader ().read (new ClassPathResource ("Concept Request_LP.xml"));
     assertNull (aResponse);
   }
 }

@@ -184,8 +184,18 @@ public class EDMErrorResponse
     return new JAXBVersatileWriter <> (getAsErrorResponse (), RegRep4Writer.queryResponse ().setFormattedOutput (true));
   }
 
+  /**
+   * @deprecated Since beta3; Use {@link #reader()} instead
+   */
+  @Deprecated
   @Nonnull
   public static IJAXBVersatileReader <EDMErrorResponse> getReader ()
+  {
+    return reader ();
+  }
+
+  @Nonnull
+  public static IJAXBVersatileReader <EDMErrorResponse> reader ()
   {
     return new JAXBVersatileReader <> (RegRep4Reader.queryResponse (), EDMErrorResponse::create);
   }

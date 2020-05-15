@@ -428,8 +428,18 @@ public class EDMRequest
                                        RegRep4Writer.queryRequest (CCAGV.XSDS).setFormattedOutput (true));
   }
 
+  /**
+   * @deprecated Since beta3; Use {@link #reader()} instead
+   */
+  @Deprecated
   @Nonnull
   public static IJAXBVersatileReader <EDMRequest> getReader ()
+  {
+    return reader ();
+  }
+
+  @Nonnull
+  public static IJAXBVersatileReader <EDMRequest> reader ()
   {
     return new JAXBVersatileReader <> (RegRep4Reader.queryRequest (CCAGV.XSDS), EDMRequest::create);
   }
