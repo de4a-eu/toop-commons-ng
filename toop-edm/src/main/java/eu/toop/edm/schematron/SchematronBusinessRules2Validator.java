@@ -22,27 +22,28 @@ import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.commons.io.resource.IReadableResource;
 
 /**
- * TOOP Schematron validator for the 2.0.0 data model. Validate DOM documents or
- * other resources using the predefined TOOP Schematron rules.
+ * TOOP Schematron validator for the 2.0.0 data model Business Rules. Apply only
+ * AFTER EDM. Validate DOM documents or other resources using the predefined
+ * TOOP Schematron rules.
  *
  * @author Philip Helger
  */
 @ThreadSafe
-public class SchematronEDM2Validator extends AbstractSchematronValidator
+public class SchematronBusinessRules2Validator extends AbstractSchematronValidator
 {
   /**
    * The resource with the rules. Important: this Schematron requires additional
    * code lists in a relative directory!
    */
-  public static final IReadableResource TOOP_EDM2_XSLT = new ClassPathResource ("200/TOOP_EDM.xslt");
+  public static final IReadableResource TOOP_BUSINESS_RULES_XSLT = new ClassPathResource ("200/TOOP_BUSINESS_RULES.xslt");
 
-  public SchematronEDM2Validator ()
+  public SchematronBusinessRules2Validator ()
   {}
 
   @Override
   @Nonnull
   protected final IReadableResource getSchematronXSLTResource ()
   {
-    return TOOP_EDM2_XSLT;
+    return TOOP_BUSINESS_RULES_XSLT;
   }
 }

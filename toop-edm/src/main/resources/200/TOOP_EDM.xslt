@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--
-
-    Copyright (C) 2018-2020 toop.eu
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-            http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
--->
 <xsl:stylesheet xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:cagv="https://semic.org/sa/cv/cagv/agent-2.0.0#" xmlns:cbc="https://semic.org/sa/cv/common/cbc-2.0.0#" xmlns:cbd="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:cccev="https://semic.org/sa/cv/cccev-2.0.0#" xmlns:cpov="http://www.w3.org/ns/corevocabulary/po" xmlns:cva="http://www.w3.org/ns/corevocabulary/AggregateComponents" xmlns:cvb="http://www.w3.org/ns/corevocabulary/BasicComponents" xmlns:dcat="http://data.europa.eu/r5r/" xmlns:dct="http://purl.org/dc/terms/" xmlns:iso="http://purl.oclc.org/dsdl/schematron" xmlns:locn="http://www.w3.org/ns/locn#" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:4.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:4.0" xmlns:saxon="http://saxon.sf.net/" xmlns:schold="http://www.ascc.net/xml/schematron" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
 <!--Implementers: please note that overriding process-prolog or process-root is 
     the preferred method for meta-stylesheets to use where possible. -->
@@ -408,6 +391,13 @@
         <xsl:apply-templates />
       </svrl:active-pattern>
       <xsl:apply-templates mode="M45" select="/" />
+      <svrl:active-pattern>
+        <xsl:attribute name="document">
+          <xsl:value-of select="document-uri(/)" />
+        </xsl:attribute>
+        <xsl:apply-templates />
+      </svrl:active-pattern>
+      <xsl:apply-templates mode="M46" select="/" />
     </svrl:schematron-output>
   </xsl:template>
 
@@ -467,6 +457,20 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
+
+		<!--REPORT -->
+<xsl:if test="exists(@requestId)">
+      <svrl:successful-report test="exists(@requestId)">
+        <xsl:attribute name="id">misplaced_request_id</xsl:attribute>
+        <xsl:attribute name="flag">ERROR</xsl:attribute>
+        <xsl:attribute name="location">
+          <xsl:apply-templates mode="schematron-select-full-path" select="." />
+        </xsl:attribute>
+        <svrl:text>
+                A QueryRequest cannot contain a requestId, which is used to link the QueryResponse to the correct QueryRequest.
+            </svrl:text>
+      </svrl:successful-report>
+    </xsl:if>
     <xsl:variable name="countIssueDateTime" select="count(rim:Slot[@name = 'IssueDateTime'])" />
 
 		<!--ASSERT -->
@@ -974,7 +978,7 @@
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
           </xsl:attribute>
           <svrl:text>
-                The Agent Address must contain UP TO THREE AddressFullAddress elements (found: <xsl:text />
+                The Agent Address must contain UP TO THREE FullAddress elements (found: <xsl:text />
             <xsl:value-of select="$countAgentAddressFullAddress" />
             <xsl:text />).
             </svrl:text>
@@ -994,14 +998,14 @@
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
           </xsl:attribute>
           <svrl:text>
-                The Agent Address must contain ZERO or ONE AddressThoroughfare elements (found: <xsl:text />
+                The Agent Address must contain ZERO or ONE Thoroughfare elements (found: <xsl:text />
             <xsl:value-of select="$countAgentAddressThoroughfare" />
             <xsl:text />).
             </svrl:text>
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:variable name="countAgentAddressLocatorDesignator" select="count(cagv:location/locn:address/locn:thoroughfare)" />
+    <xsl:variable name="countAgentAddressLocatorDesignator" select="count(cagv:location/locn:address/locn:locatorDesignator)" />
 
 		<!--ASSERT -->
 <xsl:choose>
@@ -1014,14 +1018,14 @@
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
           </xsl:attribute>
           <svrl:text>
-                The Agent Address must contain ZERO or ONE AddressLocatorDesignator elements (found: <xsl:text />
+                The Agent Address must contain ZERO or ONE LocatorDesignator elements (found: <xsl:text />
             <xsl:value-of select="$countAgentAddressLocatorDesignator" />
             <xsl:text />).
             </svrl:text>
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:variable name="countAgentAddressPostName" select="count(cagv:location/locn:address/locn:thoroughfare)" />
+    <xsl:variable name="countAgentAddressPostName" select="count(cagv:location/locn:address/locn:postName)" />
 
 		<!--ASSERT -->
 <xsl:choose>
@@ -1034,34 +1038,34 @@
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
           </xsl:attribute>
           <svrl:text>
-                The Agent Address must contain ZERO or ONE AddressPostName elements (found: <xsl:text />
+                The Agent Address must contain ZERO or ONE PostName elements (found: <xsl:text />
             <xsl:value-of select="$countAgentAddressPostName" />
             <xsl:text />).
             </svrl:text>
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:variable name="countAgentAddressAdminUnitLocationOne" select="count(cagv:location/locn:address/locn:thoroughfare)" />
+    <xsl:variable name="countAgentAddressAdminUnitLocationOne" select="count(cagv:location/locn:address/locn:adminUnitLevel1)" />
 
 		<!--ASSERT -->
 <xsl:choose>
       <xsl:when test="($countAgentAddressAdminUnitLocationOne=0) or ($countAgentAddressAdminUnitLocationOne=1)" />
       <xsl:otherwise>
         <svrl:failed-assert test="($countAgentAddressAdminUnitLocationOne=0) or ($countAgentAddressAdminUnitLocationOne=1)">
-          <xsl:attribute name="id">req_card_Agent_Address_AddressAdminUnitLocationOne</xsl:attribute>
+          <xsl:attribute name="id">req_card_Agent_Address_AddressAdminUnitLevel1</xsl:attribute>
           <xsl:attribute name="flag">ERROR</xsl:attribute>
           <xsl:attribute name="location">
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
           </xsl:attribute>
           <svrl:text>
-                The Agent Address must contain ZERO or ONE AddressAdminUnitLocationOne elements (found: <xsl:text />
+                The Agent Address must contain ZERO or ONE AdminUnitLocationOne elements (found: <xsl:text />
             <xsl:value-of select="$countAgentAddressAdminUnitLocationOne" />
             <xsl:text />).
             </svrl:text>
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:variable name="countAgentAddressPostCode" select="count(cagv:location/locn:address/locn:thoroughfare)" />
+    <xsl:variable name="countAgentAddressPostCode" select="count(cagv:location/locn:address/locn:postCodee)" />
 
 		<!--ASSERT -->
 <xsl:choose>
@@ -1074,7 +1078,7 @@
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
           </xsl:attribute>
           <svrl:text>
-                The Agent Address must contain ZERO or ONE AddressPostCode elements (found: <xsl:text />
+                The Agent Address must contain ZERO or ONE PostCode elements (found: <xsl:text />
             <xsl:value-of select="$countAgentAddressPostCode" />
             <xsl:text />).
             </svrl:text>
@@ -1306,7 +1310,20 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:variable name="countElementConcept" select="count(rim:SlotValue/rim:Element/cccev:concept)" />
+    <xsl:apply-templates mode="M25" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+  <xsl:template match="text()" mode="M25" priority="-1" />
+  <xsl:template match="@*|node()" mode="M25" priority="-2">
+    <xsl:apply-templates mode="M25" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+
+<!--PATTERN -->
+
+
+	<!--RULE -->
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element" mode="M26" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element" />
+    <xsl:variable name="countElementConcept" select="count(cccev:concept)" />
 
 		<!--ASSERT -->
 <xsl:choose>
@@ -1326,18 +1343,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M25" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M26" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M25" priority="-1" />
-  <xsl:template match="@*|node()" mode="M25" priority="-2">
-    <xsl:apply-templates mode="M25" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M26" priority="-1" />
+  <xsl:template match="@*|node()" mode="M26" priority="-2">
+    <xsl:apply-templates mode="M26" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']" mode="M26" priority="1000">
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']" mode="M27" priority="1000">
     <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']" />
     <xsl:variable name="countElement" select="count(rim:SlotValue/rim:Element)" />
 
@@ -1379,18 +1396,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M26" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M27" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M26" priority="-1" />
-  <xsl:template match="@*|node()" mode="M26" priority="-2">
-    <xsl:apply-templates mode="M26" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M27" priority="-1" />
+  <xsl:template match="@*|node()" mode="M27" priority="-2">
+    <xsl:apply-templates mode="M27" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']" mode="M27" priority="1000">
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']" mode="M28" priority="1000">
     <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']" />
     <xsl:variable name="countCoreBusiness" select="count(rim:SlotValue/cva:CoreBusiness)" />
 
@@ -1412,18 +1429,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M27" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M28" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M27" priority="-1" />
-  <xsl:template match="@*|node()" mode="M27" priority="-2">
-    <xsl:apply-templates mode="M27" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M28" priority="-1" />
+  <xsl:template match="@*|node()" mode="M28" priority="-2">
+    <xsl:apply-templates mode="M28" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson'] | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']" mode="M28" priority="1000">
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson'] | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']" mode="M29" priority="1000">
     <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson'] | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']" />
     <xsl:variable name="countCorePerson" select="count(rim:SlotValue/cva:CorePerson)" />
 
@@ -1445,18 +1462,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M28" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M29" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M28" priority="-1" />
-  <xsl:template match="@*|node()" mode="M28" priority="-2">
-    <xsl:apply-templates mode="M28" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M29" priority="-1" />
+  <xsl:template match="@*|node()" mode="M29" priority="-2">
+    <xsl:apply-templates mode="M29" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson                       | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson" mode="M29" priority="1000">
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson                       | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson" mode="M30" priority="1000">
     <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson                       | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson" />
     <xsl:variable name="countPersonId" select="count(cvb:PersonID)" />
 
@@ -1618,59 +1635,19 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M29" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M30" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M29" priority="-1" />
-  <xsl:template match="@*|node()" mode="M29" priority="-2">
-    <xsl:apply-templates mode="M29" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M30" priority="-1" />
+  <xsl:template match="@*|node()" mode="M30" priority="-2">
+    <xsl:apply-templates mode="M30" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'ConceptRequestList']/cccev:Concept                       |query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/rim:Element/cccev:Concept" mode="M30" priority="1000">
-    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'ConceptRequestList']/cccev:Concept                       |query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/rim:Element/cccev:Concept" />
-    <xsl:variable name="countConceptId" select="count(cbc:id)" />
-
-		<!--ASSERT -->
-<xsl:choose>
-      <xsl:when test="($countConceptId=1)" />
-      <xsl:otherwise>
-        <svrl:failed-assert test="($countConceptId=1)">
-          <xsl:attribute name="id">req_card_concept_id</xsl:attribute>
-          <xsl:attribute name="flag">ERROR</xsl:attribute>
-          <xsl:attribute name="location">
-            <xsl:apply-templates mode="schematron-select-full-path" select="." />
-          </xsl:attribute>
-          <svrl:text>
-                Each root concept must have ONE id (found: <xsl:text />
-            <xsl:value-of select="$countConceptId" />
-            <xsl:text />).
-            </svrl:text>
-        </svrl:failed-assert>
-      </xsl:otherwise>
-    </xsl:choose>
-    <xsl:variable name="countConceptQName" select="count(cbc:QName)" />
-
-		<!--ASSERT -->
-<xsl:choose>
-      <xsl:when test="($countConceptQName=1)" />
-      <xsl:otherwise>
-        <svrl:failed-assert test="($countConceptQName=1)">
-          <xsl:attribute name="id">req_card_concept_qname</xsl:attribute>
-          <xsl:attribute name="flag">ERROR</xsl:attribute>
-          <xsl:attribute name="location">
-            <xsl:apply-templates mode="schematron-select-full-path" select="." />
-          </xsl:attribute>
-          <svrl:text>
-                Each root concept must have ONE QName (found: <xsl:text />
-            <xsl:value-of select="$countConceptQName" />
-            <xsl:text />).
-            </svrl:text>
-        </svrl:failed-assert>
-      </xsl:otherwise>
-    </xsl:choose>
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element/cccev:concept                       |query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/rim:Element/cccev:concept" mode="M31" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element/cccev:concept                       |query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/rim:Element/cccev:concept" />
     <xsl:variable name="countconcepts" select="count(cccev:concept)" />
 
 		<!--ASSERT -->
@@ -1684,25 +1661,25 @@
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
           </xsl:attribute>
           <svrl:text>
-                The root concept must contain at least ONE concepts element (found: <xsl:text />
+                The root concept must contain at least ONE concept Element (found: <xsl:text />
             <xsl:value-of select="$countconcepts" />
             <xsl:text />).
             </svrl:text>
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M30" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M31" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M30" priority="-1" />
-  <xsl:template match="@*|node()" mode="M30" priority="-2">
-    <xsl:apply-templates mode="M30" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M31" priority="-1" />
+  <xsl:template match="@*|node()" mode="M31" priority="-2">
+    <xsl:apply-templates mode="M31" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="cccev:concept" mode="M31" priority="1000">
+<xsl:template match="cccev:concept" mode="M32" priority="1000">
     <svrl:fired-rule context="cccev:concept" />
     <xsl:variable name="countConceptId" select="count(cbc:id)" />
 
@@ -1744,18 +1721,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M31" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M32" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M31" priority="-1" />
-  <xsl:template match="@*|node()" mode="M31" priority="-2">
-    <xsl:apply-templates mode="M31" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M32" priority="-1" />
+  <xsl:template match="@*|node()" mode="M32" priority="-2">
+    <xsl:apply-templates mode="M32" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution" mode="M32" priority="1000">
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution" mode="M33" priority="1000">
     <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution" />
     <xsl:variable name="countDistAccessURL" select="count(dcat:accessURL)" />
 
@@ -1817,18 +1794,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M32" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M33" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M32" priority="-1" />
-  <xsl:template match="@*|node()" mode="M32" priority="-2">
-    <xsl:apply-templates mode="M32" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M33" priority="-1" />
+  <xsl:template match="@*|node()" mode="M33" priority="-2">
+    <xsl:apply-templates mode="M33" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness" mode="M33" priority="1000">
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness" mode="M34" priority="1000">
     <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness" />
     <xsl:variable name="countLegalEntityLegalID" select="count(cvb:LegalEntityLegalID)" />
 
@@ -1890,18 +1867,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M33" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M34" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M33" priority="-1" />
-  <xsl:template match="@*|node()" mode="M33" priority="-2">
-    <xsl:apply-templates mode="M33" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M34" priority="-1" />
+  <xsl:template match="@*|node()" mode="M34" priority="-2">
+    <xsl:apply-templates mode="M34" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="cva:PersonCoreAddress | cva:LegalEntityCoreAddress" mode="M34" priority="1000">
+<xsl:template match="cva:PersonCoreAddress | cva:LegalEntityCoreAddress" mode="M35" priority="1000">
     <svrl:fired-rule context="cva:PersonCoreAddress | cva:LegalEntityCoreAddress" />
     <xsl:variable name="countAddressFullAddress" select="count(cvb:AddressFullAddress)" />
 
@@ -2023,18 +2000,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M34" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M35" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M34" priority="-1" />
-  <xsl:template match="@*|node()" mode="M34" priority="-2">
-    <xsl:apply-templates mode="M34" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M35" priority="-1" />
+  <xsl:template match="@*|node()" mode="M35" priority="-2">
+    <xsl:apply-templates mode="M35" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryResponse/rim:Slot[@name = 'DataProvider']" mode="M35" priority="1000">
+<xsl:template match="query:QueryResponse/rim:Slot[@name = 'DataProvider']" mode="M36" priority="1000">
     <svrl:fired-rule context="query:QueryResponse/rim:Slot[@name = 'DataProvider']" />
     <xsl:variable name="countAgent" select="count(./rim:SlotValue/cagv:Agent)" />
 
@@ -2056,18 +2033,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M35" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M36" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M35" priority="-1" />
-  <xsl:template match="@*|node()" mode="M35" priority="-2">
-    <xsl:apply-templates mode="M35" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M36" priority="-1" />
+  <xsl:template match="@*|node()" mode="M36" priority="-2">
+    <xsl:apply-templates mode="M36" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryResponse/rim:Slot[@name = 'DataProvider']/rim:SlotValue/cagv:Agent | query:QueryResponse/rim:Slot[@name = 'ErrorProvider']/rim:SlotValue/cagv:Agent" mode="M36" priority="1000">
+<xsl:template match="query:QueryResponse/rim:Slot[@name = 'DataProvider']/rim:SlotValue/cagv:Agent | query:QueryResponse/rim:Slot[@name = 'ErrorProvider']/rim:SlotValue/cagv:Agent" mode="M37" priority="1000">
     <svrl:fired-rule context="query:QueryResponse/rim:Slot[@name = 'DataProvider']/rim:SlotValue/cagv:Agent | query:QueryResponse/rim:Slot[@name = 'ErrorProvider']/rim:SlotValue/cagv:Agent" />
 
 		<!--ASSERT -->
@@ -2103,18 +2080,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M36" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M37" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M36" priority="-1" />
-  <xsl:template match="@*|node()" mode="M36" priority="-2">
-    <xsl:apply-templates mode="M36" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M37" priority="-1" />
+  <xsl:template match="@*|node()" mode="M37" priority="-2">
+    <xsl:apply-templates mode="M37" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject" mode="M37" priority="1000">
+<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject" mode="M38" priority="1000">
     <svrl:fired-rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject" />
     <xsl:variable name="countConceptValues" select="count(rim:Slot[@name = 'ConceptValues'])" />
 
@@ -2176,18 +2153,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M37" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M38" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M37" priority="-1" />
-  <xsl:template match="@*|node()" mode="M37" priority="-2">
-    <xsl:apply-templates mode="M37" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M38" priority="-1" />
+  <xsl:template match="@*|node()" mode="M38" priority="-2">
+    <xsl:apply-templates mode="M38" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']" mode="M38" priority="1000">
+<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']" mode="M39" priority="1000">
     <svrl:fired-rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']" />
     <xsl:variable name="countElement" select="count(rim:SlotValue/rim:Element)" />
 
@@ -2229,18 +2206,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M38" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M39" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M38" priority="-1" />
-  <xsl:template match="@*|node()" mode="M38" priority="-2">
-    <xsl:apply-templates mode="M38" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M39" priority="-1" />
+  <xsl:template match="@*|node()" mode="M39" priority="-2">
+    <xsl:apply-templates mode="M39" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element/cccev:concept//cccev:concept" mode="M39" priority="1000">
+<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element/cccev:concept//cccev:concept" mode="M40" priority="1000">
     <svrl:fired-rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element/cccev:concept//cccev:concept" />
     <xsl:variable name="countConceptValues" select="count(cccev:value)" />
 
@@ -2266,18 +2243,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M39" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M40" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M39" priority="-1" />
-  <xsl:template match="@*|node()" mode="M39" priority="-2">
-    <xsl:apply-templates mode="M39" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M40" priority="-1" />
+  <xsl:template match="@*|node()" mode="M40" priority="-2">
+    <xsl:apply-templates mode="M40" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset" mode="M40" priority="1000">
+<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset" mode="M41" priority="1000">
     <svrl:fired-rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset" />
     <xsl:variable name="countTemporal" select="count(dct:temporal)" />
 
@@ -2379,18 +2356,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M40" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M41" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M40" priority="-1" />
-  <xsl:template match="@*|node()" mode="M40" priority="-2">
-    <xsl:apply-templates mode="M40" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M41" priority="-1" />
+  <xsl:template match="@*|node()" mode="M41" priority="-2">
+    <xsl:apply-templates mode="M41" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution" mode="M41" priority="1000">
+<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution" mode="M42" priority="1000">
     <svrl:fired-rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution" />
     <xsl:variable name="countaccessURL" select="count(dcat:accessURL)" />
 
@@ -2472,18 +2449,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M41" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M42" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M41" priority="-1" />
-  <xsl:template match="@*|node()" mode="M41" priority="-2">
-    <xsl:apply-templates mode="M41" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M42" priority="-1" />
+  <xsl:template match="@*|node()" mode="M42" priority="-2">
+    <xsl:apply-templates mode="M42" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:qualifiedRelation/dct:relation" mode="M42" priority="1000">
+<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:qualifiedRelation/dct:relation" mode="M43" priority="1000">
     <svrl:fired-rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:qualifiedRelation/dct:relation" />
     <xsl:variable name="counttitle" select="count(dct:title)" />
 
@@ -2525,18 +2502,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M42" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M43" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M42" priority="-1" />
-  <xsl:template match="@*|node()" mode="M42" priority="-2">
-    <xsl:apply-templates mode="M42" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M43" priority="-1" />
+  <xsl:template match="@*|node()" mode="M43" priority="-2">
+    <xsl:apply-templates mode="M43" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="cccev:value" mode="M43" priority="1000">
+<xsl:template match="cccev:value" mode="M44" priority="1000">
     <svrl:fired-rule context="cccev:value" />
     <xsl:variable name="countamountValue" select="count(cccev:amountValue)" />
     <xsl:variable name="countcodeValue" select="count(cccev:codeValue)" />
@@ -2573,18 +2550,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M43" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M44" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M43" priority="-1" />
-  <xsl:template match="@*|node()" mode="M43" priority="-2">
-    <xsl:apply-templates mode="M43" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M44" priority="-1" />
+  <xsl:template match="@*|node()" mode="M44" priority="-2">
+    <xsl:apply-templates mode="M44" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dct:creator" mode="M44" priority="1000">
+<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dct:creator" mode="M45" priority="1000">
     <svrl:fired-rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dct:creator" />
     <xsl:variable name="countid" select="count(cbc:id)" />
 
@@ -2646,18 +2623,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M44" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M45" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M44" priority="-1" />
-  <xsl:template match="@*|node()" mode="M44" priority="-2">
-    <xsl:apply-templates mode="M44" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M45" priority="-1" />
+  <xsl:template match="@*|node()" mode="M45" priority="-2">
+    <xsl:apply-templates mode="M45" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="             rim:Slot[@name = 'SpecificationIdentifier']/rim:SlotValue             | rim:Slot[@name = 'ConsentToken']/rim:SlotValue              | rim:Slot[@name = 'DatasetIdentifier']/rim:SlotValue             | rim:ObjectRefList/rim:ObjectRef/rim:Slot[@name = 'shortDescription']/rim:SlotValue             " mode="M45" priority="1005">
+<xsl:template match="             rim:Slot[@name = 'SpecificationIdentifier']/rim:SlotValue             | rim:Slot[@name = 'ConsentToken']/rim:SlotValue              | rim:Slot[@name = 'DatasetIdentifier']/rim:SlotValue             | rim:ObjectRefList/rim:ObjectRef/rim:Slot[@name = 'shortDescription']/rim:SlotValue             " mode="M46" priority="1005">
     <svrl:fired-rule context="             rim:Slot[@name = 'SpecificationIdentifier']/rim:SlotValue             | rim:Slot[@name = 'ConsentToken']/rim:SlotValue              | rim:Slot[@name = 'DatasetIdentifier']/rim:SlotValue             | rim:ObjectRefList/rim:ObjectRef/rim:Slot[@name = 'shortDescription']/rim:SlotValue             " />
     <xsl:variable name="datatype" select="@*[ends-with(name(.), ':type') and . != '']" />
 
@@ -2681,11 +2658,11 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M45" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M46" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 	<!--RULE -->
-<xsl:template match="             rim:Slot[@name = 'Procedure']/rim:SlotValue             | rim:Slot[@name = 'ErrorText']/rim:SlotValue/rim:Element              " mode="M45" priority="1004">
+<xsl:template match="             rim:Slot[@name = 'Procedure']/rim:SlotValue             | rim:Slot[@name = 'ErrorText']/rim:SlotValue/rim:Element              " mode="M46" priority="1004">
     <svrl:fired-rule context="             rim:Slot[@name = 'Procedure']/rim:SlotValue             | rim:Slot[@name = 'ErrorText']/rim:SlotValue/rim:Element              " />
     <xsl:variable name="datatype" select="@*[ends-with(name(.), ':type') and . != '']" />
 
@@ -2712,11 +2689,11 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M45" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M46" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 	<!--RULE -->
-<xsl:template match="             rim:Slot[@name = 'IssueDateTime']/rim:SlotValue             | rim:Slot[@name = 'Timestamp']/rim:SlotValue             " mode="M45" priority="1003">
+<xsl:template match="             rim:Slot[@name = 'IssueDateTime']/rim:SlotValue             | rim:Slot[@name = 'Timestamp']/rim:SlotValue             " mode="M46" priority="1003">
     <svrl:fired-rule context="             rim:Slot[@name = 'IssueDateTime']/rim:SlotValue             | rim:Slot[@name = 'Timestamp']/rim:SlotValue             " />
     <xsl:variable name="datatype" select="@*[ends-with(name(.), ':type') and . != '']" />
 
@@ -2740,11 +2717,11 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M45" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M46" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 	<!--RULE -->
-<xsl:template match="             rim:Slot[@name = 'DataConsumer']/rim:SlotValue             | rim:Slot[@name = 'LegalPerson']/rim:SlotValue             | rim:Slot[@name = 'NaturalPerson']/rim:SlotValue             | rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue             | rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element              | rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element              | rim:Slot[@name = 'DataProvider']/rim:SlotValue             | rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element              " mode="M45" priority="1002">
+<xsl:template match="             rim:Slot[@name = 'DataConsumer']/rim:SlotValue             | rim:Slot[@name = 'LegalPerson']/rim:SlotValue             | rim:Slot[@name = 'NaturalPerson']/rim:SlotValue             | rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue             | rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element              | rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element              | rim:Slot[@name = 'DataProvider']/rim:SlotValue             | rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element              " mode="M46" priority="1002">
     <svrl:fired-rule context="             rim:Slot[@name = 'DataConsumer']/rim:SlotValue             | rim:Slot[@name = 'LegalPerson']/rim:SlotValue             | rim:Slot[@name = 'NaturalPerson']/rim:SlotValue             | rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue             | rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element              | rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element              | rim:Slot[@name = 'DataProvider']/rim:SlotValue             | rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element              " />
     <xsl:variable name="datatype" select="@*[ends-with(name(.), ':type') and . != '']" />
 
@@ -2771,11 +2748,11 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M45" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M46" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 	<!--RULE -->
-<xsl:template match="             rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue             | rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue             | rim:Slot[@name = 'ErrorText']/rim:SlotValue             | rim:Slot[@name = 'FullfillingRequirement']/rim:SlotValue             " mode="M45" priority="1001">
+<xsl:template match="             rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue             | rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue             | rim:Slot[@name = 'ErrorText']/rim:SlotValue             | rim:Slot[@name = 'FullfillingRequirement']/rim:SlotValue             " mode="M46" priority="1001">
     <svrl:fired-rule context="             rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue             | rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue             | rim:Slot[@name = 'ErrorText']/rim:SlotValue             | rim:Slot[@name = 'FullfillingRequirement']/rim:SlotValue             " />
     <xsl:variable name="datatype" select="@*[ends-with(name(.), ':type') and . != '']" />
 
@@ -2802,11 +2779,11 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M45" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M46" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 	<!--RULE -->
-<xsl:template match="             rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element              | rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element              | rim:Slot[@name = 'ErrorText']/rim:SlotValue             " mode="M45" priority="1000">
+<xsl:template match="             rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element              | rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element              | rim:Slot[@name = 'ErrorText']/rim:SlotValue             " mode="M46" priority="1000">
     <svrl:fired-rule context="             rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element              | rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element              | rim:Slot[@name = 'ErrorText']/rim:SlotValue             " />
     <xsl:variable name="datatype" select="@*[ends-with(name(.), ':type') and . != '']" />
 
@@ -2833,10 +2810,10 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M45" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M46" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M45" priority="-1" />
-  <xsl:template match="@*|node()" mode="M45" priority="-2">
-    <xsl:apply-templates mode="M45" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M46" priority="-1" />
+  <xsl:template match="@*|node()" mode="M46" priority="-2">
+    <xsl:apply-templates mode="M46" select="*|comment()|processing-instruction()" />
   </xsl:template>
 </xsl:stylesheet>

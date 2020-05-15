@@ -228,8 +228,8 @@
               <goal>convert</goal>
             </goals>
             <configuration>
-              <schematronDirectory>src/main/resources/200/schematron</schematronDirectory>
-              <xsltDirectory>src/main/resources/200/xslt</xsltDirectory>
+              <schematronDirectory>src/main/resources/200</schematronDirectory>
+              <xsltDirectory>src/main/resources/200</xsltDirectory>
             </configuration>
           </execution>
         </executions>
