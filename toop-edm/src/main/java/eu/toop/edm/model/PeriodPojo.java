@@ -58,13 +58,13 @@ public class PeriodPojo
   @Nullable
   public final LocalDate getStartDate ()
   {
-    return m_aEndDate;
+    return m_aStartDate;
   }
 
   @Nullable
   public final LocalTime getStartTime ()
   {
-    return m_aEndTime;
+    return m_aStartTime;
   }
 
   @Nullable

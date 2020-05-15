@@ -16,7 +16,6 @@
 package eu.toop.regrep;
 
 import javax.annotation.Nonnull;
-import javax.xml.namespace.QName;
 import javax.xml.validation.Schema;
 
 import com.helger.commons.annotation.Nonempty;
@@ -55,13 +54,6 @@ public enum ERegRep4XMLDocumentType implements IJAXBDocumentType
   ERegRep4XMLDocumentType (@Nonnull final Class <?> aClass, @Nonnull final ICommonsList <ClassPathResource> aXSDs)
   {
     m_aDocType = new JAXBDocumentType (aClass, aXSDs, x -> StringHelper.trimEnd (x, "Type"));
-  }
-
-  ERegRep4XMLDocumentType (@Nonnull final Class <?> aClass,
-                           @Nonnull final ICommonsList <ClassPathResource> aXSDs,
-                           @Nonnull final QName aQName)
-  {
-    m_aDocType = new JAXBDocumentType (aClass, aXSDs, aQName.getNamespaceURI (), aQName.getLocalPart ());
   }
 
   @Nonnull
