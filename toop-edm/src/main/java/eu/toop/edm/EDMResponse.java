@@ -25,6 +25,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import eu.toop.edm.model.*;
+import eu.toop.regrep.rim.*;
 import org.w3c.dom.Node;
 
 import com.helger.commons.ValueEnforcer;
@@ -48,11 +50,6 @@ import com.helger.datetime.util.PDTXMLConverter;
 import eu.toop.edm.jaxb.cccev.CCCEVConceptType;
 import eu.toop.edm.jaxb.cv.agent.AgentType;
 import eu.toop.edm.jaxb.dcatap.DCatAPDatasetType;
-import eu.toop.edm.model.AgentPojo;
-import eu.toop.edm.model.ConceptPojo;
-import eu.toop.edm.model.DatasetPojo;
-import eu.toop.edm.model.EQueryDefinitionType;
-import eu.toop.edm.model.RepositoryItemRefPojo;
 import eu.toop.edm.slot.SlotConceptValues;
 import eu.toop.edm.slot.SlotDataProvider;
 import eu.toop.edm.slot.SlotDocumentMetadata;
@@ -71,17 +68,6 @@ import eu.toop.regrep.RegRep4Reader;
 import eu.toop.regrep.RegRep4Writer;
 import eu.toop.regrep.RegRepHelper;
 import eu.toop.regrep.query.QueryResponse;
-import eu.toop.regrep.rim.AnyValueType;
-import eu.toop.regrep.rim.CollectionValueType;
-import eu.toop.regrep.rim.DateTimeValueType;
-import eu.toop.regrep.rim.ExtrinsicObjectType;
-import eu.toop.regrep.rim.ObjectRefListType;
-import eu.toop.regrep.rim.ObjectRefType;
-import eu.toop.regrep.rim.RegistryObjectListType;
-import eu.toop.regrep.rim.SimpleLinkType;
-import eu.toop.regrep.rim.SlotType;
-import eu.toop.regrep.rim.StringValueType;
-import eu.toop.regrep.rim.ValueType;
 import eu.toop.regrep.slot.ISlotProvider;
 
 /**
@@ -117,9 +103,7 @@ public class EDMResponse
   private final String m_sSpecificationIdentifier;
   private final LocalDateTime m_aIssueDateTime;
   private final AgentPojo m_aDataProvider;
-  private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
-  private final DatasetPojo m_aDataset;
-  private final RepositoryItemRefPojo m_aRepositoryItemRef;
+  private final ICommonsList <ResponseObjectPojo> m_aResponseObjects = new CommonsArrayList <> ();
 
   public EDMResponse (@Nonnull final EQueryDefinitionType eQueryDefinition,
                       @Nonnull final ERegRepResponseStatus eResponseStatus,
@@ -127,9 +111,7 @@ public class EDMResponse
                       @Nonnull @Nonempty final String sSpecificationIdentifier,
                       @Nonnull final LocalDateTime aIssueDateTime,
                       @Nonnull final AgentPojo aDataProvider,
-                      @Nullable final ICommonsList <ConceptPojo> aConcepts,
-                      @Nullable final DatasetPojo aDataset,
-                      @Nullable final RepositoryItemRefPojo aRepositoryItemRef)
+                      @Nonnull final ICommonsList <ResponseObjectPojo> aResponseObjects)
   {
     ValueEnforcer.notNull (eQueryDefinition, "QueryDefinition");
     ValueEnforcer.notNull (eResponseStatus, "ResponseStatus");
@@ -140,17 +122,18 @@ public class EDMResponse
     ValueEnforcer.notEmpty (sSpecificationIdentifier, "SpecificationIdentifier");
     ValueEnforcer.notNull (aIssueDateTime, "IssueDateTime");
     ValueEnforcer.notNull (aDataProvider, "DataProvider");
-    final int nConcepts = CollectionHelper.getSize (aConcepts);
-    ValueEnforcer.isFalse ((nConcepts == 0 && aDataset == null) || (nConcepts != 0 && aDataset != null),
-                           "Exactly one of Concept and Dataset must be set");
+    ValueEnforcer.notEmpty (aResponseObjects, "ResponseObjects");
+
     switch (eQueryDefinition)
     {
       case CONCEPT:
-        ValueEnforcer.notEmpty (aConcepts, "Concept");
+        for(ResponseObjectPojo aResponseObject : aResponseObjects)
+          ValueEnforcer.notEmpty(aResponseObject.concepts(), "Concept");
         break;
       case DOCUMENT:
       case OBJECTREF:
-        ValueEnforcer.notNull (aDataset, "Dataset");
+        for(ResponseObjectPojo aResponseObject : aResponseObjects)
+          ValueEnforcer.notNull(aResponseObject.getDataset(), "Dataset");
         break;
       default:
         throw new IllegalArgumentException ("Unsupported query definition: " + eQueryDefinition);
@@ -162,10 +145,7 @@ public class EDMResponse
     m_sSpecificationIdentifier = sSpecificationIdentifier;
     m_aIssueDateTime = aIssueDateTime;
     m_aDataProvider = aDataProvider;
-    if (aConcepts != null)
-      m_aConcepts.addAll (aConcepts);
-    m_aDataset = aDataset;
-    m_aRepositoryItemRef = aRepositoryItemRef;
+    m_aResponseObjects.addAll(aResponseObjects);
   }
 
   @Nonnull
@@ -208,22 +188,16 @@ public class EDMResponse
 
   @Nonnull
   @ReturnsMutableObject
-  public final List <ConceptPojo> concepts ()
+  public final List <ResponseObjectPojo> responseObjects ()
   {
-    return m_aConcepts;
+    return m_aResponseObjects;
   }
 
   @Nonnull
   @ReturnsMutableCopy
-  public final List <ConceptPojo> getAllConcepts ()
+  public final List <ResponseObjectPojo> getAllResponseObjects ()
   {
-    return m_aConcepts.getClone ();
-  }
-
-  @Nullable
-  public final DatasetPojo getDataset ()
-  {
-    return m_aDataset;
+    return m_aResponseObjects.getClone ();
   }
 
   @Nonnull
@@ -252,35 +226,20 @@ public class EDMResponse
     {
       if (m_eQueryDefinition.equals (EQueryDefinitionType.OBJECTREF))
       {
-        final ObjectRefType aOR = new ObjectRefType ();
-
-        aOR.setId (UUID.randomUUID ().toString ());
-
-        // All slots inside of RegistryObject
-        for (final Map.Entry <String, ISlotProvider> aEntry : aProviderMap.entrySet ())
-          if (!TOP_LEVEL_SLOTS.contains (aEntry.getKey ()))
-            aOR.addSlot (aEntry.getValue ().createSlot ());
-
         final ObjectRefListType aORList = new ObjectRefListType ();
-        aORList.addObjectRef (aOR);
+
+        for (ResponseObjectPojo aRO : m_aResponseObjects) {
+          aORList.addObjectRef(aRO.getAsObjectRef());
+        }
         ret.setObjectRefList (aORList);
       }
       else
       {
-        final ExtrinsicObjectType aEO = new ExtrinsicObjectType ();
-
-        if (m_aRepositoryItemRef != null)
-          aEO.setRepositoryItemRef (m_aRepositoryItemRef.getAsSimpleLink ());
-
-        aEO.setId (UUID.randomUUID ().toString ());
-
-        // All slots inside of RegistryObject
-        for (final Map.Entry <String, ISlotProvider> aEntry : aProviderMap.entrySet ())
-          if (!TOP_LEVEL_SLOTS.contains (aEntry.getKey ()))
-            aEO.addSlot (aEntry.getValue ().createSlot ());
-
         final RegistryObjectListType aROList = new RegistryObjectListType ();
-        aROList.addRegistryObject (aEO);
+
+        for (ResponseObjectPojo aRO : m_aResponseObjects) {
+          aROList.addRegistryObject(aRO.getAsRegistryObject());
+        }
         ret.setRegistryObjectList (aROList);
       }
     }
@@ -298,14 +257,6 @@ public class EDMResponse
       aSlots.add (new SlotIssueDateTime (m_aIssueDateTime));
     if (m_aDataProvider != null)
       aSlots.add (new SlotDataProvider (m_aDataProvider));
-
-    // ConceptValues
-    if (m_aConcepts.isNotEmpty ())
-      aSlots.add (new SlotConceptValues (m_aConcepts));
-
-    // DocumentMetadata
-    if (m_aDataset != null)
-      aSlots.add (new SlotDocumentMetadata (m_aDataset));
 
     return _createQueryResponse (aSlots);
   }
@@ -347,9 +298,7 @@ public class EDMResponse
            EqualsHelper.equals (m_sSpecificationIdentifier, that.m_sSpecificationIdentifier) &&
            EqualsHelper.equals (m_aIssueDateTime, that.m_aIssueDateTime) &&
            EqualsHelper.equals (m_aDataProvider, that.m_aDataProvider) &&
-           EqualsHelper.equals (m_aConcepts, that.m_aConcepts) &&
-           EqualsHelper.equals (m_aDataset, that.m_aDataset) &&
-           EqualsHelper.equals (m_aRepositoryItemRef, that.m_aRepositoryItemRef);
+           EqualsHelper.equals (m_aResponseObjects, that.m_aResponseObjects);
   }
 
   @Override
@@ -361,9 +310,7 @@ public class EDMResponse
                                        .append (m_sSpecificationIdentifier)
                                        .append (m_aIssueDateTime)
                                        .append (m_aDataProvider)
-                                       .append (m_aConcepts)
-                                       .append (m_aDataset)
-                                       .append (m_aRepositoryItemRef)
+                                       .append (m_aResponseObjects)
                                        .getHashCode ();
   }
 
@@ -376,9 +323,7 @@ public class EDMResponse
                                        .append ("SpecificationIdentifier", m_sSpecificationIdentifier)
                                        .append ("IssueDateTime", m_aIssueDateTime)
                                        .append ("DataProvider", m_aDataProvider)
-                                       .append ("Concepts", m_aConcepts)
-                                       .append ("Dataset", m_aDataset)
-                                       .append ("RepositoryItemRef", m_aRepositoryItemRef)
+                                       .append ("ResponseObjects", m_aResponseObjects)
                                        .getToString ();
   }
 
@@ -415,9 +360,7 @@ public class EDMResponse
     private String m_sSpecificationIdentifier;
     private LocalDateTime m_aIssueDateTime;
     private AgentPojo m_aDataProvider;
-    private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
-    private DatasetPojo m_aDataset;
-    private RepositoryItemRefPojo m_aRepositoryItemRef;
+    private final ICommonsList <ResponseObjectPojo> m_aResponseObjects = new CommonsArrayList <> ();
 
     protected Builder ()
     {}
@@ -489,97 +432,65 @@ public class EDMResponse
     }
 
     @Nonnull
-    public Builder addConcept (@Nullable final CCCEVConceptType a)
+    public Builder addResponseObject (@Nullable final RegistryObjectType a)
     {
-      return addConcept (a == null ? null : ConceptPojo.builder (a));
+      return addResponseObject (a == null ? null : ResponseObjectPojo.builder (a));
     }
 
     @Nonnull
-    public Builder addConcept (@Nullable final ConceptPojo.Builder a)
+    public Builder addResponseObject (@Nullable final ObjectRefType a)
     {
-      return addConcept (a == null ? null : a.build ());
+      return addResponseObject (a == null ? null : ResponseObjectPojo.builder (a));
     }
 
     @Nonnull
-    public Builder addConcept (@Nullable final ConceptPojo a)
+    public Builder addResponseObject (@Nullable final ResponseObjectPojo.Builder a)
+    {
+      return addResponseObject (a == null ? null : a.build ());
+    }
+
+    @Nonnull
+    public Builder addResponseObject (@Nullable final ResponseObjectPojo a)
     {
       if (a != null)
-        m_aConcepts.add (a);
+        m_aResponseObjects.add (a);
       return this;
     }
 
     @Nonnull
-    public Builder concept (@Nullable final CCCEVConceptType a)
+    public Builder responseObject (@Nullable final RegistryObjectType a)
     {
-      return concept (a == null ? null : ConceptPojo.builder (a));
+      return responseObject (a == null ? null : ResponseObjectPojo.builder (a));
     }
 
     @Nonnull
-    public Builder concept (@Nullable final ConceptPojo.Builder a)
+    public Builder responseObject (@Nullable final ResponseObjectPojo.Builder a)
     {
-      return concept (a == null ? null : a.build ());
+      return responseObject (a == null ? null : a.build ());
     }
 
     @Nonnull
-    public Builder concept (@Nullable final ConceptPojo a)
+    public Builder responseObject (@Nullable final ResponseObjectPojo a)
     {
       if (a != null)
-        m_aConcepts.set (a);
+        m_aResponseObjects.set (a);
       else
-        m_aConcepts.clear ();
+        m_aResponseObjects.clear ();
       return this;
     }
 
     @Nonnull
-    public Builder concepts (@Nullable final ConceptPojo... a)
+    public Builder responseObject (@Nullable final ResponseObjectPojo... a)
     {
-      m_aConcepts.setAll (a);
+      m_aResponseObjects.setAll (a);
       return this;
     }
 
     @Nonnull
-    public Builder concepts (@Nullable final Iterable <ConceptPojo> a)
+    public Builder responseObject (@Nullable final Iterable <ResponseObjectPojo> a)
     {
-      m_aConcepts.setAll (a);
+      m_aResponseObjects.setAll (a);
       return this;
-    }
-
-    @Nonnull
-    public Builder dataset (@Nullable final DatasetPojo.Builder a)
-    {
-      return dataset (a == null ? null : a.build ());
-    }
-
-    @Nonnull
-    public Builder dataset (@Nullable final DatasetPojo a)
-    {
-      m_aDataset = a;
-      return this;
-    }
-
-    @Nonnull
-    public Builder dataset (@Nullable final DCatAPDatasetType a)
-    {
-      return dataset (a == null ? null : DatasetPojo.builder (a));
-    }
-
-    @Nonnull
-    public Builder repositoryItemRef (@Nullable final RepositoryItemRefPojo.Builder a)
-    {
-      return repositoryItemRef (a == null ? null : a.build ());
-    }
-
-    @Nonnull
-    public Builder repositoryItemRef (@Nullable final RepositoryItemRefPojo a)
-    {
-      m_aRepositoryItemRef = a;
-      return this;
-    }
-
-    @Nonnull
-    public Builder repositoryItemRef (@Nullable final SimpleLinkType a)
-    {
-      return repositoryItemRef (a == null ? null : RepositoryItemRefPojo.builder (a));
     }
 
     public void checkConsistency ()
@@ -598,28 +509,39 @@ public class EDMResponse
         throw new IllegalStateException ("Issue Date Time must be present");
       if (m_aDataProvider == null)
         throw new IllegalStateException ("Data Provider must be present");
+      if (m_aResponseObjects.isEmpty ())
+        throw new IllegalStateException ("Response Objects must be present");
 
       switch (m_eQueryDefinition)
       {
         case CONCEPT:
-          if (m_aConcepts.isEmpty ())
-            throw new IllegalStateException ("A Query Definition of type 'Concept' must contain a Concept");
-          if (m_aDataset != null)
-            throw new IllegalStateException ("A Query Definition of type 'Concept' must NOT contain a Dataset");
+          for(ResponseObjectPojo aResponseObject : m_aResponseObjects)
+          {
+            if (aResponseObject.concepts ().isEmpty ())
+              throw new IllegalStateException ("A Query Definition of type 'Concept' must contain ResponseObjects with a Concept");
+            if (aResponseObject.getDataset () != null)
+              throw new IllegalStateException ("A Query Definition of type 'Concept' must NOT contain ResponseObjects with a Dataset");
+          }
           break;
         case DOCUMENT:
-          if (m_aConcepts.isNotEmpty ())
-            throw new IllegalStateException ("A Query Definition of type 'Document' must NOT contain a Concept");
-          if (m_aDataset == null)
-            throw new IllegalStateException ("A Query Definition of type 'Document' must contain a Dataset");
+          for(ResponseObjectPojo aResponseObject : m_aResponseObjects)
+          {
+            if (!aResponseObject.concepts ().isEmpty ())
+              throw new IllegalStateException ("A Query Definition of type 'Document' must NOT contain ResponseObjects with a Concept");
+            if (aResponseObject.getDataset () == null)
+              throw new IllegalStateException ("A Query Definition of type 'Document' must contain ResponseObjects with a Dataset");
+          }
           break;
         case OBJECTREF:
-          if (m_aConcepts.isNotEmpty ())
-            throw new IllegalStateException ("A Query Definition of type 'ObjectRef' must NOT contain a Concept");
-          if (m_aDataset == null)
-            throw new IllegalStateException ("A Query Definition of type 'ObjectRef' must contain a Dataset");
-          if (m_aRepositoryItemRef != null)
-            throw new IllegalStateException ("A Query Definition of type 'ObjectRef' must NOT contain a RepositoryItemRef");
+          for(ResponseObjectPojo aResponseObject : m_aResponseObjects)
+          {
+            if (!aResponseObject.concepts ().isEmpty ())
+              throw new IllegalStateException ("A Query Definition of type 'Document' must NOT contain ResponseObjects with a Concept");
+            if (aResponseObject.getDataset () == null)
+              throw new IllegalStateException ("A Query Definition of type 'Document' must contain ResponseObjects with a Dataset");
+            if (aResponseObject.getRepositoryItemRef () != null)
+              throw new IllegalStateException ("A Query Definition of type 'ObjectRef' must NOT contain ResponseObjects with a RepositoryItemRef");
+          }
           break;
         default:
           throw new IllegalStateException ("Unhandled query definition " + m_eQueryDefinition);
@@ -637,9 +559,7 @@ public class EDMResponse
                               m_sSpecificationIdentifier,
                               m_aIssueDateTime,
                               m_aDataProvider,
-                              m_aConcepts,
-                              m_aDataset,
-                              m_aRepositoryItemRef);
+                              m_aResponseObjects);
     }
   }
 
@@ -670,33 +590,6 @@ public class EDMResponse
           aBuilder.dataProvider (AgentPojo.builder (new AgentMarshaller ().read (aAny)));
         }
         break;
-      case SlotConceptValues.NAME:
-        if (aSlotValue instanceof CollectionValueType)
-        {
-          final List <ValueType> aElements = ((CollectionValueType) aSlotValue).getElement ();
-          if (!aElements.isEmpty ())
-          {
-            for (final ValueType aElement : aElements)
-              if (aElement instanceof AnyValueType)
-              {
-                final Object aElementValue = ((AnyValueType) aElement).getAny ();
-                if (aElementValue instanceof Node)
-                  aBuilder.addConcept (new ConceptMarshaller ().read ((Node) aElementValue));
-              }
-            aBuilder.queryDefinition (EQueryDefinitionType.CONCEPT);
-          }
-        }
-        break;
-      case SlotDocumentMetadata.NAME:
-      {
-        if (aSlotValue instanceof AnyValueType)
-        {
-          final Node aAny = (Node) ((AnyValueType) aSlotValue).getAny ();
-          aBuilder.dataset (DatasetPojo.builder (new DatasetMarshaller ().read (aAny)));
-          aBuilder.queryDefinition (EQueryDefinitionType.DOCUMENT);
-        }
-        break;
-      }
       default:
         throw new IllegalStateException ("Slot is not defined: " + sName);
     }
@@ -715,23 +608,32 @@ public class EDMResponse
     if (aQueryResponse.getRegistryObjectList () != null &&
         aQueryResponse.getRegistryObjectList ().hasRegistryObjectEntries ())
     {
-      for (final SlotType aSlot : aQueryResponse.getRegistryObjectList ().getRegistryObjectAtIndex (0).getSlot ())
-        _applySlots (aSlot, aBuilder);
+      for (final RegistryObjectType aRO : aQueryResponse.getRegistryObjectList ().getRegistryObject ())
+       aBuilder.addResponseObject(aRO);
 
-      if (aQueryResponse.getRegistryObjectList ().getRegistryObjectAtIndex (0) instanceof ExtrinsicObjectType)
-      {
-        final ExtrinsicObjectType aEO = (ExtrinsicObjectType) aQueryResponse.getRegistryObjectList ()
-                                                                            .getRegistryObjectAtIndex (0);
+      int nConcepts=0;
+      int nDatasets=0;
 
-        if ((aEO != null) && (aEO.getRepositoryItemRef () != null))
-          aBuilder.repositoryItemRef (aEO.getRepositoryItemRef ());
+      for(final ResponseObjectPojo aResponseObject : aBuilder.m_aResponseObjects){
+        nConcepts+=aResponseObject.concepts().size();
+        if(aResponseObject.getDataset() != null)
+          nDatasets++;
       }
+      if ((nConcepts!=0) && (nDatasets!=0))
+        throw new IllegalStateException("The response contains both concepts and datasets which is not allowed.");
+      if ((nConcepts==0) && (nDatasets==0))
+        throw new IllegalStateException("The response contains no concepts or datasets.");
+      if (nConcepts!=0)
+        aBuilder.queryDefinition(EQueryDefinitionType.CONCEPT);
+      if (nDatasets!=0)
+        aBuilder.queryDefinition(EQueryDefinitionType.DOCUMENT);
     }
 
     if (aQueryResponse.getObjectRefList () != null && aQueryResponse.getObjectRefList ().hasObjectRefEntries ())
     {
-      for (final SlotType aSlot : aQueryResponse.getObjectRefList ().getObjectRefAtIndex (0).getSlot ())
-        _applySlots (aSlot, aBuilder);
+      for (final ObjectRefType aOR : aQueryResponse.getObjectRefList ().getObjectRef ())
+        aBuilder.addResponseObject(aOR);
+
       aBuilder.queryDefinition (EQueryDefinitionType.OBJECTREF);
     }
 

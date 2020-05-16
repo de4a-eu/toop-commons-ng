@@ -26,6 +26,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import eu.toop.edm.model.*;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
@@ -35,14 +36,6 @@ import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.commons.mock.CommonsTestHelper;
 import com.helger.schematron.svrl.AbstractSVRLMessage;
 
-import eu.toop.edm.model.AddressPojo;
-import eu.toop.edm.model.AgentPojo;
-import eu.toop.edm.model.ConceptPojo;
-import eu.toop.edm.model.DatasetPojo;
-import eu.toop.edm.model.DocumentReferencePojo;
-import eu.toop.edm.model.EQueryDefinitionType;
-import eu.toop.edm.model.QualifiedRelationPojo;
-import eu.toop.edm.model.RepositoryItemRefPojo;
 import eu.toop.edm.pilot.gbm.EToopConcept;
 import eu.toop.edm.schematron.SchematronEDM2Validator;
 import eu.toop.regrep.ERegRepResponseStatus;
@@ -105,7 +98,8 @@ public final class EDMResponseTest
   private static EDMResponse.Builder _respConcept ()
   {
     return _resp ().queryDefinition (EQueryDefinitionType.CONCEPT)
-                   .concept (ConceptPojo.builder ()
+                       .responseObject(ResponseObjectPojo.builder()
+                            .concept(ConceptPojo.builder ()
                                         .id ("ConceptID-1")
                                         .name (EToopConcept.REGISTERED_ORGANIZATION)
                                         .addChild (ConceptPojo.builder ()
@@ -121,7 +115,7 @@ public final class EDMResponseTest
                                                               .name (EToopConcept.FOUNDATION_DATE)
                                                               .valueDate (PDTFactory.createLocalDate (1960,
                                                                                                       Month.AUGUST,
-                                                                                                      12))));
+                                                                                                      12)))));
   }
 
   @Nonnull
@@ -154,16 +148,22 @@ public final class EDMResponseTest
   private static EDMResponse.Builder _respDocument ()
   {
     return _resp ().queryDefinition (EQueryDefinitionType.DOCUMENT)
-                   .dataset (_dataset ())
-                   .repositoryItemRef (RepositoryItemRefPojo.builder ()
+                   .responseObject(ResponseObjectPojo.builder()
+                      .randomID()
+                      .dataset (_dataset ())
+                      .repositoryItemRef (RepositoryItemRefPojo.builder ()
                                                             .title ("Evidence.pdf")
-                                                            .link ("https://www.example.com/evidence.pdf"));
+                                                            .link ("https://www.example.com/evidence.pdf")));
   }
 
   @Nonnull
   private static EDMResponse.Builder _respDocumentRef ()
   {
-    return _resp ().queryDefinition (EQueryDefinitionType.OBJECTREF).dataset (_dataset ());
+    return _resp ().queryDefinition (EQueryDefinitionType.OBJECTREF)
+            .addResponseObject(ResponseObjectPojo.builder()
+                .randomID().dataset (_dataset ()))
+            .addResponseObject(ResponseObjectPojo.builder()
+                    .randomID().dataset (_dataset ()));
   }
 
   @Test
@@ -194,7 +194,7 @@ public final class EDMResponseTest
       // This attempts to create an EDMResponse with a dataset element but with
       // ConceptQuery set as the QueryDefinition
       // which is not permitted and fails
-      _respConcept ().dataset (_dataset ()).build ();
+      _respConcept ().responseObject(ResponseObjectPojo.builder().dataset (_dataset ())).build ();
       fail ();
     }
     catch (final IllegalStateException ex)
