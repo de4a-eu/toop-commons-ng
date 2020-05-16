@@ -86,6 +86,7 @@ public final class EDMRequestTest
   private static EDMRequest.Builder _req ()
   {
     return EDMRequest.builder ()
+                     .responseOption (EResponseOptionType.CONTAINED)
                      .randomID ()
                      .issueDateTimeNow ()
                      .procedure (Locale.US, "GBM Procedure")
