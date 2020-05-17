@@ -15,44 +15,24 @@
  */
 package eu.toop.edm;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.xml.datatype.XMLGregorianCalendar;
-
-import eu.toop.edm.model.*;
-import eu.toop.regrep.rim.*;
-import org.w3c.dom.Node;
-
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.annotation.ReturnsMutableObject;
-import com.helger.commons.collection.CollectionHelper;
-import com.helger.commons.collection.impl.CommonsArrayList;
-import com.helger.commons.collection.impl.CommonsLinkedHashMap;
-import com.helger.commons.collection.impl.CommonsLinkedHashSet;
-import com.helger.commons.collection.impl.ICommonsList;
-import com.helger.commons.collection.impl.ICommonsOrderedMap;
-import com.helger.commons.collection.impl.ICommonsOrderedSet;
+import com.helger.commons.collection.impl.*;
 import com.helger.commons.datetime.PDTFactory;
 import com.helger.commons.equals.EqualsHelper;
 import com.helger.commons.hashcode.HashCodeGenerator;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.datetime.util.PDTXMLConverter;
-
 import eu.toop.edm.jaxb.cccev.CCCEVConceptType;
 import eu.toop.edm.jaxb.cv.agent.AgentType;
-import eu.toop.edm.jaxb.dcatap.DCatAPDatasetType;
-import eu.toop.edm.slot.SlotConceptValues;
+import eu.toop.edm.model.AgentPojo;
+import eu.toop.edm.model.ConceptPojo;
+import eu.toop.edm.model.EQueryDefinitionType;
+import eu.toop.edm.model.ResponseObjectPojo;
 import eu.toop.edm.slot.SlotDataProvider;
-import eu.toop.edm.slot.SlotDocumentMetadata;
 import eu.toop.edm.slot.SlotIssueDateTime;
 import eu.toop.edm.slot.SlotSpecificationIdentifier;
 import eu.toop.edm.xml.IJAXBVersatileReader;
@@ -61,14 +41,22 @@ import eu.toop.edm.xml.JAXBVersatileReader;
 import eu.toop.edm.xml.JAXBVersatileWriter;
 import eu.toop.edm.xml.cagv.AgentMarshaller;
 import eu.toop.edm.xml.cccev.CCCEV;
-import eu.toop.edm.xml.cccev.ConceptMarshaller;
-import eu.toop.edm.xml.dcatap.DatasetMarshaller;
 import eu.toop.regrep.ERegRepResponseStatus;
 import eu.toop.regrep.RegRep4Reader;
 import eu.toop.regrep.RegRep4Writer;
 import eu.toop.regrep.RegRepHelper;
 import eu.toop.regrep.query.QueryResponse;
+import eu.toop.regrep.rim.*;
 import eu.toop.regrep.slot.ISlotProvider;
+import org.w3c.dom.Node;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * This class contains the data model for a single TOOP EDM Request. It requires
@@ -200,6 +188,10 @@ public class EDMResponse
     return m_aResponseObjects.getClone ();
   }
 
+  /**
+   * @deprecated Since beta3; Use {@link #responseObjects()} or {@link #getAllResponseObjects()}
+   * and get the concepts through the {@link ResponseObjectPojo} ()} instead
+   */
   @Nonnull
   @Deprecated
   @ReturnsMutableObject
@@ -208,6 +200,10 @@ public class EDMResponse
     return m_aResponseObjects.isNotEmpty() ? m_aResponseObjects.get(0).concepts() : new CommonsArrayList<>();
   }
 
+  /**
+   * @deprecated Since beta3; Use {@link #responseObjects()} or {@link #getAllResponseObjects()}
+   * and get the concepts through the {@link ResponseObjectPojo} ()} instead
+   */
   @Nonnull
   @Deprecated
   @ReturnsMutableCopy
@@ -449,7 +445,10 @@ public class EDMResponse
       return dataProvider (a == null ? null : AgentPojo.builder (a));
     }
 
-
+    /**
+     * @deprecated Since beta3; Create a {@link ResponseObjectPojo} ()} using
+     * {@link #responseObject(ResponseObjectPojo.Builder)} and put the concepts there instead
+     */
     @Nonnull
     @Deprecated
     public Builder addConcept (@Nullable final CCCEVConceptType a)
@@ -457,6 +456,10 @@ public class EDMResponse
       return addConcept (a == null ? null : ConceptPojo.builder (a));
     }
 
+    /**
+     * @deprecated Since beta3; Create a {@link ResponseObjectPojo} ()} using
+     * {@link #responseObject(ResponseObjectPojo.Builder)} and put the concepts there instead
+     */
     @Nonnull
     @Deprecated
     public Builder addConcept (@Nullable final ConceptPojo.Builder a)
@@ -464,6 +467,10 @@ public class EDMResponse
       return addConcept (a == null ? null : a.build ());
     }
 
+    /**
+     * @deprecated Since beta3; Create a {@link ResponseObjectPojo} ()} using
+     * {@link #responseObject(ResponseObjectPojo.Builder)} and put the concepts there instead
+     */
     @Nonnull
     @Deprecated
     public Builder addConcept (@Nullable final ConceptPojo a)
@@ -473,6 +480,10 @@ public class EDMResponse
       return this;
     }
 
+    /**
+     * @deprecated Since beta3; Create a {@link ResponseObjectPojo} ()} using
+     * {@link #responseObject(ResponseObjectPojo.Builder)} and put the concepts there instead
+     */
     @Nonnull
     @Deprecated
     public Builder concept (@Nullable final CCCEVConceptType a)
@@ -480,6 +491,10 @@ public class EDMResponse
       return concept (a == null ? null : ConceptPojo.builder (a));
     }
 
+    /**
+     * @deprecated Since beta3; Create a {@link ResponseObjectPojo} ()} using
+     * {@link #responseObject(ResponseObjectPojo.Builder)} and put the concepts there instead
+     */
     @Nonnull
     @Deprecated
     public Builder concept (@Nullable final ConceptPojo.Builder a)
@@ -487,6 +502,10 @@ public class EDMResponse
       return concept (a == null ? null : a.build ());
     }
 
+    /**
+     * @deprecated Since beta3; Create a {@link ResponseObjectPojo} ()} using
+     * {@link #responseObject(ResponseObjectPojo.Builder)} and put the concepts there instead
+     */
     @Nonnull
     @Deprecated
     public Builder concept (@Nullable final ConceptPojo a)
@@ -498,6 +517,10 @@ public class EDMResponse
       return this;
     }
 
+    /**
+     * @deprecated Since beta3; Create a {@link ResponseObjectPojo} ()} using
+     * {@link #responseObject(ResponseObjectPojo.Builder)} and put the concepts there instead
+     */
     @Nonnull
     @Deprecated
     public Builder concepts (@Nullable final ConceptPojo... a)
@@ -506,6 +529,10 @@ public class EDMResponse
       return this;
     }
 
+    /**
+     * @deprecated Since beta3; Create a {@link ResponseObjectPojo} ()} using
+     * {@link #responseObject(ResponseObjectPojo.Builder)} and put the concepts there instead
+     */
     @Nonnull
     @Deprecated
     public Builder concepts (@Nullable final Iterable <ConceptPojo> a)
@@ -513,7 +540,6 @@ public class EDMResponse
       m_aConcepts.setAll (a);
       return this;
     }
-
 
     @Nonnull
     public Builder addResponseObject (@Nullable final RegistryObjectType a)

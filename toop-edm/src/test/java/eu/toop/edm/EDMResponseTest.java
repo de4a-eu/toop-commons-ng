@@ -15,32 +15,23 @@
  */
 package eu.toop.edm;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.time.Month;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-
-import eu.toop.edm.model.*;
-import eu.toop.edm.xml.cccev.CCCEV;
-import eu.toop.regrep.RegRep4Reader;
-import org.junit.Test;
-import org.w3c.dom.Document;
-
 import com.helger.commons.collection.impl.ICommonsList;
 import com.helger.commons.datetime.PDTFactory;
 import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.commons.mock.CommonsTestHelper;
 import com.helger.schematron.svrl.AbstractSVRLMessage;
-
+import eu.toop.edm.model.*;
 import eu.toop.edm.pilot.gbm.EToopConcept;
 import eu.toop.edm.schematron.SchematronEDM2Validator;
 import eu.toop.regrep.ERegRepResponseStatus;
+import org.junit.Test;
+import org.w3c.dom.Document;
+
+import javax.annotation.Nonnull;
+import java.time.Month;
+import java.util.UUID;
+
+import static org.junit.Assert.*;
 
 /**
  * Test class for class {@link EDMResponse}.

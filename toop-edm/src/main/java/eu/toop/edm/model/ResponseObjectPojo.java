@@ -26,12 +26,10 @@ import com.helger.commons.equals.EqualsHelper;
 import com.helger.commons.hashcode.HashCodeGenerator;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
-import com.helger.datetime.util.PDTXMLConverter;
-import eu.toop.edm.EDMResponse;
 import eu.toop.edm.jaxb.cccev.CCCEVConceptType;
 import eu.toop.edm.jaxb.dcatap.DCatAPDatasetType;
-import eu.toop.edm.slot.*;
-import eu.toop.edm.xml.cagv.AgentMarshaller;
+import eu.toop.edm.slot.SlotConceptValues;
+import eu.toop.edm.slot.SlotDocumentMetadata;
 import eu.toop.edm.xml.cccev.ConceptMarshaller;
 import eu.toop.edm.xml.dcatap.DatasetMarshaller;
 import eu.toop.regrep.rim.*;
@@ -40,9 +38,7 @@ import org.w3c.dom.Node;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class ResponseObjectPojo {
