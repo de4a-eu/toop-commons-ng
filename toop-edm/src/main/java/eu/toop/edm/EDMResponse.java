@@ -201,6 +201,22 @@ public class EDMResponse
   }
 
   @Nonnull
+  @Deprecated
+  @ReturnsMutableObject
+  public final List<ConceptPojo> concepts ()
+  {
+    return m_aResponseObjects.isNotEmpty() ? m_aResponseObjects.get(0).concepts() : new CommonsArrayList<>();
+  }
+
+  @Nonnull
+  @Deprecated
+  @ReturnsMutableCopy
+  public final List <ConceptPojo> getAllConcepts ()
+  {
+    return m_aResponseObjects.isNotEmpty() ? m_aResponseObjects.get(0).getAllConcepts() : new CommonsArrayList<>();
+  }
+
+  @Nonnull
   private QueryResponse _createQueryResponse (@Nonnull final ICommonsList <ISlotProvider> aProviders)
   {
     final ICommonsOrderedMap <String, ISlotProvider> aProviderMap = new CommonsLinkedHashMap <> ();
@@ -361,6 +377,8 @@ public class EDMResponse
     private LocalDateTime m_aIssueDateTime;
     private AgentPojo m_aDataProvider;
     private final ICommonsList <ResponseObjectPojo> m_aResponseObjects = new CommonsArrayList <> ();
+    // To support deprecated method calls
+    private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
 
     protected Builder ()
     {}
@@ -430,6 +448,72 @@ public class EDMResponse
     {
       return dataProvider (a == null ? null : AgentPojo.builder (a));
     }
+
+
+    @Nonnull
+    @Deprecated
+    public Builder addConcept (@Nullable final CCCEVConceptType a)
+    {
+      return addConcept (a == null ? null : ConceptPojo.builder (a));
+    }
+
+    @Nonnull
+    @Deprecated
+    public Builder addConcept (@Nullable final ConceptPojo.Builder a)
+    {
+      return addConcept (a == null ? null : a.build ());
+    }
+
+    @Nonnull
+    @Deprecated
+    public Builder addConcept (@Nullable final ConceptPojo a)
+    {
+      if (a != null)
+        m_aConcepts.add (a);
+      return this;
+    }
+
+    @Nonnull
+    @Deprecated
+    public Builder concept (@Nullable final CCCEVConceptType a)
+    {
+      return concept (a == null ? null : ConceptPojo.builder (a));
+    }
+
+    @Nonnull
+    @Deprecated
+    public Builder concept (@Nullable final ConceptPojo.Builder a)
+    {
+      return concept (a == null ? null : a.build ());
+    }
+
+    @Nonnull
+    @Deprecated
+    public Builder concept (@Nullable final ConceptPojo a)
+    {
+      if (a != null)
+        m_aConcepts.set (a);
+      else
+        m_aConcepts.clear ();
+      return this;
+    }
+
+    @Nonnull
+    @Deprecated
+    public Builder concepts (@Nullable final ConceptPojo... a)
+    {
+      m_aConcepts.setAll (a);
+      return this;
+    }
+
+    @Nonnull
+    @Deprecated
+    public Builder concepts (@Nullable final Iterable <ConceptPojo> a)
+    {
+      m_aConcepts.setAll (a);
+      return this;
+    }
+
 
     @Nonnull
     public Builder addResponseObject (@Nullable final RegistryObjectType a)
@@ -551,6 +635,10 @@ public class EDMResponse
     @Nonnull
     public EDMResponse build ()
     {
+      // Support old (deprecated) method of adding concepts
+      if(m_aConcepts.isNotEmpty())
+        m_aResponseObjects.add (ResponseObjectPojo.builder().randomID().concepts(m_aConcepts).build());
+
       checkConsistency ();
 
       return new EDMResponse (m_eQueryDefinition,

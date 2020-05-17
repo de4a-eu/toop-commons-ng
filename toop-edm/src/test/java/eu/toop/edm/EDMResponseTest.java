@@ -27,6 +27,8 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 
 import eu.toop.edm.model.*;
+import eu.toop.edm.xml.cccev.CCCEV;
+import eu.toop.regrep.RegRep4Reader;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
@@ -54,10 +56,11 @@ public final class EDMResponseTest
     // Write
     final byte [] aBytes = aResp.getWriter ().getAsBytes ();
     assertNotNull (aBytes);
+    System.out.println(aResp.getWriter().getAsString());
 
     // Re-read
-    final EDMResponse aResp2 = EDMResponse.reader ().read (aBytes);
-
+//    final EDMResponse aResp2 = EDMResponse.reader ().read (aBytes);
+    final EDMResponse aResp2 = EDMResponse.create(RegRep4Reader.queryResponse(CCCEV.XSDS).read(aBytes));
     // Compare with original
     assertEquals (aResp, aResp2);
     CommonsTestHelper.testDefaultImplementationWithEqualContentObject (aResp, aResp2);
@@ -119,6 +122,29 @@ public final class EDMResponseTest
   }
 
   @Nonnull
+  private static EDMResponse.Builder _respConceptDeprecated ()
+  {
+    return _resp ().queryDefinition (EQueryDefinitionType.CONCEPT)
+                    .concept(ConceptPojo.builder ()
+                            .id ("ConceptID-1")
+                            .name (EToopConcept.REGISTERED_ORGANIZATION)
+                            .addChild (ConceptPojo.builder ()
+                                    .randomID ()
+                                    .name (EToopConcept.COMPANY_NAME)
+                                    .valueText ("Helger Enterprises"))
+                            .addChild (ConceptPojo.builder ()
+                                    .randomID ()
+                                    .name (EToopConcept.FAX_NUMBER)
+                                    .valueText ("342342424"))
+                            .addChild (ConceptPojo.builder ()
+                                    .randomID ()
+                                    .name (EToopConcept.FOUNDATION_DATE)
+                                    .valueDate (PDTFactory.createLocalDate (1960,
+                                            Month.AUGUST,
+                                            12))));
+  }
+
+  @Nonnull
   private static DatasetPojo.Builder _dataset ()
   {
     return DatasetPojo.builder ()
@@ -170,6 +196,13 @@ public final class EDMResponseTest
   public void createConceptResponse ()
   {
     final EDMResponse aResp = EDMResponse.reader ().read (ClassPathResource.getInputStream ("Concept Response.xml"));
+    _testWriteAndRead (aResp);
+  }
+
+  @Test
+  public void createConceptResponseDeprecatedAPI ()
+  {
+    final EDMResponse aResp = _respConceptDeprecated ().build();
     _testWriteAndRead (aResp);
   }
 
