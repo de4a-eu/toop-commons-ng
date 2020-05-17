@@ -56,11 +56,9 @@ public final class EDMResponseTest
     // Write
     final byte [] aBytes = aResp.getWriter ().getAsBytes ();
     assertNotNull (aBytes);
-    System.out.println(aResp.getWriter().getAsString());
 
     // Re-read
-//    final EDMResponse aResp2 = EDMResponse.reader ().read (aBytes);
-    final EDMResponse aResp2 = EDMResponse.create(RegRep4Reader.queryResponse(CCCEV.XSDS).read(aBytes));
+    final EDMResponse aResp2 = EDMResponse.reader ().read (aBytes);
     // Compare with original
     assertEquals (aResp, aResp2);
     CommonsTestHelper.testDefaultImplementationWithEqualContentObject (aResp, aResp2);
