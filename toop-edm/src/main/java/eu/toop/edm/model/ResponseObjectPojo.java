@@ -24,6 +24,7 @@ import javax.annotation.Nullable;
 import org.w3c.dom.Node;
 
 import com.helger.commons.ValueEnforcer;
+import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.annotation.ReturnsMutableObject;
 import com.helger.commons.collection.CollectionHelper;
@@ -62,7 +63,7 @@ public class ResponseObjectPojo
   private final DatasetPojo m_aDataset;
   private final RepositoryItemRefPojo m_aRepositoryItemRef;
 
-  public ResponseObjectPojo (@Nullable final String sRegistryObjectID,
+  public ResponseObjectPojo (@Nonnull @Nonempty final String sRegistryObjectID,
                              @Nullable final ICommonsList <ConceptPojo> aConcepts,
                              @Nullable final DatasetPojo aDataset,
                              @Nullable final RepositoryItemRefPojo aRepositoryItemRef)
@@ -81,7 +82,8 @@ public class ResponseObjectPojo
     m_aRepositoryItemRef = aRepositoryItemRef;
   }
 
-  @Nullable
+  @Nonnull
+  @Nonempty
   public final String getID ()
   {
     return m_sRegistryObjectID;

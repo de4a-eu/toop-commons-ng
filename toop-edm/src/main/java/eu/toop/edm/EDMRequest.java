@@ -153,22 +153,22 @@ public class EDMRequest
   private final ICommonsList <DistributionPojo> m_aDistributions = new CommonsArrayList <> ();
   private final String m_sDocumentID;
 
-  public EDMRequest (@Nonnull final EQueryDefinitionType eQueryDefinition,
-                     @Nonnull @Nonempty final String sRequestID,
-                     @Nonnull final EResponseOptionType eResponseOption,
-                     @Nonnull @Nonempty final String sSpecificationIdentifier,
-                     @Nonnull final LocalDateTime aIssueDateTime,
-                     @Nullable final InternationalStringType aProcedure,
-                     @Nullable final ICommonsList <CCCEVRequirementType> aFullfillingRequirements,
-                     @Nonnull final AgentPojo aDataConsumer,
-                     @Nullable final String sConsentToken,
-                     @Nullable final String sDatasetIdentifier,
-                     @Nullable final BusinessPojo aDataSubjectLegalPerson,
-                     @Nullable final PersonPojo aDataSubjectNaturalPerson,
-                     @Nullable final PersonPojo aAuthorizedRepresentative,
-                     @Nullable final ICommonsList <ConceptPojo> aConcepts,
-                     @Nullable final ICommonsList <DistributionPojo> aDistributions,
-                     @Nullable final String sDocumentID)
+  protected EDMRequest (@Nonnull final EQueryDefinitionType eQueryDefinition,
+                        @Nonnull @Nonempty final String sRequestID,
+                        @Nonnull final EResponseOptionType eResponseOption,
+                        @Nonnull @Nonempty final String sSpecificationIdentifier,
+                        @Nonnull final LocalDateTime aIssueDateTime,
+                        @Nullable final InternationalStringType aProcedure,
+                        @Nullable final ICommonsList <CCCEVRequirementType> aFullfillingRequirements,
+                        @Nonnull final AgentPojo aDataConsumer,
+                        @Nullable final String sConsentToken,
+                        @Nullable final String sDatasetIdentifier,
+                        @Nullable final BusinessPojo aDataSubjectLegalPerson,
+                        @Nullable final PersonPojo aDataSubjectNaturalPerson,
+                        @Nullable final PersonPojo aAuthorizedRepresentative,
+                        @Nullable final ICommonsList <ConceptPojo> aConcepts,
+                        @Nullable final ICommonsList <DistributionPojo> aDistributions,
+                        @Nullable final String sDocumentID)
   {
     ValueEnforcer.notNull (eQueryDefinition, "QueryDefinition");
     ValueEnforcer.notNull (eResponseOption, "ResponseOption");

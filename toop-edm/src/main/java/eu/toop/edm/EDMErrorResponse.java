@@ -75,11 +75,11 @@ public class EDMErrorResponse
   private final AgentType m_aErrorProvider;
   private final ICommonsList <RegistryExceptionType> m_aExceptions = new CommonsArrayList <> ();
 
-  public EDMErrorResponse (@Nonnull final ERegRepResponseStatus eResponseStatus,
-                           @Nonnull @Nonempty final String sRequestID,
-                           @Nonnull @Nonempty final String sSpecificationIdentifier,
-                           @Nullable final AgentType aErrorProvider,
-                           @Nonnull @Nonempty final ICommonsList <RegistryExceptionType> aExceptions)
+  protected EDMErrorResponse (@Nonnull final ERegRepResponseStatus eResponseStatus,
+                              @Nonnull @Nonempty final String sRequestID,
+                              @Nonnull @Nonempty final String sSpecificationIdentifier,
+                              @Nullable final AgentType aErrorProvider,
+                              @Nonnull @Nonempty final ICommonsList <RegistryExceptionType> aExceptions)
   {
     ValueEnforcer.notNull (eResponseStatus, "ResponseStatus");
     ValueEnforcer.isTrue (eResponseStatus == ERegRepResponseStatus.SUCCESS ||

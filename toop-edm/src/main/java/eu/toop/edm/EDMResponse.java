@@ -337,7 +337,8 @@ public class EDMResponse
   {
     // ID doesn't matter for concepts but must be settable in import for
     // comparison
-    return new ConceptBuilder ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20).randomRegistryObjectID ();
+    return new ConceptBuilder ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+                                .randomRegistryObjectID ();
   }
 
   @Nonnull
@@ -345,7 +346,8 @@ public class EDMResponse
   {
     // ID doesn't matter for concepts but must be settable in import for
     // comparison
-    return new DocumentBuilder ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20).randomRegistryObjectID ();
+    return new DocumentBuilder ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+                                 .randomRegistryObjectID ();
   }
 
   @Nonnull
@@ -547,6 +549,8 @@ public class EDMResponse
     {
       super.checkConsistency ();
 
+      if (StringHelper.hasNoText (m_sRegistryObjectID))
+        throw new IllegalStateException ("RegistryObjectID must be present");
       if (m_aConcepts.isEmpty ())
         throw new IllegalStateException ("A Query Definition of type 'Concept' must contain at least one Concept");
     }
@@ -559,7 +563,10 @@ public class EDMResponse
 
       // Build the ResponseObjectPojo
       final ICommonsList <ResponseObjectPojo> aResponseObjects = new CommonsArrayList <> ();
-      aResponseObjects.add (ResponseObjectPojo.builder ().registryObjectID (m_sRegistryObjectID).concepts (m_aConcepts).build ());
+      aResponseObjects.add (ResponseObjectPojo.builder ()
+                                              .registryObjectID (m_sRegistryObjectID)
+                                              .concepts (m_aConcepts)
+                                              .build ());
 
       return new EDMResponse (m_eQueryDefinition,
                               m_eResponseStatus,
@@ -643,6 +650,8 @@ public class EDMResponse
     {
       super.checkConsistency ();
 
+      if (StringHelper.hasNoText (m_sRegistryObjectID))
+        throw new IllegalStateException ("RegistryObjectID must be present");
       if (m_aDataset == null)
         throw new IllegalStateException ("A Query Definition of type 'Document' must contain a Dataset");
     }
