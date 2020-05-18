@@ -24,6 +24,12 @@ import com.helger.commons.string.ToStringGenerator;
 
 import eu.toop.regrep.rim.SimpleLinkType;
 
+/**
+ * Represents a single "Repository item reference" object.
+ *
+ * @author Konstantinos Douloudis
+ * @author Philip Helger
+ */
 public class RepositoryItemRefPojo
 {
   private final String m_sTitle;
