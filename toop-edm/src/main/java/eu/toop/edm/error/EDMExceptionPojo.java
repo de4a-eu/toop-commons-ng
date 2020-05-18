@@ -16,6 +16,7 @@
 package eu.toop.edm.error;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -310,7 +311,7 @@ public class EDMExceptionPojo
     @Nonnull
     public Builder timestamp (@Nullable final LocalDateTime a)
     {
-      m_aTimestamp = a;
+      m_aTimestamp = a == null ? null : a.truncatedTo (ChronoUnit.MILLIS);
       return this;
     }
 
