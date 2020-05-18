@@ -37,7 +37,6 @@ import com.helger.commons.mock.CommonsTestHelper;
 import com.helger.schematron.svrl.AbstractSVRLMessage;
 
 import eu.toop.edm.EDMRequest;
-import eu.toop.edm.EDMRequest.Builder;
 import eu.toop.edm.jaxb.cccev.CCCEVRequirementType;
 import eu.toop.edm.model.AddressPojo;
 import eu.toop.edm.model.AgentPojo;
@@ -85,45 +84,44 @@ public final class EDMRequestTest
   }
 
   @Nonnull
-  private static EDMRequest.Builder _req ()
+  private static <T extends EDMRequest.AbstractBuilder <T>> T _req (@Nonnull final T aBuilder)
   {
-    final Builder ret = EDMRequest.builder ()
-                                  .randomID ()
-                                  .issueDateTimeNow ()
-                                  .procedure (Locale.US, "GBM Procedure")
-                                  .addFullfillingRequirement (new CCCEVRequirementType ())
-                                  .dataConsumer (AgentPojo.builder ()
-                                                          .address (AddressPojo.builder ()
-                                                                               .town ("MyTown")
-                                                                               .streetName ("MyStreet")
-                                                                               .buildingNumber ("22")
-                                                                               .countryCode ("GR")
-                                                                               .fullAddress ("MyStreet 22, 11134, MyTown, GR")
-                                                                               .postalCode ("11134"))
-                                                          .name ("DC NAME")
-                                                          .id ("1234")
-                                                          .idSchemeID ("VAT"))
-                                  .authorizedRepresentative (PersonPojo.builder ()
-                                                                       .address (AddressPojo.builder ()
-                                                                                            .town ("MyTown")
-                                                                                            .streetName ("MyStreet")
-                                                                                            .buildingNumber ("22")
-                                                                                            .countryCode ("GR")
-                                                                                            .fullAddress ("MyStreet 22, 11134, MyTown, GR")
-                                                                                            .postalCode ("11134"))
-                                                                       .birthDate (PDTFactory.createLocalDate (1994,
-                                                                                                               Month.FEBRUARY,
-                                                                                                               1))
-                                                                       .birthTown ("ATown")
-                                                                       .birthName ("John Doe")
-                                                                       .familyName ("Doe")
-                                                                       .genderCode (EGenderCode.M)
-                                                                       .givenName ("John")
-                                                                       .id ("LALALA")
-                                                                       .idSchemeID ("LALALA"))
-                                  .datasetIdentifier ("IdentifierForDatasets")
-                                  .specificationIdentifier ("SpecID")
-                                  .consentToken ("AAABBB");
+    final T ret = aBuilder.randomID ()
+                          .issueDateTimeNow ()
+                          .procedure (Locale.US, "GBM Procedure")
+                          .addFullfillingRequirement (new CCCEVRequirementType ())
+                          .dataConsumer (AgentPojo.builder ()
+                                                  .address (AddressPojo.builder ()
+                                                                       .town ("MyTown")
+                                                                       .streetName ("MyStreet")
+                                                                       .buildingNumber ("22")
+                                                                       .countryCode ("GR")
+                                                                       .fullAddress ("MyStreet 22, 11134, MyTown, GR")
+                                                                       .postalCode ("11134"))
+                                                  .name ("DC NAME")
+                                                  .id ("1234")
+                                                  .idSchemeID ("VAT"))
+                          .authorizedRepresentative (PersonPojo.builder ()
+                                                               .address (AddressPojo.builder ()
+                                                                                    .town ("MyTown")
+                                                                                    .streetName ("MyStreet")
+                                                                                    .buildingNumber ("22")
+                                                                                    .countryCode ("GR")
+                                                                                    .fullAddress ("MyStreet 22, 11134, MyTown, GR")
+                                                                                    .postalCode ("11134"))
+                                                               .birthDate (PDTFactory.createLocalDate (1994,
+                                                                                                       Month.FEBRUARY,
+                                                                                                       1))
+                                                               .birthTown ("ATown")
+                                                               .birthName ("John Doe")
+                                                               .familyName ("Doe")
+                                                               .genderCode (EGenderCode.M)
+                                                               .givenName ("John")
+                                                               .id ("LALALA")
+                                                               .idSchemeID ("LALALA"))
+                          .datasetIdentifier ("IdentifierForDatasets")
+                          .specificationIdentifier ("SpecID")
+                          .consentToken ("AAABBB");
     // New in beta3:
     ret.responseOption (EResponseOptionType.CONTAINED);
     return ret;
@@ -132,22 +130,28 @@ public final class EDMRequestTest
   @Nonnull
   private static EDMRequest.Builder _reqConcept ()
   {
-    return _req ().queryDefinition (EQueryDefinitionType.CONCEPT)
-                  .concept (ConceptPojo.builder ()
-                                       .randomID ()
-                                       .name (EToopConcept.COMPANY_TYPE)
-                                       .addChild (ConceptPojo.builder ().randomID ().name (EToopConcept.COMPANY_NAME))
-                                       .addChild (ConceptPojo.builder ().randomID ().name (EToopConcept.COMPANY_CODE))
-                                       .addChild (ConceptPojo.builder ().randomID ().name (EToopConcept.COMPANY_TYPE)));
+    return _req (EDMRequest.builderConcept ()).queryDefinition (EQueryDefinitionType.CONCEPT)
+                                              .concept (ConceptPojo.builder ()
+                                                                   .randomID ()
+                                                                   .name (EToopConcept.COMPANY_TYPE)
+                                                                   .addChild (ConceptPojo.builder ()
+                                                                                         .randomID ()
+                                                                                         .name (EToopConcept.COMPANY_NAME))
+                                                                   .addChild (ConceptPojo.builder ()
+                                                                                         .randomID ()
+                                                                                         .name (EToopConcept.COMPANY_CODE))
+                                                                   .addChild (ConceptPojo.builder ()
+                                                                                         .randomID ()
+                                                                                         .name (EToopConcept.COMPANY_TYPE)));
   }
 
   @Nonnull
   private static EDMRequest.Builder _reqDocument ()
   {
-    return _req ().queryDefinition (EQueryDefinitionType.DOCUMENT)
-                  .distribution (DistributionPojo.builder ()
-                                                 .format (EDistributionFormat.STRUCTURED)
-                                                 .mediaType (CMimeType.APPLICATION_PDF));
+    return _req (EDMRequest.builderDocument ()).queryDefinition (EQueryDefinitionType.DOCUMENT)
+                                               .distribution (DistributionPojo.builder ()
+                                                                              .format (EDistributionFormat.STRUCTURED)
+                                                                              .mediaType (CMimeType.APPLICATION_PDF));
   }
 
   @Nonnull

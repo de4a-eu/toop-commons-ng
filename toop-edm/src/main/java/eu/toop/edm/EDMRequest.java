@@ -24,26 +24,31 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.w3c.dom.Node;
 
 import com.helger.commons.ValueEnforcer;
+import com.helger.commons.annotation.DevelopersNote;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.annotation.ReturnsMutableObject;
 import com.helger.commons.collection.CollectionHelper;
 import com.helger.commons.collection.impl.CommonsArrayList;
+import com.helger.commons.collection.impl.CommonsHashSet;
 import com.helger.commons.collection.impl.CommonsLinkedHashMap;
 import com.helger.commons.collection.impl.CommonsLinkedHashSet;
 import com.helger.commons.collection.impl.ICommonsList;
 import com.helger.commons.collection.impl.ICommonsOrderedMap;
 import com.helger.commons.collection.impl.ICommonsOrderedSet;
+import com.helger.commons.collection.impl.ICommonsSet;
 import com.helger.commons.datetime.PDTFactory;
 import com.helger.commons.equals.EqualsHelper;
 import com.helger.commons.hashcode.HashCodeGenerator;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
+import com.helger.commons.traits.IGenericImplTrait;
 import com.helger.datetime.util.PDTXMLConverter;
 
 import eu.toop.edm.jaxb.cccev.CCCEVConceptType;
@@ -523,20 +528,11 @@ public class EDMRequest
                                        .getToString ();
   }
 
-  /**
-   * @return A generic builder for request types.
-   */
-  @Nonnull
-  public static Builder builder ()
-  {
-    // Use the default specification identifier
-    return new Builder ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20);
-  }
-
   @Nonnull
   public static Builder builderConcept ()
   {
-    return builder ().queryDefinition (EQueryDefinitionType.CONCEPT).responseOption (EResponseOptionType.CONTAINED);
+    return new Builder (EQueryDefinitionType.CONCEPT).specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+                                                     .responseOption (EResponseOptionType.CONTAINED);
   }
 
   @Nonnull
@@ -549,13 +545,15 @@ public class EDMRequest
   @Nonnull
   public static Builder builderDocumentsByDistribution ()
   {
-    return builder ().queryDefinition (EQueryDefinitionType.DOCUMENT).responseOption (EResponseOptionType.CONTAINED);
+    return new Builder (EQueryDefinitionType.DOCUMENT).specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+                                                      .responseOption (EResponseOptionType.CONTAINED);
   }
 
   @Nonnull
   public static Builder builderDocumentReferencesByDistribution ()
   {
-    return builder ().queryDefinition (EQueryDefinitionType.DOCUMENT).responseOption (EResponseOptionType.REFERENCED);
+    return new Builder (EQueryDefinitionType.DOCUMENT).specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+                                                      .responseOption (EResponseOptionType.REFERENCED);
   }
 
   /**
@@ -564,237 +562,276 @@ public class EDMRequest
   @Nonnull
   public static Builder builderDocumentByID ()
   {
-    return builder ().queryDefinition (EQueryDefinitionType.DOCUMENT_BY_ID)
-                     .responseOption (EResponseOptionType.CONTAINED);
+    return new Builder (EQueryDefinitionType.DOCUMENT_BY_ID).specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+                                                            .responseOption (EResponseOptionType.CONTAINED);
   }
 
   /**
-   * Builder for an EDM request
+   * Generic Builder for an EDM request
    *
    * @author Philip Helger
    */
-  public static class Builder
+  public static abstract class AbstractBuilder <T extends AbstractBuilder <T>> implements IGenericImplTrait <T>
   {
-    private EQueryDefinitionType m_eQueryDefinition;
-    private String m_sRequestID;
-    private EResponseOptionType m_eResponseOption;
-    private String m_sSpecificationIdentifier;
-    private LocalDateTime m_aIssueDateTime;
-    private InternationalStringType m_aProcedure;
-    private final ICommonsList <CCCEVRequirementType> m_aFullfillingRequirements = new CommonsArrayList <> ();
-    private AgentPojo m_aDataConsumer;
-    private String m_sConsentToken;
-    private String m_sDatasetIdentifier;
-    private BusinessPojo m_aDataSubjectLegalPerson;
-    private PersonPojo m_aDataSubjectNaturalPerson;
-    private PersonPojo m_aAuthorizedRepresentative;
-    private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
-    private final ICommonsList <DistributionPojo> m_aDistributions = new CommonsArrayList <> ();
-    private String m_sDocumentID;
+    protected final EQueryDefinitionType m_eQueryDefinition;
+    protected String m_sRequestID;
+    protected EResponseOptionType m_eResponseOption;
+    protected String m_sSpecificationIdentifier;
+    protected LocalDateTime m_aIssueDateTime;
+    protected InternationalStringType m_aProcedure;
+    protected final ICommonsList <CCCEVRequirementType> m_aFullfillingRequirements = new CommonsArrayList <> ();
+    protected AgentPojo m_aDataConsumer;
+    protected String m_sConsentToken;
+    protected String m_sDatasetIdentifier;
+    protected BusinessPojo m_aDataSubjectLegalPerson;
+    protected PersonPojo m_aDataSubjectNaturalPerson;
+    protected PersonPojo m_aAuthorizedRepresentative;
 
-    protected Builder ()
-    {}
-
-    @Nonnull
-    public Builder queryDefinition (@Nullable final EQueryDefinitionType e)
+    protected AbstractBuilder (@Nonnull final EQueryDefinitionType e)
     {
+      ValueEnforcer.notNull (e, "QueryDefinitionType");
       m_eQueryDefinition = e;
-      return this;
     }
 
     @Nonnull
-    public final Builder randomID ()
+    @Deprecated
+    @DevelopersNote ("Since beta3 in the constructor")
+    public final T queryDefinition (@Nullable final EQueryDefinitionType e)
+    {
+      ValueEnforcer.notNull (e, "QueryDefinitionType");
+      return thisAsT ();
+    }
+
+    @Nonnull
+    public final T randomID ()
     {
       return id (UUID.randomUUID ());
     }
 
     @Nonnull
-    public Builder responseOption (@Nullable final EResponseOptionType e)
+    public final T responseOption (@Nullable final EResponseOptionType e)
     {
       m_eResponseOption = e;
-      return this;
+      return thisAsT ();
     }
 
     @Nonnull
-    public final Builder id (@Nullable final UUID a)
+    public final T id (@Nullable final UUID a)
     {
       return id (a == null ? null : a.toString ());
     }
 
     @Nonnull
-    public final Builder id (@Nullable final String s)
+    public final T id (@Nullable final String s)
     {
       m_sRequestID = s;
-      return this;
+      return thisAsT ();
     }
 
     @Nonnull
-    public Builder specificationIdentifier (@Nullable final String s)
+    public final T specificationIdentifier (@Nullable final String s)
     {
       m_sSpecificationIdentifier = s;
-      return this;
+      return thisAsT ();
     }
 
     @Nonnull
-    public Builder issueDateTimeNow ()
+    public final T issueDateTimeNow ()
     {
       return issueDateTime (PDTFactory.getCurrentLocalDateTime ());
     }
 
     @Nonnull
-    public Builder issueDateTime (@Nullable final LocalDateTime a)
+    public final T issueDateTime (@Nullable final LocalDateTime a)
     {
       m_aIssueDateTime = a == null ? null : a.truncatedTo (ChronoUnit.MILLIS);
-      return this;
+      return thisAsT ();
     }
 
     @Nonnull
-    public Builder procedure (@Nullable final LocalizedStringType... a)
+    public final T procedure (@Nullable final LocalizedStringType... a)
     {
       return procedure (a == null ? null : SlotHelper.createInternationalStringType (a));
     }
 
     @Nonnull
-    public Builder procedure (@Nonnull final Locale aLocale, @Nonnull final String sText)
+    public final T procedure (@Nonnull final Locale aLocale, @Nonnull final String sText)
     {
       return procedure (SlotHelper.createLocalizedString (aLocale, sText));
     }
 
     @Nonnull
-    public Builder procedure (@Nullable final Map <Locale, String> a)
+    public final T procedure (@Nullable final Map <Locale, String> a)
     {
       return procedure (a == null ? null : SlotHelper.createInternationalStringType (a));
     }
 
     @Nonnull
-    public Builder procedure (@Nullable final InternationalStringType a)
+    public final T procedure (@Nullable final InternationalStringType a)
     {
       m_aProcedure = a;
-      return this;
+      return thisAsT ();
     }
 
     @Nonnull
-    public Builder addFullfillingRequirement (@Nullable final CCCEVRequirementType a)
+    public final T addFullfillingRequirement (@Nullable final CCCEVRequirementType a)
     {
       if (a != null)
         m_aFullfillingRequirements.add (a);
-      return this;
+      return thisAsT ();
     }
 
     @Nonnull
-    public Builder fullfillingRequirement (@Nullable final CCCEVRequirementType a)
+    public final T fullfillingRequirement (@Nullable final CCCEVRequirementType a)
     {
       if (a != null)
         m_aFullfillingRequirements.set (a);
       else
         m_aFullfillingRequirements.clear ();
-      return this;
+      return thisAsT ();
     }
 
     @Nonnull
-    public Builder fullfillingRequirements (@Nullable final CCCEVRequirementType... a)
+    public final T fullfillingRequirements (@Nullable final CCCEVRequirementType... a)
     {
       m_aFullfillingRequirements.setAll (a);
-      return this;
+      return thisAsT ();
     }
 
     @Nonnull
-    public Builder fullfillingRequirements (@Nullable final Iterable <? extends CCCEVRequirementType> a)
+    public final T fullfillingRequirements (@Nullable final Iterable <? extends CCCEVRequirementType> a)
     {
       m_aFullfillingRequirements.setAll (a);
-      return this;
+      return thisAsT ();
     }
 
     @Nonnull
-    public Builder consentToken (@Nullable final String s)
+    public final T consentToken (@Nullable final String s)
     {
       m_sConsentToken = s;
-      return this;
+      return thisAsT ();
     }
 
     @Nonnull
-    public Builder datasetIdentifier (@Nullable final String s)
+    public final T datasetIdentifier (@Nullable final String s)
     {
       m_sDatasetIdentifier = s;
-      return this;
+      return thisAsT ();
     }
 
     @Nonnull
-    public Builder dataConsumer (@Nullable final AgentType a)
+    public final T dataConsumer (@Nullable final AgentType a)
     {
       return dataConsumer (a == null ? null : AgentPojo.builder (a));
     }
 
     @Nonnull
-    public Builder dataConsumer (@Nullable final AgentPojo.Builder a)
+    public final T dataConsumer (@Nullable final AgentPojo.Builder a)
     {
       return dataConsumer (a == null ? null : a.build ());
     }
 
     @Nonnull
-    public Builder dataConsumer (@Nullable final AgentPojo a)
+    public final T dataConsumer (@Nullable final AgentPojo a)
     {
       m_aDataConsumer = a;
-      return this;
+      return thisAsT ();
     }
 
     @Nonnull
-    public Builder dataSubject (@Nullable final CoreBusinessType a)
+    public final T dataSubject (@Nullable final CoreBusinessType a)
     {
       return dataSubject (a == null ? null : BusinessPojo.builder (a));
     }
 
     @Nonnull
-    public Builder dataSubject (@Nullable final BusinessPojo.Builder a)
+    public final T dataSubject (@Nullable final BusinessPojo.Builder a)
     {
       return dataSubject (a == null ? null : a.build ());
     }
 
     @Nonnull
-    public Builder dataSubject (@Nullable final BusinessPojo a)
+    public final T dataSubject (@Nullable final BusinessPojo a)
     {
       m_aDataSubjectLegalPerson = a;
       m_aDataSubjectNaturalPerson = null;
-      return this;
+      return thisAsT ();
     }
 
     @Nonnull
-    public Builder dataSubject (@Nullable final CorePersonType a)
+    public final T dataSubject (@Nullable final CorePersonType a)
     {
       return dataSubject (a == null ? null : PersonPojo.builder (a));
     }
 
     @Nonnull
-    public Builder dataSubject (@Nullable final PersonPojo.Builder a)
+    public final T dataSubject (@Nullable final PersonPojo.Builder a)
     {
       return dataSubject (a == null ? null : a.build ());
     }
 
     @Nonnull
-    public Builder dataSubject (@Nullable final PersonPojo a)
+    public final T dataSubject (@Nullable final PersonPojo a)
     {
       m_aDataSubjectLegalPerson = null;
       m_aDataSubjectNaturalPerson = a;
-      return this;
+      return thisAsT ();
     }
 
     @Nonnull
-    public Builder authorizedRepresentative (@Nullable final CorePersonType a)
+    public final T authorizedRepresentative (@Nullable final CorePersonType a)
     {
       return authorizedRepresentative (a == null ? null : PersonPojo.builder (a));
     }
 
     @Nonnull
-    public Builder authorizedRepresentative (@Nullable final PersonPojo.Builder a)
+    public final T authorizedRepresentative (@Nullable final PersonPojo.Builder a)
     {
       return authorizedRepresentative (a == null ? null : a.build ());
     }
 
     @Nonnull
-    public Builder authorizedRepresentative (@Nullable final PersonPojo a)
+    public final T authorizedRepresentative (@Nullable final PersonPojo a)
     {
       m_aAuthorizedRepresentative = a;
-      return this;
+      return thisAsT ();
+    }
+
+    @OverridingMethodsMustInvokeSuper
+    public void checkConsistency ()
+    {
+      if (m_eQueryDefinition == null)
+        throw new IllegalStateException ("Query Definition must be present");
+      if (StringHelper.hasNoText (m_sRequestID))
+        throw new IllegalStateException ("ID must be present");
+      if (m_eResponseOption == null)
+        throw new IllegalStateException ("Response Option must be present");
+      if (StringHelper.hasNoText (m_sSpecificationIdentifier))
+        throw new IllegalStateException ("SpecificationIdentifier must be present");
+      if (m_aIssueDateTime == null)
+        throw new IllegalStateException ("Issue Date Time must be present");
+      if (m_aDataConsumer == null)
+        throw new IllegalStateException ("Cata Consumer must be present");
+
+      if (m_aDataSubjectLegalPerson == null && m_aDataSubjectNaturalPerson == null)
+        throw new IllegalStateException ("Data Subject must be present");
+      if (m_aDataSubjectLegalPerson != null && m_aDataSubjectNaturalPerson != null)
+        throw new IllegalStateException ("Data Subject MUST be either legal person OR natural person");
+    }
+
+    @Nonnull
+    public abstract EDMRequest build ();
+  }
+
+  public static class Builder extends AbstractBuilder <Builder>
+  {
+    private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
+    private final ICommonsList <DistributionPojo> m_aDistributions = new CommonsArrayList <> ();
+    private String m_sDocumentID;
+
+    protected Builder (@Nonnull final EQueryDefinitionType e)
+    {
+      super (e);
     }
 
     @Nonnull
@@ -916,25 +953,10 @@ public class EDMRequest
       return this;
     }
 
+    @Override
     public void checkConsistency ()
     {
-      if (m_eQueryDefinition == null)
-        throw new IllegalStateException ("Query Definition must be present");
-      if (StringHelper.hasNoText (m_sRequestID))
-        throw new IllegalStateException ("ID must be present");
-      if (m_eResponseOption == null)
-        throw new IllegalStateException ("Response Option must be present");
-      if (StringHelper.hasNoText (m_sSpecificationIdentifier))
-        throw new IllegalStateException ("SpecificationIdentifier must be present");
-      if (m_aIssueDateTime == null)
-        throw new IllegalStateException ("Issue Date Time must be present");
-      if (m_aDataConsumer == null)
-        throw new IllegalStateException ("Cata Consumer must be present");
-
-      if (m_aDataSubjectLegalPerson == null && m_aDataSubjectNaturalPerson == null)
-        throw new IllegalStateException ("Data Subject must be present");
-      if (m_aDataSubjectLegalPerson != null && m_aDataSubjectNaturalPerson != null)
-        throw new IllegalStateException ("Data Subject MUST be either legal person OR natural person");
+      super.checkConsistency ();
 
       switch (m_eQueryDefinition)
       {
@@ -967,6 +989,7 @@ public class EDMRequest
       }
     }
 
+    @Override
     @Nonnull
     public EDMRequest build ()
     {
@@ -991,7 +1014,8 @@ public class EDMRequest
     }
   }
 
-  private static void _applySlots (@Nonnull final SlotType aSlot, @Nonnull final EDMRequest.Builder aBuilder)
+  private static void _applySlots (@Nonnull final SlotType aSlot,
+                                   @Nonnull final EDMRequest.AbstractBuilder <?> aBuilder)
   {
     final String sName = aSlot.getName ();
     final ValueType aSlotValue = aSlot.getSlotValue ();
@@ -1084,9 +1108,8 @@ public class EDMRequest
               {
                 final Object aElementValue = ((AnyValueType) aElement).getAny ();
                 if (aElementValue instanceof Node)
-                  aBuilder.addConcept (new ConceptMarshaller ().read ((Node) aElementValue));
+                  ((EDMRequest.Builder) aBuilder).addConcept (new ConceptMarshaller ().read ((Node) aElementValue));
               }
-            aBuilder.queryDefinition (EQueryDefinitionType.CONCEPT);
           }
         }
         break;
@@ -1101,9 +1124,8 @@ public class EDMRequest
               {
                 final Object aElementValue = ((AnyValueType) aElement).getAny ();
                 if (aElementValue instanceof Node)
-                  aBuilder.addDistribution (new DistributionMarshaller ().read ((Node) aElementValue));
+                  ((EDMRequest.Builder) aBuilder).addDistribution (new DistributionMarshaller ().read ((Node) aElementValue));
               }
-            aBuilder.queryDefinition (EQueryDefinitionType.DOCUMENT);
           }
         }
         break;
@@ -1111,8 +1133,7 @@ public class EDMRequest
         if (aSlotValue instanceof StringValueType)
         {
           final String sValue = ((StringValueType) aSlotValue).getValue ();
-          aBuilder.documentID (sValue);
-          aBuilder.queryDefinition (EQueryDefinitionType.DOCUMENT_BY_ID);
+          ((EDMRequest.Builder) aBuilder).documentID (sValue);
         }
         break;
       default:
@@ -1123,31 +1144,45 @@ public class EDMRequest
   @Nonnull
   public static EDMRequest create (@Nonnull final QueryRequest aQueryRequest)
   {
+    ValueEnforcer.notNull (aQueryRequest, "QueryRequest");
+    final QueryType aQuery = aQueryRequest.getQuery ();
+    ValueEnforcer.notNull (aQuery, "QueryRequest.Query");
+
+    final ICommonsSet <String> aQuerySlotNames = new CommonsHashSet <> (aQuery.getSlot (), SlotType::getName);
+
     // Enforce a default response option
-    final EDMRequest.Builder aBuilder = EDMRequest.builder ()
-                                                  .responseOption (EResponseOptionType.CONTAINED)
-                                                  .id (aQueryRequest.getId ());
+    final EDMRequest.AbstractBuilder <?> aBuilder;
+    if (aQuerySlotNames.contains (SlotConceptRequestList.NAME))
+      aBuilder = builderConcept ();
+    else
+      if (aQuerySlotNames.contains (SlotDistributionRequestList.NAME))
+        aBuilder = builderDocumentsByDistribution ();
+      else
+        if (aQuerySlotNames.contains (SlotId.NAME))
+          aBuilder = builderDocumentByID ();
+        else
+          throw new IllegalStateException ("Cannot read this request as a TOOP EDM request");
+
+    // Request ID
+    aBuilder.id (aQueryRequest.getId ());
 
     // Top level slots
     for (final SlotType slot : aQueryRequest.getSlot ())
       _applySlots (slot, aBuilder);
 
-    final QueryType aQuery = aQueryRequest.getQuery ();
-    if (aQuery != null)
-      for (final SlotType aSlot : aQuery.getSlot ())
-        if (aSlot != null)
-          _applySlots (aSlot, aBuilder);
+    for (final SlotType aSlot : aQuery.getSlot ())
+      if (aSlot != null)
+        _applySlots (aSlot, aBuilder);
 
+    // Default response option is "CONTAINED" for backwards compatibility from
+    // beta3 to beta2
+    EResponseOptionType eResponseOption = null;
     final ResponseOptionType aResponseOption = aQueryRequest.getResponseOption ();
     if (aResponseOption != null && aResponseOption.getReturnType () != null)
     {
-      final EResponseOptionType eResponseOption = EResponseOptionType.getFromIDOrNull (aResponseOption.getReturnType ());
-      if (eResponseOption != null)
-      {
-        // Only override it, if the value is present
-        aBuilder.responseOption (eResponseOption);
-      }
+      eResponseOption = EResponseOptionType.getFromIDOrNull (aResponseOption.getReturnType ());
     }
+    aBuilder.responseOption (eResponseOption != null ? eResponseOption : EResponseOptionType.CONTAINED);
 
     return aBuilder.build ();
   }
