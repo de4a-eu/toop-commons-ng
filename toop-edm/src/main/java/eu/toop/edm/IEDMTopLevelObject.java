@@ -1,10 +1,10 @@
 package eu.toop.edm;
 
-import eu.toop.edm.response.ResponseConcepts;
+import eu.toop.edm.response.EDMResponsePayloadConcepts;
 
 /**
  * Marker base interface for {@link EDMRequest}, {@link EDMResponse} and
- * {@link ResponseConcepts}.
+ * {@link EDMResponsePayloadConcepts}.
  *
  * @author Philip Helger
  */
