@@ -15,31 +15,33 @@
  */
 package eu.toop.edm.response;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
-import com.helger.commons.annotation.MustImplementEqualsAndHashcode;
+import com.helger.commons.annotation.Nonempty;
+import com.helger.commons.annotation.ReturnsMutableCopy;
+import com.helger.commons.annotation.ReturnsMutableObject;
 
-import eu.toop.regrep.rim.ObjectRefType;
-import eu.toop.regrep.rim.RegistryObjectType;
+import eu.toop.edm.model.ConceptPojo;
 
 /**
- * Abstract EDM Response payload provider.
+ * A single EDM Response payload of type "Concept"
  *
  * @author Philip Helger
  * @since 2.0.0-beta3
  */
-@MustImplementEqualsAndHashcode
-public interface IEDMResponsePayloadProvider
+public interface IEDMResponsePayloadConcept extends IEDMResponsePayloadProvider
 {
   @Nonnull
-  default RegistryObjectType getAsRegistryObject ()
-  {
-    throw new UnsupportedOperationException ();
-  }
+  @Nonempty
+  String getRegistryObjectID ();
 
   @Nonnull
-  default ObjectRefType getAsObjectRef ()
-  {
-    throw new UnsupportedOperationException ();
-  }
+  @ReturnsMutableObject
+  List <ConceptPojo> concepts ();
+
+  @Nonnull
+  @ReturnsMutableCopy
+  List <ConceptPojo> getAllConcepts ();
 }

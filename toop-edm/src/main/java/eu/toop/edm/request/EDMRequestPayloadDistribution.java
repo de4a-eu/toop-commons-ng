@@ -37,6 +37,7 @@ import eu.toop.regrep.slot.ISlotProvider;
  * Request payload: Distribution
  *
  * @author Philip Helger
+ * @since 2.0.0-beta3
  */
 public class EDMRequestPayloadDistribution implements IEDMRequestPayloadProvider
 {

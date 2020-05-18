@@ -17,29 +17,26 @@ package eu.toop.edm.response;
 
 import javax.annotation.Nonnull;
 
-import com.helger.commons.annotation.MustImplementEqualsAndHashcode;
+import com.helger.commons.annotation.Nonempty;
 
-import eu.toop.regrep.rim.ObjectRefType;
-import eu.toop.regrep.rim.RegistryObjectType;
+import eu.toop.edm.model.DatasetPojo;
+import eu.toop.edm.model.RepositoryItemRefPojo;
 
 /**
- * Abstract EDM Response payload provider.
+ * A single EDM Response payload of type "Document inline"
  *
  * @author Philip Helger
  * @since 2.0.0-beta3
  */
-@MustImplementEqualsAndHashcode
-public interface IEDMResponsePayloadProvider
+public interface IEDMResponsePayloadDocument extends IEDMResponsePayloadProvider
 {
   @Nonnull
-  default RegistryObjectType getAsRegistryObject ()
-  {
-    throw new UnsupportedOperationException ();
-  }
+  @Nonempty
+  String getRegistryObjectID ();
 
   @Nonnull
-  default ObjectRefType getAsObjectRef ()
-  {
-    throw new UnsupportedOperationException ();
-  }
+  DatasetPojo getDataset ();
+
+  @Nonnull
+  RepositoryItemRefPojo getRepositoryItemRef ();
 }

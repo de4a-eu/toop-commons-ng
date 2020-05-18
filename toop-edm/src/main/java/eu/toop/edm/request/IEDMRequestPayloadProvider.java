@@ -25,6 +25,7 @@ import eu.toop.regrep.slot.ISlotProvider;
  * Abstract EDM Request payload provider.
  *
  * @author Philip Helger
+ * @since 2.0.0-beta3
  */
 @MustImplementEqualsAndHashcode
 public interface IEDMRequestPayloadProvider

@@ -31,6 +31,7 @@ import eu.toop.regrep.slot.predefined.SlotId;
  * Request payload: Document ID
  *
  * @author Philip Helger
+ * @since 2.0.0-beta3
  */
 public class EDMRequestPayloadDocumentID implements IEDMRequestPayloadProvider
 {

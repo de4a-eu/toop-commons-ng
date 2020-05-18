@@ -126,7 +126,7 @@ public class EDMResponse implements IEDMTopLevelObject
                          @Nonnull @Nonempty final String sSpecificationIdentifier,
                          @Nonnull final LocalDateTime aIssueDateTime,
                          @Nonnull final AgentPojo aDataProvider,
-                         @Nonnull final ICommonsList <? extends IEDMResponsePayloadProvider> aPayloadProviders)
+                         @Nonnull @Nonempty final ICommonsList <? extends IEDMResponsePayloadProvider> aPayloadProviders)
   {
     ValueEnforcer.notNull (eResponseOption, "ResponseOption");
     ValueEnforcer.notNull (eResponseStatus, "ResponseStatus");
@@ -137,7 +137,7 @@ public class EDMResponse implements IEDMTopLevelObject
     ValueEnforcer.notEmpty (sSpecificationIdentifier, "SpecificationIdentifier");
     ValueEnforcer.notNull (aIssueDateTime, "IssueDateTime");
     ValueEnforcer.notNull (aDataProvider, "DataProvider");
-    ValueEnforcer.notEmpty (aPayloadProviders, "PayloadProviders");
+    ValueEnforcer.notEmptyNoNullValue (aPayloadProviders, "PayloadProviders");
 
     m_eResponseOption = eResponseOption;
     m_eResponseStatus = eResponseStatus;
@@ -186,14 +186,30 @@ public class EDMResponse implements IEDMTopLevelObject
     return m_aDataProvider;
   }
 
+  /**
+   * @return The payload providers. Never <code>null</code> but maybe empty. The
+   *         payload elements are either
+   *         {@link eu.toop.edm.response.IEDMResponsePayloadConcept},
+   *         {@link eu.toop.edm.response.IEDMResponsePayloadDocument} or
+   *         {@link eu.toop.edm.response.IEDMResponsePayloadDocumentReference}.
+   */
   @Nonnull
+  @Nonempty
   @ReturnsMutableObject
   public final List <IEDMResponsePayloadProvider> payloadProviders ()
   {
     return m_aPayloadProviders;
   }
 
+  /**
+   * @return The payload providers. Never <code>null</code> but maybe empty. The
+   *         payload elements are either
+   *         {@link eu.toop.edm.response.IEDMResponsePayloadConcept},
+   *         {@link eu.toop.edm.response.IEDMResponsePayloadDocument} or
+   *         {@link eu.toop.edm.response.IEDMResponsePayloadDocumentReference}.
+   */
   @Nonnull
+  @Nonempty
   @ReturnsMutableCopy
   public final List <IEDMResponsePayloadProvider> getAllPayloadProviders ()
   {

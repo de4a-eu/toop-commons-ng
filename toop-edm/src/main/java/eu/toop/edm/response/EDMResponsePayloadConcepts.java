@@ -33,20 +33,20 @@ import com.helger.commons.string.ToStringGenerator;
 import eu.toop.edm.model.ConceptPojo;
 import eu.toop.edm.slot.SlotConceptValues;
 import eu.toop.regrep.rim.ExtrinsicObjectType;
-import eu.toop.regrep.rim.ObjectRefType;
 
 /**
  * Represents a single "Concept response" payload.
  *
  * @author Philip Helger
+ * @since 2.0.0-beta3
  */
-public class EDMResponsePayloadConcepts implements IEDMResponsePayloadProvider
+public class EDMResponsePayloadConcepts implements IEDMResponsePayloadConcept
 {
   private final String m_sRegistryObjectID;
   private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
 
   public EDMResponsePayloadConcepts (@Nonnull @Nonempty final String sRegistryObjectID,
-                                    @Nullable final ICommonsList <ConceptPojo> aConcepts)
+                                     @Nullable final ICommonsList <ConceptPojo> aConcepts)
   {
     ValueEnforcer.notEmpty (sRegistryObjectID, "RegistryObjectID");
     ValueEnforcer.notEmpty (aConcepts, "Concepts");
@@ -86,12 +86,6 @@ public class EDMResponsePayloadConcepts implements IEDMResponsePayloadProvider
     ret.addSlot (new SlotConceptValues (m_aConcepts).createSlot ());
 
     return ret;
-  }
-
-  @Nonnull
-  public ObjectRefType getAsObjectRef ()
-  {
-    throw new UnsupportedOperationException ();
   }
 
   @Override

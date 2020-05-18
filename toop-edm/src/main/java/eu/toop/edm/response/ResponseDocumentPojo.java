@@ -46,8 +46,9 @@ import eu.toop.regrep.rim.ValueType;
  *
  * @author Konstantinos Douloudis
  * @author Philip Helger
+ * @since 2.0.0-beta3
  */
-public class ResponseDocumentPojo implements IEDMResponsePayloadProvider
+public class ResponseDocumentPojo implements IEDMResponsePayloadDocument
 {
   private final String m_sRegistryObjectID;
   private final DatasetPojo m_aDataset;
