@@ -15,8 +15,8 @@
  */
 package eu.toop.edm.response;
 
-import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -25,30 +25,18 @@ import org.w3c.dom.Node;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.annotation.ReturnsMutableCopy;
-import com.helger.commons.annotation.ReturnsMutableObject;
-import com.helger.commons.collection.CollectionHelper;
-import com.helger.commons.collection.impl.CommonsArrayList;
-import com.helger.commons.collection.impl.ICommonsList;
 import com.helger.commons.equals.EqualsHelper;
 import com.helger.commons.hashcode.HashCodeGenerator;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 
-import eu.toop.edm.jaxb.cccev.CCCEVConceptType;
 import eu.toop.edm.jaxb.dcatap.DCatAPDatasetType;
-import eu.toop.edm.model.ConceptPojo;
 import eu.toop.edm.model.DatasetPojo;
 import eu.toop.edm.model.RepositoryItemRefPojo;
-import eu.toop.edm.slot.SlotConceptValues;
 import eu.toop.edm.slot.SlotDocumentMetadata;
-import eu.toop.edm.xml.cccev.ConceptMarshaller;
 import eu.toop.edm.xml.dcatap.DatasetMarshaller;
 import eu.toop.regrep.rim.AnyValueType;
-import eu.toop.regrep.rim.CollectionValueType;
 import eu.toop.regrep.rim.ExtrinsicObjectType;
-import eu.toop.regrep.rim.ObjectRefType;
-import eu.toop.regrep.rim.RegistryObjectType;
 import eu.toop.regrep.rim.SimpleLinkType;
 import eu.toop.regrep.rim.SlotType;
 import eu.toop.regrep.rim.ValueType;
@@ -59,60 +47,39 @@ import eu.toop.regrep.rim.ValueType;
  * @author Konstantinos Douloudis
  * @author Philip Helger
  */
-public class ResponseObjectPojo
+public class ResponseDocumentPojo implements IEDMResponsePayloadProvider
 {
   private final String m_sRegistryObjectID;
-  private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
   private final DatasetPojo m_aDataset;
   private final RepositoryItemRefPojo m_aRepositoryItemRef;
 
-  public ResponseObjectPojo (@Nonnull @Nonempty final String sRegistryObjectID,
-                             @Nullable final ICommonsList <ConceptPojo> aConcepts,
-                             @Nullable final DatasetPojo aDataset,
-                             @Nullable final RepositoryItemRefPojo aRepositoryItemRef)
+  public ResponseDocumentPojo (@Nonnull @Nonempty final String sRegistryObjectID,
+                               @Nonnull final DatasetPojo aDataset,
+                               @Nonnull final RepositoryItemRefPojo aRepositoryItemRef)
   {
     ValueEnforcer.notEmpty (sRegistryObjectID, "RegistryObjectID");
-    final int nConcepts = CollectionHelper.getSize (aConcepts);
-    ValueEnforcer.isFalse ((nConcepts == 0 && aDataset == null) || (nConcepts != 0 && aDataset != null),
-                           "Exactly one of Concept and Dataset must be set");
-    ValueEnforcer.isTrue (aRepositoryItemRef == null || nConcepts == 0,
-                          "RepositoryItemRef must not be used in combination with concepts");
+    ValueEnforcer.notNull (aDataset, "Dataset");
+    ValueEnforcer.notNull (aRepositoryItemRef, "RepositoryItemRef");
 
     m_sRegistryObjectID = sRegistryObjectID;
-    if (aConcepts != null)
-      m_aConcepts.addAll (aConcepts);
     m_aDataset = aDataset;
     m_aRepositoryItemRef = aRepositoryItemRef;
   }
 
   @Nonnull
   @Nonempty
-  public final String getID ()
+  public final String getRegistryObjectID ()
   {
     return m_sRegistryObjectID;
   }
 
   @Nonnull
-  @ReturnsMutableObject
-  public final List <ConceptPojo> concepts ()
-  {
-    return m_aConcepts;
-  }
-
-  @Nonnull
-  @ReturnsMutableCopy
-  public final List <ConceptPojo> getAllConcepts ()
-  {
-    return m_aConcepts.getClone ();
-  }
-
-  @Nullable
   public final DatasetPojo getDataset ()
   {
     return m_aDataset;
   }
 
-  @Nullable
+  @Nonnull
   public final RepositoryItemRefPojo getRepositoryItemRef ()
   {
     return m_aRepositoryItemRef;
@@ -124,34 +91,11 @@ public class ResponseObjectPojo
     final ExtrinsicObjectType ret = new ExtrinsicObjectType ();
     ret.setId (m_sRegistryObjectID);
 
-    // ConceptValues
-    if (m_aConcepts.isNotEmpty ())
-      ret.addSlot (new SlotConceptValues (m_aConcepts).createSlot ());
-
     // DocumentMetadata
-    if (m_aDataset != null)
-      ret.addSlot (new SlotDocumentMetadata (m_aDataset).createSlot ());
+    ret.addSlot (new SlotDocumentMetadata (m_aDataset).createSlot ());
 
-    if (m_aRepositoryItemRef != null)
-      ret.setRepositoryItemRef (m_aRepositoryItemRef.getAsSimpleLink ());
-
-    return ret;
-  }
-
-  @Nonnull
-  public ObjectRefType getAsObjectRef ()
-  {
-    if (m_aRepositoryItemRef != null)
-      throw new IllegalStateException ("ObjectRef may NOT contain a RepositoryItemRef.");
-    if (m_aConcepts.isNotEmpty ())
-      throw new IllegalStateException ("ObjectRef may NOT contain Concepts.");
-
-    final ObjectRefType ret = new ObjectRefType ();
-    ret.setId (m_sRegistryObjectID);
-
-    // DocumentMetadata
-    if (m_aDataset != null)
-      ret.addSlot (new SlotDocumentMetadata (m_aDataset).createSlot ());
+    // Reference to AS4 artifact
+    ret.setRepositoryItemRef (m_aRepositoryItemRef.getAsSimpleLink ());
 
     return ret;
   }
@@ -163,9 +107,8 @@ public class ResponseObjectPojo
       return true;
     if (o == null || !getClass ().equals (o.getClass ()))
       return false;
-    final ResponseObjectPojo rhs = (ResponseObjectPojo) o;
+    final ResponseDocumentPojo rhs = (ResponseDocumentPojo) o;
     return EqualsHelper.equals (m_sRegistryObjectID, rhs.m_sRegistryObjectID) &&
-           EqualsHelper.equals (m_aConcepts, rhs.m_aConcepts) &&
            EqualsHelper.equals (m_aDataset, rhs.m_aDataset) &&
            EqualsHelper.equals (m_aRepositoryItemRef, rhs.m_aRepositoryItemRef);
   }
@@ -174,7 +117,6 @@ public class ResponseObjectPojo
   public int hashCode ()
   {
     return new HashCodeGenerator (this).append (m_sRegistryObjectID)
-                                       .append (m_aConcepts)
                                        .append (m_aDataset)
                                        .append (m_aRepositoryItemRef)
                                        .getHashCode ();
@@ -184,7 +126,6 @@ public class ResponseObjectPojo
   public String toString ()
   {
     return new ToStringGenerator (this).append ("RegistryObjectID", m_sRegistryObjectID)
-                                       .append ("Concepts", m_aConcepts)
                                        .append ("Dataset", m_aDataset)
                                        .append ("RepositoryItemRef", m_aRepositoryItemRef)
                                        .getToString ();
@@ -199,7 +140,6 @@ public class ResponseObjectPojo
   public static class Builder
   {
     private String m_sRegistryObjectID;
-    private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
     private DatasetPojo m_aDataset;
     private RepositoryItemRefPojo m_aRepositoryItemRef;
 
@@ -220,62 +160,6 @@ public class ResponseObjectPojo
     }
 
     @Nonnull
-    public Builder addConcept (@Nullable final CCCEVConceptType a)
-    {
-      return addConcept (a == null ? null : ConceptPojo.builder (a));
-    }
-
-    @Nonnull
-    public Builder addConcept (@Nullable final ConceptPojo.Builder a)
-    {
-      return addConcept (a == null ? null : a.build ());
-    }
-
-    @Nonnull
-    public Builder addConcept (@Nullable final ConceptPojo a)
-    {
-      if (a != null)
-        m_aConcepts.add (a);
-      return this;
-    }
-
-    @Nonnull
-    public Builder concept (@Nullable final CCCEVConceptType a)
-    {
-      return concept (a == null ? null : ConceptPojo.builder (a));
-    }
-
-    @Nonnull
-    public Builder concept (@Nullable final ConceptPojo.Builder a)
-    {
-      return concept (a == null ? null : a.build ());
-    }
-
-    @Nonnull
-    public Builder concept (@Nullable final ConceptPojo a)
-    {
-      if (a != null)
-        m_aConcepts.set (a);
-      else
-        m_aConcepts.clear ();
-      return this;
-    }
-
-    @Nonnull
-    public Builder concepts (@Nullable final ConceptPojo... a)
-    {
-      m_aConcepts.setAll (a);
-      return this;
-    }
-
-    @Nonnull
-    public Builder concepts (@Nullable final Iterable <ConceptPojo> a)
-    {
-      m_aConcepts.setAll (a);
-      return this;
-    }
-
-    @Nonnull
     public Builder dataset (@Nullable final DatasetPojo.Builder a)
     {
       return dataset (a == null ? null : a.build ());
@@ -292,6 +176,18 @@ public class ResponseObjectPojo
     public Builder dataset (@Nullable final DCatAPDatasetType a)
     {
       return dataset (a == null ? null : DatasetPojo.builder (a));
+    }
+
+    @Nonnull
+    public Builder repositoryItemRef (@Nullable final Consumer <? super RepositoryItemRefPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final RepositoryItemRefPojo.Builder aBuilder = RepositoryItemRefPojo.builder ();
+        a.accept (aBuilder);
+        repositoryItemRef (aBuilder);
+      }
+      return this;
     }
 
     @Nonnull
@@ -317,21 +213,18 @@ public class ResponseObjectPojo
     {
       if (StringHelper.hasNoText (m_sRegistryObjectID))
         throw new IllegalStateException ("RegistryObjectID must be present");
-
-      final int nConcepts = CollectionHelper.getSize (m_aConcepts);
-      if ((nConcepts == 0 && m_aDataset == null) || (nConcepts != 0 && m_aDataset != null))
-        throw new IllegalStateException ("Exactly one of Concept and Dataset must be set");
-
-      if (nConcepts > 0 && m_aRepositoryItemRef != null)
-        throw new IllegalStateException ("RepositoryItemRef MUST ONLY be used in combination with Dataset");
+      if (m_aDataset == null)
+        throw new IllegalStateException ("Dataset MUST be present");
+      if (m_aRepositoryItemRef == null)
+        throw new IllegalStateException ("RepositoryItemRef MUST be present");
     }
 
     @Nonnull
-    public ResponseObjectPojo build ()
+    public ResponseDocumentPojo build ()
     {
       checkConsistency ();
 
-      return new ResponseObjectPojo (m_sRegistryObjectID, m_aConcepts, m_aDataset, m_aRepositoryItemRef);
+      return new ResponseDocumentPojo (m_sRegistryObjectID, m_aDataset, m_aRepositoryItemRef);
     }
   }
 
@@ -341,20 +234,6 @@ public class ResponseObjectPojo
     final ValueType aSlotValue = aSlot.getSlotValue ();
     switch (sName)
     {
-      case SlotConceptValues.NAME:
-        if (aSlotValue instanceof CollectionValueType)
-        {
-          final List <ValueType> aElements = ((CollectionValueType) aSlotValue).getElement ();
-          if (aElements != null)
-            for (final ValueType aElement : aElements)
-              if (aElement instanceof AnyValueType)
-              {
-                final Object aElementValue = ((AnyValueType) aElement).getAny ();
-                if (aElementValue instanceof Node)
-                  aBuilder.addConcept (new ConceptMarshaller ().read ((Node) aElementValue));
-              }
-        }
-        break;
       case SlotDocumentMetadata.NAME:
       {
         if (aSlotValue instanceof AnyValueType)
@@ -370,20 +249,7 @@ public class ResponseObjectPojo
   }
 
   @Nonnull
-  public static Builder builder (@Nullable final ObjectRefType a)
-  {
-    final Builder ret = new Builder ();
-    if (a != null)
-    {
-      ret.registryObjectID (a.getId ());
-      for (final SlotType aSlot : a.getSlot ())
-        _applySlots (aSlot, ret);
-    }
-    return ret;
-  }
-
-  @Nonnull
-  public static Builder builder (@Nullable final RegistryObjectType a)
+  public static Builder builder (@Nullable final ExtrinsicObjectType a)
   {
     final Builder ret = new Builder ();
     if (a != null)
@@ -392,11 +258,7 @@ public class ResponseObjectPojo
       for (final SlotType aSlot : a.getSlot ())
         _applySlots (aSlot, ret);
 
-      if (a instanceof ExtrinsicObjectType)
-      {
-        final ExtrinsicObjectType aEO = (ExtrinsicObjectType) a;
-        ret.repositoryItemRef (aEO.getRepositoryItemRef ());
-      }
+      ret.repositoryItemRef (a.getRepositoryItemRef ());
     }
     return ret;
   }

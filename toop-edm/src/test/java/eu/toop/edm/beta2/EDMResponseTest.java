@@ -152,7 +152,11 @@ public final class EDMResponseTest
   @Nonnull
   private static EDMResponse.BuilderDocument _respDocument ()
   {
-    return _resp (EDMResponse.builderDocument ()).queryDefinition (EQueryDefinitionType.DOCUMENT).dataset (_dataset ());
+    return _resp (EDMResponse.builderDocument ()).queryDefinition (EQueryDefinitionType.DOCUMENT)
+                                                 .addResponseObject (x -> x.randomRegistryObjectID ()
+                                                                           .dataset (_dataset ())
+                                                                           .repositoryItemRef (y -> y.link ("http://bla")
+                                                                                                     .title ("whatsoever")));
   }
 
   @Test

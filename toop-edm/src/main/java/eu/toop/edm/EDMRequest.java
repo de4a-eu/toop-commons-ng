@@ -758,6 +758,11 @@ public class EDMRequest
     public abstract EDMRequest build ();
   }
 
+  /**
+   * A builder for a "Concept request"
+   *
+   * @author Philip Helger
+   */
   public static class BuilderConcept extends AbstractBuilder <BuilderConcept>
   {
     private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
@@ -1158,7 +1163,7 @@ public class EDMRequest
         if (aQuerySlotNames.contains (SlotId.NAME))
           aBuilder = builderDocumentByID ();
         else
-          throw new IllegalStateException ("Cannot read this request as a TOOP EDM request");
+          throw new IllegalStateException ("Cannot read this QueryRequest as a TOOP EDM request");
 
     // Request ID
     aBuilder.id (aQueryRequest.getId ());
@@ -1167,6 +1172,7 @@ public class EDMRequest
     for (final SlotType slot : aQueryRequest.getSlot ())
       _applySlots (slot, aBuilder);
 
+    // Query slots
     for (final SlotType aSlot : aQuery.getSlot ())
       if (aSlot != null)
         _applySlots (aSlot, aBuilder);

@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -47,14 +48,15 @@ import com.helger.datetime.util.PDTXMLConverter;
 
 import eu.toop.edm.jaxb.cccev.CCCEVConceptType;
 import eu.toop.edm.jaxb.cv.agent.AgentType;
-import eu.toop.edm.jaxb.dcatap.DCatAPDatasetType;
 import eu.toop.edm.model.AgentPojo;
 import eu.toop.edm.model.ConceptPojo;
-import eu.toop.edm.model.DatasetPojo;
 import eu.toop.edm.model.EQueryDefinitionType;
 import eu.toop.edm.model.EResponseOptionType;
-import eu.toop.edm.model.RepositoryItemRefPojo;
-import eu.toop.edm.response.ResponseObjectPojo;
+import eu.toop.edm.response.EDMResponsePayloadConcepts;
+import eu.toop.edm.response.IEDMResponsePayloadProvider;
+import eu.toop.edm.response.ResponseDocumentPojo;
+import eu.toop.edm.response.ResponseDocumentReferencePojo;
+import eu.toop.edm.slot.SlotConceptValues;
 import eu.toop.edm.slot.SlotDataProvider;
 import eu.toop.edm.slot.SlotIssueDateTime;
 import eu.toop.edm.slot.SlotSpecificationIdentifier;
@@ -64,18 +66,20 @@ import eu.toop.edm.xml.JAXBVersatileReader;
 import eu.toop.edm.xml.JAXBVersatileWriter;
 import eu.toop.edm.xml.cagv.AgentMarshaller;
 import eu.toop.edm.xml.cccev.CCCEV;
+import eu.toop.edm.xml.cccev.ConceptMarshaller;
 import eu.toop.regrep.ERegRepResponseStatus;
 import eu.toop.regrep.RegRep4Reader;
 import eu.toop.regrep.RegRep4Writer;
 import eu.toop.regrep.RegRepHelper;
 import eu.toop.regrep.query.QueryResponse;
 import eu.toop.regrep.rim.AnyValueType;
+import eu.toop.regrep.rim.CollectionValueType;
 import eu.toop.regrep.rim.DateTimeValueType;
+import eu.toop.regrep.rim.ExtrinsicObjectType;
 import eu.toop.regrep.rim.ObjectRefListType;
 import eu.toop.regrep.rim.ObjectRefType;
 import eu.toop.regrep.rim.RegistryObjectListType;
 import eu.toop.regrep.rim.RegistryObjectType;
-import eu.toop.regrep.rim.SimpleLinkType;
 import eu.toop.regrep.rim.SlotType;
 import eu.toop.regrep.rim.StringValueType;
 import eu.toop.regrep.rim.ValueType;
@@ -114,7 +118,7 @@ public class EDMResponse
   private final String m_sSpecificationIdentifier;
   private final LocalDateTime m_aIssueDateTime;
   private final AgentPojo m_aDataProvider;
-  private final ICommonsList <ResponseObjectPojo> m_aResponseObjects = new CommonsArrayList <> ();
+  private final ICommonsList <IEDMResponsePayloadProvider> m_aResponseObjects = new CommonsArrayList <> ();
 
   protected EDMResponse (@Nonnull final EResponseOptionType eResponseOption,
                          @Nonnull final ERegRepResponseStatus eResponseStatus,
@@ -122,7 +126,7 @@ public class EDMResponse
                          @Nonnull @Nonempty final String sSpecificationIdentifier,
                          @Nonnull final LocalDateTime aIssueDateTime,
                          @Nonnull final AgentPojo aDataProvider,
-                         @Nonnull final ICommonsList <ResponseObjectPojo> aResponseObjects)
+                         @Nonnull final ICommonsList <? extends IEDMResponsePayloadProvider> aResponseObjects)
   {
     ValueEnforcer.notNull (eResponseOption, "ResponseOption");
     ValueEnforcer.notNull (eResponseStatus, "ResponseStatus");
@@ -184,14 +188,14 @@ public class EDMResponse
 
   @Nonnull
   @ReturnsMutableObject
-  public final List <ResponseObjectPojo> responseObjects ()
+  public final List <IEDMResponsePayloadProvider> responseObjects ()
   {
     return m_aResponseObjects;
   }
 
   @Nonnull
   @ReturnsMutableCopy
-  public final List <ResponseObjectPojo> getAllResponseObjects ()
+  public final List <IEDMResponsePayloadProvider> getAllResponseObjects ()
   {
     return m_aResponseObjects.getClone ();
   }
@@ -223,14 +227,14 @@ public class EDMResponse
     {
       case INLINE:
         final RegistryObjectListType aROList = new RegistryObjectListType ();
-        for (final ResponseObjectPojo aRO : m_aResponseObjects)
-          aROList.addRegistryObject (aRO.getAsRegistryObject ());
+        for (final IEDMResponsePayloadProvider aItem : m_aResponseObjects)
+          aROList.addRegistryObject (aItem.getAsRegistryObject ());
         ret.setRegistryObjectList (aROList);
         break;
       case REFERENCE:
         final ObjectRefListType aORList = new ObjectRefListType ();
-        for (final ResponseObjectPojo aRO : m_aResponseObjects)
-          aORList.addObjectRef (aRO.getAsObjectRef ());
+        for (final IEDMResponsePayloadProvider aItem : m_aResponseObjects)
+          aORList.addObjectRef (aItem.getAsObjectRef ());
         ret.setObjectRefList (aORList);
         break;
       default:
@@ -332,14 +336,11 @@ public class EDMResponse
   @Nonnull
   public static BuilderDocument builderDocument ()
   {
-    // RegistryObjectID doesn't matter for concepts but must be settable in
-    // import for comparison
-    return new BuilderDocument ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
-                                 .randomRegistryObjectID ();
+    return new BuilderDocument ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20);
   }
 
   @Nonnull
-  public static BuilderDocumentReference builderDocumentRef ()
+  public static BuilderDocumentReference builderDocumentReference ()
   {
     return new BuilderDocumentReference ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20);
   }
@@ -464,7 +465,7 @@ public class EDMResponse
   }
 
   /**
-   * A builder for Concept responses.
+   * A builder for Concept responses. Contains exactly 1 response.
    *
    * @author Philip Helger
    */
@@ -554,9 +555,9 @@ public class EDMResponse
       super.checkConsistency ();
 
       if (StringHelper.hasNoText (m_sRegistryObjectID))
-        throw new IllegalStateException ("RegistryObjectID must be present");
+        throw new IllegalStateException ("RegistryObjectID MUST be present");
       if (m_aConcepts.isEmpty ())
-        throw new IllegalStateException ("A Query Definition of type 'Concept' must contain at least one Concept");
+        throw new IllegalStateException ("At least one Concept MUST be contained");
     }
 
     @Override
@@ -566,11 +567,8 @@ public class EDMResponse
       checkConsistency ();
 
       // Build the ResponseObjectPojo
-      final ICommonsList <ResponseObjectPojo> aResponseObjects = new CommonsArrayList <> ();
-      aResponseObjects.add (ResponseObjectPojo.builder ()
-                                              .registryObjectID (m_sRegistryObjectID)
-                                              .concepts (m_aConcepts)
-                                              .build ());
+      final ICommonsList <IEDMResponsePayloadProvider> aResponseObjects = new CommonsArrayList <> ();
+      aResponseObjects.add (new EDMResponsePayloadConcepts (m_sRegistryObjectID, m_aConcepts));
 
       return new EDMResponse (m_eResponseOption,
                               m_eResponseStatus,
@@ -583,138 +581,47 @@ public class EDMResponse
   }
 
   /**
-   * A builder for document responses.
+   * A builder for document responses. Contains 1-n payloads.
    *
    * @author Philip Helger
    */
   public static class BuilderDocument extends AbstractBuilder <BuilderDocument>
   {
-    private String m_sRegistryObjectID;
-    private DatasetPojo m_aDataset;
-    private RepositoryItemRefPojo m_aRepositoryItemRef;
+    private final ICommonsList <ResponseDocumentPojo> m_aResponseObjects = new CommonsArrayList <> ();
 
-    public BuilderDocument ()
+    protected BuilderDocument ()
     {
       // Always inline responses
       super (EResponseOptionType.INLINE);
     }
 
     @Nonnull
-    public BuilderDocument registryObjectID (@Nullable final String s)
+    public BuilderDocument addResponseObject (@Nonnull final Consumer <? super ResponseDocumentPojo.Builder> a)
     {
-      m_sRegistryObjectID = s;
+      if (a != null)
+      {
+        // RegistryObject ID not relevant for inline responses
+        final ResponseDocumentPojo.Builder aBuilder = ResponseDocumentPojo.builder ().randomRegistryObjectID ();
+        a.accept (aBuilder);
+        addResponseObject (aBuilder);
+      }
       return this;
     }
 
     @Nonnull
-    public BuilderDocument randomRegistryObjectID ()
+    public BuilderDocument addResponseObject (@Nullable final ExtrinsicObjectType a)
     {
-      return registryObjectID (UUID.randomUUID ().toString ());
+      return addResponseObject (a == null ? null : ResponseDocumentPojo.builder (a));
     }
 
     @Nonnull
-    public BuilderDocument dataset (@Nullable final DatasetPojo.Builder a)
-    {
-      return dataset (a == null ? null : a.build ());
-    }
-
-    @Nonnull
-    public BuilderDocument dataset (@Nullable final DatasetPojo a)
-    {
-      m_aDataset = a;
-      return this;
-    }
-
-    @Nonnull
-    public BuilderDocument dataset (@Nullable final DCatAPDatasetType a)
-    {
-      return dataset (a == null ? null : DatasetPojo.builder (a));
-    }
-
-    @Nonnull
-    public BuilderDocument repositoryItemRef (@Nullable final RepositoryItemRefPojo.Builder a)
-    {
-      return repositoryItemRef (a == null ? null : a.build ());
-    }
-
-    @Nonnull
-    public BuilderDocument repositoryItemRef (@Nullable final RepositoryItemRefPojo a)
-    {
-      m_aRepositoryItemRef = a;
-      return this;
-    }
-
-    @Nonnull
-    public BuilderDocument repositoryItemRef (@Nullable final SimpleLinkType a)
-    {
-      return repositoryItemRef (a == null ? null : RepositoryItemRefPojo.builder (a));
-    }
-
-    @Override
-    public void checkConsistency ()
-    {
-      super.checkConsistency ();
-
-      if (StringHelper.hasNoText (m_sRegistryObjectID))
-        throw new IllegalStateException ("RegistryObjectID must be present");
-      if (m_aDataset == null)
-        throw new IllegalStateException ("A Query Definition of type 'Document' must contain a Dataset");
-    }
-
-    @Override
-    @Nonnull
-    public EDMResponse build ()
-    {
-      checkConsistency ();
-
-      // Build the ResponseObjectPojo
-      final ICommonsList <ResponseObjectPojo> aResponseObjects = new CommonsArrayList <> ();
-      aResponseObjects.add (ResponseObjectPojo.builder ()
-                                              .registryObjectID (m_sRegistryObjectID)
-                                              .dataset (m_aDataset)
-                                              .repositoryItemRef (m_aRepositoryItemRef)
-                                              .build ());
-
-      return new EDMResponse (m_eResponseOption,
-                              m_eResponseStatus,
-                              m_sRequestID,
-                              m_sSpecificationIdentifier,
-                              m_aIssueDateTime,
-                              m_aDataProvider,
-                              aResponseObjects);
-    }
-  }
-
-  public static class BuilderDocumentReference extends AbstractBuilder <BuilderDocumentReference>
-  {
-    private final ICommonsList <ResponseObjectPojo> m_aResponseObjects = new CommonsArrayList <> ();
-
-    public BuilderDocumentReference ()
-    {
-      // Always object references
-      super (EResponseOptionType.REFERENCE);
-    }
-
-    @Nonnull
-    public BuilderDocumentReference addResponseObject (@Nullable final RegistryObjectType a)
-    {
-      return addResponseObject (a == null ? null : ResponseObjectPojo.builder (a));
-    }
-
-    @Nonnull
-    public BuilderDocumentReference addResponseObject (@Nullable final ObjectRefType a)
-    {
-      return addResponseObject (a == null ? null : ResponseObjectPojo.builder (a));
-    }
-
-    @Nonnull
-    public BuilderDocumentReference addResponseObject (@Nullable final ResponseObjectPojo.Builder a)
+    public BuilderDocument addResponseObject (@Nullable final ResponseDocumentPojo.Builder a)
     {
       return addResponseObject (a == null ? null : a.build ());
     }
 
     @Nonnull
-    public BuilderDocumentReference addResponseObject (@Nullable final ResponseObjectPojo a)
+    public BuilderDocument addResponseObject (@Nullable final ResponseDocumentPojo a)
     {
       if (a != null)
         m_aResponseObjects.add (a);
@@ -722,19 +629,19 @@ public class EDMResponse
     }
 
     @Nonnull
-    public BuilderDocumentReference responseObject (@Nullable final RegistryObjectType a)
+    public BuilderDocument responseObject (@Nullable final ExtrinsicObjectType a)
     {
-      return responseObject (a == null ? null : ResponseObjectPojo.builder (a));
+      return responseObject (a == null ? null : ResponseDocumentPojo.builder (a));
     }
 
     @Nonnull
-    public BuilderDocumentReference responseObject (@Nullable final ResponseObjectPojo.Builder a)
+    public BuilderDocument responseObject (@Nullable final ResponseDocumentPojo.Builder a)
     {
       return responseObject (a == null ? null : a.build ());
     }
 
     @Nonnull
-    public BuilderDocumentReference responseObject (@Nullable final ResponseObjectPojo a)
+    public BuilderDocument responseObject (@Nullable final ResponseDocumentPojo a)
     {
       if (a != null)
         m_aResponseObjects.set (a);
@@ -744,14 +651,14 @@ public class EDMResponse
     }
 
     @Nonnull
-    public BuilderDocumentReference responseObjects (@Nullable final ResponseObjectPojo... a)
+    public BuilderDocument responseObjects (@Nullable final ResponseDocumentPojo... a)
     {
       m_aResponseObjects.setAll (a);
       return this;
     }
 
     @Nonnull
-    public BuilderDocumentReference responseObjects (@Nullable final Iterable <ResponseObjectPojo> a)
+    public BuilderDocument responseObjects (@Nullable final Iterable <ResponseDocumentPojo> a)
     {
       m_aResponseObjects.setAll (a);
       return this;
@@ -761,18 +668,112 @@ public class EDMResponse
     public void checkConsistency ()
     {
       super.checkConsistency ();
-      if (m_aResponseObjects.isEmpty ())
-        throw new IllegalStateException ("Response Objects must be present");
 
-      for (final ResponseObjectPojo aResponseObject : m_aResponseObjects)
+      if (m_aResponseObjects.isEmpty ())
+        throw new IllegalStateException ("Response Object MUST be present");
+    }
+
+    @Override
+    @Nonnull
+    public EDMResponse build ()
+    {
+      checkConsistency ();
+
+      return new EDMResponse (m_eResponseOption,
+                              m_eResponseStatus,
+                              m_sRequestID,
+                              m_sSpecificationIdentifier,
+                              m_aIssueDateTime,
+                              m_aDataProvider,
+                              m_aResponseObjects);
+    }
+  }
+
+  public static class BuilderDocumentReference extends AbstractBuilder <BuilderDocumentReference>
+  {
+    private final ICommonsList <ResponseDocumentReferencePojo> m_aResponseObjects = new CommonsArrayList <> ();
+
+    protected BuilderDocumentReference ()
+    {
+      // Always object references
+      super (EResponseOptionType.REFERENCE);
+    }
+
+    @Nonnull
+    public BuilderDocumentReference addResponseObject (@Nonnull final Consumer <? super ResponseDocumentReferencePojo.Builder> a)
+    {
+      if (a != null)
       {
-        if (!aResponseObject.concepts ().isEmpty ())
-          throw new IllegalStateException ("A Query Definition of type 'ObjectRef' must NOT contain ResponseObjects with a Concept");
-        if (aResponseObject.getDataset () == null)
-          throw new IllegalStateException ("A Query Definition of type 'ObjectRef' must contain ResponseObjects with a Dataset");
-        if (aResponseObject.getRepositoryItemRef () != null)
-          throw new IllegalStateException ("A Query Definition of type 'ObjectRef' must NOT contain ResponseObjects with a RepositoryItemRef");
+        final ResponseDocumentReferencePojo.Builder aBuilder = ResponseDocumentReferencePojo.builder ();
+        a.accept (aBuilder);
+        addResponseObject (aBuilder);
       }
+      return this;
+    }
+
+    @Nonnull
+    public BuilderDocumentReference addResponseObject (@Nullable final ObjectRefType a)
+    {
+      return addResponseObject (a == null ? null : ResponseDocumentReferencePojo.builder (a));
+    }
+
+    @Nonnull
+    public BuilderDocumentReference addResponseObject (@Nullable final ResponseDocumentReferencePojo.Builder a)
+    {
+      return addResponseObject (a == null ? null : a.build ());
+    }
+
+    @Nonnull
+    public BuilderDocumentReference addResponseObject (@Nullable final ResponseDocumentReferencePojo a)
+    {
+      if (a != null)
+        m_aResponseObjects.add (a);
+      return this;
+    }
+
+    @Nonnull
+    public BuilderDocumentReference responseObject (@Nullable final ObjectRefType a)
+    {
+      return responseObject (a == null ? null : ResponseDocumentReferencePojo.builder (a));
+    }
+
+    @Nonnull
+    public BuilderDocumentReference responseObject (@Nullable final ResponseDocumentReferencePojo.Builder a)
+    {
+      return responseObject (a == null ? null : a.build ());
+    }
+
+    @Nonnull
+    public BuilderDocumentReference responseObject (@Nullable final ResponseDocumentReferencePojo a)
+    {
+      if (a != null)
+        m_aResponseObjects.set (a);
+      else
+        m_aResponseObjects.clear ();
+      return this;
+    }
+
+    @Nonnull
+    public BuilderDocumentReference responseObjects (@Nullable final ResponseDocumentReferencePojo... a)
+    {
+      m_aResponseObjects.setAll (a);
+      return this;
+    }
+
+    @Nonnull
+    public BuilderDocumentReference responseObjects (@Nullable final Iterable <ResponseDocumentReferencePojo> a)
+    {
+      m_aResponseObjects.setAll (a);
+      return this;
+    }
+
+    @Override
+    public void checkConsistency ()
+    {
+      super.checkConsistency ();
+
+      if (m_aResponseObjects.isEmpty ())
+        throw new IllegalStateException ("Response Object MUST be present");
     }
 
     @Override
@@ -792,8 +793,7 @@ public class EDMResponse
 
   }
 
-  private static void _applySlots (@Nonnull final SlotType aSlot,
-                                   @Nonnull final EDMResponse.AbstractBuilder <?> aBuilder)
+  private static void _applySlots (@Nonnull final SlotType aSlot, @Nonnull final AbstractBuilder <?> aBuilder)
   {
     final String sName = aSlot.getName ();
     final ValueType aSlotValue = aSlot.getSlotValue ();
@@ -825,57 +825,94 @@ public class EDMResponse
     }
   }
 
-  @Nullable
+  private static void _applyConceptSlots (@Nonnull final SlotType aSlot, @Nonnull final BuilderConcept aBuilder)
+  {
+    final String sName = aSlot.getName ();
+    final ValueType aSlotValue = aSlot.getSlotValue ();
+    switch (sName)
+    {
+      case SlotConceptValues.NAME:
+        if (aSlotValue instanceof CollectionValueType)
+        {
+          final List <ValueType> aElements = ((CollectionValueType) aSlotValue).getElement ();
+          if (aElements != null)
+            for (final ValueType aElement : aElements)
+              if (aElement instanceof AnyValueType)
+              {
+                final Object aElementValue = ((AnyValueType) aElement).getAny ();
+                if (aElementValue instanceof Node)
+                  aBuilder.addConcept (new ConceptMarshaller ().read ((Node) aElementValue));
+              }
+        }
+        break;
+      default:
+        throw new IllegalStateException ("Slot is not defined: " + sName);
+    }
+  }
+
+  @Nonnull
   public static EDMResponse create (@Nonnull final QueryResponse aQueryResponse)
   {
+    // Get common stuff
     final ERegRepResponseStatus eResponseStatus = ERegRepResponseStatus.getFromIDOrNull (aQueryResponse.getStatus ());
     final String sRequestID = aQueryResponse.getRequestId ();
 
-    if (aQueryResponse.getObjectRefList () != null && aQueryResponse.getObjectRefList ().hasObjectRefEntries ())
+    // Check references
+    final ObjectRefListType aObjectRefList = aQueryResponse.getObjectRefList ();
+    if (aObjectRefList != null && aObjectRefList.hasObjectRefEntries ())
     {
       // Document Reference
-      final BuilderDocumentReference aRealBuilder = builderDocumentRef ().responseStatus (eResponseStatus)
-                                                                         .requestID (sRequestID);
-      for (final SlotType s : aQueryResponse.getSlot ())
-        _applySlots (s, aRealBuilder);
+      final BuilderDocumentReference aRealBuilder = builderDocumentReference ().responseStatus (eResponseStatus)
+                                                                               .requestID (sRequestID);
+      for (final SlotType aSlot : aQueryResponse.getSlot ())
+        _applySlots (aSlot, aRealBuilder);
 
-      for (final ObjectRefType aOR : aQueryResponse.getObjectRefList ().getObjectRef ())
+      for (final ObjectRefType aOR : aObjectRefList.getObjectRef ())
         aRealBuilder.addResponseObject (aOR);
       return aRealBuilder.build ();
     }
 
-    if (aQueryResponse.getRegistryObjectList () != null &&
-        aQueryResponse.getRegistryObjectList ().hasRegistryObjectEntries ())
+    // Check inline
+    final RegistryObjectListType aRegistryObjectList = aQueryResponse.getRegistryObjectList ();
+    if (aRegistryObjectList != null && aRegistryObjectList.hasRegistryObjectEntries ())
     {
-      // Can be only one RegistryObject
-      final RegistryObjectType aRO = aQueryResponse.getRegistryObjectList ().getRegistryObject ().get (0);
-      final ResponseObjectPojo aROP = ResponseObjectPojo.builder (aRO).build ();
-
-      final AbstractBuilder <?> aBuilder;
-      if (aROP.getDataset () != null)
+      if (aRegistryObjectList.getRegistryObject ().size () == 1 &&
+          aRegistryObjectList.getRegistryObjectAtIndex (0).getSlotCount () == 1 &&
+          SlotConceptValues.NAME.equals (aRegistryObjectList.getRegistryObjectAtIndex (0)
+                                                            .getSlotAtIndex (0)
+                                                            .getName ()))
       {
-        // Must be a Document response
-        aBuilder = builderDocument ().responseStatus (eResponseStatus)
-                                     .requestID (sRequestID)
-                                     .registryObjectID (aROP.getID ())
-                                     .dataset (aROP.getDataset ())
-                                     .repositoryItemRef (aROP.getRepositoryItemRef ());
-      }
-      else
-      {
-        // Must be a Concept response
-        aBuilder = builderConcept ().responseStatus (eResponseStatus)
-                                    .requestID (sRequestID)
-                                    .registryObjectID (aROP.getID ())
-                                    .concepts (aROP.concepts ());
+        // It's a Concept Response
+        final RegistryObjectType aRO = aRegistryObjectList.getRegistryObject ().get (0);
+        final BuilderConcept aRealBuilder = builderConcept ().responseStatus (eResponseStatus)
+                                                             .requestID (sRequestID)
+                                                             .registryObjectID (aRO.getId ());
+
+        // Apply top-level response slots
+        for (final SlotType aSlot : aQueryResponse.getSlot ())
+          _applySlots (aSlot, aRealBuilder);
+
+        // Read main concepts
+        for (final SlotType aSlot : aRO.getSlot ())
+          _applyConceptSlots (aSlot, aRealBuilder);
+
+        return aRealBuilder.build ();
       }
 
-      for (final SlotType s : aQueryResponse.getSlot ())
-        _applySlots (s, aBuilder);
+      // It's a Document Response
+      final BuilderDocument aRealBuilder = builderDocument ().responseStatus (eResponseStatus).requestID (sRequestID);
 
-      return aBuilder.build ();
+      // Apply top-level response slots
+      for (final SlotType aSlot : aQueryResponse.getSlot ())
+        _applySlots (aSlot, aRealBuilder);
+
+      for (final RegistryObjectType aRO : aRegistryObjectList.getRegistryObject ())
+        if (aRO instanceof ExtrinsicObjectType)
+          aRealBuilder.addResponseObject ((ExtrinsicObjectType) aRO);
+
+      return aRealBuilder.build ();
     }
 
-    return null;
+    throw new IllegalStateException ("Found neither inline nor reference content in the response");
   }
 }

@@ -40,11 +40,10 @@ import eu.toop.edm.model.AgentPojo;
 import eu.toop.edm.model.ConceptPojo;
 import eu.toop.edm.model.DatasetPojo;
 import eu.toop.edm.model.DocumentReferencePojo;
-import eu.toop.edm.model.EQueryDefinitionType;
 import eu.toop.edm.model.QualifiedRelationPojo;
 import eu.toop.edm.model.RepositoryItemRefPojo;
 import eu.toop.edm.pilot.gbm.EToopConcept;
-import eu.toop.edm.response.ResponseObjectPojo;
+import eu.toop.edm.response.ResponseDocumentReferencePojo;
 import eu.toop.edm.schematron.SchematronEDM2Validator;
 import eu.toop.regrep.ERegRepResponseStatus;
 
@@ -149,23 +148,20 @@ public final class EDMResponseTest
   @Nonnull
   private static EDMResponse.BuilderDocument _respDocument ()
   {
-    return _resp (EDMResponse.builderDocument ()).queryDefinition (EQueryDefinitionType.DOCUMENT_BY_DISTRIBUTION)
-                                                 .dataset (_dataset ())
-                                                 .repositoryItemRef (RepositoryItemRefPojo.builder ()
-                                                                                          .title ("Evidence.pdf")
-                                                                                          .link ("https://www.example.com/evidence.pdf"));
+    return _resp (EDMResponse.builderDocument ()).addResponseObject (x -> x.dataset (_dataset ())
+                                                                           .repositoryItemRef (RepositoryItemRefPojo.builder ()
+                                                                                                                    .title ("Evidence.pdf")
+                                                                                                                    .link ("https://www.example.com/evidence.pdf")));
   }
 
   @Nonnull
   private static EDMResponse.BuilderDocumentReference _respDocumentRef ()
   {
-    return _resp (EDMResponse.builderDocumentRef ()).queryDefinition (EQueryDefinitionType.DOCUMENT_BY_DISTRIBUTION)
-                                                    .addResponseObject (ResponseObjectPojo.builder ()
-                                                                                          .randomRegistryObjectID ()
-                                                                                          .dataset (_dataset ()))
-                                                    .addResponseObject (ResponseObjectPojo.builder ()
-                                                                                          .randomRegistryObjectID ()
-                                                                                          .dataset (_dataset ()));
+    return _resp (EDMResponse.builderDocumentReference ()).addResponseObject (ResponseDocumentReferencePojo.builder ()
+                                                                                                           .randomRegistryObjectID ()
+                                                                                                           .dataset (_dataset ()))
+                                                          .addResponseObject (x -> x.randomRegistryObjectID ()
+                                                                                    .dataset (_dataset ()));
   }
 
   @Test
@@ -212,9 +208,6 @@ public final class EDMResponseTest
     _testWriteAndRead (aResponse);
 
     aResponse = EDMResponse.reader ().read (new ClassPathResource ("Document Response.xml"));
-    _testWriteAndRead (aResponse);
-
-    aResponse = EDMResponse.reader ().read (new ClassPathResource ("Document Response_NoRepositoryItemRef.xml"));
     _testWriteAndRead (aResponse);
   }
 
