@@ -16,7 +16,6 @@
 package eu.toop.edm.request;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
@@ -33,7 +32,7 @@ import eu.toop.regrep.slot.predefined.SlotId;
  * @author Philip Helger
  * @since 2.0.0-beta3
  */
-public class EDMRequestPayloadDocumentID implements IEDMRequestPayloadProvider
+public class EDMRequestPayloadDocumentID implements IEDMRequestPayloadDocumentID
 {
   private final String m_sDocumentID;
 
@@ -43,7 +42,8 @@ public class EDMRequestPayloadDocumentID implements IEDMRequestPayloadProvider
     m_sDocumentID = sDocumentID;
   }
 
-  @Nullable
+  @Nonnull
+  @Nonempty
   public final String getDocumentID ()
   {
     return m_sDocumentID;

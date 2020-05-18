@@ -64,7 +64,7 @@ import eu.toop.edm.model.DistributionPojo;
 import eu.toop.edm.model.EQueryDefinitionType;
 import eu.toop.edm.model.EResponseOptionType;
 import eu.toop.edm.model.PersonPojo;
-import eu.toop.edm.request.EDMRequestPayloadConcept;
+import eu.toop.edm.request.EDMRequestPayloadConcepts;
 import eu.toop.edm.request.EDMRequestPayloadDistribution;
 import eu.toop.edm.request.EDMRequestPayloadDocumentID;
 import eu.toop.edm.request.IEDMRequestPayloadProvider;
@@ -292,7 +292,13 @@ public class EDMRequest implements IEDMTopLevelObject
     return m_aAuthorizedRepresentative;
   }
 
-  @Nullable
+  /**
+   * @return The request payload provider. Never <code>null</code>. This is one
+   *         of {@link eu.toop.edm.request.IEDMRequestPayloadConcepts},
+   *         {@link eu.toop.edm.request.IEDMRequestPayloadDistribution} or
+   *         {@link eu.toop.edm.request.IEDMRequestPayloadDocumentID}.
+   */
+  @Nonnull
   public final IEDMRequestPayloadProvider getPayloadProvider ()
   {
     return m_aPayloadProvider;
@@ -808,7 +814,7 @@ public class EDMRequest implements IEDMTopLevelObject
   }
 
   /**
-   * A builder for a "Concept request"
+   * A builder for a "Concept request".Request a concept response.
    *
    * @author Philip Helger
    */
@@ -929,7 +935,7 @@ public class EDMRequest implements IEDMTopLevelObject
                              m_aDataSubjectLegalPerson,
                              m_aDataSubjectNaturalPerson,
                              m_aAuthorizedRepresentative,
-                             new EDMRequestPayloadConcept (m_aConcepts));
+                             new EDMRequestPayloadConcepts (m_aConcepts));
     }
   }
 
@@ -1061,7 +1067,7 @@ public class EDMRequest implements IEDMTopLevelObject
   }
 
   /**
-   * Builder for a "Document by ID request". Expects exactly 1 result document.
+   * Builder for a "Document by ID request". Request 1 document directly.
    *
    * @author Philip Helger
    */

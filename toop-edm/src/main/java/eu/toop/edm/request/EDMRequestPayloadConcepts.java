@@ -39,11 +39,11 @@ import eu.toop.regrep.slot.ISlotProvider;
  * @author Philip Helger
  * @since 2.0.0-beta3
  */
-public class EDMRequestPayloadConcept implements IEDMRequestPayloadProvider
+public class EDMRequestPayloadConcepts implements IEDMRequestPayloadConcepts
 {
   private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
 
-  public EDMRequestPayloadConcept (@Nonnull @Nonempty final ICommonsList <ConceptPojo> aConcepts)
+  public EDMRequestPayloadConcepts (@Nonnull @Nonempty final ICommonsList <ConceptPojo> aConcepts)
   {
     ValueEnforcer.notEmpty (aConcepts, "Concepts");
     m_aConcepts.addAll (aConcepts);
@@ -76,7 +76,7 @@ public class EDMRequestPayloadConcept implements IEDMRequestPayloadProvider
       return true;
     if (o == null || !getClass ().equals (o.getClass ()))
       return false;
-    final EDMRequestPayloadConcept rhs = (EDMRequestPayloadConcept) o;
+    final EDMRequestPayloadConcepts rhs = (EDMRequestPayloadConcepts) o;
     return EqualsHelper.equals (m_aConcepts, rhs.m_aConcepts);
   }
 

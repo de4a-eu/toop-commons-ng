@@ -39,7 +39,7 @@ import eu.toop.regrep.slot.ISlotProvider;
  * @author Philip Helger
  * @since 2.0.0-beta3
  */
-public class EDMRequestPayloadDistribution implements IEDMRequestPayloadProvider
+public class EDMRequestPayloadDistribution implements IEDMRequestPayloadDistribution
 {
   private final ICommonsList <DistributionPojo> m_aDistributions = new CommonsArrayList <> ();
 
