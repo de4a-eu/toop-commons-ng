@@ -118,7 +118,7 @@ public class EDMResponse
   private final String m_sSpecificationIdentifier;
   private final LocalDateTime m_aIssueDateTime;
   private final AgentPojo m_aDataProvider;
-  private final ICommonsList <IEDMResponsePayloadProvider> m_aResponseObjects = new CommonsArrayList <> ();
+  private final ICommonsList <IEDMResponsePayloadProvider> m_aPayloadProviders = new CommonsArrayList <> ();
 
   protected EDMResponse (@Nonnull final EResponseOptionType eResponseOption,
                          @Nonnull final ERegRepResponseStatus eResponseStatus,
@@ -126,7 +126,7 @@ public class EDMResponse
                          @Nonnull @Nonempty final String sSpecificationIdentifier,
                          @Nonnull final LocalDateTime aIssueDateTime,
                          @Nonnull final AgentPojo aDataProvider,
-                         @Nonnull final ICommonsList <? extends IEDMResponsePayloadProvider> aResponseObjects)
+                         @Nonnull final ICommonsList <? extends IEDMResponsePayloadProvider> aPayloadProviders)
   {
     ValueEnforcer.notNull (eResponseOption, "ResponseOption");
     ValueEnforcer.notNull (eResponseStatus, "ResponseStatus");
@@ -137,7 +137,7 @@ public class EDMResponse
     ValueEnforcer.notEmpty (sSpecificationIdentifier, "SpecificationIdentifier");
     ValueEnforcer.notNull (aIssueDateTime, "IssueDateTime");
     ValueEnforcer.notNull (aDataProvider, "DataProvider");
-    ValueEnforcer.notEmpty (aResponseObjects, "ResponseObjects");
+    ValueEnforcer.notEmpty (aPayloadProviders, "PayloadProviders");
 
     m_eResponseOption = eResponseOption;
     m_eResponseStatus = eResponseStatus;
@@ -145,7 +145,7 @@ public class EDMResponse
     m_sSpecificationIdentifier = sSpecificationIdentifier;
     m_aIssueDateTime = aIssueDateTime;
     m_aDataProvider = aDataProvider;
-    m_aResponseObjects.addAll (aResponseObjects);
+    m_aPayloadProviders.addAll (aPayloadProviders);
   }
 
   @Nonnull
@@ -188,16 +188,16 @@ public class EDMResponse
 
   @Nonnull
   @ReturnsMutableObject
-  public final List <IEDMResponsePayloadProvider> responseObjects ()
+  public final List <IEDMResponsePayloadProvider> payloadProviders ()
   {
-    return m_aResponseObjects;
+    return m_aPayloadProviders;
   }
 
   @Nonnull
   @ReturnsMutableCopy
-  public final List <IEDMResponsePayloadProvider> getAllResponseObjects ()
+  public final List <IEDMResponsePayloadProvider> getAllPayloadProviders ()
   {
-    return m_aResponseObjects.getClone ();
+    return m_aPayloadProviders.getClone ();
   }
 
   @Nonnull
@@ -227,13 +227,13 @@ public class EDMResponse
     {
       case INLINE:
         final RegistryObjectListType aROList = new RegistryObjectListType ();
-        for (final IEDMResponsePayloadProvider aItem : m_aResponseObjects)
+        for (final IEDMResponsePayloadProvider aItem : m_aPayloadProviders)
           aROList.addRegistryObject (aItem.getAsRegistryObject ());
         ret.setRegistryObjectList (aROList);
         break;
       case REFERENCE:
         final ObjectRefListType aORList = new ObjectRefListType ();
-        for (final IEDMResponsePayloadProvider aItem : m_aResponseObjects)
+        for (final IEDMResponsePayloadProvider aItem : m_aPayloadProviders)
           aORList.addObjectRef (aItem.getAsObjectRef ());
         ret.setObjectRefList (aORList);
         break;
@@ -295,7 +295,7 @@ public class EDMResponse
            EqualsHelper.equals (m_sSpecificationIdentifier, that.m_sSpecificationIdentifier) &&
            EqualsHelper.equals (m_aIssueDateTime, that.m_aIssueDateTime) &&
            EqualsHelper.equals (m_aDataProvider, that.m_aDataProvider) &&
-           EqualsHelper.equals (m_aResponseObjects, that.m_aResponseObjects);
+           EqualsHelper.equals (m_aPayloadProviders, that.m_aPayloadProviders);
   }
 
   @Override
@@ -307,7 +307,7 @@ public class EDMResponse
                                        .append (m_sSpecificationIdentifier)
                                        .append (m_aIssueDateTime)
                                        .append (m_aDataProvider)
-                                       .append (m_aResponseObjects)
+                                       .append (m_aPayloadProviders)
                                        .getHashCode ();
   }
 
@@ -320,7 +320,7 @@ public class EDMResponse
                                        .append ("SpecificationIdentifier", m_sSpecificationIdentifier)
                                        .append ("IssueDateTime", m_aIssueDateTime)
                                        .append ("DataProvider", m_aDataProvider)
-                                       .append ("ResponseObjects", m_aResponseObjects)
+                                       .append ("ResponseObjects", m_aPayloadProviders)
                                        .getToString ();
   }
 
