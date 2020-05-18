@@ -135,7 +135,7 @@ import eu.toop.regrep.slot.predefined.SlotId;
  * @author Philip Helger
  * @author Konstantinos Douloudis
  */
-public class EDMRequest
+public class EDMRequest implements IEDMTopLevelObject
 {
   private static final ICommonsOrderedSet <String> TOP_LEVEL_SLOTS = new CommonsLinkedHashSet <> (SlotSpecificationIdentifier.NAME,
                                                                                                   SlotIssueDateTime.NAME,

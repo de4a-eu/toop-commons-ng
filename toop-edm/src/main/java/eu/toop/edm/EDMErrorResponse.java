@@ -65,7 +65,7 @@ import eu.toop.regrep.slot.ISlotProvider;
  *
  * @author Philip Helger
  */
-public class EDMErrorResponse
+public class EDMErrorResponse implements IEDMTopLevelObject
 {
   private static final ICommonsOrderedSet <String> TOP_LEVEL_SLOTS = new CommonsLinkedHashSet <> (SlotSpecificationIdentifier.NAME,
                                                                                                   SlotErrorProvider.NAME);

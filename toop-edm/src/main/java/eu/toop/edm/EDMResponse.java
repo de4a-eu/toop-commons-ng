@@ -52,7 +52,7 @@ import eu.toop.edm.model.AgentPojo;
 import eu.toop.edm.model.ConceptPojo;
 import eu.toop.edm.model.EQueryDefinitionType;
 import eu.toop.edm.model.EResponseOptionType;
-import eu.toop.edm.response.EDMResponsePayloadConcepts;
+import eu.toop.edm.response.ResponseConcepts;
 import eu.toop.edm.response.IEDMResponsePayloadProvider;
 import eu.toop.edm.response.ResponseDocumentPojo;
 import eu.toop.edm.response.ResponseDocumentReferencePojo;
@@ -106,7 +106,7 @@ import eu.toop.regrep.slot.ISlotProvider;
  * @author Philip Helger
  * @author Konstantinos Douloudis
  */
-public class EDMResponse
+public class EDMResponse implements IEDMTopLevelObject
 {
   private static final ICommonsOrderedSet <String> TOP_LEVEL_SLOTS = new CommonsLinkedHashSet <> (SlotSpecificationIdentifier.NAME,
                                                                                                   SlotIssueDateTime.NAME,
@@ -604,7 +604,7 @@ public class EDMResponse
 
       // Build the ResponseObjectPojo
       final ICommonsList <IEDMResponsePayloadProvider> aResponseObjects = new CommonsArrayList <> ();
-      aResponseObjects.add (new EDMResponsePayloadConcepts (m_sRegistryObjectID, m_aConcepts));
+      aResponseObjects.add (new ResponseConcepts (m_sRegistryObjectID, m_aConcepts));
 
       return new EDMResponse (m_eResponseOption,
                               m_eResponseStatus,
