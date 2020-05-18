@@ -12,6 +12,9 @@ Work in progress
 * Added new Request query definition "Object Reference" to request a document with an ID only
 * Renamed `getReader()` to `reader()`
 * Updated the Schematron rules
+* A new response object layout was introduced: list of RegRep `ObjectRef`s - it's referred to as "DocumentRef" internally
+* The `EDMRequest` has a new mandatory property: "ResponseOption" - this determines if the payload is contained in the response or referenced
+* `EDMResponse` now has explicit builder classes depending on the result layout: `EDMResponse.ConceptBuilder`, `EDMResponse.DocumentBuilder` and `EDMResponse.DocumentRefBuilder`
 
 2020-05-12: release of `v2.0.0-beta2`
 * Changed the main EDM classes for request, response and error response to `EDMRequest`, `EDMResponse` and `EDMErrorResponse`

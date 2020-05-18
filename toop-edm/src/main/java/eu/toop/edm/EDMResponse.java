@@ -28,6 +28,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.w3c.dom.Node;
 
 import com.helger.commons.ValueEnforcer;
+import com.helger.commons.annotation.DevelopersNote;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.annotation.ReturnsMutableObject;
@@ -376,6 +377,25 @@ public class EDMResponse
     {
       ValueEnforcer.notNull (e, "QueryDefinitionType");
       m_eQueryDefinition = e;
+    }
+
+    /**
+     * THIS METHOD HAS NO EFFECT.<br>
+     * For backwards compatibility from beta3 to beta2. Not needed any more. Now
+     * the parameter is in the constructor.
+     *
+     * @param e
+     *        Query definition type
+     * @return this for chaining
+     * @deprecated Since beta3; not needed anymore
+     */
+    @Nonnull
+    @Deprecated
+    @DevelopersNote ("Unused. Will be removed in beta4")
+    public final T queryDefinition (@Nonnull final EQueryDefinitionType e)
+    {
+      ValueEnforcer.notNull (e, "QueryDefinitionType");
+      return thisAsT ();
     }
 
     @Nonnull
@@ -761,9 +781,9 @@ public class EDMResponse
       for (final ResponseObjectPojo aResponseObject : m_aResponseObjects)
       {
         if (!aResponseObject.concepts ().isEmpty ())
-          throw new IllegalStateException ("A Query Definition of type 'Document' must NOT contain ResponseObjects with a Concept");
+          throw new IllegalStateException ("A Query Definition of type 'ObjectRef' must NOT contain ResponseObjects with a Concept");
         if (aResponseObject.getDataset () == null)
-          throw new IllegalStateException ("A Query Definition of type 'Document' must contain ResponseObjects with a Dataset");
+          throw new IllegalStateException ("A Query Definition of type 'ObjectRef' must contain ResponseObjects with a Dataset");
         if (aResponseObject.getRepositoryItemRef () != null)
           throw new IllegalStateException ("A Query Definition of type 'ObjectRef' must NOT contain ResponseObjects with a RepositoryItemRef");
       }

@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.toop.edm;
+package eu.toop.edm.beta2;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.time.Month;
 import java.util.UUID;
@@ -35,14 +34,14 @@ import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.commons.mock.CommonsTestHelper;
 import com.helger.schematron.svrl.AbstractSVRLMessage;
 
+import eu.toop.edm.EDMResponse;
 import eu.toop.edm.model.AddressPojo;
 import eu.toop.edm.model.AgentPojo;
 import eu.toop.edm.model.ConceptPojo;
 import eu.toop.edm.model.DatasetPojo;
 import eu.toop.edm.model.DocumentReferencePojo;
+import eu.toop.edm.model.EQueryDefinitionType;
 import eu.toop.edm.model.QualifiedRelationPojo;
-import eu.toop.edm.model.RepositoryItemRefPojo;
-import eu.toop.edm.model.ResponseObjectPojo;
 import eu.toop.edm.pilot.gbm.EToopConcept;
 import eu.toop.edm.schematron.SchematronEDM2Validator;
 import eu.toop.regrep.ERegRepResponseStatus;
@@ -52,6 +51,7 @@ import eu.toop.regrep.ERegRepResponseStatus;
  *
  * @author Philip Helger
  */
+@SuppressWarnings ("deprecation")
 public final class EDMResponseTest
 {
   private static void _testWriteAndRead (@Nonnull final EDMResponse aResp)
@@ -63,7 +63,8 @@ public final class EDMResponseTest
     assertNotNull (aBytes);
 
     // Re-read
-    final EDMResponse aResp2 = EDMResponse.reader ().read (aBytes);
+    final EDMResponse aResp2 = EDMResponse.getReader ().read (aBytes);
+
     // Compare with original
     assertEquals (aResp, aResp2);
     CommonsTestHelper.testDefaultImplementationWithEqualContentObject (aResp, aResp2);
@@ -89,10 +90,12 @@ public final class EDMResponseTest
                                                                 .buildingNumber ("22")
                                                                 .countryCode ("GR")
                                                                 .fullAddress ("MyStreet 22, 11134, MyTown, GR")
-                                                                .postalCode ("11134"))
+                                                                .postalCode ("11134")
+                                                                .build ())
                                            .name ("DP NAME")
                                            .id ("1234")
-                                           .idSchemeID ("VAT"))
+                                           .idSchemeID ("VAT")
+                                           .build ())
                    .responseStatus (ERegRepResponseStatus.SUCCESS)
                    .specificationIdentifier ("Niar");
   }
@@ -100,7 +103,8 @@ public final class EDMResponseTest
   @Nonnull
   private static EDMResponse.ConceptBuilder _respConcept ()
   {
-    return _resp (EDMResponse.builderConcept ()).concept (ConceptPojo.builder ()
+    return _resp (EDMResponse.builderConcept ()).queryDefinition (EQueryDefinitionType.CONCEPT)
+                                                .concept (ConceptPojo.builder ()
                                                                      .id ("ConceptID-1")
                                                                      .name (EToopConcept.REGISTERED_ORGANIZATION)
                                                                      .addChild (ConceptPojo.builder ()
@@ -148,21 +152,7 @@ public final class EDMResponseTest
   @Nonnull
   private static EDMResponse.DocumentBuilder _respDocument ()
   {
-    return _resp (EDMResponse.builderDocument ()).dataset (_dataset ())
-                                                 .repositoryItemRef (RepositoryItemRefPojo.builder ()
-                                                                                          .title ("Evidence.pdf")
-                                                                                          .link ("https://www.example.com/evidence.pdf"));
-  }
-
-  @Nonnull
-  private static EDMResponse.DocumentRefBuilder _respDocumentRef ()
-  {
-    return _resp (EDMResponse.builderDocumentRef ()).addResponseObject (ResponseObjectPojo.builder ()
-                                                                                          .randomRegistryObjectID ()
-                                                                                          .dataset (_dataset ()))
-                                                    .addResponseObject (ResponseObjectPojo.builder ()
-                                                                                          .randomRegistryObjectID ()
-                                                                                          .dataset (_dataset ()));
+    return _resp (EDMResponse.builderDocument ()).queryDefinition (EQueryDefinitionType.DOCUMENT).dataset (_dataset ());
   }
 
   @Test
@@ -180,48 +170,22 @@ public final class EDMResponseTest
   }
 
   @Test
-  public void createDocumentRefResponse ()
-  {
-    final EDMResponse aResp = _respDocumentRef ().build ();
-    _testWriteAndRead (aResp);
-  }
-
-  public void createDocumentResponseWithConceptType ()
-  {
-    try
-    {
-      // This attempts to create an EDMResponse with a dataset element but with
-      // ConceptQuery set as the QueryDefinition
-      // which is not permitted and fails
-      _respConcept ().concepts ((ConceptPojo []) null).build ();
-      fail ();
-    }
-    catch (final IllegalStateException ex)
-    {
-      // Expected
-    }
-  }
-
-  @Test
   public void testReadAndWriteExampleFiles ()
   {
-    EDMResponse aResponse = EDMResponse.reader ().read (new ClassPathResource ("Concept Response.xml"));
+    EDMResponse aResponse = EDMResponse.getReader ().read (new ClassPathResource ("Concept Response.xml"));
     _testWriteAndRead (aResponse);
 
-    aResponse = EDMResponse.reader ().read (new ClassPathResource ("Document Response.xml"));
-    _testWriteAndRead (aResponse);
-
-    aResponse = EDMResponse.reader ().read (new ClassPathResource ("Document Response_NoRepositoryItemRef.xml"));
+    aResponse = EDMResponse.getReader ().read (new ClassPathResource ("Document Response.xml"));
     _testWriteAndRead (aResponse);
   }
 
   @Test
   public void testBadCases ()
   {
-    EDMResponse aResponse = EDMResponse.reader ().read (new ClassPathResource ("Bogus.xml"));
+    EDMResponse aResponse = EDMResponse.getReader ().read (new ClassPathResource ("Bogus.xml"));
     assertNull (aResponse);
 
-    aResponse = EDMResponse.reader ().read (new ClassPathResource ("Concept Request_LP.xml"));
+    aResponse = EDMResponse.getReader ().read (new ClassPathResource ("Concept Request_LP.xml"));
     assertNull (aResponse);
   }
 }
