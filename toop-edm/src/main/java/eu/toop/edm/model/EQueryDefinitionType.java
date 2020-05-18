@@ -36,13 +36,17 @@ public enum EQueryDefinitionType implements IHasID <String>
   /**
    * Query for an unstructured document (like PDF or an image).
    */
-  DOCUMENT ("DocumentQuery"),
+  DOCUMENT_BY_DISTRIBUTION ("DocumentQuery"),
   /**
    * Query for an unstructured document with an ID only.
    *
    * @since 2.0.0 beta 3
    */
   DOCUMENT_BY_ID ("urn:oasis:names:tc:ebxml-regrep:query:GetObjectById");
+
+  // Legacy name
+  @Deprecated
+  public static final EQueryDefinitionType DOCUMENT = DOCUMENT_BY_DISTRIBUTION;
 
   private final String m_sID;
 

@@ -467,28 +467,28 @@ public class EDMRequest
   public static BuilderConcept builderConcept ()
   {
     return new BuilderConcept ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
-                                .responseOption (EResponseOptionType.CONTAINED);
+                                .responseOption (EResponseOptionType.INLINE);
   }
 
   @Nonnull
   @Deprecated
-  public static BuilderDocumentByDistribution builderDocument ()
+  public static BuilderDocumentsByDistribution builderDocument ()
   {
     return builderDocumentsByDistribution ();
   }
 
   @Nonnull
-  public static BuilderDocumentByDistribution builderDocumentsByDistribution ()
+  public static BuilderDocumentsByDistribution builderDocumentsByDistribution ()
   {
-    return new BuilderDocumentByDistribution ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
-                                               .responseOption (EResponseOptionType.CONTAINED);
+    return new BuilderDocumentsByDistribution ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+                                                .responseOption (EResponseOptionType.INLINE);
   }
 
   @Nonnull
-  public static BuilderDocumentByDistribution builderDocumentReferencesByDistribution ()
+  public static BuilderDocumentsByDistribution builderDocumentReferencesByDistribution ()
   {
-    return new BuilderDocumentByDistribution ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
-                                               .responseOption (EResponseOptionType.REFERENCED);
+    return new BuilderDocumentsByDistribution ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+                                                .responseOption (EResponseOptionType.REFERENCE);
   }
 
   /**
@@ -498,7 +498,7 @@ public class EDMRequest
   public static BuilderDocumentByID builderDocumentByID ()
   {
     return new BuilderDocumentByID ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
-                                     .responseOption (EResponseOptionType.CONTAINED);
+                                     .responseOption (EResponseOptionType.INLINE);
   }
 
   /**
@@ -762,7 +762,7 @@ public class EDMRequest
   {
     private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
 
-    public BuilderConcept ()
+    protected BuilderConcept ()
     {
       super (EQueryDefinitionType.CONCEPT);
     }
@@ -855,29 +855,35 @@ public class EDMRequest
     }
   }
 
-  public static class BuilderDocumentByDistribution extends AbstractBuilder <BuilderDocumentByDistribution>
+  /**
+   * Builder for a "Documents by distribution request". Request 1-n documents -
+   * either directly or as a reference.
+   *
+   * @author Philip Helger
+   */
+  public static class BuilderDocumentsByDistribution extends AbstractBuilder <BuilderDocumentsByDistribution>
   {
     private final ICommonsList <DistributionPojo> m_aDistributions = new CommonsArrayList <> ();
 
-    protected BuilderDocumentByDistribution ()
+    protected BuilderDocumentsByDistribution ()
     {
-      super (EQueryDefinitionType.DOCUMENT);
+      super (EQueryDefinitionType.DOCUMENT_BY_DISTRIBUTION);
     }
 
     @Nonnull
-    public BuilderDocumentByDistribution addDistribution (@Nullable final DCatAPDistributionType a)
+    public BuilderDocumentsByDistribution addDistribution (@Nullable final DCatAPDistributionType a)
     {
       return addDistribution (a == null ? null : DistributionPojo.builder (a));
     }
 
     @Nonnull
-    public BuilderDocumentByDistribution addDistribution (@Nullable final DistributionPojo.Builder a)
+    public BuilderDocumentsByDistribution addDistribution (@Nullable final DistributionPojo.Builder a)
     {
       return addDistribution (a == null ? null : a.build ());
     }
 
     @Nonnull
-    public BuilderDocumentByDistribution addDistribution (@Nullable final DistributionPojo a)
+    public BuilderDocumentsByDistribution addDistribution (@Nullable final DistributionPojo a)
     {
       if (a != null)
         m_aDistributions.add (a);
@@ -885,19 +891,19 @@ public class EDMRequest
     }
 
     @Nonnull
-    public BuilderDocumentByDistribution distribution (@Nullable final DCatAPDistributionType a)
+    public BuilderDocumentsByDistribution distribution (@Nullable final DCatAPDistributionType a)
     {
       return distribution (a == null ? null : DistributionPojo.builder (a));
     }
 
     @Nonnull
-    public BuilderDocumentByDistribution distribution (@Nullable final DistributionPojo.Builder a)
+    public BuilderDocumentsByDistribution distribution (@Nullable final DistributionPojo.Builder a)
     {
       return distribution (a == null ? null : a.build ());
     }
 
     @Nonnull
-    public BuilderDocumentByDistribution distribution (@Nullable final DistributionPojo a)
+    public BuilderDocumentsByDistribution distribution (@Nullable final DistributionPojo a)
     {
       if (a != null)
         m_aDistributions.set (a);
@@ -907,14 +913,14 @@ public class EDMRequest
     }
 
     @Nonnull
-    public BuilderDocumentByDistribution distributions (@Nullable final DistributionPojo... a)
+    public BuilderDocumentsByDistribution distributions (@Nullable final DistributionPojo... a)
     {
       m_aDistributions.setAll (a);
       return this;
     }
 
     @Nonnull
-    public BuilderDocumentByDistribution distributions (@Nullable final Iterable <DistributionPojo> a)
+    public BuilderDocumentsByDistribution distributions (@Nullable final Iterable <DistributionPojo> a)
     {
       m_aDistributions.setAll (a);
       return this;
@@ -952,6 +958,11 @@ public class EDMRequest
     }
   }
 
+  /**
+   * Builder for a "Document by ID request". Expects exactly 1 result document.
+   *
+   * @author Philip Helger
+   */
   public static class BuilderDocumentByID extends AbstractBuilder <BuilderDocumentByID>
   {
     private String m_sDocumentID;
@@ -1110,7 +1121,7 @@ public class EDMRequest
               {
                 final Object aElementValue = ((AnyValueType) aElement).getAny ();
                 if (aElementValue instanceof Node)
-                  ((EDMRequest.BuilderDocumentByDistribution) aBuilder).addDistribution (new DistributionMarshaller ().read ((Node) aElementValue));
+                  ((EDMRequest.BuilderDocumentsByDistribution) aBuilder).addDistribution (new DistributionMarshaller ().read ((Node) aElementValue));
               }
           }
         }
@@ -1168,7 +1179,7 @@ public class EDMRequest
     {
       eResponseOption = EResponseOptionType.getFromIDOrNull (aResponseOption.getReturnType ());
     }
-    aBuilder.responseOption (eResponseOption != null ? eResponseOption : EResponseOptionType.CONTAINED);
+    aBuilder.responseOption (eResponseOption != null ? eResponseOption : EResponseOptionType.INLINE);
 
     return aBuilder.build ();
   }

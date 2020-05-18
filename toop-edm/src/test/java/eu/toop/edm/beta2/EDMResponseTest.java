@@ -101,7 +101,7 @@ public final class EDMResponseTest
   }
 
   @Nonnull
-  private static EDMResponse.ConceptBuilder _respConcept ()
+  private static EDMResponse.BuilderConcept _respConcept ()
   {
     return _resp (EDMResponse.builderConcept ()).queryDefinition (EQueryDefinitionType.CONCEPT)
                                                 .concept (ConceptPojo.builder ()
@@ -150,7 +150,7 @@ public final class EDMResponseTest
   }
 
   @Nonnull
-  private static EDMResponse.DocumentBuilder _respDocument ()
+  private static EDMResponse.BuilderDocument _respDocument ()
   {
     return _resp (EDMResponse.builderDocument ()).queryDefinition (EQueryDefinitionType.DOCUMENT).dataset (_dataset ());
   }

@@ -40,6 +40,7 @@ import eu.toop.edm.model.AgentPojo;
 import eu.toop.edm.model.ConceptPojo;
 import eu.toop.edm.model.DatasetPojo;
 import eu.toop.edm.model.DocumentReferencePojo;
+import eu.toop.edm.model.EQueryDefinitionType;
 import eu.toop.edm.model.QualifiedRelationPojo;
 import eu.toop.edm.model.RepositoryItemRefPojo;
 import eu.toop.edm.pilot.gbm.EToopConcept;
@@ -98,7 +99,7 @@ public final class EDMResponseTest
   }
 
   @Nonnull
-  private static EDMResponse.ConceptBuilder _respConcept ()
+  private static EDMResponse.BuilderConcept _respConcept ()
   {
     return _resp (EDMResponse.builderConcept ()).concept (ConceptPojo.builder ()
                                                                      .id ("ConceptID-1")
@@ -146,18 +147,20 @@ public final class EDMResponseTest
   }
 
   @Nonnull
-  private static EDMResponse.DocumentBuilder _respDocument ()
+  private static EDMResponse.BuilderDocument _respDocument ()
   {
-    return _resp (EDMResponse.builderDocument ()).dataset (_dataset ())
+    return _resp (EDMResponse.builderDocument ()).queryDefinition (EQueryDefinitionType.DOCUMENT_BY_DISTRIBUTION)
+                                                 .dataset (_dataset ())
                                                  .repositoryItemRef (RepositoryItemRefPojo.builder ()
                                                                                           .title ("Evidence.pdf")
                                                                                           .link ("https://www.example.com/evidence.pdf"));
   }
 
   @Nonnull
-  private static EDMResponse.DocumentRefBuilder _respDocumentRef ()
+  private static EDMResponse.BuilderDocumentReference _respDocumentRef ()
   {
-    return _resp (EDMResponse.builderDocumentRef ()).addResponseObject (ResponseObjectPojo.builder ()
+    return _resp (EDMResponse.builderDocumentRef ()).queryDefinition (EQueryDefinitionType.DOCUMENT_BY_DISTRIBUTION)
+                                                    .addResponseObject (ResponseObjectPojo.builder ()
                                                                                           .randomRegistryObjectID ()
                                                                                           .dataset (_dataset ()))
                                                     .addResponseObject (ResponseObjectPojo.builder ()

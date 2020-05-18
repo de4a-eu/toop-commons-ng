@@ -83,7 +83,7 @@ public final class EDMRequestTest
   @Nonnull
   private static <T extends EDMRequest.AbstractBuilder <T>> T _req (@Nonnull final T aBuilder)
   {
-    return aBuilder.responseOption (EResponseOptionType.CONTAINED)
+    return aBuilder.responseOption (EResponseOptionType.INLINE)
                    .randomID ()
                    .issueDateTimeNow ()
                    .procedure (Locale.US, "GBM Procedure")
@@ -140,7 +140,7 @@ public final class EDMRequestTest
   }
 
   @Nonnull
-  private static EDMRequest.BuilderDocumentByDistribution _reqDocument ()
+  private static EDMRequest.BuilderDocumentsByDistribution _reqDocument ()
   {
     return _req (EDMRequest.builderDocumentsByDistribution ()).distribution (DistributionPojo.builder ()
                                                                                              .format (EDistributionFormat.STRUCTURED)
@@ -237,7 +237,7 @@ public final class EDMRequestTest
   public void createEDMDocumentRefRequestNP ()
   {
     final EDMRequest aRequest = _reqDocument ().dataSubject (_np ())
-                                               .responseOption (EResponseOptionType.REFERENCED)
+                                               .responseOption (EResponseOptionType.REFERENCE)
                                                .build ();
     _testWriteAndRead (aRequest);
   }

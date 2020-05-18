@@ -23,7 +23,8 @@ import com.helger.commons.id.IHasID;
 import com.helger.commons.lang.EnumHelper;
 
 /**
- * Response option.
+ * Response option. Used in the request to determine the desired response
+ * layout. Used in the response to depict the actually used layout.
  *
  * @since 2.0.0-beta3
  * @author Philip Helger
@@ -33,11 +34,11 @@ public enum EResponseOptionType implements IHasID <String>
   /**
    * Response payload is part of the response.
    */
-  CONTAINED ("LeafClassWithRepositoryItem"),
+  INLINE ("LeafClassWithRepositoryItem"),
   /**
    * Response payload is referenced from within the response.
    */
-  REFERENCED ("ObjectRef");
+  REFERENCE ("ObjectRef");
 
   private final String m_sID;
 

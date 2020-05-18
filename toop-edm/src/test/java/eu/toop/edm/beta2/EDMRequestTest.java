@@ -122,7 +122,7 @@ public final class EDMRequestTest
                           .specificationIdentifier ("SpecID")
                           .consentToken ("AAABBB");
     // New in beta3:
-    ret.responseOption (EResponseOptionType.CONTAINED);
+    ret.responseOption (EResponseOptionType.INLINE);
     return ret;
   }
 
@@ -145,7 +145,7 @@ public final class EDMRequestTest
   }
 
   @Nonnull
-  private static EDMRequest.BuilderDocumentByDistribution _reqDocument ()
+  private static EDMRequest.BuilderDocumentsByDistribution _reqDocument ()
   {
     return _req (EDMRequest.builderDocument ()).queryDefinition (EQueryDefinitionType.DOCUMENT)
                                                .distribution (DistributionPojo.builder ()
