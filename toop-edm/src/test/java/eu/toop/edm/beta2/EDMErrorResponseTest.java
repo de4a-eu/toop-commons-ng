@@ -29,7 +29,7 @@ import com.helger.commons.mock.CommonsTestHelper;
 import com.helger.schematron.svrl.AbstractSVRLMessage;
 
 import eu.toop.edm.EDMErrorResponse;
-import eu.toop.edm.error.EDMExceptionBuilder;
+import eu.toop.edm.error.EDMExceptionPojo;
 import eu.toop.edm.error.EEDMExceptionType;
 import eu.toop.edm.error.EToopErrorOrigin;
 import eu.toop.edm.error.EToopErrorSeverity;
@@ -68,14 +68,15 @@ public final class EDMErrorResponseTest
   }
 
   @Nonnull
-  private static EDMExceptionBuilder _exBuilder (final EEDMExceptionType eType)
+  private static EDMExceptionPojo.Builder _exBuilder (final EEDMExceptionType eType)
   {
-    return new EDMExceptionBuilder ().exceptionType (eType)
-                                     .errorCode ("ec1")
-                                     .errorMessage ("What went wrong: " + eType.name ())
-                                     .severity (EToopErrorSeverity.FAILURE)
-                                     .timestampNow ()
-                                     .errorOrigin (EToopErrorOrigin.RESPONSE_RECEPTION);
+    return EDMExceptionPojo.builder ()
+                           .exceptionType (eType)
+                           .errorCode ("ec1")
+                           .errorMessage ("What went wrong: " + eType.name ())
+                           .severity (EToopErrorSeverity.FAILURE)
+                           .timestampNow ()
+                           .errorOrigin (EToopErrorOrigin.RESPONSE_RECEPTION);
   }
 
   @Nonnull

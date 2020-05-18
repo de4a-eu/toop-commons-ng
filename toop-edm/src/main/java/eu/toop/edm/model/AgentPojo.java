@@ -15,6 +15,8 @@
  */
 package eu.toop.edm.model;
 
+import java.util.function.Consumer;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -190,6 +192,18 @@ public class AgentPojo
     public Builder name (@Nullable final String s)
     {
       m_sName = s;
+      return this;
+    }
+
+    @Nonnull
+    public Builder address (@Nonnull final Consumer <? super AddressPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final AddressPojo.Builder aBuilder = AddressPojo.builder ();
+        a.accept (aBuilder);
+        address (aBuilder);
+      }
       return this;
     }
 

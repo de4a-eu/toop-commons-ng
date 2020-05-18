@@ -21,13 +21,14 @@ import javax.annotation.Nullable;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.id.IHasID;
 import com.helger.commons.lang.EnumHelper;
+import com.helger.commons.state.IErrorIndicator;
 
 /**
  * Source: ErrorSeverity-CodeList.gc
  *
  * @author Philip Helger
  */
-public enum EToopErrorSeverity implements IHasID <String>
+public enum EToopErrorSeverity implements IHasID <String>, IErrorIndicator
 {
   WARNING ("WARNING"),
   FAILURE ("FAILURE");
@@ -44,6 +45,11 @@ public enum EToopErrorSeverity implements IHasID <String>
   public String getID ()
   {
     return m_sID;
+  }
+
+  public boolean isError ()
+  {
+    return this == FAILURE;
   }
 
   @Nullable

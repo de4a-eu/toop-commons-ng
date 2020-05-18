@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -655,6 +656,18 @@ public class EDMRequest
     }
 
     @Nonnull
+    public final T dataConsumer (@Nullable final Consumer <? super AgentPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final AgentPojo.Builder aBuilder = AgentPojo.builder ();
+        a.accept (aBuilder);
+        dataConsumer (aBuilder.build ());
+      }
+      return thisAsT ();
+    }
+
+    @Nonnull
     public final T dataConsumer (@Nullable final AgentType a)
     {
       return dataConsumer (a == null ? null : AgentPojo.builder (a));
@@ -670,6 +683,18 @@ public class EDMRequest
     public final T dataConsumer (@Nullable final AgentPojo a)
     {
       m_aDataConsumer = a;
+      return thisAsT ();
+    }
+
+    @Nonnull
+    public final T dataSubjectBusiness (@Nullable final Consumer <? super BusinessPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final BusinessPojo.Builder aBuilder = BusinessPojo.builder ();
+        a.accept (aBuilder);
+        dataSubject (aBuilder.build ());
+      }
       return thisAsT ();
     }
 
@@ -694,6 +719,18 @@ public class EDMRequest
     }
 
     @Nonnull
+    public final T dataSubjectPerson (@Nullable final Consumer <? super PersonPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final PersonPojo.Builder aBuilder = PersonPojo.builder ();
+        a.accept (aBuilder);
+        dataSubject (aBuilder.build ());
+      }
+      return thisAsT ();
+    }
+
+    @Nonnull
     public final T dataSubject (@Nullable final CorePersonType a)
     {
       return dataSubject (a == null ? null : PersonPojo.builder (a));
@@ -710,6 +747,18 @@ public class EDMRequest
     {
       m_aDataSubjectLegalPerson = null;
       m_aDataSubjectNaturalPerson = a;
+      return thisAsT ();
+    }
+
+    @Nonnull
+    public final T authorizedRepresentative (@Nullable final Consumer <? super PersonPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final PersonPojo.Builder aBuilder = PersonPojo.builder ();
+        a.accept (aBuilder);
+        authorizedRepresentative (aBuilder.build ());
+      }
       return thisAsT ();
     }
 
@@ -773,6 +822,18 @@ public class EDMRequest
     }
 
     @Nonnull
+    public final BuilderConcept addConcept (@Nullable final Consumer <? super ConceptPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final ConceptPojo.Builder aBuilder = ConceptPojo.builder ();
+        a.accept (aBuilder);
+        addConcept (aBuilder.build ());
+      }
+      return this;
+    }
+
+    @Nonnull
     public BuilderConcept addConcept (@Nullable final CCCEVConceptType a)
     {
       return addConcept (a == null ? null : ConceptPojo.builder (a));
@@ -789,6 +850,18 @@ public class EDMRequest
     {
       if (a != null)
         m_aConcepts.add (a);
+      return this;
+    }
+
+    @Nonnull
+    public final BuilderConcept concept (@Nullable final Consumer <? super ConceptPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final ConceptPojo.Builder aBuilder = ConceptPojo.builder ();
+        a.accept (aBuilder);
+        concept (aBuilder.build ());
+      }
       return this;
     }
 
@@ -876,6 +949,18 @@ public class EDMRequest
     }
 
     @Nonnull
+    public final BuilderDocumentsByDistribution addDistribution (@Nullable final Consumer <? super DistributionPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final DistributionPojo.Builder aBuilder = DistributionPojo.builder ();
+        a.accept (aBuilder);
+        addDistribution (aBuilder.build ());
+      }
+      return this;
+    }
+
+    @Nonnull
     public BuilderDocumentsByDistribution addDistribution (@Nullable final DCatAPDistributionType a)
     {
       return addDistribution (a == null ? null : DistributionPojo.builder (a));
@@ -892,6 +977,18 @@ public class EDMRequest
     {
       if (a != null)
         m_aDistributions.add (a);
+      return this;
+    }
+
+    @Nonnull
+    public final BuilderDocumentsByDistribution distribution (@Nullable final Consumer <? super DistributionPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final DistributionPojo.Builder aBuilder = DistributionPojo.builder ();
+        a.accept (aBuilder);
+        distribution (aBuilder.build ());
+      }
       return this;
     }
 
@@ -1169,8 +1266,8 @@ public class EDMRequest
     aBuilder.id (aQueryRequest.getId ());
 
     // Top level slots
-    for (final SlotType slot : aQueryRequest.getSlot ())
-      _applySlots (slot, aBuilder);
+    for (final SlotType aSlot : aQueryRequest.getSlot ())
+      _applySlots (aSlot, aBuilder);
 
     // Query slots
     for (final SlotType aSlot : aQuery.getSlot ())

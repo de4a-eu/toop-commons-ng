@@ -423,6 +423,18 @@ public class EDMResponse
     }
 
     @Nonnull
+    public final T dataProvider (@Nullable final Consumer <? super AgentPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final AgentPojo.Builder aBuilder = AgentPojo.builder ();
+        a.accept (aBuilder);
+        dataProvider (aBuilder.build ());
+      }
+      return thisAsT ();
+    }
+
+    @Nonnull
     public final T dataProvider (@Nullable final AgentPojo.Builder a)
     {
       return dataProvider (a == null ? null : a.build ());
@@ -494,6 +506,18 @@ public class EDMResponse
     }
 
     @Nonnull
+    public final BuilderConcept addConcept (@Nullable final Consumer <? super ConceptPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final ConceptPojo.Builder aBuilder = ConceptPojo.builder ();
+        a.accept (aBuilder);
+        addConcept (aBuilder.build ());
+      }
+      return this;
+    }
+
+    @Nonnull
     public BuilderConcept addConcept (@Nullable final CCCEVConceptType a)
     {
       return addConcept (a == null ? null : ConceptPojo.builder (a));
@@ -510,6 +534,18 @@ public class EDMResponse
     {
       if (a != null)
         m_aConcepts.add (a);
+      return this;
+    }
+
+    @Nonnull
+    public final BuilderConcept concept (@Nullable final Consumer <? super ConceptPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final ConceptPojo.Builder aBuilder = ConceptPojo.builder ();
+        a.accept (aBuilder);
+        concept (aBuilder.build ());
+      }
       return this;
     }
 
@@ -629,6 +665,19 @@ public class EDMResponse
     }
 
     @Nonnull
+    public BuilderDocument responseObject (@Nonnull final Consumer <? super ResponseDocumentPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        // RegistryObject ID not relevant for inline responses
+        final ResponseDocumentPojo.Builder aBuilder = ResponseDocumentPojo.builder ().randomRegistryObjectID ();
+        a.accept (aBuilder);
+        responseObject (aBuilder);
+      }
+      return this;
+    }
+
+    @Nonnull
     public BuilderDocument responseObject (@Nullable final ExtrinsicObjectType a)
     {
       return responseObject (a == null ? null : ResponseDocumentPojo.builder (a));
@@ -728,6 +777,18 @@ public class EDMResponse
     {
       if (a != null)
         m_aResponseObjects.add (a);
+      return this;
+    }
+
+    @Nonnull
+    public BuilderDocumentReference responseObject (@Nonnull final Consumer <? super ResponseDocumentReferencePojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final ResponseDocumentReferencePojo.Builder aBuilder = ResponseDocumentReferencePojo.builder ();
+        a.accept (aBuilder);
+        responseObject (aBuilder);
+      }
       return this;
     }
 

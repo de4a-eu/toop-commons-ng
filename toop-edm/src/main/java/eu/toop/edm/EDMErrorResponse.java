@@ -16,6 +16,7 @@
 package eu.toop.edm;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,7 +37,7 @@ import com.helger.commons.hashcode.HashCodeGenerator;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 
-import eu.toop.edm.error.EDMExceptionBuilder;
+import eu.toop.edm.error.EDMExceptionPojo;
 import eu.toop.edm.jaxb.cv.agent.AgentType;
 import eu.toop.edm.model.AgentPojo;
 import eu.toop.edm.slot.SlotErrorProvider;
@@ -73,13 +74,13 @@ public class EDMErrorResponse
   private final String m_sRequestID;
   private final String m_sSpecificationIdentifier;
   private final AgentType m_aErrorProvider;
-  private final ICommonsList <RegistryExceptionType> m_aExceptions = new CommonsArrayList <> ();
+  private final ICommonsList <EDMExceptionPojo> m_aExceptions = new CommonsArrayList <> ();
 
   protected EDMErrorResponse (@Nonnull final ERegRepResponseStatus eResponseStatus,
                               @Nonnull @Nonempty final String sRequestID,
                               @Nonnull @Nonempty final String sSpecificationIdentifier,
                               @Nullable final AgentType aErrorProvider,
-                              @Nonnull @Nonempty final ICommonsList <RegistryExceptionType> aExceptions)
+                              @Nonnull @Nonempty final ICommonsList <EDMExceptionPojo> aExceptions)
   {
     ValueEnforcer.notNull (eResponseStatus, "ResponseStatus");
     ValueEnforcer.isTrue (eResponseStatus == ERegRepResponseStatus.SUCCESS ||
@@ -124,7 +125,7 @@ public class EDMErrorResponse
 
   @Nonnull
   @Nonempty
-  public final List <RegistryExceptionType> exceptions ()
+  public final List <EDMExceptionPojo> exceptions ()
   {
     return m_aExceptions;
   }
@@ -132,7 +133,7 @@ public class EDMErrorResponse
   @Nonnull
   @Nonempty
   @ReturnsMutableCopy
-  public final List <RegistryExceptionType> getAllExceptions ()
+  public final List <EDMExceptionPojo> getAllExceptions ()
   {
     return m_aExceptions.getClone ();
   }
@@ -160,7 +161,8 @@ public class EDMErrorResponse
         ret.addSlot (aSP.createSlot ());
     }
 
-    ret.getException ().addAll (m_aExceptions);
+    for (final EDMExceptionPojo aItem : m_aExceptions)
+      ret.addException (aItem.getAsRegistryException ());
 
     return ret;
   }
@@ -252,7 +254,7 @@ public class EDMErrorResponse
     private String m_sRequestID;
     private String m_sSpecificationIdentifier;
     private AgentType m_aErrorProvider;
-    private final ICommonsList <RegistryExceptionType> m_aExceptions = new CommonsArrayList <> ();
+    private final ICommonsList <EDMExceptionPojo> m_aExceptions = new CommonsArrayList <> ();
 
     public Builder ()
     {}
@@ -279,6 +281,18 @@ public class EDMErrorResponse
     }
 
     @Nonnull
+    public final Builder errorProvider (@Nullable final Consumer <? super AgentPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final AgentPojo.Builder aBuilder = AgentPojo.builder ();
+        a.accept (aBuilder);
+        errorProvider (aBuilder.build ());
+      }
+      return this;
+    }
+
+    @Nonnull
     public Builder errorProvider (@Nullable final AgentPojo.Builder a)
     {
       return errorProvider (a == null ? null : a.build ());
@@ -298,13 +312,31 @@ public class EDMErrorResponse
     }
 
     @Nonnull
-    public Builder addException (@Nullable final EDMExceptionBuilder a)
+    public final Builder addException (@Nullable final Consumer <? super EDMExceptionPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final EDMExceptionPojo.Builder aBuilder = EDMExceptionPojo.builder ();
+        a.accept (aBuilder);
+        addException (aBuilder.build ());
+      }
+      return this;
+    }
+
+    @Nonnull
+    public Builder addException (@Nullable final RegistryExceptionType a)
+    {
+      return addException (a == null ? null : EDMExceptionPojo.builder (a));
+    }
+
+    @Nonnull
+    public Builder addException (@Nullable final EDMExceptionPojo.Builder a)
     {
       return addException (a == null ? null : a.build ());
     }
 
     @Nonnull
-    public Builder addException (@Nullable final RegistryExceptionType a)
+    public Builder addException (@Nullable final EDMExceptionPojo a)
     {
       if (a != null)
         m_aExceptions.add (a);
@@ -312,13 +344,31 @@ public class EDMErrorResponse
     }
 
     @Nonnull
-    public Builder exception (@Nullable final EDMExceptionBuilder a)
+    public final Builder exception (@Nullable final Consumer <? super EDMExceptionPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final EDMExceptionPojo.Builder aBuilder = EDMExceptionPojo.builder ();
+        a.accept (aBuilder);
+        exception (aBuilder.build ());
+      }
+      return this;
+    }
+
+    @Nonnull
+    public Builder exception (@Nullable final EDMExceptionPojo.Builder a)
     {
       return exception (a == null ? null : a.build ());
     }
 
     @Nonnull
     public Builder exception (@Nullable final RegistryExceptionType a)
+    {
+      return exception (a == null ? null : EDMExceptionPojo.builder (a));
+    }
+
+    @Nonnull
+    public Builder exception (@Nullable final EDMExceptionPojo a)
     {
       if (a != null)
         m_aExceptions.set (a);
@@ -328,14 +378,14 @@ public class EDMErrorResponse
     }
 
     @Nonnull
-    public Builder exceptions (@Nullable final RegistryExceptionType... a)
+    public Builder exceptions (@Nullable final EDMExceptionPojo... a)
     {
       m_aExceptions.setAll (a);
       return this;
     }
 
     @Nonnull
-    public Builder exceptions (@Nullable final Iterable <? extends RegistryExceptionType> a)
+    public Builder exceptions (@Nullable final Iterable <? extends EDMExceptionPojo> a)
     {
       m_aExceptions.setAll (a);
       return this;
@@ -400,10 +450,12 @@ public class EDMErrorResponse
                                                               .responseStatus (ERegRepResponseStatus.getFromIDOrNull (aQueryResponse.getStatus ()))
                                                               .requestID (aQueryResponse.getRequestId ());
 
-    for (final SlotType s : aQueryResponse.getSlot ())
-      _applySlots (s, aBuilder);
+    for (final SlotType aSlot : aQueryResponse.getSlot ())
+      _applySlots (aSlot, aBuilder);
 
-    aBuilder.exceptions (aQueryResponse.getException ());
+    for (final RegistryExceptionType aEx : aQueryResponse.getException ())
+      aBuilder.addException (aEx);
+
     return aBuilder.build ();
   }
 }

@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -403,6 +404,18 @@ public class DatasetPojo
     }
 
     @Nonnull
+    public Builder distribution (@Nonnull final Consumer <? super DocumentReferencePojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final DocumentReferencePojo.Builder aBuilder = DocumentReferencePojo.builder ();
+        a.accept (aBuilder);
+        distribution (aBuilder);
+      }
+      return this;
+    }
+
+    @Nonnull
     public Builder distribution (@Nullable final DocumentReferencePojo.Builder a)
     {
       return distribution (a == null ? null : a.build ());
@@ -419,6 +432,18 @@ public class DatasetPojo
     public Builder distribution (@Nullable final CCCEVDocumentReferenceType a)
     {
       return distribution (a == null ? null : DocumentReferencePojo.builder (a));
+    }
+
+    @Nonnull
+    public Builder creator (@Nonnull final Consumer <? super AgentPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final AgentPojo.Builder aBuilder = AgentPojo.builder ();
+        a.accept (aBuilder);
+        creator (aBuilder);
+      }
+      return this;
     }
 
     @Nonnull
@@ -544,6 +569,18 @@ public class DatasetPojo
     }
 
     @Nonnull
+    public Builder addQualifiedRelation (@Nonnull final Consumer <? super QualifiedRelationPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final QualifiedRelationPojo.Builder aBuilder = QualifiedRelationPojo.builder ();
+        a.accept (aBuilder);
+        addQualifiedRelation (aBuilder);
+      }
+      return this;
+    }
+
+    @Nonnull
     public Builder addQualifiedRelation (@Nullable final QualifiedRelationPojo.Builder a)
     {
       return addQualifiedRelation (a == null ? null : a.build ());
@@ -561,6 +598,18 @@ public class DatasetPojo
     public Builder addQualifiedRelation (@Nullable final DCatAPRelationshipType a)
     {
       return addQualifiedRelation (a == null ? null : QualifiedRelationPojo.builder (a));
+    }
+
+    @Nonnull
+    public Builder qualifiedRelation (@Nonnull final Consumer <? super QualifiedRelationPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final QualifiedRelationPojo.Builder aBuilder = QualifiedRelationPojo.builder ();
+        a.accept (aBuilder);
+        qualifiedRelation (aBuilder);
+      }
+      return this;
     }
 
     @Nonnull

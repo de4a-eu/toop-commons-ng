@@ -14,7 +14,9 @@ Work in progress
 * Updated the Schematron rules
 * A new response object layout was introduced: list of RegRep `ObjectRef`s - it's referred to as "DocumentRef" internally
 * The `EDMRequest` has a new mandatory property: "ResponseOption" - this determines if the payload is contained in the response or referenced
-* `EDMResponse` now has explicit builder classes depending on the result layout: `EDMResponse.ConceptBuilder`, `EDMResponse.DocumentBuilder` and `EDMResponse.DocumentRefBuilder`
+* `EDMRequest` now has explicit builder classes depending on the request type: `EDMRequest.BuilderConcept` , `EDMRequest.BuilderDocumentsByDistribution` and `EDMRequest.BuilderDocumentByID`
+* `EDMResponse` now has explicit builder classes depending on the result layout: `EDMResponse.BuilderConcept`, `EDMResponse.BuilderDocument` and `EDMResponse.BuilderDocumentReference`
+* `EDMExceptionBuilder` was renamed to `EDMExceptionPojo` and now has a separate `builder()` method like the other Pojos
 
 2020-05-12: release of `v2.0.0-beta2`
 * Changed the main EDM classes for request, response and error response to `EDMRequest`, `EDMResponse` and `EDMErrorResponse`
@@ -52,3 +54,7 @@ Afterwards don't forget to add the following paths to your build path (in your I
 * toop-edm/target/generated-sources/xjc
 
 Note: the `toop-codelist-tools` is for internal usage only.
+
+## Side nodes
+
+If you wander what "Pojo" means - it is very simple and stands for "Plain Old Java Object".

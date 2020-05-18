@@ -24,6 +24,7 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -331,6 +332,18 @@ public class ConceptValuePojo
     }
 
     @Nonnull
+    public Builder amount (@Nonnull final Consumer <? super AmountPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final AmountPojo.Builder aBuilder = AmountPojo.builder ();
+        a.accept (aBuilder);
+        amount (aBuilder);
+      }
+      return this;
+    }
+
+    @Nonnull
     public Builder amount (@Nullable final BigDecimal aValue, @Nullable final String sCurrencyID)
     {
       return amount (new AmountPojo (aValue, sCurrencyID));
@@ -389,6 +402,18 @@ public class ConceptValuePojo
     }
 
     @Nonnull
+    public Builder measure (@Nonnull final Consumer <? super MeasurePojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final MeasurePojo.Builder aBuilder = MeasurePojo.builder ();
+        a.accept (aBuilder);
+        measure (aBuilder);
+      }
+      return this;
+    }
+
+    @Nonnull
     public Builder measure (@Nullable final MeasurePojo.Builder a)
     {
       return measure (a == null ? null : a.build ());
@@ -427,6 +452,18 @@ public class ConceptValuePojo
     }
 
     @Nonnull
+    public Builder period (@Nonnull final Consumer <? super PeriodPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final PeriodPojo.Builder aBuilder = PeriodPojo.builder ();
+        a.accept (aBuilder);
+        period (aBuilder);
+      }
+      return this;
+    }
+
+    @Nonnull
     public Builder period (@Nullable final PeriodPojo.Builder a)
     {
       return period (a == null ? null : a.build ());
@@ -443,6 +480,18 @@ public class ConceptValuePojo
     public Builder quantity (@Nullable final BigDecimal aValue, @Nullable final String sUnitCode)
     {
       return quantity (new QuantityPojo (aValue, sUnitCode));
+    }
+
+    @Nonnull
+    public Builder quantity (@Nonnull final Consumer <? super QuantityPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final QuantityPojo.Builder aBuilder = QuantityPojo.builder ();
+        a.accept (aBuilder);
+        quantity (aBuilder);
+      }
+      return this;
     }
 
     @Nonnull

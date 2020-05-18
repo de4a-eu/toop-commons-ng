@@ -58,21 +58,18 @@ public final class BusinessPojoTest
   @Test
   public void testBasic ()
   {
-    final AddressPojo a = AddressPojo.builder ()
-                                     .fullAddress ("FullAddress")
-                                     .streetName ("StreetName")
-                                     .buildingNumber ("BuildingNumber")
-                                     .town ("Town")
-                                     .postalCode ("PostalCode")
-                                     .countryCode ("CountryCode")
-                                     .build ();
     final BusinessPojo x = BusinessPojo.builder ()
                                        .legalID ("LegalID")
                                        .legalIDSchemeID ("LegalIDType")
                                        .id ("ID")
                                        .idSchemeID ("IDType")
                                        .legalName ("LegalName")
-                                       .address (a)
+                                       .address (y -> y.fullAddress ("FullAddress")
+                                                       .streetName ("StreetName")
+                                                       .buildingNumber ("BuildingNumber")
+                                                       .town ("Town")
+                                                       .postalCode ("PostalCode")
+                                                       .countryCode ("CountryCode"))
                                        .build ();
     _testWriteAndRead (x);
   }

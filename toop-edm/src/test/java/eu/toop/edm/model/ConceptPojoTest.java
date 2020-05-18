@@ -19,6 +19,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 
@@ -65,8 +66,8 @@ public final class ConceptPojoTest
     final ConceptPojo x = ConceptPojo.builder ()
                                      .id ("ConceptID-1")
                                      .name (NS, "CompanyData")
-                                     .addChild (ConceptPojo.builder ().id ("ConceptID-2").name (NS, "Concept-Name-2"))
-                                     .addChild (ConceptPojo.builder ().id ("ConceptID-3").name (NS, "Concept-Name-3"))
+                                     .addChild (y -> y.id ("ConceptID-2").name (NS, "Concept-Name-2"))
+                                     .addChild (y -> y.id ("ConceptID-3").name (NS, "Concept-Name-3"))
                                      .build ();
     _testWriteAndRead (x);
   }
@@ -78,12 +79,8 @@ public final class ConceptPojoTest
     final ConceptPojo x = ConceptPojo.builder ()
                                      .id ("ConceptID-1")
                                      .name (NS, "CompanyData")
-                                     .addChild (ConceptPojo.builder ()
-                                                           .id ("ConceptID-2")
-                                                           .name (EToopConcept.COMPANY_NAME))
-                                     .addChild (ConceptPojo.builder ()
-                                                           .id ("ConceptID-3")
-                                                           .name (EToopConcept.COMPANY_TYPE))
+                                     .addChild (y -> y.id ("ConceptID-2").name (EToopConcept.COMPANY_NAME))
+                                     .addChild (y -> y.id ("ConceptID-3").name (EToopConcept.COMPANY_TYPE))
                                      .build ();
     _testWriteAndRead (x);
   }
@@ -98,7 +95,7 @@ public final class ConceptPojoTest
   }
 
   @Nonnull
-  private static ConceptPojo.Builder _concept (final ConceptValuePojo.Builder aValue)
+  private static ConceptPojo.Builder _concept (final Consumer <? super ConceptValuePojo.Builder> aValue)
   {
     return _concept ().value (aValue);
   }
@@ -110,28 +107,23 @@ public final class ConceptPojoTest
     final ConceptPojo x = ConceptPojo.builder ()
                                      .id ("ConceptID-1")
                                      .name (NS, "CompanyData")
-                                     .addChild (_concept (ConceptValuePojo.builder ().identifier ("identifier")))
-                                     .addChild (_concept (ConceptValuePojo.builder ().amount (BigDecimal.TEN, "EUR")))
-                                     .addChild (_concept (ConceptValuePojo.builder ().code ("code")))
-                                     .addChild (_concept (ConceptValuePojo.builder ()
-                                                                          .date (PDTXMLConverter.getXMLCalendarDateNow ())))
-                                     .addChild (_concept (ConceptValuePojo.builder ().indicator (true)))
-                                     .addChild (_concept (ConceptValuePojo.builder ().measure (BigDecimal.ONE, "unit")))
-                                     .addChild (_concept (ConceptValuePojo.builder ().numeric (42)))
-                                     .addChild (_concept (ConceptValuePojo.builder ().numeric (4.2)))
-                                     .addChild (_concept (ConceptValuePojo.builder ()
-                                                                          .period (PDTFactory.getCurrentLocalDateTime ()
-                                                                                             .minusDays (1),
-                                                                                   PDTFactory.getCurrentLocalDateTime ()
-                                                                                             .plusDays (1))))
-                                     .addChild (_concept (ConceptValuePojo.builder ()
-                                                                          .quantity (BigDecimal.ONE.negate (), "qty")))
-                                     .addChild (_concept (ConceptValuePojo.builder ().text ("a", "b", "c")))
-                                     .addChild (_concept (ConceptValuePojo.builder ()
-                                                                          .time (PDTXMLConverter.getXMLCalendarTimeNow ())))
-                                     .addChild (_concept (ConceptValuePojo.builder ()
-                                                                          .uri (URLHelper.getAsURI ("http://toop.eu"))))
-                                     .addChild (_concept (ConceptValuePojo.builder ().errorCode ("who-cares")))
+                                     .addChild (_concept (y -> y.identifier ("identifier")))
+                                     .addChild (_concept (y -> y.amount (BigDecimal.TEN, "EUR")))
+                                     .addChild (_concept (y -> y.code ("code")))
+                                     .addChild (_concept (y -> y.date (PDTXMLConverter.getXMLCalendarDateNow ())))
+                                     .addChild (_concept (y -> y.indicator (true)))
+                                     .addChild (_concept (y -> y.measure (BigDecimal.ONE, "unit")))
+                                     .addChild (_concept (y -> y.numeric (42)))
+                                     .addChild (_concept (y -> y.numeric (4.2)))
+                                     .addChild (_concept (y -> y.period (PDTFactory.getCurrentLocalDateTime ()
+                                                                                   .minusDays (1),
+                                                                         PDTFactory.getCurrentLocalDateTime ()
+                                                                                   .plusDays (1))))
+                                     .addChild (_concept (y -> y.quantity (BigDecimal.ONE.negate (), "qty")))
+                                     .addChild (_concept (y -> y.text ("a", "b", "c")))
+                                     .addChild (_concept (y -> y.time (PDTXMLConverter.getXMLCalendarTimeNow ())))
+                                     .addChild (_concept (y -> y.uri (URLHelper.getAsURI ("http://toop.eu"))))
+                                     .addChild (_concept (y -> y.errorCode ("who-cares")))
 
                                      .addChild (_concept ().valueID ("identifier"))
                                      .addChild (_concept ().valueAmount (BigDecimal.TEN, "EUR"))

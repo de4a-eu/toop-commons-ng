@@ -242,13 +242,19 @@ public class ConceptPojo
     }
 
     @Nonnull
-    public Builder valueCode (@Nullable final AmountPojo.Builder a)
+    public Builder valueAmount (@Nonnull final Consumer <? super AmountPojo.Builder> a)
     {
       return value (ConceptValuePojo.builder ().amount (a));
     }
 
     @Nonnull
-    public Builder valueCode (@Nullable final AmountPojo a)
+    public Builder valueAmount (@Nullable final AmountPojo.Builder a)
+    {
+      return value (ConceptValuePojo.builder ().amount (a));
+    }
+
+    @Nonnull
+    public Builder valueAmount (@Nullable final AmountPojo a)
     {
       return value (ConceptValuePojo.builder ().amount (a));
     }
@@ -278,6 +284,12 @@ public class ConceptPojo
     }
 
     @Nonnull
+    public Builder valueMeasure (@Nonnull final Consumer <? super MeasurePojo.Builder> a)
+    {
+      return value (ConceptValuePojo.builder ().measure (a));
+    }
+
+    @Nonnull
     public Builder valueMeasure (@Nullable final MeasurePojo.Builder a)
     {
       return value (ConceptValuePojo.builder ().measure (a));
@@ -293,6 +305,12 @@ public class ConceptPojo
     public Builder valueMeasure (@Nullable final BigDecimal aValue, @Nullable final String sUnitCode)
     {
       return value (ConceptValuePojo.builder ().measure (aValue, sUnitCode));
+    }
+
+    @Nonnull
+    public Builder valuePeriod (@Nonnull final Consumer <? super PeriodPojo.Builder> a)
+    {
+      return value (ConceptValuePojo.builder ().period (a));
     }
 
     @Nonnull
@@ -329,6 +347,12 @@ public class ConceptPojo
     public Builder valueNumeric (@Nullable final BigDecimal a)
     {
       return value (ConceptValuePojo.builder ().numeric (a));
+    }
+
+    @Nonnull
+    public Builder valueQuantity (@Nonnull final Consumer <? super QuantityPojo.Builder> a)
+    {
+      return value (ConceptValuePojo.builder ().quantity (a));
     }
 
     @Nonnull
@@ -380,6 +404,18 @@ public class ConceptPojo
     }
 
     @Nonnull
+    public Builder value (@Nonnull final Consumer <? super ConceptValuePojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final ConceptValuePojo.Builder aBuilder = ConceptValuePojo.builder ();
+        a.accept (aBuilder);
+        value (aBuilder);
+      }
+      return this;
+    }
+
+    @Nonnull
     public Builder value (@Nullable final ConceptValuePojo.Builder a)
     {
       return value (a == null ? null : a.build ());
@@ -389,6 +425,18 @@ public class ConceptPojo
     public Builder value (@Nullable final ConceptValuePojo a)
     {
       m_aValue = a;
+      return this;
+    }
+
+    @Nonnull
+    public Builder addChild (@Nonnull final Consumer <? super ConceptPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final ConceptPojo.Builder aBuilder = ConceptPojo.builder ();
+        a.accept (aBuilder);
+        addChild (aBuilder);
+      }
       return this;
     }
 
@@ -409,6 +457,18 @@ public class ConceptPojo
     {
       if (a != null)
         m_aChildren.add (a);
+      return this;
+    }
+
+    @Nonnull
+    public Builder child (@Nonnull final Consumer <? super ConceptPojo.Builder> a)
+    {
+      if (a != null)
+      {
+        final ConceptPojo.Builder aBuilder = ConceptPojo.builder ();
+        a.accept (aBuilder);
+        child (aBuilder);
+      }
       return this;
     }
 

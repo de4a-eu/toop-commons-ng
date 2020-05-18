@@ -37,11 +37,7 @@ import com.helger.commons.mock.CommonsTestHelper;
 import com.helger.schematron.svrl.AbstractSVRLMessage;
 
 import eu.toop.edm.jaxb.cccev.CCCEVRequirementType;
-import eu.toop.edm.model.AddressPojo;
-import eu.toop.edm.model.AgentPojo;
 import eu.toop.edm.model.BusinessPojo;
-import eu.toop.edm.model.ConceptPojo;
-import eu.toop.edm.model.DistributionPojo;
 import eu.toop.edm.model.EDistributionFormat;
 import eu.toop.edm.model.EGenderCode;
 import eu.toop.edm.model.EResponseOptionType;
@@ -88,35 +84,29 @@ public final class EDMRequestTest
                    .issueDateTimeNow ()
                    .procedure (Locale.US, "GBM Procedure")
                    .addFullfillingRequirement (new CCCEVRequirementType ())
-                   .dataConsumer (AgentPojo.builder ()
-                                           .address (AddressPojo.builder ()
-                                                                .town ("MyTown")
-                                                                .streetName ("MyStreet")
-                                                                .buildingNumber ("22")
-                                                                .countryCode ("GR")
-                                                                .fullAddress ("MyStreet 22, 11134, MyTown, GR")
-                                                                .postalCode ("11134"))
-                                           .name ("DC NAME")
-                                           .id ("1234")
-                                           .idSchemeID ("VAT"))
-                   .authorizedRepresentative (PersonPojo.builder ()
-                                                        .address (AddressPojo.builder ()
-                                                                             .town ("MyTown")
-                                                                             .streetName ("MyStreet")
-                                                                             .buildingNumber ("22")
-                                                                             .countryCode ("GR")
-                                                                             .fullAddress ("MyStreet 22, 11134, MyTown, GR")
-                                                                             .postalCode ("11134"))
-                                                        .birthDate (PDTFactory.createLocalDate (1994,
-                                                                                                Month.FEBRUARY,
-                                                                                                1))
-                                                        .birthTown ("ATown")
-                                                        .birthName ("John Doe")
-                                                        .familyName ("Doe")
-                                                        .genderCode (EGenderCode.M)
-                                                        .givenName ("John")
-                                                        .id ("LALALA")
-                                                        .idSchemeID ("LALALA"))
+                   .dataConsumer (x -> x.address (y -> y.town ("MyTown")
+                                                        .streetName ("MyStreet")
+                                                        .buildingNumber ("22")
+                                                        .countryCode ("GR")
+                                                        .fullAddress ("MyStreet 22, 11134, MyTown, GR")
+                                                        .postalCode ("11134"))
+                                        .name ("DC NAME")
+                                        .id ("1234")
+                                        .idSchemeID ("VAT"))
+                   .authorizedRepresentative (x -> x.address (y -> y.town ("MyTown")
+                                                                    .streetName ("MyStreet")
+                                                                    .buildingNumber ("22")
+                                                                    .countryCode ("GR")
+                                                                    .fullAddress ("MyStreet 22, 11134, MyTown, GR")
+                                                                    .postalCode ("11134"))
+                                                    .birthDate (PDTFactory.createLocalDate (1994, Month.FEBRUARY, 1))
+                                                    .birthTown ("ATown")
+                                                    .birthName ("John Doe")
+                                                    .familyName ("Doe")
+                                                    .genderCode (EGenderCode.M)
+                                                    .givenName ("John")
+                                                    .id ("LALALA")
+                                                    .idSchemeID ("LALALA"))
                    .datasetIdentifier ("IdentifierForDatasets")
                    .specificationIdentifier ("SpecID")
                    .consentToken ("AAABBB");
@@ -125,26 +115,21 @@ public final class EDMRequestTest
   @Nonnull
   private static EDMRequest.BuilderConcept _reqConcept ()
   {
-    return _req (EDMRequest.builderConcept ()).concept (ConceptPojo.builder ()
-                                                                   .randomID ()
-                                                                   .name (EToopConcept.COMPANY_TYPE)
-                                                                   .addChild (ConceptPojo.builder ()
-                                                                                         .randomID ()
-                                                                                         .name (EToopConcept.COMPANY_NAME))
-                                                                   .addChild (ConceptPojo.builder ()
-                                                                                         .randomID ()
-                                                                                         .name (EToopConcept.COMPANY_CODE))
-                                                                   .addChild (ConceptPojo.builder ()
-                                                                                         .randomID ()
-                                                                                         .name (EToopConcept.COMPANY_TYPE)));
+    return _req (EDMRequest.builderConcept ()).concept (x -> x.randomID ()
+                                                              .name (EToopConcept.COMPANY_TYPE)
+                                                              .addChild (y -> y.randomID ()
+                                                                               .name (EToopConcept.COMPANY_NAME))
+                                                              .addChild (y -> y.randomID ()
+                                                                               .name (EToopConcept.COMPANY_CODE))
+                                                              .addChild (y -> y.randomID ()
+                                                                               .name (EToopConcept.COMPANY_TYPE)));
   }
 
   @Nonnull
   private static EDMRequest.BuilderDocumentsByDistribution _reqDocument ()
   {
-    return _req (EDMRequest.builderDocumentsByDistribution ()).distribution (DistributionPojo.builder ()
-                                                                                             .format (EDistributionFormat.STRUCTURED)
-                                                                                             .mediaType (CMimeType.APPLICATION_PDF));
+    return _req (EDMRequest.builderDocumentsByDistribution ()).distribution (x -> x.format (EDistributionFormat.STRUCTURED)
+                                                                                   .mediaType (CMimeType.APPLICATION_PDF));
   }
 
   @Nonnull
@@ -157,13 +142,12 @@ public final class EDMRequestTest
   private static PersonPojo.Builder _np ()
   {
     return PersonPojo.builder ()
-                     .address (AddressPojo.builder ()
-                                          .town ("MyTown")
-                                          .streetName ("MyStreet")
-                                          .buildingNumber ("22")
-                                          .countryCode ("GR")
-                                          .fullAddress ("MyStreet 22, 11134, MyTown, GR")
-                                          .postalCode ("11134"))
+                     .address (x -> x.town ("MyTown")
+                                     .streetName ("MyStreet")
+                                     .buildingNumber ("22")
+                                     .countryCode ("GR")
+                                     .fullAddress ("MyStreet 22, 11134, MyTown, GR")
+                                     .postalCode ("11134"))
                      .birthDate (PDTFactory.createLocalDate (1994, Month.FEBRUARY, 1))
                      .birthTown ("ATown")
                      .birthName ("John Doe")
@@ -178,13 +162,12 @@ public final class EDMRequestTest
   private static BusinessPojo.Builder _lp ()
   {
     return BusinessPojo.builder ()
-                       .address (AddressPojo.builder ()
-                                            .town ("MyTown")
-                                            .streetName ("MyStreet")
-                                            .buildingNumber ("22")
-                                            .countryCode ("GR")
-                                            .fullAddress ("MyStreet 22, 11134, MyTown, GR")
-                                            .postalCode ("11134"))
+                       .address (x -> x.town ("MyTown")
+                                       .streetName ("MyStreet")
+                                       .buildingNumber ("22")
+                                       .countryCode ("GR")
+                                       .fullAddress ("MyStreet 22, 11134, MyTown, GR")
+                                       .postalCode ("11134"))
                        .legalID ("Niar")
                        .legalIDSchemeID ("Tsiou")
                        .legalName ("NiarTsiou")

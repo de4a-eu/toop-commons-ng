@@ -15,64 +15,70 @@
  */
 package eu.toop.edm.error;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.annotation.Nonnull;
 
+import org.junit.Test;
+
+import com.helger.commons.mock.CommonsTestHelper;
+
+import eu.toop.regrep.RegRep4Reader;
 import eu.toop.regrep.RegRep4Writer;
-import eu.toop.regrep.rs.RegistryExceptionType;
 
 /**
- * Test class for class {@link EDMExceptionBuilder}.
+ * Test class for class {@link EDMExceptionPojo}.
  *
  * @author Philip Helger
  */
 public final class EDMExceptionBuilderTest
 {
-  private static final Logger LOGGER = LoggerFactory.getLogger (EDMExceptionBuilderTest.class);
+  private static void _testWriteAndRead (@Nonnull final EDMExceptionPojo aEx)
+  {
+    assertNotNull (aEx);
+
+    // Write
+    final byte [] aBytes = RegRep4Writer.registryException ().getAsBytes (aEx.getAsRegistryException ());
+    assertNotNull (aBytes);
+
+    // Re-read
+    final EDMExceptionPojo aResp2 = EDMExceptionPojo.builder (RegRep4Reader.registryException ().read (aBytes))
+                                                    .build ();
+    assertNotNull (aResp2);
+
+    // Compare with original
+    assertEquals (aEx, aResp2);
+    CommonsTestHelper.testDefaultImplementationWithEqualContentObject (aEx, aResp2);
+  }
 
   @Test
   public void testBasic ()
   {
-    for (final EEDMExceptionType e : EEDMExceptionType.values ())
+    for (final EEDMExceptionType eType : EEDMExceptionType.values ())
     {
-      final EDMExceptionBuilder b = new EDMExceptionBuilder ().exceptionType (e)
-                                                              .errorCode ("ec1")
-                                                              .errorDetail ("Stacktrace")
-                                                              .errorMessage ("What went wrong: nothing")
-                                                              .severity (EToopErrorSeverity.FAILURE)
-                                                              .timestampNow ()
-                                                              .errorOrigin (EToopErrorOrigin.RESPONSE_RECEPTION);
-      final RegistryExceptionType aEx = b.build ();
-      assertNotNull (aEx);
-
-      final RegRep4Writer <RegistryExceptionType> aWriter = RegRep4Writer.registryException ()
-                                                                         .setFormattedOutput (true);
-      final String sXML = aWriter.getAsString (aEx);
-      assertNotNull (sXML);
-
-      if (false)
-        LOGGER.info (sXML);
+      final EDMExceptionPojo aEx = EDMExceptionPojo.builder ()
+                                                   .exceptionType (eType)
+                                                   .errorCode ("ec1")
+                                                   .errorDetail ("Stacktrace")
+                                                   .errorMessage ("What went wrong: nothing")
+                                                   .severity (EToopErrorSeverity.FAILURE)
+                                                   .timestampNow ()
+                                                   .errorOrigin (EToopErrorOrigin.RESPONSE_RECEPTION)
+                                                   .build ();
+      _testWriteAndRead (aEx);
     }
   }
 
   @Test
   public void testMinimum ()
   {
-    final EDMExceptionBuilder b = new EDMExceptionBuilder ().exceptionType (EEDMExceptionType.OBJECT_NOT_FOUND)
-                                                            .severityFailure ()
-                                                            .errorMessage ("What went wrong: nothing")
-                                                            .timestampNow ();
-    final RegistryExceptionType aEx = b.build ();
-    assertNotNull (aEx);
-
-    final RegRep4Writer <RegistryExceptionType> aWriter = RegRep4Writer.registryException ().setFormattedOutput (true);
-    final String sXML = aWriter.getAsString (aEx);
-    assertNotNull (sXML);
-
-    if (true)
-      LOGGER.info (sXML);
+    final EDMExceptionPojo aEx = EDMExceptionPojo.builder ()
+                                                 .exceptionType (EEDMExceptionType.OBJECT_NOT_FOUND)
+                                                 .severityFailure ()
+                                                 .errorMessage ("What went wrong: nothing")
+                                                 .timestampNow ()
+                                                 .build ();
+    _testWriteAndRead (aEx);
   }
 }

@@ -55,13 +55,12 @@ public final class AgentPojoTest
                                  .id ("ID")
                                  .idSchemeID ("IDType")
                                  .name ("Name")
-                                 .address (AddressPojo.builder ()
-                                                      .fullAddress ("FullAddress")
-                                                      .streetName ("StreetName")
-                                                      .buildingNumber ("BuildingNumber")
-                                                      .town ("Town")
-                                                      .postalCode ("PostalCode")
-                                                      .countryCode ("CountryCode"))
+                                 .address (y -> y.fullAddress ("FullAddress")
+                                                 .streetName ("StreetName")
+                                                 .buildingNumber ("BuildingNumber")
+                                                 .town ("Town")
+                                                 .postalCode ("PostalCode")
+                                                 .countryCode ("CountryCode"))
                                  .build ();
     _testWriteAndRead (x);
   }

@@ -35,15 +35,9 @@ import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.commons.mock.CommonsTestHelper;
 import com.helger.schematron.svrl.AbstractSVRLMessage;
 
-import eu.toop.edm.model.AddressPojo;
-import eu.toop.edm.model.AgentPojo;
 import eu.toop.edm.model.ConceptPojo;
 import eu.toop.edm.model.DatasetPojo;
-import eu.toop.edm.model.DocumentReferencePojo;
-import eu.toop.edm.model.QualifiedRelationPojo;
-import eu.toop.edm.model.RepositoryItemRefPojo;
 import eu.toop.edm.pilot.gbm.EToopConcept;
-import eu.toop.edm.response.ResponseDocumentReferencePojo;
 import eu.toop.edm.schematron.SchematronEDM2Validator;
 import eu.toop.regrep.ERegRepResponseStatus;
 
@@ -82,17 +76,15 @@ public final class EDMResponseTest
   {
     return aBuilder.requestID (UUID.randomUUID ())
                    .issueDateTimeNow ()
-                   .dataProvider (AgentPojo.builder ()
-                                           .address (AddressPojo.builder ()
-                                                                .town ("MyTown")
-                                                                .streetName ("MyStreet")
-                                                                .buildingNumber ("22")
-                                                                .countryCode ("GR")
-                                                                .fullAddress ("MyStreet 22, 11134, MyTown, GR")
-                                                                .postalCode ("11134"))
-                                           .name ("DP NAME")
-                                           .id ("1234")
-                                           .idSchemeID ("VAT"))
+                   .dataProvider (x -> x.address (y -> y.town ("MyTown")
+                                                        .streetName ("MyStreet")
+                                                        .buildingNumber ("22")
+                                                        .countryCode ("GR")
+                                                        .fullAddress ("MyStreet 22, 11134, MyTown, GR")
+                                                        .postalCode ("11134"))
+                                        .name ("DP NAME")
+                                        .id ("1234")
+                                        .idSchemeID ("VAT"))
                    .responseStatus (ERegRepResponseStatus.SUCCESS)
                    .specificationIdentifier ("Niar");
   }
@@ -100,23 +92,19 @@ public final class EDMResponseTest
   @Nonnull
   private static EDMResponse.BuilderConcept _respConcept ()
   {
-    return _resp (EDMResponse.builderConcept ()).concept (ConceptPojo.builder ()
-                                                                     .id ("ConceptID-1")
-                                                                     .name (EToopConcept.REGISTERED_ORGANIZATION)
-                                                                     .addChild (ConceptPojo.builder ()
-                                                                                           .randomID ()
-                                                                                           .name (EToopConcept.COMPANY_NAME)
-                                                                                           .valueText ("Helger Enterprises"))
-                                                                     .addChild (ConceptPojo.builder ()
-                                                                                           .randomID ()
-                                                                                           .name (EToopConcept.FAX_NUMBER)
-                                                                                           .valueText ("342342424"))
-                                                                     .addChild (ConceptPojo.builder ()
-                                                                                           .randomID ()
-                                                                                           .name (EToopConcept.FOUNDATION_DATE)
-                                                                                           .valueDate (PDTFactory.createLocalDate (1960,
-                                                                                                                                   Month.AUGUST,
-                                                                                                                                   12))));
+    return _resp (EDMResponse.builderConcept ()).concept (x -> x.id ("ConceptID-1")
+                                                                .name (EToopConcept.REGISTERED_ORGANIZATION)
+                                                                .addChild (y -> y.randomID ()
+                                                                                 .name (EToopConcept.COMPANY_NAME)
+                                                                                 .valueText ("Helger Enterprises"))
+                                                                .addChild (y -> y.randomID ()
+                                                                                 .name (EToopConcept.FAX_NUMBER)
+                                                                                 .valueText ("342342424"))
+                                                                .addChild (y -> y.randomID ()
+                                                                                 .name (EToopConcept.FOUNDATION_DATE)
+                                                                                 .valueDate (PDTFactory.createLocalDate (1960,
+                                                                                                                         Month.AUGUST,
+                                                                                                                         12))));
   }
 
   @Nonnull
@@ -125,41 +113,33 @@ public final class EDMResponseTest
     return DatasetPojo.builder ()
                       .description ("bla desc")
                       .title ("bla title")
-                      .distribution (DocumentReferencePojo.builder ()
-                                                          .documentURI ("URI")
-                                                          .documentDescription ("DocumentDescription")
-                                                          .documentType ("docType")
-                                                          .localeCode ("GR"))
-                      .creator (AgentPojo.builder ()
-                                         .name ("Agent name")
-                                         .address (AddressPojo.builder ().town ("Kewlkidshome")))
+                      .distribution (x -> x.documentURI ("URI")
+                                           .documentDescription ("DocumentDescription")
+                                           .documentType ("docType")
+                                           .localeCode ("GR"))
+                      .creator (x -> x.name ("Agent name").address (y -> y.town ("Kewlkidshome")))
                       .ids ("RE238918378", "DOC-555")
                       .issuedNow ()
                       .language ("en")
                       .lastModifiedNow ()
                       .validFrom (PDTFactory.getCurrentLocalDate ().minusMonths (1))
                       .validTo (PDTFactory.getCurrentLocalDate ().plusYears (1))
-                      .qualifiedRelation (QualifiedRelationPojo.builder ()
-                                                               .description ("LegalResourceDesc")
-                                                               .title ("Name")
-                                                               .id ("RE238918378"));
+                      .qualifiedRelation (x -> x.description ("LegalResourceDesc").title ("Name").id ("RE238918378"));
   }
 
   @Nonnull
   private static EDMResponse.BuilderDocument _respDocument ()
   {
     return _resp (EDMResponse.builderDocument ()).addResponseObject (x -> x.dataset (_dataset ())
-                                                                           .repositoryItemRef (RepositoryItemRefPojo.builder ()
-                                                                                                                    .title ("Evidence.pdf")
-                                                                                                                    .link ("https://www.example.com/evidence.pdf")));
+                                                                           .repositoryItemRef (y -> y.title ("Evidence.pdf")
+                                                                                                     .link ("https://www.example.com/evidence.pdf")));
   }
 
   @Nonnull
   private static EDMResponse.BuilderDocumentReference _respDocumentRef ()
   {
-    return _resp (EDMResponse.builderDocumentReference ()).addResponseObject (ResponseDocumentReferencePojo.builder ()
-                                                                                                           .randomRegistryObjectID ()
-                                                                                                           .dataset (_dataset ()))
+    return _resp (EDMResponse.builderDocumentReference ()).addResponseObject (x -> x.randomRegistryObjectID ()
+                                                                                    .dataset (_dataset ()))
                                                           .addResponseObject (x -> x.randomRegistryObjectID ()
                                                                                     .dataset (_dataset ()));
   }
