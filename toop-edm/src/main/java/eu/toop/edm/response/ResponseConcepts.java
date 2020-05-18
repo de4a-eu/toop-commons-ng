@@ -40,12 +40,12 @@ import eu.toop.regrep.rim.ObjectRefType;
  *
  * @author Philip Helger
  */
-public class EDMResponsePayloadConcepts implements IEDMResponsePayloadProvider
+public class ResponseConcepts implements IEDMResponsePayloadProvider
 {
   private final String m_sRegistryObjectID;
   private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
 
-  public EDMResponsePayloadConcepts (@Nonnull @Nonempty final String sRegistryObjectID,
+  public ResponseConcepts (@Nonnull @Nonempty final String sRegistryObjectID,
                                     @Nullable final ICommonsList <ConceptPojo> aConcepts)
   {
     ValueEnforcer.notEmpty (sRegistryObjectID, "RegistryObjectID");
@@ -101,7 +101,7 @@ public class EDMResponsePayloadConcepts implements IEDMResponsePayloadProvider
       return true;
     if (o == null || !getClass ().equals (o.getClass ()))
       return false;
-    final EDMResponsePayloadConcepts rhs = (EDMResponsePayloadConcepts) o;
+    final ResponseConcepts rhs = (ResponseConcepts) o;
     return EqualsHelper.equals (m_sRegistryObjectID, rhs.m_sRegistryObjectID) &&
            EqualsHelper.equals (m_aConcepts, rhs.m_aConcepts);
   }
