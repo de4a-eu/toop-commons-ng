@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.time.Month;
 import java.util.Locale;
@@ -128,7 +127,7 @@ public final class EDMRequestTest
   }
 
   @Nonnull
-  private static EDMRequest.Builder _reqConcept ()
+  private static EDMRequest.BuilderConcept _reqConcept ()
   {
     return _req (EDMRequest.builderConcept ()).queryDefinition (EQueryDefinitionType.CONCEPT)
                                               .concept (ConceptPojo.builder ()
@@ -146,7 +145,7 @@ public final class EDMRequestTest
   }
 
   @Nonnull
-  private static EDMRequest.Builder _reqDocument ()
+  private static EDMRequest.BuilderDocumentByDistribution _reqDocument ()
   {
     return _req (EDMRequest.builderDocument ()).queryDefinition (EQueryDefinitionType.DOCUMENT)
                                                .distribution (DistributionPojo.builder ()
@@ -218,25 +217,6 @@ public final class EDMRequestTest
   {
     final EDMRequest aRequest = _reqDocument ().dataSubject (_np ()).build ();
     _testWriteAndRead (aRequest);
-  }
-
-  public void createInvalidEDMRequest ()
-  {
-    try
-    {
-      // This attempts to create an EDMRequest with both concept and
-      // distribution which is not permitted and fails
-      _reqConcept ().dataSubject (_np ())
-                    .distribution (DistributionPojo.builder ()
-                                                   .format (EDistributionFormat.STRUCTURED)
-                                                   .mediaType (CMimeType.APPLICATION_PDF))
-                    .build ();
-      fail ();
-    }
-    catch (final IllegalStateException ex)
-    {
-      // Expected
-    }
   }
 
   @Test

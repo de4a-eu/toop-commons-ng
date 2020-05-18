@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.time.Month;
 import java.util.Locale;
@@ -124,7 +123,7 @@ public final class EDMRequestTest
   }
 
   @Nonnull
-  private static EDMRequest.Builder _reqConcept ()
+  private static EDMRequest.BuilderConcept _reqConcept ()
   {
     return _req (EDMRequest.builderConcept ()).concept (ConceptPojo.builder ()
                                                                    .randomID ()
@@ -141,7 +140,7 @@ public final class EDMRequestTest
   }
 
   @Nonnull
-  private static EDMRequest.Builder _reqDocument ()
+  private static EDMRequest.BuilderDocumentByDistribution _reqDocument ()
   {
     return _req (EDMRequest.builderDocumentsByDistribution ()).distribution (DistributionPojo.builder ()
                                                                                              .format (EDistributionFormat.STRUCTURED)
@@ -149,7 +148,7 @@ public final class EDMRequestTest
   }
 
   @Nonnull
-  private static EDMRequest.Builder _reqDocumentByID ()
+  private static EDMRequest.BuilderDocumentByID _reqDocumentByID ()
   {
     return _req (EDMRequest.builderDocumentByID ()).documentID (UUID.randomUUID ().toString ());
   }
@@ -241,25 +240,6 @@ public final class EDMRequestTest
                                                .responseOption (EResponseOptionType.REFERENCED)
                                                .build ();
     _testWriteAndRead (aRequest);
-  }
-
-  public void createInvalidEDMRequest ()
-  {
-    try
-    {
-      // This attempts to create an EDMRequest with both concept and
-      // distribution which is not permitted and fails
-      _reqConcept ().dataSubject (_np ())
-                    .distribution (DistributionPojo.builder ()
-                                                   .format (EDistributionFormat.STRUCTURED)
-                                                   .mediaType (CMimeType.APPLICATION_PDF))
-                    .build ();
-      fail ();
-    }
-    catch (final IllegalStateException ex)
-    {
-      // Expected
-    }
   }
 
   @Test

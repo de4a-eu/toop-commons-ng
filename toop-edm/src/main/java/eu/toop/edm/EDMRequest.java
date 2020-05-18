@@ -34,7 +34,6 @@ import com.helger.commons.annotation.DevelopersNote;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.annotation.ReturnsMutableObject;
-import com.helger.commons.collection.CollectionHelper;
 import com.helger.commons.collection.impl.CommonsArrayList;
 import com.helger.commons.collection.impl.CommonsHashSet;
 import com.helger.commons.collection.impl.CommonsLinkedHashMap;
@@ -64,6 +63,10 @@ import eu.toop.edm.model.DistributionPojo;
 import eu.toop.edm.model.EQueryDefinitionType;
 import eu.toop.edm.model.EResponseOptionType;
 import eu.toop.edm.model.PersonPojo;
+import eu.toop.edm.request.EDMRequestPayloadConcept;
+import eu.toop.edm.request.EDMRequestPayloadDistribution;
+import eu.toop.edm.request.EDMRequestPayloadDocumentID;
+import eu.toop.edm.request.IEDMRequestPayloadProvider;
 import eu.toop.edm.slot.SlotAuthorizedRepresentative;
 import eu.toop.edm.slot.SlotConceptRequestList;
 import eu.toop.edm.slot.SlotConsentToken;
@@ -154,9 +157,7 @@ public class EDMRequest
   private final BusinessPojo m_aDataSubjectLegalPerson;
   private final PersonPojo m_aDataSubjectNaturalPerson;
   private final PersonPojo m_aAuthorizedRepresentative;
-  private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
-  private final ICommonsList <DistributionPojo> m_aDistributions = new CommonsArrayList <> ();
-  private final String m_sDocumentID;
+  private final IEDMRequestPayloadProvider m_aPayloadProvider;
 
   protected EDMRequest (@Nonnull final EQueryDefinitionType eQueryDefinition,
                         @Nonnull @Nonempty final String sRequestID,
@@ -171,9 +172,7 @@ public class EDMRequest
                         @Nullable final BusinessPojo aDataSubjectLegalPerson,
                         @Nullable final PersonPojo aDataSubjectNaturalPerson,
                         @Nullable final PersonPojo aAuthorizedRepresentative,
-                        @Nullable final ICommonsList <ConceptPojo> aConcepts,
-                        @Nullable final ICommonsList <DistributionPojo> aDistributions,
-                        @Nullable final String sDocumentID)
+                        @Nonnull final IEDMRequestPayloadProvider aRPP)
   {
     ValueEnforcer.notNull (eQueryDefinition, "QueryDefinition");
     ValueEnforcer.notNull (eResponseOption, "ResponseOption");
@@ -185,24 +184,7 @@ public class EDMRequest
     ValueEnforcer.isFalse ((aDataSubjectLegalPerson == null && aDataSubjectNaturalPerson == null) ||
                            (aDataSubjectLegalPerson != null && aDataSubjectNaturalPerson != null),
                            "Exactly one DataSubject must be set");
-    final int nCount = (CollectionHelper.isNotEmpty (aConcepts) ? 1 : 0) +
-                       (CollectionHelper.isNotEmpty (aDistributions) ? 1 : 0) +
-                       (sDocumentID != null ? 1 : 0);
-    ValueEnforcer.isTrue (nCount == 1, "Exactly one of Concept and Distribution and Document ID must be set");
-    switch (eQueryDefinition)
-    {
-      case CONCEPT:
-        ValueEnforcer.notEmpty (aConcepts, "Concept");
-        break;
-      case DOCUMENT:
-        ValueEnforcer.notEmpty (aDistributions, "Distribution");
-        break;
-      case DOCUMENT_BY_ID:
-        ValueEnforcer.notEmpty (sDocumentID, "Document ID");
-        break;
-      default:
-        throw new IllegalArgumentException ("Unsupported query definition: " + eQueryDefinition);
-    }
+    ValueEnforcer.notNull (aRPP, "RequestPayloadProvider");
 
     m_eQueryDefinition = eQueryDefinition;
     m_sRequestID = sRequestID;
@@ -215,14 +197,10 @@ public class EDMRequest
     m_aDataConsumer = aDataConsumer;
     m_sConsentToken = sConsentToken;
     m_sDatasetIdentifier = sDatasetIdentifier;
-    m_sDocumentID = sDocumentID;
     m_aDataSubjectLegalPerson = aDataSubjectLegalPerson;
     m_aDataSubjectNaturalPerson = aDataSubjectNaturalPerson;
     m_aAuthorizedRepresentative = aAuthorizedRepresentative;
-    if (aConcepts != null)
-      m_aConcepts.addAll (aConcepts);
-    if (aDistributions != null)
-      m_aDistributions.addAll (aDistributions);
+    m_aPayloadProvider = aRPP;
   }
 
   @Nonnull
@@ -313,38 +291,10 @@ public class EDMRequest
     return m_aAuthorizedRepresentative;
   }
 
-  @Nonnull
-  @ReturnsMutableObject
-  public final List <ConceptPojo> concepts ()
-  {
-    return m_aConcepts;
-  }
-
-  @Nonnull
-  @ReturnsMutableCopy
-  public final List <ConceptPojo> getAllConcepts ()
-  {
-    return m_aConcepts.getClone ();
-  }
-
-  @Nonnull
-  @ReturnsMutableObject
-  public final List <DistributionPojo> distributions ()
-  {
-    return m_aDistributions;
-  }
-
-  @Nonnull
-  @ReturnsMutableCopy
-  public final List <DistributionPojo> getAllDistributions ()
-  {
-    return m_aDistributions.getClone ();
-  }
-
   @Nullable
-  public final String getDocumentID ()
+  public final IEDMRequestPayloadProvider getPayloadProvider ()
   {
-    return m_sDocumentID;
+    return m_aPayloadProvider;
   }
 
   @Nonnull
@@ -420,17 +370,8 @@ public class EDMRequest
     if (m_aAuthorizedRepresentative != null)
       aSlots.add (new SlotAuthorizedRepresentative (m_aAuthorizedRepresentative));
 
-    // Concept Query
-    if (m_aConcepts.isNotEmpty ())
-      aSlots.add (new SlotConceptRequestList (m_aConcepts));
-
-    // Document Query
-    if (m_aDistributions.isNotEmpty ())
-      aSlots.add (new SlotDistributionRequestList (m_aDistributions));
-
-    // DocumentRef Query
-    if (m_sDocumentID != null)
-      aSlots.add (new SlotId (m_sDocumentID));
+    // Request payload slot
+    aSlots.add (m_aPayloadProvider.getAsSlotProvider ());
 
     return _createQueryRequest (aSlots);
   }
@@ -465,23 +406,21 @@ public class EDMRequest
       return true;
     if (o == null || getClass () != o.getClass ())
       return false;
-    final EDMRequest that = (EDMRequest) o;
-    return EqualsHelper.equals (m_eQueryDefinition, that.m_eQueryDefinition) &&
-           EqualsHelper.equals (m_eResponseOption, that.m_eResponseOption) &&
-           EqualsHelper.equals (m_sRequestID, that.m_sRequestID) &&
-           EqualsHelper.equals (m_sSpecificationIdentifier, that.m_sSpecificationIdentifier) &&
-           EqualsHelper.equals (m_aIssueDateTime, that.m_aIssueDateTime) &&
-           EqualsHelper.equals (m_aProcedure, that.m_aProcedure) &&
-           EqualsHelper.equals (m_aFullfillingRequirements, that.m_aFullfillingRequirements) &&
-           EqualsHelper.equals (m_aDataConsumer, that.m_aDataConsumer) &&
-           EqualsHelper.equals (m_sConsentToken, that.m_sConsentToken) &&
-           EqualsHelper.equals (m_sDatasetIdentifier, that.m_sDatasetIdentifier) &&
-           EqualsHelper.equals (m_aDataSubjectLegalPerson, that.m_aDataSubjectLegalPerson) &&
-           EqualsHelper.equals (m_aDataSubjectNaturalPerson, that.m_aDataSubjectNaturalPerson) &&
-           EqualsHelper.equals (m_aAuthorizedRepresentative, that.m_aAuthorizedRepresentative) &&
-           EqualsHelper.equals (m_aConcepts, that.m_aConcepts) &&
-           EqualsHelper.equals (m_aDistributions, that.m_aDistributions) &&
-           EqualsHelper.equals (m_sDocumentID, that.m_sDocumentID);
+    final EDMRequest rhs = (EDMRequest) o;
+    return EqualsHelper.equals (m_eQueryDefinition, rhs.m_eQueryDefinition) &&
+           EqualsHelper.equals (m_eResponseOption, rhs.m_eResponseOption) &&
+           EqualsHelper.equals (m_sRequestID, rhs.m_sRequestID) &&
+           EqualsHelper.equals (m_sSpecificationIdentifier, rhs.m_sSpecificationIdentifier) &&
+           EqualsHelper.equals (m_aIssueDateTime, rhs.m_aIssueDateTime) &&
+           EqualsHelper.equals (m_aProcedure, rhs.m_aProcedure) &&
+           EqualsHelper.equals (m_aFullfillingRequirements, rhs.m_aFullfillingRequirements) &&
+           EqualsHelper.equals (m_aDataConsumer, rhs.m_aDataConsumer) &&
+           EqualsHelper.equals (m_sConsentToken, rhs.m_sConsentToken) &&
+           EqualsHelper.equals (m_sDatasetIdentifier, rhs.m_sDatasetIdentifier) &&
+           EqualsHelper.equals (m_aDataSubjectLegalPerson, rhs.m_aDataSubjectLegalPerson) &&
+           EqualsHelper.equals (m_aDataSubjectNaturalPerson, rhs.m_aDataSubjectNaturalPerson) &&
+           EqualsHelper.equals (m_aAuthorizedRepresentative, rhs.m_aAuthorizedRepresentative) &&
+           EqualsHelper.equals (m_aPayloadProvider, rhs.m_aPayloadProvider);
   }
 
   @Override
@@ -500,9 +439,7 @@ public class EDMRequest
                                        .append (m_aDataSubjectLegalPerson)
                                        .append (m_aDataSubjectNaturalPerson)
                                        .append (m_aAuthorizedRepresentative)
-                                       .append (m_aConcepts)
-                                       .append (m_aDistributions)
-                                       .append (m_sDocumentID)
+                                       .append (m_aPayloadProvider)
                                        .getHashCode ();
   }
 
@@ -522,48 +459,46 @@ public class EDMRequest
                                        .append ("DataSubjectLegalPerson", m_aDataSubjectLegalPerson)
                                        .append ("DataSubjectNaturalPerson", m_aDataSubjectNaturalPerson)
                                        .append ("AuthorizedRepresentative", m_aAuthorizedRepresentative)
-                                       .append ("Concepts", m_aConcepts)
-                                       .append ("Distributions", m_aDistributions)
-                                       .append ("DocumentID", m_sDocumentID)
+                                       .append ("RequestPayloadProvider", m_aPayloadProvider)
                                        .getToString ();
   }
 
   @Nonnull
-  public static Builder builderConcept ()
+  public static BuilderConcept builderConcept ()
   {
-    return new Builder (EQueryDefinitionType.CONCEPT).specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
-                                                     .responseOption (EResponseOptionType.CONTAINED);
+    return new BuilderConcept ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+                                .responseOption (EResponseOptionType.CONTAINED);
   }
 
   @Nonnull
   @Deprecated
-  public static Builder builderDocument ()
+  public static BuilderDocumentByDistribution builderDocument ()
   {
     return builderDocumentsByDistribution ();
   }
 
   @Nonnull
-  public static Builder builderDocumentsByDistribution ()
+  public static BuilderDocumentByDistribution builderDocumentsByDistribution ()
   {
-    return new Builder (EQueryDefinitionType.DOCUMENT).specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
-                                                      .responseOption (EResponseOptionType.CONTAINED);
+    return new BuilderDocumentByDistribution ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+                                               .responseOption (EResponseOptionType.CONTAINED);
   }
 
   @Nonnull
-  public static Builder builderDocumentReferencesByDistribution ()
+  public static BuilderDocumentByDistribution builderDocumentReferencesByDistribution ()
   {
-    return new Builder (EQueryDefinitionType.DOCUMENT).specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
-                                                      .responseOption (EResponseOptionType.REFERENCED);
+    return new BuilderDocumentByDistribution ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+                                               .responseOption (EResponseOptionType.REFERENCED);
   }
 
   /**
    * @return A new builder for an EDM Request that is request with a an ID only.
    */
   @Nonnull
-  public static Builder builderDocumentByID ()
+  public static BuilderDocumentByID builderDocumentByID ()
   {
-    return new Builder (EQueryDefinitionType.DOCUMENT_BY_ID).specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
-                                                            .responseOption (EResponseOptionType.CONTAINED);
+    return new BuilderDocumentByID ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+                                     .responseOption (EResponseOptionType.CONTAINED);
   }
 
   /**
@@ -823,31 +758,29 @@ public class EDMRequest
     public abstract EDMRequest build ();
   }
 
-  public static class Builder extends AbstractBuilder <Builder>
+  public static class BuilderConcept extends AbstractBuilder <BuilderConcept>
   {
     private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
-    private final ICommonsList <DistributionPojo> m_aDistributions = new CommonsArrayList <> ();
-    private String m_sDocumentID;
 
-    protected Builder (@Nonnull final EQueryDefinitionType e)
+    public BuilderConcept ()
     {
-      super (e);
+      super (EQueryDefinitionType.CONCEPT);
     }
 
     @Nonnull
-    public Builder addConcept (@Nullable final CCCEVConceptType a)
+    public BuilderConcept addConcept (@Nullable final CCCEVConceptType a)
     {
       return addConcept (a == null ? null : ConceptPojo.builder (a));
     }
 
     @Nonnull
-    public Builder addConcept (@Nullable final ConceptPojo.Builder a)
+    public BuilderConcept addConcept (@Nullable final ConceptPojo.Builder a)
     {
       return addConcept (a == null ? null : a.build ());
     }
 
     @Nonnull
-    public Builder addConcept (@Nullable final ConceptPojo a)
+    public BuilderConcept addConcept (@Nullable final ConceptPojo a)
     {
       if (a != null)
         m_aConcepts.add (a);
@@ -855,19 +788,19 @@ public class EDMRequest
     }
 
     @Nonnull
-    public Builder concept (@Nullable final CCCEVConceptType a)
+    public BuilderConcept concept (@Nullable final CCCEVConceptType a)
     {
       return concept (a == null ? null : ConceptPojo.builder (a));
     }
 
     @Nonnull
-    public Builder concept (@Nullable final ConceptPojo.Builder a)
+    public BuilderConcept concept (@Nullable final ConceptPojo.Builder a)
     {
       return concept (a == null ? null : a.build ());
     }
 
     @Nonnull
-    public Builder concept (@Nullable final ConceptPojo a)
+    public BuilderConcept concept (@Nullable final ConceptPojo a)
     {
       if (a != null)
         m_aConcepts.set (a);
@@ -877,79 +810,16 @@ public class EDMRequest
     }
 
     @Nonnull
-    public Builder concepts (@Nullable final ConceptPojo... a)
+    public BuilderConcept concepts (@Nullable final ConceptPojo... a)
     {
       m_aConcepts.setAll (a);
       return this;
     }
 
     @Nonnull
-    public Builder concepts (@Nullable final Iterable <ConceptPojo> a)
+    public BuilderConcept concepts (@Nullable final Iterable <ConceptPojo> a)
     {
       m_aConcepts.setAll (a);
-      return this;
-    }
-
-    @Nonnull
-    public Builder addDistribution (@Nullable final DCatAPDistributionType a)
-    {
-      return addDistribution (a == null ? null : DistributionPojo.builder (a));
-    }
-
-    @Nonnull
-    public Builder addDistribution (@Nullable final DistributionPojo.Builder a)
-    {
-      return addDistribution (a == null ? null : a.build ());
-    }
-
-    @Nonnull
-    public Builder addDistribution (@Nullable final DistributionPojo a)
-    {
-      if (a != null)
-        m_aDistributions.add (a);
-      return this;
-    }
-
-    @Nonnull
-    public Builder distribution (@Nullable final DCatAPDistributionType a)
-    {
-      return distribution (a == null ? null : DistributionPojo.builder (a));
-    }
-
-    @Nonnull
-    public Builder distribution (@Nullable final DistributionPojo.Builder a)
-    {
-      return distribution (a == null ? null : a.build ());
-    }
-
-    @Nonnull
-    public Builder distribution (@Nullable final DistributionPojo a)
-    {
-      if (a != null)
-        m_aDistributions.set (a);
-      else
-        m_aDistributions.clear ();
-      return this;
-    }
-
-    @Nonnull
-    public Builder distributions (@Nullable final DistributionPojo... a)
-    {
-      m_aDistributions.setAll (a);
-      return this;
-    }
-
-    @Nonnull
-    public Builder distributions (@Nullable final Iterable <DistributionPojo> a)
-    {
-      m_aDistributions.setAll (a);
-      return this;
-    }
-
-    @Nonnull
-    public Builder documentID (@Nullable final String s)
-    {
-      m_sDocumentID = s;
       return this;
     }
 
@@ -958,35 +828,8 @@ public class EDMRequest
     {
       super.checkConsistency ();
 
-      switch (m_eQueryDefinition)
-      {
-        case CONCEPT:
-          if (m_aConcepts.isEmpty ())
-            throw new IllegalStateException ("A Query Definition of type 'Concept' must contain a Concept");
-          if (m_aDistributions.isNotEmpty ())
-            throw new IllegalStateException ("A Query Definition of type 'Concept' must NOT contain a Distribution");
-          if (m_sDocumentID != null)
-            throw new IllegalStateException ("A Query Definition of type 'Concept' must NOT contain a Document ID");
-          break;
-        case DOCUMENT:
-          if (m_aConcepts.isNotEmpty ())
-            throw new IllegalStateException ("A Query Definition of type 'Document' must NOT contain a Concept");
-          if (m_aDistributions.isEmpty ())
-            throw new IllegalStateException ("A Query Definition of type 'Document' must contain a Distribution");
-          if (m_sDocumentID != null)
-            throw new IllegalStateException ("A Query Definition of type 'Document' must NOT contain a Document ID");
-          break;
-        case DOCUMENT_BY_ID:
-          if (m_aConcepts.isNotEmpty ())
-            throw new IllegalStateException ("A Query Definition of type 'GetObjectByID' must NOT contain a Concept");
-          if (m_aDistributions.isNotEmpty ())
-            throw new IllegalStateException ("A Query Definition of type 'GetObjectByID' must NOT contain a Distribution");
-          if (m_sDocumentID == null)
-            throw new IllegalStateException ("A Query Definition of type 'GetObjectByID' must contain a Document ID");
-          break;
-        default:
-          throw new IllegalStateException ("Unhandled query definition " + m_eQueryDefinition);
-      }
+      if (m_aConcepts.isEmpty ())
+        throw new IllegalStateException ("A Query Definition of type 'Concept' must contain a Concept");
     }
 
     @Override
@@ -1008,9 +851,152 @@ public class EDMRequest
                              m_aDataSubjectLegalPerson,
                              m_aDataSubjectNaturalPerson,
                              m_aAuthorizedRepresentative,
-                             m_aConcepts,
-                             m_aDistributions,
-                             m_sDocumentID);
+                             new EDMRequestPayloadConcept (m_aConcepts));
+    }
+  }
+
+  public static class BuilderDocumentByDistribution extends AbstractBuilder <BuilderDocumentByDistribution>
+  {
+    private final ICommonsList <DistributionPojo> m_aDistributions = new CommonsArrayList <> ();
+
+    protected BuilderDocumentByDistribution ()
+    {
+      super (EQueryDefinitionType.DOCUMENT);
+    }
+
+    @Nonnull
+    public BuilderDocumentByDistribution addDistribution (@Nullable final DCatAPDistributionType a)
+    {
+      return addDistribution (a == null ? null : DistributionPojo.builder (a));
+    }
+
+    @Nonnull
+    public BuilderDocumentByDistribution addDistribution (@Nullable final DistributionPojo.Builder a)
+    {
+      return addDistribution (a == null ? null : a.build ());
+    }
+
+    @Nonnull
+    public BuilderDocumentByDistribution addDistribution (@Nullable final DistributionPojo a)
+    {
+      if (a != null)
+        m_aDistributions.add (a);
+      return this;
+    }
+
+    @Nonnull
+    public BuilderDocumentByDistribution distribution (@Nullable final DCatAPDistributionType a)
+    {
+      return distribution (a == null ? null : DistributionPojo.builder (a));
+    }
+
+    @Nonnull
+    public BuilderDocumentByDistribution distribution (@Nullable final DistributionPojo.Builder a)
+    {
+      return distribution (a == null ? null : a.build ());
+    }
+
+    @Nonnull
+    public BuilderDocumentByDistribution distribution (@Nullable final DistributionPojo a)
+    {
+      if (a != null)
+        m_aDistributions.set (a);
+      else
+        m_aDistributions.clear ();
+      return this;
+    }
+
+    @Nonnull
+    public BuilderDocumentByDistribution distributions (@Nullable final DistributionPojo... a)
+    {
+      m_aDistributions.setAll (a);
+      return this;
+    }
+
+    @Nonnull
+    public BuilderDocumentByDistribution distributions (@Nullable final Iterable <DistributionPojo> a)
+    {
+      m_aDistributions.setAll (a);
+      return this;
+    }
+
+    @Override
+    public void checkConsistency ()
+    {
+      super.checkConsistency ();
+
+      if (m_aDistributions.isEmpty ())
+        throw new IllegalStateException ("A Query Definition of type 'Document' must contain a Distribution");
+    }
+
+    @Override
+    @Nonnull
+    public EDMRequest build ()
+    {
+      checkConsistency ();
+
+      return new EDMRequest (m_eQueryDefinition,
+                             m_sRequestID,
+                             m_eResponseOption,
+                             m_sSpecificationIdentifier,
+                             m_aIssueDateTime,
+                             m_aProcedure,
+                             m_aFullfillingRequirements,
+                             m_aDataConsumer,
+                             m_sConsentToken,
+                             m_sDatasetIdentifier,
+                             m_aDataSubjectLegalPerson,
+                             m_aDataSubjectNaturalPerson,
+                             m_aAuthorizedRepresentative,
+                             new EDMRequestPayloadDistribution (m_aDistributions));
+    }
+  }
+
+  public static class BuilderDocumentByID extends AbstractBuilder <BuilderDocumentByID>
+  {
+    private String m_sDocumentID;
+
+    protected BuilderDocumentByID ()
+    {
+      super (EQueryDefinitionType.DOCUMENT_BY_ID);
+    }
+
+    @Nonnull
+    public BuilderDocumentByID documentID (@Nullable final String s)
+    {
+      m_sDocumentID = s;
+      return this;
+    }
+
+    @Override
+    public void checkConsistency ()
+    {
+      super.checkConsistency ();
+
+      if (m_sDocumentID == null)
+        throw new IllegalStateException ("A Query Definition of type 'GetObjectByID' must contain a Document ID");
+    }
+
+    @Override
+    @Nonnull
+    public EDMRequest build ()
+    {
+      checkConsistency ();
+
+      return new EDMRequest (m_eQueryDefinition,
+                             m_sRequestID,
+                             m_eResponseOption,
+                             m_sSpecificationIdentifier,
+                             m_aIssueDateTime,
+                             m_aProcedure,
+                             m_aFullfillingRequirements,
+                             m_aDataConsumer,
+                             m_sConsentToken,
+                             m_sDatasetIdentifier,
+                             m_aDataSubjectLegalPerson,
+                             m_aDataSubjectNaturalPerson,
+                             m_aAuthorizedRepresentative,
+                             new EDMRequestPayloadDocumentID (m_sDocumentID));
     }
   }
 
@@ -1108,7 +1094,7 @@ public class EDMRequest
               {
                 final Object aElementValue = ((AnyValueType) aElement).getAny ();
                 if (aElementValue instanceof Node)
-                  ((EDMRequest.Builder) aBuilder).addConcept (new ConceptMarshaller ().read ((Node) aElementValue));
+                  ((EDMRequest.BuilderConcept) aBuilder).addConcept (new ConceptMarshaller ().read ((Node) aElementValue));
               }
           }
         }
@@ -1124,7 +1110,7 @@ public class EDMRequest
               {
                 final Object aElementValue = ((AnyValueType) aElement).getAny ();
                 if (aElementValue instanceof Node)
-                  ((EDMRequest.Builder) aBuilder).addDistribution (new DistributionMarshaller ().read ((Node) aElementValue));
+                  ((EDMRequest.BuilderDocumentByDistribution) aBuilder).addDistribution (new DistributionMarshaller ().read ((Node) aElementValue));
               }
           }
         }
@@ -1133,7 +1119,7 @@ public class EDMRequest
         if (aSlotValue instanceof StringValueType)
         {
           final String sValue = ((StringValueType) aSlotValue).getValue ();
-          ((EDMRequest.Builder) aBuilder).documentID (sValue);
+          ((EDMRequest.BuilderDocumentByID) aBuilder).documentID (sValue);
         }
         break;
       default:
