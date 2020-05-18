@@ -335,13 +335,17 @@ public class EDMResponse
   @Nonnull
   public static ConceptBuilder builderConcept ()
   {
-    return new ConceptBuilder ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20);
+    // ID doesn't matter for concepts but must be settable in import for
+    // comparison
+    return new ConceptBuilder ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20).randomRegistryObjectID ();
   }
 
   @Nonnull
   public static DocumentBuilder builderDocument ()
   {
-    return new DocumentBuilder ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20);
+    // ID doesn't matter for concepts but must be settable in import for
+    // comparison
+    return new DocumentBuilder ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20).randomRegistryObjectID ();
   }
 
   @Nonnull
@@ -461,7 +465,7 @@ public class EDMResponse
    */
   public static class ConceptBuilder extends AbstractBuilder <ConceptBuilder>
   {
-    private String m_sID;
+    private String m_sRegistryObjectID;
     private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
 
     public ConceptBuilder ()
@@ -470,16 +474,16 @@ public class EDMResponse
     }
 
     @Nonnull
-    public ConceptBuilder id (@Nullable final String s)
+    public ConceptBuilder registryObjectID (@Nullable final String s)
     {
-      m_sID = s;
+      m_sRegistryObjectID = s;
       return this;
     }
 
     @Nonnull
-    public ConceptBuilder randomID ()
+    public ConceptBuilder randomRegistryObjectID ()
     {
-      return id (UUID.randomUUID ().toString ());
+      return registryObjectID (UUID.randomUUID ().toString ());
     }
 
     @Nonnull
@@ -555,7 +559,7 @@ public class EDMResponse
 
       // Build the ResponseObjectPojo
       final ICommonsList <ResponseObjectPojo> aResponseObjects = new CommonsArrayList <> ();
-      aResponseObjects.add (ResponseObjectPojo.builder ().id (m_sID).concepts (m_aConcepts).build ());
+      aResponseObjects.add (ResponseObjectPojo.builder ().registryObjectID (m_sRegistryObjectID).concepts (m_aConcepts).build ());
 
       return new EDMResponse (m_eQueryDefinition,
                               m_eResponseStatus,
@@ -574,7 +578,7 @@ public class EDMResponse
    */
   public static class DocumentBuilder extends AbstractBuilder <DocumentBuilder>
   {
-    private String m_sID;
+    private String m_sRegistryObjectID;
     private DatasetPojo m_aDataset;
     private RepositoryItemRefPojo m_aRepositoryItemRef;
 
@@ -584,16 +588,16 @@ public class EDMResponse
     }
 
     @Nonnull
-    public DocumentBuilder id (@Nullable final String s)
+    public DocumentBuilder registryObjectID (@Nullable final String s)
     {
-      m_sID = s;
+      m_sRegistryObjectID = s;
       return this;
     }
 
     @Nonnull
-    public DocumentBuilder randomID ()
+    public DocumentBuilder randomRegistryObjectID ()
     {
-      return id (UUID.randomUUID ().toString ());
+      return registryObjectID (UUID.randomUUID ().toString ());
     }
 
     @Nonnull
@@ -652,7 +656,7 @@ public class EDMResponse
       // Build the ResponseObjectPojo
       final ICommonsList <ResponseObjectPojo> aResponseObjects = new CommonsArrayList <> ();
       aResponseObjects.add (ResponseObjectPojo.builder ()
-                                              .id (m_sID)
+                                              .registryObjectID (m_sRegistryObjectID)
                                               .dataset (m_aDataset)
                                               .repositoryItemRef (m_aRepositoryItemRef)
                                               .build ());
@@ -838,7 +842,7 @@ public class EDMResponse
         // Must be a Document response
         aBuilder = builderDocument ().responseStatus (eResponseStatus)
                                      .requestID (sRequestID)
-                                     .id (aROP.getID ())
+                                     .registryObjectID (aROP.getID ())
                                      .dataset (aROP.getDataset ())
                                      .repositoryItemRef (aROP.getRepositoryItemRef ());
       }
@@ -847,7 +851,7 @@ public class EDMResponse
         // Must be a Concept response
         aBuilder = builderConcept ().responseStatus (eResponseStatus)
                                     .requestID (sRequestID)
-                                    .id (aROP.getID ())
+                                    .registryObjectID (aROP.getID ())
                                     .concepts (aROP.concepts ());
       }
 

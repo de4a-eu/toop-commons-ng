@@ -57,25 +57,24 @@ import eu.toop.regrep.rim.ValueType;
  */
 public class ResponseObjectPojo
 {
-  private final String m_sID;
+  private final String m_sRegistryObjectID;
   private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
   private final DatasetPojo m_aDataset;
   private final RepositoryItemRefPojo m_aRepositoryItemRef;
 
-  public ResponseObjectPojo (@Nullable final String sID,
+  public ResponseObjectPojo (@Nullable final String sRegistryObjectID,
                              @Nullable final ICommonsList <ConceptPojo> aConcepts,
                              @Nullable final DatasetPojo aDataset,
                              @Nullable final RepositoryItemRefPojo aRepositoryItemRef)
   {
-    if (false)
-      ValueEnforcer.notEmpty (sID, "ID");
+    ValueEnforcer.notEmpty (sRegistryObjectID, "RegistryObjectID");
     final int nConcepts = CollectionHelper.getSize (aConcepts);
     ValueEnforcer.isFalse ((nConcepts == 0 && aDataset == null) || (nConcepts != 0 && aDataset != null),
                            "Exactly one of Concept and Dataset must be set");
     ValueEnforcer.isTrue (aRepositoryItemRef == null || nConcepts == 0,
                           "RepositoryItemRef must not be used in combination with concepts");
 
-    m_sID = sID;
+    m_sRegistryObjectID = sRegistryObjectID;
     if (aConcepts != null)
       m_aConcepts.addAll (aConcepts);
     m_aDataset = aDataset;
@@ -85,7 +84,7 @@ public class ResponseObjectPojo
   @Nullable
   public final String getID ()
   {
-    return m_sID;
+    return m_sRegistryObjectID;
   }
 
   @Nonnull
@@ -118,7 +117,7 @@ public class ResponseObjectPojo
   public ExtrinsicObjectType getAsRegistryObject ()
   {
     final ExtrinsicObjectType ret = new ExtrinsicObjectType ();
-    ret.setId (m_sID);
+    ret.setId (m_sRegistryObjectID);
 
     // ConceptValues
     if (m_aConcepts.isNotEmpty ())
@@ -143,7 +142,7 @@ public class ResponseObjectPojo
       throw new IllegalStateException ("ObjectRef may NOT contain Concepts.");
 
     final ObjectRefType ret = new ObjectRefType ();
-    ret.setId (m_sID);
+    ret.setId (m_sRegistryObjectID);
 
     // DocumentMetadata
     if (m_aDataset != null)
@@ -160,7 +159,7 @@ public class ResponseObjectPojo
     if (o == null || !getClass ().equals (o.getClass ()))
       return false;
     final ResponseObjectPojo rhs = (ResponseObjectPojo) o;
-    return EqualsHelper.equals (m_sID, rhs.m_sID) &&
+    return EqualsHelper.equals (m_sRegistryObjectID, rhs.m_sRegistryObjectID) &&
            EqualsHelper.equals (m_aConcepts, rhs.m_aConcepts) &&
            EqualsHelper.equals (m_aDataset, rhs.m_aDataset) &&
            EqualsHelper.equals (m_aRepositoryItemRef, rhs.m_aRepositoryItemRef);
@@ -169,7 +168,7 @@ public class ResponseObjectPojo
   @Override
   public int hashCode ()
   {
-    return new HashCodeGenerator (this).append (m_sID)
+    return new HashCodeGenerator (this).append (m_sRegistryObjectID)
                                        .append (m_aConcepts)
                                        .append (m_aDataset)
                                        .append (m_aRepositoryItemRef)
@@ -179,7 +178,7 @@ public class ResponseObjectPojo
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("ID", m_sID)
+    return new ToStringGenerator (this).append ("RegistryObjectID", m_sRegistryObjectID)
                                        .append ("Concepts", m_aConcepts)
                                        .append ("Dataset", m_aDataset)
                                        .append ("RepositoryItemRef", m_aRepositoryItemRef)
@@ -194,7 +193,7 @@ public class ResponseObjectPojo
 
   public static class Builder
   {
-    private String m_sID;
+    private String m_sRegistryObjectID;
     private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();
     private DatasetPojo m_aDataset;
     private RepositoryItemRefPojo m_aRepositoryItemRef;
@@ -203,16 +202,16 @@ public class ResponseObjectPojo
     {}
 
     @Nonnull
-    public Builder id (@Nullable final String s)
+    public Builder registryObjectID (@Nullable final String s)
     {
-      m_sID = s;
+      m_sRegistryObjectID = s;
       return this;
     }
 
     @Nonnull
-    public Builder randomID ()
+    public Builder randomRegistryObjectID ()
     {
-      return id (UUID.randomUUID ().toString ());
+      return registryObjectID (UUID.randomUUID ().toString ());
     }
 
     @Nonnull
@@ -311,8 +310,8 @@ public class ResponseObjectPojo
 
     public void checkConsistency ()
     {
-      if (StringHelper.hasNoText (m_sID))
-        throw new IllegalStateException ("ID must be present");
+      if (StringHelper.hasNoText (m_sRegistryObjectID))
+        throw new IllegalStateException ("RegistryObjectID must be present");
 
       final int nConcepts = CollectionHelper.getSize (m_aConcepts);
       if ((nConcepts == 0 && m_aDataset == null) || (nConcepts != 0 && m_aDataset != null))
@@ -327,7 +326,7 @@ public class ResponseObjectPojo
     {
       checkConsistency ();
 
-      return new ResponseObjectPojo (m_sID, m_aConcepts, m_aDataset, m_aRepositoryItemRef);
+      return new ResponseObjectPojo (m_sRegistryObjectID, m_aConcepts, m_aDataset, m_aRepositoryItemRef);
     }
   }
 
@@ -371,7 +370,7 @@ public class ResponseObjectPojo
     final Builder ret = new Builder ();
     if (a != null)
     {
-      ret.id (a.getId ());
+      ret.registryObjectID (a.getId ());
       for (final SlotType aSlot : a.getSlot ())
         _applySlots (aSlot, ret);
     }
@@ -384,7 +383,7 @@ public class ResponseObjectPojo
     final Builder ret = new Builder ();
     if (a != null)
     {
-      ret.id (a.getId ());
+      ret.registryObjectID (a.getId ());
       for (final SlotType aSlot : a.getSlot ())
         _applySlots (aSlot, ret);
 

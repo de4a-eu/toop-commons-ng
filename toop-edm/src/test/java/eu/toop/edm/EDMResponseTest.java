@@ -147,8 +147,7 @@ public final class EDMResponseTest
   @Nonnull
   private static EDMResponse.DocumentBuilder _respDocument ()
   {
-    return _resp (EDMResponse.builderDocument ()).randomID ()
-                                                 .dataset (_dataset ())
+    return _resp (EDMResponse.builderDocument ()).dataset (_dataset ())
                                                  .repositoryItemRef (RepositoryItemRefPojo.builder ()
                                                                                           .title ("Evidence.pdf")
                                                                                           .link ("https://www.example.com/evidence.pdf"));
@@ -158,17 +157,17 @@ public final class EDMResponseTest
   private static EDMResponse.DocumentRefBuilder _respDocumentRef ()
   {
     return _resp (EDMResponse.builderDocumentRef ()).addResponseObject (ResponseObjectPojo.builder ()
-                                                                                          .randomID ()
+                                                                                          .randomRegistryObjectID ()
                                                                                           .dataset (_dataset ()))
                                                     .addResponseObject (ResponseObjectPojo.builder ()
-                                                                                          .randomID ()
+                                                                                          .randomRegistryObjectID ()
                                                                                           .dataset (_dataset ()));
   }
 
   @Test
   public void createConceptResponse ()
   {
-    final EDMResponse aResp = EDMResponse.reader ().read (ClassPathResource.getInputStream ("Concept Response.xml"));
+    final EDMResponse aResp = _respConcept ().build ();
     _testWriteAndRead (aResp);
   }
 
