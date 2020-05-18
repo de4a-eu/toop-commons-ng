@@ -230,6 +230,7 @@
           <excludes>
             <!-- uses Properties internally -->
             <exclude>**/MainCreateCert.class</exclude>
+            <exclude>**/*Test.class</exclude>
           </excludes>
         </configuration>
         <!-- local executions are ignored -->
