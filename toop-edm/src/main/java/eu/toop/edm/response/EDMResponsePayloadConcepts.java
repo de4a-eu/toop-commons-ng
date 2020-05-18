@@ -40,7 +40,7 @@ import eu.toop.regrep.rim.ExtrinsicObjectType;
  * @author Philip Helger
  * @since 2.0.0-beta3
  */
-public class EDMResponsePayloadConcepts implements IEDMResponsePayloadConcept
+public class EDMResponsePayloadConcepts implements IEDMResponsePayloadConcepts
 {
   private final String m_sRegistryObjectID;
   private final ICommonsList <ConceptPojo> m_aConcepts = new CommonsArrayList <> ();

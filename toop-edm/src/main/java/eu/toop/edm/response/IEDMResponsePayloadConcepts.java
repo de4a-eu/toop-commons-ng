@@ -31,7 +31,7 @@ import eu.toop.edm.model.ConceptPojo;
  * @author Philip Helger
  * @since 2.0.0-beta3
  */
-public interface IEDMResponsePayloadConcept extends IEDMResponsePayloadProvider
+public interface IEDMResponsePayloadConcepts extends IEDMResponsePayloadProvider
 {
   @Nonnull
   @Nonempty

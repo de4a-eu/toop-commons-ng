@@ -189,7 +189,7 @@ public class EDMResponse implements IEDMTopLevelObject
   /**
    * @return The payload providers. Never <code>null</code> but maybe empty. The
    *         payload elements are either
-   *         {@link eu.toop.edm.response.IEDMResponsePayloadConcept},
+   *         {@link eu.toop.edm.response.IEDMResponsePayloadConcepts},
    *         {@link eu.toop.edm.response.IEDMResponsePayloadDocument} or
    *         {@link eu.toop.edm.response.IEDMResponsePayloadDocumentReference}.
    */
@@ -204,7 +204,7 @@ public class EDMResponse implements IEDMTopLevelObject
   /**
    * @return The payload providers. Never <code>null</code> but maybe empty. The
    *         payload elements are either
-   *         {@link eu.toop.edm.response.IEDMResponsePayloadConcept},
+   *         {@link eu.toop.edm.response.IEDMResponsePayloadConcepts},
    *         {@link eu.toop.edm.response.IEDMResponsePayloadDocument} or
    *         {@link eu.toop.edm.response.IEDMResponsePayloadDocumentReference}.
    */
