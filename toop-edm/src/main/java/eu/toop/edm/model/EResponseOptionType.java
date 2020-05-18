@@ -15,16 +15,28 @@
  */
 package eu.toop.edm.model;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.id.IHasID;
 import com.helger.commons.lang.EnumHelper;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+/**
+ * Response option.
+ *
+ * @since 2.0.0-beta3
+ * @author Philip Helger
+ */
 public enum EResponseOptionType implements IHasID <String>
 {
+  /**
+   * Response payload is part of the response.
+   */
   CONTAINED ("LeafClassWithRepositoryItem"),
+  /**
+   * Response payload is referenced from within the response.
+   */
   REFERENCED ("ObjectRef");
 
   private final String m_sID;

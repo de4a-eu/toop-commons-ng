@@ -149,7 +149,7 @@ public final class EDMRequestTest
   @Nonnull
   private static EDMRequest.Builder _reqDocumentByID ()
   {
-    return _req ().queryDefinition (EQueryDefinitionType.OBJECTREF).documentID (UUID.randomUUID ().toString ());
+    return _req ().queryDefinition (EQueryDefinitionType.DOCUMENT_BY_ID).documentID (UUID.randomUUID ().toString ());
   }
 
   @Nonnull

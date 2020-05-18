@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.toop.edm.model;
+package eu.toop.edm.response;
 
 import java.util.List;
 import java.util.UUID;
@@ -37,6 +37,9 @@ import com.helger.commons.string.ToStringGenerator;
 
 import eu.toop.edm.jaxb.cccev.CCCEVConceptType;
 import eu.toop.edm.jaxb.dcatap.DCatAPDatasetType;
+import eu.toop.edm.model.ConceptPojo;
+import eu.toop.edm.model.DatasetPojo;
+import eu.toop.edm.model.RepositoryItemRefPojo;
 import eu.toop.edm.slot.SlotConceptValues;
 import eu.toop.edm.slot.SlotDocumentMetadata;
 import eu.toop.edm.xml.cccev.ConceptMarshaller;

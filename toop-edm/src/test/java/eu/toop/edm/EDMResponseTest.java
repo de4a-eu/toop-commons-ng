@@ -42,8 +42,8 @@ import eu.toop.edm.model.DatasetPojo;
 import eu.toop.edm.model.DocumentReferencePojo;
 import eu.toop.edm.model.QualifiedRelationPojo;
 import eu.toop.edm.model.RepositoryItemRefPojo;
-import eu.toop.edm.model.ResponseObjectPojo;
 import eu.toop.edm.pilot.gbm.EToopConcept;
+import eu.toop.edm.response.ResponseObjectPojo;
 import eu.toop.edm.schematron.SchematronEDM2Validator;
 import eu.toop.regrep.ERegRepResponseStatus;
 

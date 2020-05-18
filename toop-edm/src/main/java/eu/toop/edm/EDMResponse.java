@@ -54,7 +54,7 @@ import eu.toop.edm.model.ConceptPojo;
 import eu.toop.edm.model.DatasetPojo;
 import eu.toop.edm.model.EQueryDefinitionType;
 import eu.toop.edm.model.RepositoryItemRefPojo;
-import eu.toop.edm.model.ResponseObjectPojo;
+import eu.toop.edm.response.ResponseObjectPojo;
 import eu.toop.edm.slot.SlotDataProvider;
 import eu.toop.edm.slot.SlotIssueDateTime;
 import eu.toop.edm.slot.SlotSpecificationIdentifier;
@@ -143,7 +143,7 @@ public class EDMResponse
           ValueEnforcer.notEmpty (aResponseObject.concepts (), "Concept");
         break;
       case DOCUMENT:
-      case OBJECTREF:
+      case DOCUMENT_BY_ID:
         for (final ResponseObjectPojo aResponseObject : aResponseObjects)
           ValueEnforcer.notNull (aResponseObject.getDataset (), "Dataset");
         break;
@@ -235,7 +235,7 @@ public class EDMResponse
         ret.addSlot (aSP.createSlot ());
     }
 
-    if (m_eQueryDefinition.equals (EQueryDefinitionType.OBJECTREF))
+    if (m_eQueryDefinition.equals (EQueryDefinitionType.DOCUMENT_BY_ID))
     {
       final ObjectRefListType aORList = new ObjectRefListType ();
       for (final ResponseObjectPojo aRO : m_aResponseObjects)
@@ -706,7 +706,7 @@ public class EDMResponse
 
     public DocumentRefBuilder ()
     {
-      super (EQueryDefinitionType.OBJECTREF);
+      super (EQueryDefinitionType.DOCUMENT_BY_ID);
     }
 
     @Nonnull

@@ -192,7 +192,7 @@ public class EDMRequest
       case DOCUMENT:
         ValueEnforcer.notEmpty (aDistributions, "Distribution");
         break;
-      case OBJECTREF:
+      case DOCUMENT_BY_ID:
         ValueEnforcer.notEmpty (sDocumentID, "Document ID");
         break;
       default:
@@ -523,6 +523,9 @@ public class EDMRequest
                                        .getToString ();
   }
 
+  /**
+   * @return A generic builder for request types.
+   */
   @Nonnull
   public static Builder builder ()
   {
@@ -537,21 +540,32 @@ public class EDMRequest
   }
 
   @Nonnull
+  @Deprecated
   public static Builder builderDocument ()
+  {
+    return builderDocumentsByDistribution ();
+  }
+
+  @Nonnull
+  public static Builder builderDocumentsByDistribution ()
   {
     return builder ().queryDefinition (EQueryDefinitionType.DOCUMENT).responseOption (EResponseOptionType.CONTAINED);
   }
 
   @Nonnull
-  public static Builder builderDocumentRef ()
+  public static Builder builderDocumentReferencesByDistribution ()
   {
     return builder ().queryDefinition (EQueryDefinitionType.DOCUMENT).responseOption (EResponseOptionType.REFERENCED);
   }
 
+  /**
+   * @return A new builder for an EDM Request that is request with a an ID only.
+   */
   @Nonnull
-  public static Builder builderGetDocumentByID ()
+  public static Builder builderDocumentByID ()
   {
-    return builder ().queryDefinition (EQueryDefinitionType.OBJECTREF).responseOption (EResponseOptionType.CONTAINED);
+    return builder ().queryDefinition (EQueryDefinitionType.DOCUMENT_BY_ID)
+                     .responseOption (EResponseOptionType.CONTAINED);
   }
 
   /**
@@ -940,7 +954,7 @@ public class EDMRequest
           if (m_sDocumentID != null)
             throw new IllegalStateException ("A Query Definition of type 'Document' must NOT contain a Document ID");
           break;
-        case OBJECTREF:
+        case DOCUMENT_BY_ID:
           if (m_aConcepts.isNotEmpty ())
             throw new IllegalStateException ("A Query Definition of type 'GetObjectByID' must NOT contain a Concept");
           if (m_aDistributions.isNotEmpty ())
@@ -1098,7 +1112,7 @@ public class EDMRequest
         {
           final String sValue = ((StringValueType) aSlotValue).getValue ();
           aBuilder.documentID (sValue);
-          aBuilder.queryDefinition (EQueryDefinitionType.OBJECTREF);
+          aBuilder.queryDefinition (EQueryDefinitionType.DOCUMENT_BY_ID);
         }
         break;
       default:
