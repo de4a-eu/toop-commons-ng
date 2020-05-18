@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
@@ -49,6 +50,11 @@ import eu.toop.edm.jaxb.cv.cbc.IDType;
  */
 public class ConceptPojo
 {
+  public interface IConceptVisitor
+  {
+    void onConcept (@Nonnegative int nLevel, @Nonnull ConceptPojo aPojo);
+  }
+
   private final String m_sID;
   private final QName m_aName;
   private final ConceptValuePojo m_aValue;
@@ -98,14 +104,31 @@ public class ConceptPojo
     return m_aChildren.getClone ();
   }
 
-  public void visitRecursive (@Nonnull final Consumer <? super ConceptPojo> aConsumer)
+  private void _visitRecursive (final int nLevel, @Nonnull final IConceptVisitor aVisitor)
   {
     // Invoke
-    aConsumer.accept (this);
+    aVisitor.onConcept (nLevel, this);
 
-    // For all children
+    // For all children; aka depth first search
     for (final ConceptPojo aItem : m_aChildren)
-      aItem.visitRecursive (aConsumer);
+      aItem._visitRecursive (nLevel + 1, aVisitor);
+  }
+
+  public void visitRecursive (@Nonnull final IConceptVisitor aVisitor)
+  {
+    _visitRecursive (0, aVisitor);
+  }
+
+  @Nonnull
+  public Builder getBuilder ()
+  {
+    return builder (this);
+  }
+
+  @Nonnull
+  public ConceptPojo cloneAndModify (@Nullable final Consumer <? super ConceptPojo.Builder> aModificationHandler)
+  {
+    return builder (this, aModificationHandler).build ();
   }
 
   @Nonnull
@@ -193,6 +216,32 @@ public class ConceptPojo
     return ret;
   }
 
+  @Nonnull
+  public static Builder builder (@Nullable final ConceptPojo a)
+  {
+    return builder (a, null);
+  }
+
+  @Nonnull
+  public static Builder builder (@Nullable final ConceptPojo a,
+                                 @Nullable final Consumer <? super ConceptPojo.Builder> aModificationHandler)
+  {
+    final Builder ret = new Builder ();
+    if (a != null)
+    {
+      ret.id (a.getID ()).name (a.getName ()).value (a.getValue ());
+
+      // Recursive call
+      for (final ConceptPojo aChild : a.children ())
+        ret.addChild (builder (aChild, aModificationHandler));
+
+      // Call handler after children
+      if (aModificationHandler != null)
+        aModificationHandler.accept (ret);
+    }
+    return ret;
+  }
+
   public static class Builder
   {
     private String m_sID;
@@ -202,6 +251,12 @@ public class ConceptPojo
 
     public Builder ()
     {}
+
+    @Nullable
+    public String id ()
+    {
+      return m_sID;
+    }
 
     @Nonnull
     public Builder randomID ()
@@ -214,6 +269,12 @@ public class ConceptPojo
     {
       m_sID = s;
       return this;
+    }
+
+    @Nullable
+    public QName name ()
+    {
+      return m_aName;
     }
 
     @Nonnull
@@ -233,6 +294,12 @@ public class ConceptPojo
     {
       m_aName = a;
       return this;
+    }
+
+    @Nullable
+    public ConceptValuePojo value ()
+    {
+      return m_aValue;
     }
 
     @Nonnull
@@ -426,6 +493,12 @@ public class ConceptPojo
     {
       m_aValue = a;
       return this;
+    }
+
+    @Nonnull
+    public ICommonsList <ConceptPojo> children ()
+    {
+      return m_aChildren;
     }
 
     @Nonnull

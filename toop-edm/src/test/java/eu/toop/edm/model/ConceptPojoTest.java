@@ -15,7 +15,10 @@
  */
 package eu.toop.edm.model;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 
 import java.math.BigDecimal;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -30,6 +33,7 @@ import com.helger.commons.mock.CommonsTestHelper;
 import com.helger.commons.url.URLHelper;
 import com.helger.datetime.util.PDTXMLConverter;
 
+import eu.toop.edm.error.EToopDataElementResponseErrorCode;
 import eu.toop.edm.error.EToopErrorCode;
 import eu.toop.edm.jaxb.cccev.CCCEVConceptType;
 import eu.toop.edm.pilot.gbm.EToopConcept;
@@ -75,10 +79,9 @@ public final class ConceptPojoTest
   @Test
   public void testPilotGBM ()
   {
-    final String NS = "http://toop.eu/registered-organization";
     final ConceptPojo x = ConceptPojo.builder ()
                                      .id ("ConceptID-1")
-                                     .name (NS, "CompanyData")
+                                     .name (EToopConcept.NAMESPACE_URI, "CompanyData")
                                      .addChild (y -> y.id ("ConceptID-2").name (EToopConcept.COMPANY_NAME))
                                      .addChild (y -> y.id ("ConceptID-3").name (EToopConcept.COMPANY_TYPE))
                                      .build ();
@@ -151,5 +154,54 @@ public final class ConceptPojoTest
   {
     final ConceptPojo x = ConceptPojo.builder ().build ();
     _testWriteAndRead (x);
+  }
+
+  @Test
+  public void testBuilderFromInstance ()
+  {
+    final ConceptPojo x = ConceptPojo.builder ()
+                                     .id ("ConceptID-1")
+                                     .name (EToopConcept.NAMESPACE_URI, "CompanyData")
+                                     .addChild (y -> y.id ("ConceptID-2").name (EToopConcept.COMPANY_NAME))
+                                     .addChild (y -> y.id ("ConceptID-3").name (EToopConcept.COMPANY_TYPE))
+                                     .build ();
+
+    // Clone concept
+    ConceptPojo y = x.getBuilder ().build ();
+    assertNotNull (y);
+    assertNotSame (x, y);
+    assertEquals (x, y);
+    CommonsTestHelper.testDefaultImplementationWithEqualContentObject (x, y);
+
+    // Create a new concept that has a value
+    y = x.getBuilder ().value (z -> z.numeric (12)).build ();
+    assertNotNull (y);
+    assertNotSame (x, y);
+    assertNotEquals (x, y);
+    CommonsTestHelper.testDefaultImplementationWithDifferentContentObject (x, y);
+  }
+
+  @Test
+  public void testBuilderFromInstanceNested ()
+  {
+    final ConceptPojo x = ConceptPojo.builder ()
+                                     .randomID ()
+                                     .name (EToopConcept.NAMESPACE_URI, "CompanyData")
+                                     .addChild (y -> y.randomID ().name (EToopConcept.COMPANY_NAME))
+                                     .addChild (y -> y.randomID ().name (EToopConcept.COMPANY_TYPE))
+                                     .build ();
+
+    final ConceptPojo y = x.cloneAndModify (aHdl -> {
+      if (EToopConcept.COMPANY_NAME.getAsQName ().equals (aHdl.name ()))
+        aHdl.valueText ("My company name");
+      else
+        if (EToopConcept.COMPANY_TYPE.getAsQName ().equals (aHdl.name ()))
+          aHdl.valueText ("My company type");
+        else
+          if (!aHdl.name ().getLocalPart ().equals ("CompanyData"))
+            aHdl.valueErrorCode (EToopDataElementResponseErrorCode.DP_ELE_001);
+    });
+
+    System.out.println (new ConceptMarshaller ().getAsString (y.getAsCCCEVConcept ()));
   }
 }
