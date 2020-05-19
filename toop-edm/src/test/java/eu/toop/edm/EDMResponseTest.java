@@ -199,5 +199,8 @@ public final class EDMResponseTest
 
     aResponse = EDMResponse.reader ().read (new ClassPathResource ("Concept Request_LP.xml"));
     assertNull (aResponse);
+
+    aResponse = EDMResponse.reader ().read (new ClassPathResource ("Error Response 1.xml"));
+    assertNull (aResponse);
   }
 }

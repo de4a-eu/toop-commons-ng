@@ -249,5 +249,8 @@ public final class EDMRequestTest
 
     aRequest = EDMRequest.reader ().read (new ClassPathResource ("Concept Response.xml"));
     assertNull (aRequest);
+
+    aRequest = EDMRequest.reader ().read (new ClassPathResource ("Error Response 1.xml"));
+    assertNull (aRequest);
   }
 }

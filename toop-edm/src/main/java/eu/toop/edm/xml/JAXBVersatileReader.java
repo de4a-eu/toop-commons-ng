@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 
 import com.helger.commons.ValueEnforcer;
+import com.helger.commons.debug.GlobalDebug;
 import com.helger.jaxb.IJAXBReader;
 
 /**
@@ -66,7 +67,8 @@ public class JAXBVersatileReader <JAXBTYPE, T> implements IJAXBVersatileReader <
     }
     catch (final RuntimeException ex)
     {
-      LOGGER.warn ("Error mapping", ex);
+      if (GlobalDebug.isDebugMode ())
+        LOGGER.warn ("Error mapping the read XML to the target type", ex);
       return null;
     }
   }

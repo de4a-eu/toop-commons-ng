@@ -989,6 +989,6 @@ public class EDMResponse implements IEDMTopLevelObject
       return aRealBuilder.build ();
     }
 
-    throw new IllegalStateException ("Found neither inline nor reference content in the response");
+    throw new IllegalStateException ("Found neither inline nor reference content in the response. Is it eventually an Error Response?");
   }
 }
