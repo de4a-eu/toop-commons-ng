@@ -36,7 +36,7 @@ public enum EToopErrorCode implements IToopErrorCode
   /** Message Validation Failed */
   IF_002 ("IF-002"),
 
-  /** The TOOP Directory is not reachable */
+  /** The DSD is not reachable */
   DD_001 ("DD-001"),
   /** An SMP could not be queried */
   DD_002 ("DD-002"),
