@@ -17,14 +17,18 @@ package eu.toop.edm;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import javax.annotation.Nonnull;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 import com.helger.commons.collection.impl.ICommonsList;
+import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.commons.mock.CommonsTestHelper;
 import com.helger.schematron.svrl.AbstractSVRLMessage;
 
@@ -41,6 +45,8 @@ import eu.toop.edm.schematron.SchematronEDM2Validator;
  */
 public final class EDMErrorResponseTest
 {
+  private static final Logger LOGGER = LoggerFactory.getLogger (EDMErrorResponseTest.class);
+
   private static void _testWriteAndRead (@Nonnull final EDMErrorResponse aResp)
   {
     assertNotNull (aResp);
@@ -49,7 +55,8 @@ public final class EDMErrorResponseTest
     final byte [] aBytes = aResp.getWriter ().getAsBytes ();
     assertNotNull (aBytes);
 
-    System.out.println (aResp.getWriter ().getAsString ());
+    if (false)
+      LOGGER.info (aResp.getWriter ().getAsString ());
 
     // Re-read
     final EDMErrorResponse aResp2 = EDMErrorResponse.reader ().read (aBytes);
@@ -92,5 +99,26 @@ public final class EDMErrorResponseTest
                                                        .addException (_exBuilder (EEDMExceptionType.TIMEOUT))
                                                        .build ();
     _testWriteAndRead (aErrorResponse);
+  }
+
+  @Test
+  public void testReadAndWriteExampleFiles ()
+  {
+    final EDMErrorResponse aErrorResponse = EDMErrorResponse.reader ()
+                                                            .read (new ClassPathResource ("Error Response 1.xml"));
+    _testWriteAndRead (aErrorResponse);
+  }
+
+  @Test
+  public void testBadCases ()
+  {
+    EDMErrorResponse aErrorResponse = EDMErrorResponse.reader ().read (new ClassPathResource ("Bogus.xml"));
+    assertNull (aErrorResponse);
+
+    aErrorResponse = EDMErrorResponse.reader ().read (new ClassPathResource ("Concept Request_LP.xml"));
+    assertNull (aErrorResponse);
+
+    aErrorResponse = EDMErrorResponse.reader ().read (new ClassPathResource ("Concept Response.xml"));
+    assertNull (aErrorResponse);
   }
 }
