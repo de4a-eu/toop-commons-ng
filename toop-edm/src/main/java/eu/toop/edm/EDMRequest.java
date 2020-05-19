@@ -31,7 +31,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.w3c.dom.Node;
 
 import com.helger.commons.ValueEnforcer;
-import com.helger.commons.annotation.DevelopersNote;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.annotation.ReturnsMutableObject;
@@ -389,16 +388,6 @@ public class EDMRequest implements IEDMTopLevelObject
     return new JAXBVersatileWriter <> (getAsQueryRequest (), RegRep4Writer.queryRequest (CCAGV.XSDS).setFormattedOutput (true));
   }
 
-  /**
-   * @deprecated Since beta3; Use {@link #reader()} instead
-   */
-  @Nonnull
-  @Deprecated
-  public static IJAXBVersatileReader <EDMRequest> getReader ()
-  {
-    return reader ();
-  }
-
   @Nonnull
   public static IJAXBVersatileReader <EDMRequest> reader ()
   {
@@ -476,18 +465,6 @@ public class EDMRequest implements IEDMTopLevelObject
                                 .responseOption (EResponseOptionType.INLINE);
   }
 
-  /**
-   * @return A new builder.
-   * @deprecated Since beta3; use {@link #builderDocumentsByDistribution()} or
-   *             {@link #builderDocumentReferencesByDistribution()} instead.
-   */
-  @Nonnull
-  @Deprecated
-  public static BuilderDocumentsByDistribution builderDocument ()
-  {
-    return builderDocumentsByDistribution ();
-  }
-
   @Nonnull
   public static BuilderDocumentsByDistribution builderDocumentsByDistribution ()
   {
@@ -537,21 +514,6 @@ public class EDMRequest implements IEDMTopLevelObject
     {
       ValueEnforcer.notNull (e, "QueryDefinitionType");
       m_eQueryDefinition = e;
-    }
-
-    /**
-     * @param e
-     *        query definition
-     * @return this for chaining
-     * @deprecated Since beta3; just remove any invocation
-     */
-    @Nonnull
-    @Deprecated
-    @DevelopersNote ("Since beta3 in the constructor")
-    public final T queryDefinition (@Nullable final EQueryDefinitionType e)
-    {
-      ValueEnforcer.notNull (e, "QueryDefinitionType");
-      return thisAsT ();
     }
 
     @Nonnull

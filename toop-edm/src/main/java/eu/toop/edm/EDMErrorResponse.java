@@ -83,8 +83,7 @@ public class EDMErrorResponse implements IEDMTopLevelObject
                               @Nonnull @Nonempty final ICommonsList <EDMExceptionPojo> aExceptions)
   {
     ValueEnforcer.notNull (eResponseStatus, "ResponseStatus");
-    ValueEnforcer.isTrue (eResponseStatus == ERegRepResponseStatus.SUCCESS ||
-                          eResponseStatus == ERegRepResponseStatus.FAILURE,
+    ValueEnforcer.isTrue (eResponseStatus == ERegRepResponseStatus.SUCCESS || eResponseStatus == ERegRepResponseStatus.FAILURE,
                           "Only SUCCESS and FAILURE are supported");
     ValueEnforcer.notEmpty (sRequestID, "RequestID");
     ValueEnforcer.notEmpty (sSpecificationIdentifier, "SpecificationIdentifier");
@@ -184,16 +183,6 @@ public class EDMErrorResponse implements IEDMTopLevelObject
   public IVersatileWriter <QueryResponse> getWriter ()
   {
     return new JAXBVersatileWriter <> (getAsErrorResponse (), RegRep4Writer.queryResponse ().setFormattedOutput (true));
-  }
-
-  /**
-   * @deprecated Since beta3; Use {@link #reader()} instead
-   */
-  @Deprecated
-  @Nonnull
-  public static IJAXBVersatileReader <EDMErrorResponse> getReader ()
-  {
-    return reader ();
   }
 
   @Nonnull
@@ -410,11 +399,7 @@ public class EDMErrorResponse implements IEDMTopLevelObject
     {
       checkConsistency ();
 
-      return new EDMErrorResponse (m_eResponseStatus,
-                                   m_sRequestID,
-                                   m_sSpecificationIdentifier,
-                                   m_aErrorProvider,
-                                   m_aExceptions);
+      return new EDMErrorResponse (m_eResponseStatus, m_sRequestID, m_sSpecificationIdentifier, m_aErrorProvider, m_aExceptions);
     }
   }
 

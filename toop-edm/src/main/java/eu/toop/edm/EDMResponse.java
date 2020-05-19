@@ -50,7 +50,6 @@ import eu.toop.edm.jaxb.cccev.CCCEVConceptType;
 import eu.toop.edm.jaxb.cv.agent.AgentType;
 import eu.toop.edm.model.AgentPojo;
 import eu.toop.edm.model.ConceptPojo;
-import eu.toop.edm.model.EQueryDefinitionType;
 import eu.toop.edm.model.EResponseOptionType;
 import eu.toop.edm.response.EDMResponsePayloadConcepts;
 import eu.toop.edm.response.IEDMResponsePayloadProvider;
@@ -279,16 +278,6 @@ public class EDMResponse implements IEDMTopLevelObject
     return new JAXBVersatileWriter <> (getAsQueryResponse (), RegRep4Writer.queryResponse (CCCEV.XSDS).setFormattedOutput (true));
   }
 
-  /**
-   * @deprecated Since beta3; Use {@link #reader()} instead
-   */
-  @Deprecated
-  @Nonnull
-  public static IJAXBVersatileReader <EDMResponse> getReader ()
-  {
-    return reader ();
-  }
-
   @Nonnull
   public static IJAXBVersatileReader <EDMResponse> reader ()
   {
@@ -378,21 +367,6 @@ public class EDMResponse implements IEDMTopLevelObject
     {
       ValueEnforcer.notNull (e, "ResponseOption");
       m_eResponseOption = e;
-    }
-
-    /**
-     * This element was replaced with the "ResponseOptionType"
-     *
-     * @param e
-     *        Query definition type.
-     * @return this for chaining
-     * @deprecated Since beta3; not needed anymore
-     */
-    @Nonnull
-    @Deprecated
-    public final T queryDefinition (@Nullable final EQueryDefinitionType e)
-    {
-      return thisAsT ();
     }
 
     @Nonnull
