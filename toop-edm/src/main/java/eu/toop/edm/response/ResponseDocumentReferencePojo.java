@@ -191,7 +191,7 @@ public class ResponseDocumentReferencePojo implements IEDMResponsePayloadDocumen
         break;
       }
       default:
-        throw new IllegalStateException ("Slot is not defined: " + sName);
+        throw new IllegalStateException ("Found unsupported slot '" + sName + "'");
     }
   }
 

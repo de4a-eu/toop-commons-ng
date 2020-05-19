@@ -439,7 +439,7 @@ public class EDMErrorResponse implements IEDMTopLevelObject
         }
         break;
       default:
-        throw new IllegalStateException ("Slot is not defined: " + sName);
+        throw new IllegalStateException ("Found unsupported slot '" + sName + "'");
     }
   }
 
