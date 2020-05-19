@@ -44,7 +44,11 @@ public enum EQueryDefinitionType implements IHasID <String>
    */
   DOCUMENT_BY_ID ("urn:oasis:names:tc:ebxml-regrep:query:GetObjectById");
 
-  // Legacy name
+  /**
+   * Legacy name.
+   * 
+   * @deprecated Since beta3; use {@link #DOCUMENT_BY_DISTRIBUTION} instead
+   */
   @Deprecated
   public static final EQueryDefinitionType DOCUMENT = DOCUMENT_BY_DISTRIBUTION;
 

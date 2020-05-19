@@ -95,10 +95,13 @@ public final class EDMPayloadDeterminator
               LOGGER.warn ("Failed to read the payload as an EDMResponse");
             }
             else
-              LOGGER.warn ("The contained XML could not be interpreted. Root element is {" +
-                           sNamespaceURI +
-                           "}" +
-                           sLocalName);
+            {
+              if (LOGGER.isWarnEnabled ())
+                LOGGER.warn ("The contained XML could not be interpreted. Root element is {" +
+                             sNamespaceURI +
+                             "}" +
+                             sLocalName);
+            }
         }
         else
           LOGGER.warn ("The parsed XML document has no root element");
