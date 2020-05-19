@@ -74,6 +74,7 @@ public class ResponseDocumentReferencePojo implements IEDMResponsePayloadDocumen
   }
 
   @Nonnull
+  @Override
   public ObjectRefType getAsObjectRef ()
   {
     final ObjectRefType ret = new ObjectRefType ();

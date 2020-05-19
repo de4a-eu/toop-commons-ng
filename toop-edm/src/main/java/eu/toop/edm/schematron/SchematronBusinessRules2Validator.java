@@ -23,8 +23,8 @@ import com.helger.commons.io.resource.IReadableResource;
 
 /**
  * TOOP Schematron validator for the 2.0.0 data model Business Rules. Apply only
- * AFTER EDM. Validate DOM documents or other resources using the predefined
- * TOOP Schematron rules.
+ * <b>after</b> EDM. Validate DOM documents or other resources using the
+ * predefined TOOP Schematron rules.
  *
  * @author Philip Helger
  */

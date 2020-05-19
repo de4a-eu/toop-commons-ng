@@ -87,6 +87,7 @@ public class ResponseDocumentPojo implements IEDMResponsePayloadDocument
   }
 
   @Nonnull
+  @Override
   public ExtrinsicObjectType getAsRegistryObject ()
   {
     final ExtrinsicObjectType ret = new ExtrinsicObjectType ();

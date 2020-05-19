@@ -393,8 +393,8 @@ public class EDMRequest implements IEDMTopLevelObject
   /**
    * @deprecated Since beta3; Use {@link #reader()} instead
    */
-  @Deprecated
   @Nonnull
+  @Deprecated
   public static IJAXBVersatileReader <EDMRequest> getReader ()
   {
     return reader ();
@@ -477,6 +477,11 @@ public class EDMRequest implements IEDMTopLevelObject
                                 .responseOption (EResponseOptionType.INLINE);
   }
 
+  /**
+   * @return A new builder.
+   * @deprecated Since beta3; use {@link #builderDocumentsByDistribution()} or
+   *             {@link #builderDocumentReferencesByDistribution()} instead.
+   */
   @Nonnull
   @Deprecated
   public static BuilderDocumentsByDistribution builderDocument ()
@@ -513,7 +518,7 @@ public class EDMRequest implements IEDMTopLevelObject
    *
    * @author Philip Helger
    */
-  public static abstract class AbstractBuilder <T extends AbstractBuilder <T>> implements IGenericImplTrait <T>
+  public abstract static class AbstractBuilder <T extends AbstractBuilder <T>> implements IGenericImplTrait <T>
   {
     protected final EQueryDefinitionType m_eQueryDefinition;
     protected String m_sRequestID;
@@ -535,6 +540,12 @@ public class EDMRequest implements IEDMTopLevelObject
       m_eQueryDefinition = e;
     }
 
+    /**
+     * @param e
+     *        query definition
+     * @return this for chaining
+     * @deprecated Since beta3; just remove any invocation
+     */
     @Nonnull
     @Deprecated
     @DevelopersNote ("Since beta3 in the constructor")

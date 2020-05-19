@@ -77,6 +77,7 @@ public class EDMResponsePayloadConcepts implements IEDMResponsePayloadConcepts
   }
 
   @Nonnull
+  @Override
   public ExtrinsicObjectType getAsRegistryObject ()
   {
     final ExtrinsicObjectType ret = new ExtrinsicObjectType ();

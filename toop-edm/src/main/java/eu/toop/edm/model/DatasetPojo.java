@@ -404,7 +404,7 @@ public class DatasetPojo
     }
 
     @Nonnull
-    public Builder distribution (@Nonnull final Consumer <? super DocumentReferencePojo.Builder> a)
+    public Builder distribution (@Nullable final Consumer <? super DocumentReferencePojo.Builder> a)
     {
       if (a != null)
       {
@@ -435,7 +435,7 @@ public class DatasetPojo
     }
 
     @Nonnull
-    public Builder creator (@Nonnull final Consumer <? super AgentPojo.Builder> a)
+    public Builder creator (@Nullable final Consumer <? super AgentPojo.Builder> a)
     {
       if (a != null)
       {
@@ -569,7 +569,7 @@ public class DatasetPojo
     }
 
     @Nonnull
-    public Builder addQualifiedRelation (@Nonnull final Consumer <? super QualifiedRelationPojo.Builder> a)
+    public Builder addQualifiedRelation (@Nullable final Consumer <? super QualifiedRelationPojo.Builder> a)
     {
       if (a != null)
       {
@@ -601,7 +601,7 @@ public class DatasetPojo
     }
 
     @Nonnull
-    public Builder qualifiedRelation (@Nonnull final Consumer <? super QualifiedRelationPojo.Builder> a)
+    public Builder qualifiedRelation (@Nullable final Consumer <? super QualifiedRelationPojo.Builder> a)
     {
       if (a != null)
       {

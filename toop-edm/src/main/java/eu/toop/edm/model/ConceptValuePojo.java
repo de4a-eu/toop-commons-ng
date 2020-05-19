@@ -332,7 +332,7 @@ public class ConceptValuePojo
     }
 
     @Nonnull
-    public Builder amount (@Nonnull final Consumer <? super AmountPojo.Builder> a)
+    public Builder amount (@Nullable final Consumer <? super AmountPojo.Builder> a)
     {
       if (a != null)
       {
@@ -402,7 +402,7 @@ public class ConceptValuePojo
     }
 
     @Nonnull
-    public Builder measure (@Nonnull final Consumer <? super MeasurePojo.Builder> a)
+    public Builder measure (@Nullable final Consumer <? super MeasurePojo.Builder> a)
     {
       if (a != null)
       {
@@ -452,7 +452,7 @@ public class ConceptValuePojo
     }
 
     @Nonnull
-    public Builder period (@Nonnull final Consumer <? super PeriodPojo.Builder> a)
+    public Builder period (@Nullable final Consumer <? super PeriodPojo.Builder> a)
     {
       if (a != null)
       {
@@ -483,7 +483,7 @@ public class ConceptValuePojo
     }
 
     @Nonnull
-    public Builder quantity (@Nonnull final Consumer <? super QuantityPojo.Builder> a)
+    public Builder quantity (@Nullable final Consumer <? super QuantityPojo.Builder> a)
     {
       if (a != null)
       {

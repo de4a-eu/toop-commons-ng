@@ -368,7 +368,7 @@ public class EDMResponse implements IEDMTopLevelObject
    * @param <T>
    *        The effective builder type
    */
-  public static abstract class AbstractBuilder <T extends AbstractBuilder <T>> implements IGenericImplTrait <T>
+  public abstract static class AbstractBuilder <T extends AbstractBuilder <T>> implements IGenericImplTrait <T>
   {
     protected EResponseOptionType m_eResponseOption;
     protected ERegRepResponseStatus m_eResponseStatus;
@@ -648,7 +648,7 @@ public class EDMResponse implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public BuilderDocument addResponseObject (@Nonnull final Consumer <? super ResponseDocumentPojo.Builder> a)
+    public BuilderDocument addResponseObject (@Nullable final Consumer <? super ResponseDocumentPojo.Builder> a)
     {
       if (a != null)
       {
@@ -681,7 +681,7 @@ public class EDMResponse implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public BuilderDocument responseObject (@Nonnull final Consumer <? super ResponseDocumentPojo.Builder> a)
+    public BuilderDocument responseObject (@Nullable final Consumer <? super ResponseDocumentPojo.Builder> a)
     {
       if (a != null)
       {
@@ -765,7 +765,7 @@ public class EDMResponse implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public BuilderDocumentReference addResponseObject (@Nonnull final Consumer <? super ResponseDocumentReferencePojo.Builder> a)
+    public BuilderDocumentReference addResponseObject (@Nullable final Consumer <? super ResponseDocumentReferencePojo.Builder> a)
     {
       if (a != null)
       {
@@ -797,7 +797,7 @@ public class EDMResponse implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public BuilderDocumentReference responseObject (@Nonnull final Consumer <? super ResponseDocumentReferencePojo.Builder> a)
+    public BuilderDocumentReference responseObject (@Nullable final Consumer <? super ResponseDocumentReferencePojo.Builder> a)
     {
       if (a != null)
       {
@@ -912,14 +912,13 @@ public class EDMResponse implements IEDMTopLevelObject
         if (aSlotValue instanceof CollectionValueType)
         {
           final List <ValueType> aElements = ((CollectionValueType) aSlotValue).getElement ();
-          if (aElements != null)
-            for (final ValueType aElement : aElements)
-              if (aElement instanceof AnyValueType)
-              {
-                final Object aElementValue = ((AnyValueType) aElement).getAny ();
-                if (aElementValue instanceof Node)
-                  aBuilder.addConcept (new ConceptMarshaller ().read ((Node) aElementValue));
-              }
+          for (final ValueType aElement : aElements)
+            if (aElement instanceof AnyValueType)
+            {
+              final Object aElementValue = ((AnyValueType) aElement).getAny ();
+              if (aElementValue instanceof Node)
+                aBuilder.addConcept (new ConceptMarshaller ().read ((Node) aElementValue));
+            }
         }
         break;
       default:

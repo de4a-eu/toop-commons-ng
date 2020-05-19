@@ -309,7 +309,7 @@ public class ConceptPojo
     }
 
     @Nonnull
-    public Builder valueAmount (@Nonnull final Consumer <? super AmountPojo.Builder> a)
+    public Builder valueAmount (@Nullable final Consumer <? super AmountPojo.Builder> a)
     {
       return value (ConceptValuePojo.builder ().amount (a));
     }
@@ -351,7 +351,7 @@ public class ConceptPojo
     }
 
     @Nonnull
-    public Builder valueMeasure (@Nonnull final Consumer <? super MeasurePojo.Builder> a)
+    public Builder valueMeasure (@Nullable final Consumer <? super MeasurePojo.Builder> a)
     {
       return value (ConceptValuePojo.builder ().measure (a));
     }
@@ -375,7 +375,7 @@ public class ConceptPojo
     }
 
     @Nonnull
-    public Builder valuePeriod (@Nonnull final Consumer <? super PeriodPojo.Builder> a)
+    public Builder valuePeriod (@Nullable final Consumer <? super PeriodPojo.Builder> a)
     {
       return value (ConceptValuePojo.builder ().period (a));
     }
@@ -417,7 +417,7 @@ public class ConceptPojo
     }
 
     @Nonnull
-    public Builder valueQuantity (@Nonnull final Consumer <? super QuantityPojo.Builder> a)
+    public Builder valueQuantity (@Nullable final Consumer <? super QuantityPojo.Builder> a)
     {
       return value (ConceptValuePojo.builder ().quantity (a));
     }
@@ -471,7 +471,7 @@ public class ConceptPojo
     }
 
     @Nonnull
-    public Builder value (@Nonnull final Consumer <? super ConceptValuePojo.Builder> a)
+    public Builder value (@Nullable final Consumer <? super ConceptValuePojo.Builder> a)
     {
       if (a != null)
       {
@@ -502,7 +502,7 @@ public class ConceptPojo
     }
 
     @Nonnull
-    public Builder addChild (@Nonnull final Consumer <? super ConceptPojo.Builder> a)
+    public Builder addChild (@Nullable final Consumer <? super ConceptPojo.Builder> a)
     {
       if (a != null)
       {
@@ -534,7 +534,7 @@ public class ConceptPojo
     }
 
     @Nonnull
-    public Builder child (@Nonnull final Consumer <? super ConceptPojo.Builder> a)
+    public Builder child (@Nullable final Consumer <? super ConceptPojo.Builder> a)
     {
       if (a != null)
       {

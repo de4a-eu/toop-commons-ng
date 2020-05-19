@@ -196,7 +196,7 @@ public class AgentPojo
     }
 
     @Nonnull
-    public Builder address (@Nonnull final Consumer <? super AddressPojo.Builder> a)
+    public Builder address (@Nullable final Consumer <? super AddressPojo.Builder> a)
     {
       if (a != null)
       {

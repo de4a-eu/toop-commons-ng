@@ -49,6 +49,8 @@ public final class EDMErrorResponseTest
     final byte [] aBytes = aResp.getWriter ().getAsBytes ();
     assertNotNull (aBytes);
 
+    System.out.println (aResp.getWriter ().getAsString ());
+
     // Re-read
     final EDMErrorResponse aResp2 = EDMErrorResponse.reader ().read (aBytes);
 
