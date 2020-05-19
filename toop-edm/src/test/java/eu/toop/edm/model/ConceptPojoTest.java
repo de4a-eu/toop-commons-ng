@@ -27,6 +27,8 @@ import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.helger.commons.datetime.PDTFactory;
 import com.helger.commons.mock.CommonsTestHelper;
@@ -46,6 +48,9 @@ import eu.toop.edm.xml.cccev.ConceptMarshaller;
  */
 public final class ConceptPojoTest
 {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger (ConceptPojoTest.class);
+
   private static void _testWriteAndRead (@Nonnull final ConceptPojo x)
   {
     assertNotNull (x);
@@ -202,6 +207,6 @@ public final class ConceptPojoTest
             aHdl.valueErrorCode (EToopDataElementResponseErrorCode.DP_ELE_001);
     });
 
-    System.out.println (new ConceptMarshaller ().getAsString (y.getAsCCCEVConcept ()));
+    LOGGER.info (new ConceptMarshaller ().getAsString (y.getAsCCCEVConcept ()));
   }
 }
