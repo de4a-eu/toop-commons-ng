@@ -100,8 +100,8 @@ import eu.toop.regrep.slot.ISlotProvider;
  * <li>If it is a "ConceptQuery" the response Concepts must be provided.</li>
  * <li>If it is a "DocumentQuery" the response Dataset must be provided.</li>
  * </ul>
- * It is recommended to use the {@link #builder()} methods to create the EDM
- * request using the builder pattern with a fluent API.
+ * It is recommended to use the <code>builder*()</code> methods to create the
+ * EDM request using the builder pattern with a fluent API.
  *
  * @author Philip Helger
  * @author Konstantinos Douloudis
@@ -130,8 +130,7 @@ public class EDMResponse implements IEDMTopLevelObject
   {
     ValueEnforcer.notNull (eResponseOption, "ResponseOption");
     ValueEnforcer.notNull (eResponseStatus, "ResponseStatus");
-    ValueEnforcer.isTrue (eResponseStatus == ERegRepResponseStatus.SUCCESS ||
-                          eResponseStatus == ERegRepResponseStatus.FAILURE,
+    ValueEnforcer.isTrue (eResponseStatus == ERegRepResponseStatus.SUCCESS || eResponseStatus == ERegRepResponseStatus.FAILURE,
                           "Only SUCCESS and FAILURE are supported");
     ValueEnforcer.notEmpty (sRequestID, "RequestID");
     ValueEnforcer.notEmpty (sSpecificationIdentifier, "SpecificationIdentifier");
@@ -277,8 +276,7 @@ public class EDMResponse implements IEDMTopLevelObject
   @Nonnull
   public IVersatileWriter <QueryResponse> getWriter ()
   {
-    return new JAXBVersatileWriter <> (getAsQueryResponse (),
-                                       RegRep4Writer.queryResponse (CCCEV.XSDS).setFormattedOutput (true));
+    return new JAXBVersatileWriter <> (getAsQueryResponse (), RegRep4Writer.queryResponse (CCCEV.XSDS).setFormattedOutput (true));
   }
 
   /**
@@ -345,8 +343,7 @@ public class EDMResponse implements IEDMTopLevelObject
   {
     // RegistryObjectID doesn't matter for concepts but must be settable in
     // import for comparison
-    return new BuilderConcept ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
-                                .randomRegistryObjectID ();
+    return new BuilderConcept ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20).randomRegistryObjectID ();
   }
 
   @Nonnull
@@ -938,8 +935,7 @@ public class EDMResponse implements IEDMTopLevelObject
     if (aObjectRefList != null && aObjectRefList.hasObjectRefEntries ())
     {
       // Document Reference
-      final BuilderDocumentReference aRealBuilder = builderDocumentReference ().responseStatus (eResponseStatus)
-                                                                               .requestID (sRequestID);
+      final BuilderDocumentReference aRealBuilder = builderDocumentReference ().responseStatus (eResponseStatus).requestID (sRequestID);
       for (final SlotType aSlot : aQueryResponse.getSlot ())
         _applySlots (aSlot, aRealBuilder);
 
@@ -954,9 +950,7 @@ public class EDMResponse implements IEDMTopLevelObject
     {
       if (aRegistryObjectList.getRegistryObject ().size () == 1 &&
           aRegistryObjectList.getRegistryObjectAtIndex (0).getSlotCount () == 1 &&
-          SlotConceptValues.NAME.equals (aRegistryObjectList.getRegistryObjectAtIndex (0)
-                                                            .getSlotAtIndex (0)
-                                                            .getName ()))
+          SlotConceptValues.NAME.equals (aRegistryObjectList.getRegistryObjectAtIndex (0).getSlotAtIndex (0).getName ()))
       {
         // It's a Concept Response
         final RegistryObjectType aRO = aRegistryObjectList.getRegistryObject ().get (0);

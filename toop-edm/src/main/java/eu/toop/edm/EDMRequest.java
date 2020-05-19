@@ -129,8 +129,8 @@ import eu.toop.regrep.slot.predefined.SlotId;
  * <li>If it is a "ObjectReference" the request Document ID must be
  * provided.</li>
  * </ul>
- * It is recommended to use the {@link #builder()} methods to create the EDM
- * request using the builder pattern with a fluent API.
+ * It is recommended to use the <code>builder*()</code> methods to create the
+ * EDM request using the builder pattern with a fluent API.
  *
  * @author Philip Helger
  * @author Konstantinos Douloudis
@@ -386,8 +386,7 @@ public class EDMRequest implements IEDMTopLevelObject
   @Nonnull
   public IVersatileWriter <QueryRequest> getWriter ()
   {
-    return new JAXBVersatileWriter <> (getAsQueryRequest (),
-                                       RegRep4Writer.queryRequest (CCAGV.XSDS).setFormattedOutput (true));
+    return new JAXBVersatileWriter <> (getAsQueryRequest (), RegRep4Writer.queryRequest (CCAGV.XSDS).setFormattedOutput (true));
   }
 
   /**
@@ -1130,8 +1129,7 @@ public class EDMRequest implements IEDMTopLevelObject
     }
   }
 
-  private static void _applySlots (@Nonnull final SlotType aSlot,
-                                   @Nonnull final EDMRequest.AbstractBuilder <?> aBuilder)
+  private static void _applySlots (@Nonnull final SlotType aSlot, @Nonnull final EDMRequest.AbstractBuilder <?> aBuilder)
   {
     final String sName = aSlot.getName ();
     final ValueType aSlotValue = aSlot.getSlotValue ();
