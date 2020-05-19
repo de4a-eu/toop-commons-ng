@@ -43,6 +43,7 @@ import eu.toop.edm.model.EGenderCode;
 import eu.toop.edm.model.EResponseOptionType;
 import eu.toop.edm.model.PersonPojo;
 import eu.toop.edm.pilot.gbm.EToopConcept;
+import eu.toop.edm.schematron.SchematronBusinessRules2Validator;
 import eu.toop.edm.schematron.SchematronEDM2Validator;
 
 /**
@@ -71,8 +72,13 @@ public final class EDMRequestTest
       // Schematron validation
       final Document aDoc = aReq.getWriter ().getAsDocument ();
       assertNotNull (aDoc);
-      final ICommonsList <AbstractSVRLMessage> aMsgs = new SchematronEDM2Validator ().validateDocument (aDoc);
+      ICommonsList <AbstractSVRLMessage> aMsgs = new SchematronEDM2Validator ().validateDocument (aDoc);
       assertTrue (aMsgs.toString (), aMsgs.isEmpty ());
+      if (false)
+      {
+        aMsgs = new SchematronBusinessRules2Validator ().validateDocument (aDoc);
+        assertTrue (aMsgs.toString (), aMsgs.isEmpty ());
+      }
     }
   }
 
@@ -117,12 +123,9 @@ public final class EDMRequestTest
   {
     return _req (EDMRequest.builderConcept ()).concept (x -> x.randomID ()
                                                               .name (EToopConcept.COMPANY_TYPE)
-                                                              .addChild (y -> y.randomID ()
-                                                                               .name (EToopConcept.COMPANY_NAME))
-                                                              .addChild (y -> y.randomID ()
-                                                                               .name (EToopConcept.COMPANY_CODE))
-                                                              .addChild (y -> y.randomID ()
-                                                                               .name (EToopConcept.COMPANY_TYPE)));
+                                                              .addChild (y -> y.randomID ().name (EToopConcept.COMPANY_NAME))
+                                                              .addChild (y -> y.randomID ().name (EToopConcept.COMPANY_CODE))
+                                                              .addChild (y -> y.randomID ().name (EToopConcept.COMPANY_TYPE)));
   }
 
   @Nonnull
@@ -219,9 +222,7 @@ public final class EDMRequestTest
   @Test
   public void createEDMDocumentRefRequestNP ()
   {
-    final EDMRequest aRequest = _reqDocument ().dataSubject (_np ())
-                                               .responseOption (EResponseOptionType.REFERENCE)
-                                               .build ();
+    final EDMRequest aRequest = _reqDocument ().dataSubject (_np ()).responseOption (EResponseOptionType.REFERENCE).build ();
     _testWriteAndRead (aRequest);
   }
 

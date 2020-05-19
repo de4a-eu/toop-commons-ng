@@ -7,7 +7,7 @@ The code contained in this project is used by:
 
 ## Status
 
-Work in progress
+2020-05-19: release of `v2.0.0-beta3`
 * Initial copy from TOOP Connector NG for easier dependency reuse
 * Added new Request query definition "Object Reference" to request a document with an ID only
 * Renamed `getReader()` to `reader()`
@@ -17,6 +17,7 @@ Work in progress
 * `EDMRequest` now has explicit builder classes depending on the request type: `EDMRequest.BuilderConcept` , `EDMRequest.BuilderDocumentsByDistribution` and `EDMRequest.BuilderDocumentByID`
 * `EDMResponse` now has explicit builder classes depending on the result layout: `EDMResponse.BuilderConcept`, `EDMResponse.BuilderDocument` and `EDMResponse.BuilderDocumentReference`
 * `EDMExceptionBuilder` was renamed to `EDMExceptionPojo` and now has a separate `builder()` method like the other Pojos
+* Schematron rules are now available in two different files and need to be executed subsequently 
 
 2020-05-12: release of `v2.0.0-beta2`
 * Changed the main EDM classes for request, response and error response to `EDMRequest`, `EDMResponse` and `EDMErrorResponse`
@@ -33,7 +34,7 @@ Work in progress
       <dependency>
         <groupId>eu.toop</groupId>
         <artifactId>toop-edm</artifactId>
-        <version>2.0.0-beta2</version>
+        <version>2.0.0-beta3</version>
       </dependency>
 ```
 

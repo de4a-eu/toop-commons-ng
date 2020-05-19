@@ -36,6 +36,7 @@ import eu.toop.edm.error.EDMExceptionPojo;
 import eu.toop.edm.error.EEDMExceptionType;
 import eu.toop.edm.error.EToopErrorOrigin;
 import eu.toop.edm.error.EToopErrorSeverity;
+import eu.toop.edm.schematron.SchematronBusinessRules2Validator;
 import eu.toop.edm.schematron.SchematronEDM2Validator;
 
 /**
@@ -69,7 +70,9 @@ public final class EDMErrorResponseTest
       // Schematron validation
       final Document aDoc = aResp.getWriter ().getAsDocument ();
       assertNotNull (aDoc);
-      final ICommonsList <AbstractSVRLMessage> aMsgs = new SchematronEDM2Validator ().validateDocument (aDoc);
+      ICommonsList <AbstractSVRLMessage> aMsgs = new SchematronEDM2Validator ().validateDocument (aDoc);
+      assertTrue (aMsgs.toString (), aMsgs.isEmpty ());
+      aMsgs = new SchematronBusinessRules2Validator ().validateDocument (aDoc);
       assertTrue (aMsgs.toString (), aMsgs.isEmpty ());
     }
   }
@@ -104,8 +107,7 @@ public final class EDMErrorResponseTest
   @Test
   public void testReadAndWriteExampleFiles ()
   {
-    final EDMErrorResponse aErrorResponse = EDMErrorResponse.reader ()
-                                                            .read (new ClassPathResource ("Error Response 1.xml"));
+    final EDMErrorResponse aErrorResponse = EDMErrorResponse.reader ().read (new ClassPathResource ("Error Response 1.xml"));
     _testWriteAndRead (aErrorResponse);
   }
 

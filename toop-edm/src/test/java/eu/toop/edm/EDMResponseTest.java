@@ -38,6 +38,7 @@ import com.helger.schematron.svrl.AbstractSVRLMessage;
 import eu.toop.edm.model.ConceptPojo;
 import eu.toop.edm.model.DatasetPojo;
 import eu.toop.edm.pilot.gbm.EToopConcept;
+import eu.toop.edm.schematron.SchematronBusinessRules2Validator;
 import eu.toop.edm.schematron.SchematronEDM2Validator;
 import eu.toop.regrep.ERegRepResponseStatus;
 
@@ -66,8 +67,13 @@ public final class EDMResponseTest
       // Schematron validation
       final Document aDoc = aResp.getWriter ().getAsDocument ();
       assertNotNull (aDoc);
-      final ICommonsList <AbstractSVRLMessage> aMsgs = new SchematronEDM2Validator ().validateDocument (aDoc);
+      ICommonsList <AbstractSVRLMessage> aMsgs = new SchematronEDM2Validator ().validateDocument (aDoc);
       assertTrue (aMsgs.toString (), aMsgs.isEmpty ());
+      if (false)
+      {
+        aMsgs = new SchematronBusinessRules2Validator ().validateDocument (aDoc);
+        assertTrue (aMsgs.toString (), aMsgs.isEmpty ());
+      }
     }
   }
 
@@ -138,10 +144,8 @@ public final class EDMResponseTest
   @Nonnull
   private static EDMResponse.BuilderDocumentReference _respDocumentRef ()
   {
-    return _resp (EDMResponse.builderDocumentReference ()).addResponseObject (x -> x.randomRegistryObjectID ()
-                                                                                    .dataset (_dataset ()))
-                                                          .addResponseObject (x -> x.randomRegistryObjectID ()
-                                                                                    .dataset (_dataset ()));
+    return _resp (EDMResponse.builderDocumentReference ()).addResponseObject (x -> x.randomRegistryObjectID ().dataset (_dataset ()))
+                                                          .addResponseObject (x -> x.randomRegistryObjectID ().dataset (_dataset ()));
   }
 
   @Test
