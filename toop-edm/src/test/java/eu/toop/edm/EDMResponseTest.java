@@ -67,10 +67,13 @@ public final class EDMResponseTest
       // Schematron validation
       final Document aDoc = aResp.getWriter ().getAsDocument ();
       assertNotNull (aDoc);
+      // Schematron 1
       ICommonsList <AbstractSVRLMessage> aMsgs = new SchematronEDM2Validator ().validateDocument (aDoc);
       assertTrue (aMsgs.toString (), aMsgs.isEmpty ());
+
       if (false)
       {
+        // Schematron 2
         aMsgs = new SchematronBusinessRules2Validator ().validateDocument (aDoc);
         assertTrue (aMsgs.toString (), aMsgs.isEmpty ());
       }
