@@ -31,7 +31,7 @@
     http://www.w3.org/ns/locn# ../../../../xsd/clv/2.0.0/xml/locn.xsd"
     
     requestId="c4369c4d-740e-4b64-80f0-7b209a66d629"
-    status="urn:oasis:nammes:tc:ebxml-regrep:ResponseStatusType:Success">
+    status="urn:oasis:names:tc:ebxml-regrep:ResponseStatusType:Success">
 
     <!-- SPECIFICATION IDENTIFIER -->
     <rim:Slot name="SpecificationIdentifier">

@@ -900,8 +900,13 @@ public class EDMResponse implements IEDMTopLevelObject
   @Nonnull
   public static EDMResponse create (@Nonnull final QueryResponse aQueryResponse)
   {
+    ValueEnforcer.notNull (aQueryResponse, "QueryResponse");
+
     // Get common stuff
     final ERegRepResponseStatus eResponseStatus = ERegRepResponseStatus.getFromIDOrNull (aQueryResponse.getStatus ());
+    if (eResponseStatus == null)
+      throw new IllegalStateException ("Unsupported query response status '" + aQueryResponse.getStatus () + "' present.");
+
     final String sRequestID = aQueryResponse.getRequestId ();
 
     // Check references
