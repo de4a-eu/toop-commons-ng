@@ -23,6 +23,8 @@ import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.collection.impl.CommonsArrayList;
 import com.helger.commons.collection.impl.ICommonsList;
 import com.helger.commons.io.resource.ClassPathResource;
+import com.helger.commons.mime.EMimeContentType;
+import com.helger.commons.mime.IMimeType;
 import com.helger.xsds.wsaddr.CWSAddr;
 import com.helger.xsds.xlink.CXLink;
 import com.helger.xsds.xml.CXML_XSD;
@@ -49,6 +51,9 @@ public final class CRegRep4
 
   public static final String DEFAULT_PREFIX_SPI = "spi";
   public static final String NAMESPACE_URI_SPI = "urn:oasis:names:tc:ebxml-regrep:xsd:spi:4.0";
+
+  // Since beta4
+  public static final IMimeType MIME_TYPE_EBRS_XML = EMimeContentType.APPLICATION.buildMimeType ("x-ebrs+xml");
 
   @Nonnull
   private static ClassLoader _getCL ()
