@@ -7,8 +7,9 @@ The code contained in this project is used by:
 
 ## Status
 
-Work in progres `v2.0.0-beta4`
+Work in progress `v2.0.0-beta4`
 * Removed all methods deprecated in beta3
+* Micro optimizations, but no material changes
 
 2020-05-19: release of `v2.0.0-beta3`
 * Initial copy from TOOP Connector NG for easier dependency reuse
