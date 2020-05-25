@@ -33,8 +33,8 @@ import com.helger.commons.regex.RegExHelper;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.version.Version;
 import com.helger.jcodemodel.JBlock;
-import com.helger.jcodemodel.JClassAlreadyExistsException;
 import com.helger.jcodemodel.JCodeModel;
+import com.helger.jcodemodel.JCodeModelException;
 import com.helger.jcodemodel.JDefinedClass;
 import com.helger.jcodemodel.JDocComment;
 import com.helger.jcodemodel.JEnumConstant;
@@ -105,7 +105,7 @@ public final class MainCreateJavaCodeFromCodeList extends AbstractMain
     return ret;
   }
 
-  private static void _emitDocumentTypes (final IMicroElement aRootElement) throws JClassAlreadyExistsException
+  private static void _emitDocumentTypes (final IMicroElement aRootElement) throws JCodeModelException
   {
     final JDefinedClass jEnum = s_aCodeModel._package (RESULT_JAVA_PACKAGE)
                                             ._enum ("EPredefinedDocumentTypeIdentifier")
@@ -236,14 +236,9 @@ public final class MainCreateJavaCodeFromCodeList extends AbstractMain
       m.annotate (Nullable.class);
       final JVar jArgID = m.param (JMod.FINAL, String.class, "sID");
       jArgID.annotate (Nullable.class);
-      final JBlock jIf = m.body ()
-                          ._if (s_aCodeModel.ref (StringHelper.class).staticInvoke ("hasText").arg (jArgID))
-                          ._then ();
+      final JBlock jIf = m.body ()._if (s_aCodeModel.ref (StringHelper.class).staticInvoke ("hasText").arg (jArgID))._then ();
       final JForEach jForEach = jIf.forEach (jEnum, "e", jEnum.staticInvoke ("values"));
-      jForEach.body ()
-              ._if (jForEach.var ().invoke ("getID").invoke ("equals").arg (jArgID))
-              ._then ()
-              ._return (jForEach.var ());
+      jForEach.body ()._if (jForEach.var ().invoke ("getID").invoke ("equals").arg (jArgID))._then ()._return (jForEach.var ());
       m.body ()._return (JExpr._null ());
     }
 
@@ -262,9 +257,7 @@ public final class MainCreateJavaCodeFromCodeList extends AbstractMain
                           ._if (s_aCodeModel.ref (StringHelper.class)
                                             .staticInvoke ("hasText")
                                             .arg (jArgScheme)
-                                            .cand (s_aCodeModel.ref (StringHelper.class)
-                                                               .staticInvoke ("hasText")
-                                                               .arg (jArgID)))
+                                            .cand (s_aCodeModel.ref (StringHelper.class).staticInvoke ("hasText").arg (jArgID)))
                           ._then ();
       final JForEach jForEach = jIf.forEach (jEnum, "e", jEnum.staticInvoke ("values"));
       jForEach.body ()
@@ -279,7 +272,7 @@ public final class MainCreateJavaCodeFromCodeList extends AbstractMain
     }
   }
 
-  private static void _emitParticipantIdentifierSchemes (final IMicroElement aRootElement) throws JClassAlreadyExistsException
+  private static void _emitParticipantIdentifierSchemes (final IMicroElement aRootElement) throws JCodeModelException
   {
     final JDefinedClass jEnum = s_aCodeModel._package (RESULT_JAVA_PACKAGE)
                                             ._enum ("EPredefinedParticipantIdentifierScheme")
@@ -402,7 +395,7 @@ public final class MainCreateJavaCodeFromCodeList extends AbstractMain
     m.body ()._return (fDeprecatedSince);
   }
 
-  private static void _emitProcessIdentifiers (final IMicroElement aRootElement) throws JClassAlreadyExistsException
+  private static void _emitProcessIdentifiers (final IMicroElement aRootElement) throws JCodeModelException
   {
     final JDefinedClass jEnum = s_aCodeModel._package (RESULT_JAVA_PACKAGE)
                                             ._enum ("EPredefinedProcessIdentifier")
@@ -530,14 +523,9 @@ public final class MainCreateJavaCodeFromCodeList extends AbstractMain
       m.annotate (Nullable.class);
       final JVar jArgID = m.param (JMod.FINAL, String.class, "sID");
       jArgID.annotate (Nullable.class);
-      final JBlock jIf = m.body ()
-                          ._if (s_aCodeModel.ref (StringHelper.class).staticInvoke ("hasText").arg (jArgID))
-                          ._then ();
+      final JBlock jIf = m.body ()._if (s_aCodeModel.ref (StringHelper.class).staticInvoke ("hasText").arg (jArgID))._then ();
       final JForEach jForEach = jIf.forEach (jEnum, "e", jEnum.staticInvoke ("values"));
-      jForEach.body ()
-              ._if (jForEach.var ().invoke ("getID").invoke ("equals").arg (jArgID))
-              ._then ()
-              ._return (jForEach.var ());
+      jForEach.body ()._if (jForEach.var ().invoke ("getID").invoke ("equals").arg (jArgID))._then ()._return (jForEach.var ());
       m.body ()._return (JExpr._null ());
     }
 
@@ -555,9 +543,7 @@ public final class MainCreateJavaCodeFromCodeList extends AbstractMain
                           ._if (s_aCodeModel.ref (StringHelper.class)
                                             .staticInvoke ("hasText")
                                             .arg (jArgScheme)
-                                            .cand (s_aCodeModel.ref (StringHelper.class)
-                                                               .staticInvoke ("hasText")
-                                                               .arg (jArgID)))
+                                            .cand (s_aCodeModel.ref (StringHelper.class).staticInvoke ("hasText").arg (jArgID)))
                           ._then ();
       final JForEach jForEach = jIf.forEach (jEnum, "e", jEnum.staticInvoke ("values"));
       jForEach.body ()
@@ -572,7 +558,7 @@ public final class MainCreateJavaCodeFromCodeList extends AbstractMain
     }
   }
 
-  private static void _emitTransportProfiles (final IMicroElement aRootElement) throws JClassAlreadyExistsException
+  private static void _emitTransportProfiles (final IMicroElement aRootElement) throws JCodeModelException
   {
     final JDefinedClass jEnum = s_aCodeModel._package (RESULT_JAVA_PACKAGE)
                                             ._enum ("EPredefinedTransportProfile")
@@ -675,10 +661,7 @@ public final class MainCreateJavaCodeFromCodeList extends AbstractMain
       final JVar jValue = m.param (JMod.FINAL, String.class, "sTransportProfileID");
       jValue.annotate (Nullable.class);
       final JForEach jForEach = m.body ().forEach (jEnum, "e", jEnum.staticInvoke ("values"));
-      jForEach.body ()
-              ._if (jForEach.var ().invoke ("getID").invoke ("equals").arg (jValue))
-              ._then ()
-              ._return (jForEach.var ());
+      jForEach.body ()._if (jForEach.var ().invoke ("getID").invoke ("equals").arg (jValue))._then ()._return (jForEach.var ());
       m.body ()._return (JExpr._null ());
     }
   }
@@ -688,8 +671,7 @@ public final class MainCreateJavaCodeFromCodeList extends AbstractMain
     private final File m_aFile;
     private final IThrowingConsumer <? super IMicroElement, Exception> m_aHandler;
 
-    public CodeListFile (@Nonnull final String sFilenamePart,
-                         @Nonnull final IThrowingConsumer <? super IMicroElement, Exception> aHandler)
+    public CodeListFile (@Nonnull final String sFilenamePart, @Nonnull final IThrowingConsumer <? super IMicroElement, Exception> aHandler)
     {
       m_aFile = new File (sFilenamePart + ".xml").getAbsoluteFile ();
       if (!m_aFile.exists ())
