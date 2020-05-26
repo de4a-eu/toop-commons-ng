@@ -70,11 +70,11 @@
       <artifactId>ph-jaxb</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.helger</groupId>
+      <groupId>com.helger.xsd</groupId>
       <artifactId>ph-xsds-xlink</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.helger</groupId>
+      <groupId>com.helger.xsd</groupId>
       <artifactId>ph-xsds-wsaddr</artifactId>
     </dependency>
     <dependency>
@@ -155,11 +155,11 @@
           </args>
           <episodes>
             <episode>
-              <groupId>com.helger</groupId>
+              <groupId>com.helger.xsd</groupId>
               <artifactId>ph-xsds-xlink</artifactId>
             </episode>
             <episode>
-              <groupId>com.helger</groupId>
+              <groupId>com.helger.xsd</groupId>
               <artifactId>ph-xsds-wsaddr</artifactId>
             </episode>
           </episodes>
@@ -167,7 +167,7 @@
         <dependencies>
           <!-- Required for XLink -->
           <dependency>
-            <groupId>com.helger</groupId>
+            <groupId>com.helger.xsd</groupId>
             <artifactId>ph-xsds-xlink</artifactId>
             <version>${ph-xsds.version}</version>
           </dependency>

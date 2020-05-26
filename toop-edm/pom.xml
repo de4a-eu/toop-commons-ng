@@ -69,11 +69,11 @@
       <artifactId>peppol-id</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.helger</groupId>
+      <groupId>com.helger.xsd</groupId>
       <artifactId>ph-xsds-xmldsig</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.helger</groupId>
+      <groupId>com.helger.xsd</groupId>
       <artifactId>ph-xsds-ccts-cct-schemamodule</artifactId>
     </dependency>
     <dependency>
@@ -171,7 +171,7 @@
           </args>
           <episodes>
             <episode>
-              <groupId>com.helger</groupId>
+              <groupId>com.helger.xsd</groupId>
               <artifactId>ph-xsds-ccts-cct-schemamodule</artifactId>
             </episode>
             <episode>
@@ -179,7 +179,7 @@
               <artifactId>ph-ubl21</artifactId>
             </episode>
             <episode>
-              <groupId>com.helger</groupId>
+              <groupId>com.helger.xsd</groupId>
               <artifactId>ph-xsds-xlink</artifactId>
             </episode>
             <episode>

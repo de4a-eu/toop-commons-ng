@@ -62,7 +62,7 @@
   </developers>
   
   <properties>
-    <ph-xsds.version>2.2.6</ph-xsds.version>
+    <ph-xsds.version>2.3.0</ph-xsds.version>
   </properties>
 
   <dependencyManagement>
@@ -82,7 +82,7 @@
         <scope>import</scope>
       </dependency>
       <dependency>
-        <groupId>com.helger</groupId>
+        <groupId>com.helger.xsd</groupId>
         <artifactId>ph-xsds-parent-pom</artifactId>
         <version>${ph-xsds.version}</version>
         <type>pom</type>
