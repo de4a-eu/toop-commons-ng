@@ -64,9 +64,9 @@
        
     <!--Check if an identifier is valid according to the eIDAS specifications-->
     <pattern>
-        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID">
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID">
             <assert test="matches(normalize-space(text()),'^[a-z]{2}/[a-z]{2}/(.*?)','i')"  
-                flag='ERROR' id="wrong_id_format">
+                flag='ERROR' id="br_wrong_id_format">
                 Rule: The uniqueness identifier consists of:
                 1. The first part is the Nationality Code of the identifier. This is one of the ISO 3166-1 alpha-2 codes, followed by a slash ("/"))
                 2. The second part is the Nationality Code of the destination country or international organization. This is one of the ISO 3166-1 alpha-2 codes, followed by a slash ("/")
@@ -99,13 +99,63 @@
     </pattern>
     
     
+    <!--Check if the languageID of an ErrorText is unique in the context of one Error-->  
+    <pattern> 
+        <rule context="query:QueryResponse/rs:Exception/rim:Slot[@name = 'ErrorText']/rim:SlotValue/rim:Value 
+            | query:QueryRequest/rim:Slot[@name = 'Procedure']/rim:SlotValue/rim:Value" 
+            flag='ERROR' id='br_check_localizedstring_unique_lang'> 
+            <assert test="count(rim:LocalizedString) = count(distinct-values(rim:LocalizedString/@xml:lang))">
+                When there are several LocalizedStrings, they all need to have a different language ID. 
+            </assert>        
+        </rule> 
+    </pattern> 
+    
+    
+    <!--Check the uniqueness of alternative Legal Person IDs-->
+    <pattern>
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness">
+            <assert test="(count(cvb:LegalEntityID/@schemeID) = count (distinct-values(cvb:LegalEntityID/@schemeID)) )" 
+                flag='ERROR' id='br_legal_person_scheme_id_not_unique'>
+                Each alternative LegaEntityID must have a different schemeID.
+            </assert>  
+        </rule>
+    </pattern>
+    
+    
+    <!--Check the uniqueness of alternative Natural Person IDs-->
+    <pattern>
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson 
+            | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson">
+            <assert test="(count(cvb:PersonID/@schemeID) = count (distinct-values(cvb:PersonID/@schemeID)) )" 
+                flag='ERROR' id='br_natural_person_scheme_id_not_unique'>
+                Each alternative PersonID must have a different schemeID.
+            </assert>  
+        </rule>
+    </pattern>
+    
+    
+    <!--TODO warning if the schemeID is not coming from the codelist-->
+    
+    
+    <!--Check the length of the LEI code.-->
+    <pattern>
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID">
+            <assert test="( (@schemeID = 'LEI') and ( string-length(normalize-space(.)) = 20) or (@schemeID != 'LEI')   )" 
+                flag='warning' id='br_invalid_euid_length'>
+                The LEI code length should be 20.
+            </assert>  
+        </rule>
+    </pattern>
+    
+
+    
     <!--***********************-->
     <!--*RULES USING CODELISTS*-->
     <!--***********************-->  
     
     <!--Check codelist for gender-->
     <pattern> 
-        <let name="gendertypecodes" value="document('..\codelists\gc\Gender-CodeList.gc')//Value[@ColumnRef='code']" />
+        <let name="gendertypecodes" value="document('..\codelist\toop\Gender-CodeList.gc')//Value[@ColumnRef='code']" />
         <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonGenderCode 
             | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonGenderCode">
             <assert test="$gendertypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]"
@@ -118,19 +168,155 @@
     
     <!--Check codelist for country-->
     <pattern> 
-        <let name="countrycodes" value="document('..\codelists\std-gc\CountryIdentificationCode-2.1.gc')//Value[@ColumnRef='code']" />
+        <let name="countrycodes" value="document('..\codelist\external\CountryIdentificationCode-2.2.gc')//Value[@ColumnRef='code']" />
         <rule context="cva:PersonCoreAddress/cvb:AddressAdminUnitLocationOne 
             | cva:LegalEntityCoreAddress/cvb:AddressAdminUnitLocationOne 
             | query:QueryRequest/rim:Slot[@name = 'DataConsumer']/rim:SlotValue/cagv:Agent/cagv:location/locn:address/locn:adminUnitLevel1"            
-            flag='ERROR' id='gc_check_country_countrycode'> 
-            <assert test="$countrycodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">The country code must always be specified using the correct code list. Please check <value-of select="name(.)"/>.</assert> 
+            flag='ERROR' id='br_check_country_countrycode'> 
+            <assert test="$countrycodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">
+                The country code must always be specified using the correct code list. Please check <value-of select="name(.)"/>.</assert> 
         </rule> 
-        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" 
-            flag='ERROR' id='gc_check_id_countrycode'>
-            <assert test="$countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[1])]">The country code in the first part of the identifier must always be specified using the correct code list (found:<value-of select="(tokenize(normalize-space(current()/.),'/')[1])"/>).</assert> 
-            <assert test="$countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[2])]">The country code in the second part of the identifier must always be specified using the correct code list (found:<value-of select="(tokenize(normalize-space(current()/.),'/')[2])"/>).</assert> 
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" 
+            flag='ERROR' id='br_check_id_countrycode'>
+            <assert test="$countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[1])]">
+                The country code in the first part of the identifier must always be specified using the correct code list (found:<value-of select="(tokenize(normalize-space(current()/.),'/')[1])"/>).</assert> 
+            <assert test="$countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[2])]">
+                The country code in the second part of the identifier must always be specified using the correct code list (found:<value-of select="(tokenize(normalize-space(current()/.),'/')[2])"/>).</assert> 
         </rule>
     </pattern> 
     
+    
+    <!--Check codelist for mimetype code-->
+    <pattern> 
+        <let name="mimetypecodes" value="document('..\codelist\external\BinaryObjectMimeCode-2.2.gc')//Value[@ColumnRef='code']" />
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution/dcat:mediaType
+            | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution/cccev:documentType" 
+            flag='warning' id='br_check_doc_media_type'> 
+            <assert test="$mimetypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">
+                A mimetype code SHOULD always be specified using the correct code list.</assert> 
+        </rule> 
+    </pattern> 
+    
+    
+    <!--Check codelist for the attributes of a QueryResponse returning exceptions-->
+    <pattern> 
+        <let name="errorseveritycodes" value="document('..\codelist\toop\ErrorSeverity-CodeList.gc')//Value[@ColumnRef='code']" />
+        <let name="errorcodecodes" value="document('..\codelist\toop\ErrorCode-CodeList.gc')//Value[@ColumnRef='code']" />
+        <rule context="query:QueryResponse/rs:Exception" 
+            flag='ERROR'> 
+            <assert  id='br_check_error_severity' test="$errorseveritycodes/SimpleValue[normalize-space(.) = normalize-space(current()/@severity)]">
+                An error severity code must always be specified using the correct code list.</assert> 
+            <assert  id='br_check_error_code' test="$errorcodecodes/SimpleValue[normalize-space(.) = normalize-space(current()/@code)]">
+                An error code must always be specified using the correct code list.</assert> 
+        </rule> 
+    </pattern> 
+    
+    
+    <!--Check codelist for error origin in a QueryResponse returning exceptions-->
+    <pattern> 
+        <let name="errororigincodes" value="document('..\codelist\toop\ErrorOrigin-CodeList.gc')//Value[@ColumnRef='code']" />
+        <rule context="query:QueryResponse/rs:Exception/rim:Slot[@name = 'ErrorOrigin']/rim:SlotValue/rim:Value" 
+            flag='ERROR' id='br_check_error_origin'> 
+            <assert test="$errororigincodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">
+                An error origin code must always be specified using the correct code list.</assert> 
+        </rule> 
+    </pattern> 
+    
+    
+    <!--Check codelist for distribution format-->
+    <pattern> 
+        <let name="distributionformatcodes" value="document('..\codelist\toop\DistributionFormat-CodeList.gc')//Value[@ColumnRef='code']" />
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution/dct:format"
+            flag='ERROR' id='br_check_distribution_format'> 
+            <assert test="$distributionformatcodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">
+                A distribution format code must always be specified using the correct code list.</assert> 
+        </rule> 
+    </pattern> 
+    
+    
+    <!--Check codelist for query definition-->
+    <pattern> 
+        <let name="querydefinitions" value="document('..\codelist\toop\QueryDefinition-CodeList.gc')//Value[@ColumnRef='code']" />
+        <rule context="query:QueryRequest/query:Query" 
+            flag='ERROR' id='br_check_query_definition' > 
+            <assert test="$querydefinitions/SimpleValue[normalize-space(.) = normalize-space(current()/@queryDefinition)]">A query definition code must always be specified using the correct code list.</assert> 
+        </rule> 
+    </pattern> 
+    
+    
+    <!--Check codelist for currency-->
+    <pattern> 
+        <let name="currencytypecodes" value="document('..\codelist\external\CurrencyCode-2.2.gc')//Value[@ColumnRef='code']" />
+        <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element//cccev:concept/cccev:value/cccev:amountValue" 
+            flag='ERROR' id='br_check_currency_code'> 
+            <assert test="$currencytypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/@currencyID)]">
+                A currency type code must always be specified using the correct code list.</assert> 
+        </rule> 
+    </pattern> 
+    
+    
+    <!--Check codelist for language-->
+    <pattern> 
+        <let name="languagecodes" value="document('..\codelist\external\LanguageCode-2.2.gc')//Value[@ColumnRef='code']" />
+        <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name='DocumentMetadata']/rim:SlotValue/dcat:Dataset/dct:language" 
+            flag='ERROR' id='br_check_language_code'> 
+            <assert test="$languagecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">A language code must always be specified using the correct code list.</assert> 
+        </rule> 
+    </pattern> 
+    
+    
+    <!--Check codelist for data element response error code-->
+    <pattern> 
+        <let name="dataelementresponseerrorcodes" value="document('..\codelist\toop\DataElementResponseErrorCode-CodeList.gc')//Value[@ColumnRef='code']" />
+        <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element//cccev:concept/cccev:value/cccev:error"> 
+            <assert test="$dataelementresponseerrorcodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]"
+                flag='warning' id='br_check_error_data_element_response'>
+                An error code must always be specified using the correct code list.</assert> 
+        </rule> 
+    </pattern> 
+    
+    
+    <!--Check codelist for standard industrial class code-->
+    <pattern> 
+        <let name="industrialtypecodes" value="document('..\codelist\toop\StandardIndustrialClassCode-CodeList.gc')//Value[@ColumnRef='code']" />
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID">
+            <assert test="( (@schemeID = 'SIC') and ($industrialtypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]) or (@schemeID != 'SIC') )"
+                flag='warning' id='br_check_sic_cod'>
+                A standard industrial classification code should always be specified using the correct code list.</assert> 
+        </rule> 
+    </pattern> 
+    
+    
+    <!--Check codelist for protocol exceptions-->
+    <pattern> 
+        <let name="procotolexceptioncodes" value="document('..\codelist\toop\ProcotolException-CodeList.gc')//Value[@ColumnRef='code']" />
+        <rule context="query:QueryResponse/rs:Exception"> 
+            <let name="datatype" value="@*[ends-with(name(.), ':type') and . != '']"/>
+            <assert test="$procotolexceptioncodes/SimpleValue[normalize-space(.) = normalize-space(substring-after($datatype,':'))]"
+                flag='ERROR' id='br_check_error_protocol_exception'>
+                A protocol exception code must always be specified using the correct code list.</assert> 
+        </rule> 
+    </pattern> 
+    
+    
+    <!--Check codelist for identifier type-->
+    <pattern> 
+        <let name="identifiertypecodes" value="document('..\codelist\toop\IdentifierType-CodeList.gc')//Value[@ColumnRef='code']" />
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonID 
+            | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonID
+            | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" 
+            > 
+            <assert test="$identifiertypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/@schemeID)]"
+                flag='warning' id='br_check_identifier_code'>
+                An identifier type code SHOULD always be specified using the correct code list. 
+            </assert> 
+            <!--TODO: check the final business rule for preferred VAT/EIDAS id's -->            
+            <!--assert test="normalize-space(current()/@schemeID) = 'VATRegistration'"
+                flag='warning' id='br_suggested_vat_id'>
+                The preferred identifier SHOULD be the national VAT Number (schemeid 'VATRegistration'). 
+            </assert--> 
+        </rule> 
+    </pattern> 
+
     
 </schema>
