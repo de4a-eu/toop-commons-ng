@@ -21,7 +21,7 @@ import javax.annotation.Nullable;
 import com.helger.commons.annotation.IsSPIImplementation;
 import com.helger.schematron.svrl.ISVRLLocationBeautifierSPI;
 
-import eu.toop.edm.xml.cccev.CCCEVNamespaceContext;
+import eu.toop.edm.xml.dcatap.DCatNamespaceContext;
 import eu.toop.regrep.RegRep4NamespaceContext;
 
 @IsSPIImplementation
@@ -30,7 +30,7 @@ public final class TOOPSVRLLocationBeautifier implements ISVRLLocationBeautifier
   @Nullable
   public String getReplacementText (@Nonnull final String sNamespaceURI, @Nonnull final String sLocalName)
   {
-    String sPrefix = CCCEVNamespaceContext.getInstance ().getCustomPrefix (sNamespaceURI);
+    String sPrefix = DCatNamespaceContext.getInstance ().getCustomPrefix (sNamespaceURI);
     if (sPrefix == null)
       sPrefix = RegRep4NamespaceContext.getInstance ().getCustomPrefix (sNamespaceURI);
 

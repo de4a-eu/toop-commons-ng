@@ -40,6 +40,7 @@ public class DCatNamespaceContext extends MapBasedNamespaceContext
     addMappings (CCCEVNamespaceContext.getInstance ());
     addMapping ("dcat", "http://data.europa.eu/r5r/");
     addMapping ("dct", "http://purl.org/dc/terms/");
+    addMapping ("vcard", "http://www.w3.org/2001/vcard-rdf/3.0#");
   }
 
   @Nonnull

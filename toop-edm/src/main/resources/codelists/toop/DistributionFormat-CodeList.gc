@@ -18,11 +18,11 @@
 -->
 <gc:CodeList xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:gc="http://docs.oasis-open.org/codelist/ns/genericode/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Identification>
-		<ShortName>DataRequestSubjectTypeCode</ShortName>
-		<LongName xml:lang="en">Data Request Subject Type Code</LongName>
+		<ShortName>DistributionFormatCode</ShortName>
+		<LongName xml:lang="en">Query Definition Code</LongName>
 		<Version>2018-12-19</Version>
-		<CanonicalUri>urn:eu.toop.cl.datarequestsubjecttypecode</CanonicalUri>
-		<CanonicalVersionUri>2018-12-19</CanonicalVersionUri>
+		<CanonicalUri>urn:eu.toop.cl.distributionformat</CanonicalUri>
+		<CanonicalVersionUri>2020-05-06</CanonicalVersionUri>
 		<Agency>
 			<LongName xml:lang="en">The Once-Only Principle Project</LongName>
 			<Identifier>TOOP</Identifier>
@@ -45,18 +45,26 @@
 	<SimpleCodeList>
 		<Row>
 			<Value ColumnRef="code">
-				<SimpleValue>NP</SimpleValue>
+				<SimpleValue>CONCEPT</SimpleValue>
 			</Value>
 			<Value ColumnRef="name-en">
-				<SimpleValue>Natural Person</SimpleValue>
+				<SimpleValue>CCCEV Concept Based Distribution</SimpleValue>
 			</Value>
 		</Row>
 		<Row>
 			<Value ColumnRef="code">
-				<SimpleValue>LE</SimpleValue>
+				<SimpleValue>UNSTRUCTURED</SimpleValue>
 			</Value>
 			<Value ColumnRef="name-en">
-				<SimpleValue>Legal Person</SimpleValue>
+				<SimpleValue>Unstructured distribution of the Dataset</SimpleValue>
+			</Value>
+		</Row>
+		<Row>
+			<Value ColumnRef="code">
+				<SimpleValue>STRUCTURED</SimpleValue>
+			</Value>
+			<Value ColumnRef="name-en">
+				<SimpleValue>Structured distribution of the Dataset</SimpleValue>
 			</Value>
 		</Row>
 	</SimpleCodeList>

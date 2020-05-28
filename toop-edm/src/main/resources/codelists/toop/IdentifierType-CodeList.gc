@@ -18,11 +18,11 @@
 -->
 <gc:CodeList xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:gc="http://docs.oasis-open.org/codelist/ns/genericode/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Identification>
-		<ShortName>ConceptTypeCode</ShortName>
-		<LongName xml:lang="en">Concept Type Code</LongName>
-		<Version>2018-03-28</Version>
-		<CanonicalUri>urn:eu.toop.cl.concepttypecode</CanonicalUri>
-		<CanonicalVersionUri>2018-03-28</CanonicalVersionUri>
+		<ShortName>IdentifierTypeCode</ShortName>
+		<LongName xml:lang="en">Identifier Type Code</LongName>
+		<Version>2020-05-28</Version>
+		<CanonicalUri>urn:eu.toop.cl.identifiertype</CanonicalUri>
+		<CanonicalVersionUri>2020-05-28</CanonicalVersionUri>
 		<Agency>
 			<LongName xml:lang="en">The Once-Only Principle Project</LongName>
 			<Identifier>TOOP</Identifier>
@@ -45,26 +45,66 @@
 	<SimpleCodeList>
 		<Row>
 			<Value ColumnRef="code">
-				<SimpleValue>DC</SimpleValue>
+				<SimpleValue>VATRegistration</SimpleValue>
 			</Value>
 			<Value ColumnRef="name-en">
-				<SimpleValue>Data Consumer Concept</SimpleValue>
+				<SimpleValue>VAT Registration Number</SimpleValue>
 			</Value>
 		</Row>
 		<Row>
 			<Value ColumnRef="code">
-				<SimpleValue>TC</SimpleValue>
+				<SimpleValue>TaxReference</SimpleValue>
 			</Value>
 			<Value ColumnRef="name-en">
-				<SimpleValue>TOOP Concept</SimpleValue>
+				<SimpleValue>Tax Reference Number</SimpleValue>
 			</Value>
 		</Row>
 		<Row>
 			<Value ColumnRef="code">
-				<SimpleValue>DP</SimpleValue>
+				<SimpleValue>BusinessCodes</SimpleValue>
 			</Value>
 			<Value ColumnRef="name-en">
-				<SimpleValue>Data Provider Concept</SimpleValue>
+				<SimpleValue>Directive 2012/17/EU Identifier</SimpleValue>
+			</Value>
+		</Row>
+		<Row>
+			<Value ColumnRef="code">
+				<SimpleValue>LEI</SimpleValue>
+			</Value>
+			<Value ColumnRef="name-en">
+				<SimpleValue>Legal Entity Identifier (LEI)</SimpleValue>
+			</Value>
+		</Row>
+		<Row>
+			<Value ColumnRef="code">
+				<SimpleValue>EORI</SimpleValue>
+			</Value>
+			<Value ColumnRef="name-en">
+				<SimpleValue>Economic Operator Registration and Identification (EORI)</SimpleValue>
+			</Value>
+		</Row>
+		<Row>
+			<Value ColumnRef="code">
+				<SimpleValue>SEED</SimpleValue>
+			</Value>
+			<Value ColumnRef="name-en">
+				<SimpleValue>System for Exchange of Excise Data (SEED)</SimpleValue>
+			</Value>
+		</Row>
+		<Row>
+			<Value ColumnRef="code">
+				<SimpleValue>SIC</SimpleValue>
+			</Value>
+			<Value ColumnRef="name-en">
+				<SimpleValue>Standard Industrial Classification (SIC)</SimpleValue>
+			</Value>
+		</Row>
+		<Row>
+			<Value ColumnRef="code">
+				<SimpleValue>EIDAS</SimpleValue>
+			</Value>
+			<Value ColumnRef="name-en">
+				<SimpleValue>EIDAS Identifier</SimpleValue>
 			</Value>
 		</Row>
 	</SimpleCodeList>

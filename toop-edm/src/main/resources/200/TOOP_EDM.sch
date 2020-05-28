@@ -85,6 +85,10 @@
                 The QueryRequest must contain ZERO or ONE ConsentToken slots (found: <value-of select="$countConsentToken"/>).
             </assert>
             
+            <report test="(exists(rim:Slot[@name = 'DataProvider']))" flag='ERROR' id='misplaced_data_provider'>
+                A QueryRequest must not contain information about the DataProvider.
+            </report>
+            
             <let name="countDatasetIdentifier" value="count(rim:Slot[@name = 'DatasetIdentifier'])"/>  
             <assert test="($countDatasetIdentifier=1)" flag='ERROR' id='req_card_DatasetIdentifier'>
                 The QueryRequest must contain exactly ONE DatasetIdentifier slot (found: <value-of select="$countDatasetIdentifier"/>).
@@ -152,8 +156,6 @@
     </pattern>
     <pattern>
         <rule context="query:QueryResponse/rs:Exception">
-            
-            <!--TODO: check xsi:type attribute-->
             
             <assert test="exists(@severity)" flag='ERROR' id='mandatory_exception_severity'>
                 The Exception must contain a severity attribute.
@@ -279,13 +281,12 @@
                 The Query cannot contain both a ConceptRequestList and a DistributionRequestList.
             </report>
             
-            <assert test="( (exists(rim:Slot[@name = 'LegalPerson'])) or (exists(rim:Slot[@name = 'NaturalPerson'])) )"  flag='ERROR' id="mandatory_query_legal_or_natural_person">
-                The Query must contain either a LegalPerson or a NaturalPerson.
-            </assert>
+            <let name="countLegalPersons" value="count(rim:Slot[@name = 'LegalPerson'])"/>   
+            <let name="countNaturalPersons" value="count(rim:Slot[@name = 'NaturalPerson'])"/> 
             
-            <report test="( (exists(rim:Slot[@name = 'LegalPerson'])) and (exists(rim:Slot[@name = 'NaturalPerson'])) )"  flag='ERROR' id="alternative_query_legal_or_natural_person">
-                The Query cannot contain both a LegalPerson and a NaturalPerson.
-            </report>
+            <assert test="( $countLegalPersons+$countNaturalPersons=1 )"  flag='ERROR' id="mandatory_legal_or_natural_person">
+                The Query must contain either ONE LegalPerson or ONE NaturalPerson. (found: <value-of select="$countLegalPersons"/> LegalPerson(s) and <value-of select="$countNaturalPersons"/> NaturalPerson(s))
+            </assert>
             
             <let name="countConceptRequestList" value="count(rim:Slot[@name = 'ConceptRequestList'])"/>      
             <assert test="($countConceptRequestList=0) or ($countConceptRequestList=1)" flag='ERROR' id='req_card_Query_ConceptRequestList'>
@@ -297,20 +298,18 @@
                 The Query must contain ZERO or ONE DistributionRequestList elements (found: <value-of select="$countDistributionRequestList"/>).
             </assert>  
             
-            <let name="countLegalPerson" value="count(rim:Slot[@name = 'LegalPerson'])"/>      
-            <assert test="($countLegalPerson=0) or ($countLegalPerson=1)" flag='ERROR' id='req_card_Query_LegalPerson'>
-                The Query must contain ZERO or ONE LegalPerson elements (found: <value-of select="$countLegalPerson"/>).
-            </assert>  
-            
-            <let name="countNaturalPerson" value="count(rim:Slot[@name = 'NaturalPerson'])"/>      
-            <assert test="($countNaturalPerson=0) or ($countNaturalPerson=1)" flag='ERROR' id='req_card_Query_NaturalPerson'>
-                The Query must contain ZERO or ONE NaturalPerson elements (found: <value-of select="$countNaturalPerson"/>).
-            </assert>  
-            
             <let name="countAuthorizedRepresentative" value="count(rim:Slot[@name = 'AuthorizedRepresentative'])"/>      
             <assert test="($countAuthorizedRepresentative=0) or ($countAuthorizedRepresentative=1)" flag='ERROR' id='req_card_Query_AuthorizedRepresentative'>
                 The Query must contain ZERO or ONE AuthorizedRepresentative elements (found: <value-of select="$countAuthorizedRepresentative"/>).
             </assert>  
+                        
+            <assert test="( ((@queryDefinition='ConceptQuery') and (exists(rim:Slot[@name = 'ConceptRequestList'])) or (@queryDefinition!='ConceptQuery') ))" flag='ERROR' id='req_concept_query'>
+                The value of the queryDefinition attribute in the Query element must always be 'ConceptQuery' for Concept Queries, and include a ConceptRequestList.
+            </assert>
+            
+            <assert test="( ((@queryDefinition='DocumentQuery') and (exists(rim:Slot[@name = 'DistributionRequestList'])) or (@queryDefinition!='DocumentQuery') ))" flag='ERROR' id='req_document_query'>
+                The value of the queryDefinition attribute in the Query element must always be 'DocumentQuery' when requesting Document Evidence, and include a DistributionRequestList. 
+            </assert>
             
         </rule>
     </pattern>
@@ -801,6 +800,26 @@
             </assert>  
         </rule>
     </pattern>
+    
+    
+    
+    <!--*************************************-->
+    <!--CHECK ADDITIONAL MANDATORY ATTRIBUTES-->
+    <!--*************************************-->
+    
+    <pattern>
+        <rule context="query:QueryResponse/rim:Slot[@name = 'DataProvider']/rim:SlotValue/cagv:Agent/cbc:id
+            | query:QueryRequest/rim:Slot[@name = 'DataConsumer']/rim:SlotValue/cagv:Agent/cbc:id
+            | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID
+            | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID
+            | query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonID 
+            | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonID">
+            <assert test="@schemeID"  
+                flag='ERROR' id="mandatory_attr_schemeid">
+                The schemeID attribute is mandatory. Please check <value-of select="name(.)"/>.
+            </assert>
+        </rule>
+    </pattern> 
     
     
     <!--********************************-->

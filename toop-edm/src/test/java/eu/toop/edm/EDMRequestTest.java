@@ -177,7 +177,8 @@ public final class EDMRequestTest
                        .legalID ("Niar")
                        .legalIDSchemeID ("Tsiou")
                        .legalName ("NiarTsiou")
-                       .id ("anID");
+                       .id ("anID")
+                       .idSchemeID ("so-true");
   }
 
   @Test

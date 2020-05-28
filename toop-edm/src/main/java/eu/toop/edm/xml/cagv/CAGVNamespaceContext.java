@@ -41,6 +41,8 @@ public class CAGVNamespaceContext extends MapBasedNamespaceContext
     addMapping ("locn", "http://www.w3.org/ns/locn#");
     addMapping ("skos", "http://www.w3.org/2004/02/skos/core#");
     addMapping ("regorg", "http://www.w3.org/ns/regorg#");
+    addMapping ("cvbc", "http://www.w3.org/ns/corevocabulary/BasicComponents");
+    addMapping ("cvac", "http://www.w3.org/ns/corevocabulary/AggregateComponents");
   }
 
   @Nonnull

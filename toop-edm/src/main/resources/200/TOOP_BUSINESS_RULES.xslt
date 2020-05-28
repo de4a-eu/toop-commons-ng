@@ -240,6 +240,111 @@
         <xsl:apply-templates />
       </svrl:active-pattern>
       <xsl:apply-templates mode="M21" select="/" />
+      <svrl:active-pattern>
+        <xsl:attribute name="document">
+          <xsl:value-of select="document-uri(/)" />
+        </xsl:attribute>
+        <xsl:apply-templates />
+      </svrl:active-pattern>
+      <xsl:apply-templates mode="M22" select="/" />
+      <svrl:active-pattern>
+        <xsl:attribute name="document">
+          <xsl:value-of select="document-uri(/)" />
+        </xsl:attribute>
+        <xsl:apply-templates />
+      </svrl:active-pattern>
+      <xsl:apply-templates mode="M23" select="/" />
+      <svrl:active-pattern>
+        <xsl:attribute name="document">
+          <xsl:value-of select="document-uri(/)" />
+        </xsl:attribute>
+        <xsl:apply-templates />
+      </svrl:active-pattern>
+      <xsl:apply-templates mode="M24" select="/" />
+      <svrl:active-pattern>
+        <xsl:attribute name="document">
+          <xsl:value-of select="document-uri(/)" />
+        </xsl:attribute>
+        <xsl:apply-templates />
+      </svrl:active-pattern>
+      <xsl:apply-templates mode="M25" select="/" />
+      <svrl:active-pattern>
+        <xsl:attribute name="document">
+          <xsl:value-of select="document-uri(/)" />
+        </xsl:attribute>
+        <xsl:apply-templates />
+      </svrl:active-pattern>
+      <xsl:apply-templates mode="M26" select="/" />
+      <svrl:active-pattern>
+        <xsl:attribute name="document">
+          <xsl:value-of select="document-uri(/)" />
+        </xsl:attribute>
+        <xsl:apply-templates />
+      </svrl:active-pattern>
+      <xsl:apply-templates mode="M27" select="/" />
+      <svrl:active-pattern>
+        <xsl:attribute name="document">
+          <xsl:value-of select="document-uri(/)" />
+        </xsl:attribute>
+        <xsl:apply-templates />
+      </svrl:active-pattern>
+      <xsl:apply-templates mode="M28" select="/" />
+      <svrl:active-pattern>
+        <xsl:attribute name="document">
+          <xsl:value-of select="document-uri(/)" />
+        </xsl:attribute>
+        <xsl:apply-templates />
+      </svrl:active-pattern>
+      <xsl:apply-templates mode="M29" select="/" />
+      <svrl:active-pattern>
+        <xsl:attribute name="document">
+          <xsl:value-of select="document-uri(/)" />
+        </xsl:attribute>
+        <xsl:apply-templates />
+      </svrl:active-pattern>
+      <xsl:apply-templates mode="M30" select="/" />
+      <svrl:active-pattern>
+        <xsl:attribute name="document">
+          <xsl:value-of select="document-uri(/)" />
+        </xsl:attribute>
+        <xsl:apply-templates />
+      </svrl:active-pattern>
+      <xsl:apply-templates mode="M31" select="/" />
+      <svrl:active-pattern>
+        <xsl:attribute name="document">
+          <xsl:value-of select="document-uri(/)" />
+        </xsl:attribute>
+        <xsl:apply-templates />
+      </svrl:active-pattern>
+      <xsl:apply-templates mode="M32" select="/" />
+      <svrl:active-pattern>
+        <xsl:attribute name="document">
+          <xsl:value-of select="document-uri(/)" />
+        </xsl:attribute>
+        <xsl:apply-templates />
+      </svrl:active-pattern>
+      <xsl:apply-templates mode="M33" select="/" />
+      <svrl:active-pattern>
+        <xsl:attribute name="document">
+          <xsl:value-of select="document-uri(/)" />
+        </xsl:attribute>
+        <xsl:apply-templates />
+      </svrl:active-pattern>
+      <xsl:apply-templates mode="M34" select="/" />
+      <svrl:active-pattern>
+        <xsl:attribute name="document">
+          <xsl:value-of select="document-uri(/)" />
+        </xsl:attribute>
+        <xsl:apply-templates />
+      </svrl:active-pattern>
+      <xsl:apply-templates mode="M35" select="/" />
+      <svrl:active-pattern>
+        <xsl:attribute name="document">
+          <xsl:value-of select="document-uri(/)" />
+        </xsl:attribute>
+        <xsl:apply-templates />
+      </svrl:active-pattern>
+      <xsl:apply-templates mode="M36" select="/" />
     </svrl:schematron-output>
   </xsl:template>
 
@@ -315,15 +420,15 @@
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" mode="M17" priority="1000">
-    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" />
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" mode="M17" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" />
 
 		<!--ASSERT -->
 <xsl:choose>
       <xsl:when test="matches(normalize-space(text()),'^[a-z]{2}/[a-z]{2}/(.*?)','i')" />
       <xsl:otherwise>
         <svrl:failed-assert test="matches(normalize-space(text()),'^[a-z]{2}/[a-z]{2}/(.*?)','i')">
-          <xsl:attribute name="id">wrong_id_format</xsl:attribute>
+          <xsl:attribute name="id">br_wrong_id_format</xsl:attribute>
           <xsl:attribute name="flag">ERROR</xsl:attribute>
           <xsl:attribute name="location">
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
@@ -408,10 +513,128 @@
   </xsl:template>
 
 <!--PATTERN -->
-<xsl:variable name="gendertypecodes" select="document('..\codelists\gc\Gender-CodeList.gc')//Value[@ColumnRef='code']" />
+
+
+	<!--RULE br_check_localizedstring_unique_lang-->
+<xsl:template match="query:QueryResponse/rs:Exception/rim:Slot[@name = 'ErrorText']/rim:SlotValue/rim:Value              | query:QueryRequest/rim:Slot[@name = 'Procedure']/rim:SlotValue/rim:Value" mode="M20" priority="1000">
+    <svrl:fired-rule context="query:QueryResponse/rs:Exception/rim:Slot[@name = 'ErrorText']/rim:SlotValue/rim:Value              | query:QueryRequest/rim:Slot[@name = 'Procedure']/rim:SlotValue/rim:Value" id="br_check_localizedstring_unique_lang" />
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="count(rim:LocalizedString) = count(distinct-values(rim:LocalizedString/@xml:lang))" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="count(rim:LocalizedString) = count(distinct-values(rim:LocalizedString/@xml:lang))">
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>
+                When there are several LocalizedStrings, they all need to have a different language ID. 
+            </svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates mode="M20" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+  <xsl:template match="text()" mode="M20" priority="-1" />
+  <xsl:template match="@*|node()" mode="M20" priority="-2">
+    <xsl:apply-templates mode="M20" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+
+<!--PATTERN -->
+
 
 	<!--RULE -->
-<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonGenderCode              | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonGenderCode" mode="M20" priority="1000">
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness" mode="M21" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness" />
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="(count(cvb:LegalEntityID/@schemeID) = count (distinct-values(cvb:LegalEntityID/@schemeID)) )" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="(count(cvb:LegalEntityID/@schemeID) = count (distinct-values(cvb:LegalEntityID/@schemeID)) )">
+          <xsl:attribute name="id">br_legal_person_scheme_id_not_unique</xsl:attribute>
+          <xsl:attribute name="flag">ERROR</xsl:attribute>
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>
+                Each alternative LegaEntityID must have a different schemeID.
+            </svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates mode="M21" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+  <xsl:template match="text()" mode="M21" priority="-1" />
+  <xsl:template match="@*|node()" mode="M21" priority="-2">
+    <xsl:apply-templates mode="M21" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+
+<!--PATTERN -->
+
+
+	<!--RULE -->
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson              | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson" mode="M22" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson              | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson" />
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="(count(cvb:PersonID/@schemeID) = count (distinct-values(cvb:PersonID/@schemeID)) )" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="(count(cvb:PersonID/@schemeID) = count (distinct-values(cvb:PersonID/@schemeID)) )">
+          <xsl:attribute name="id">br_natural_person_scheme_id_not_unique</xsl:attribute>
+          <xsl:attribute name="flag">ERROR</xsl:attribute>
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>
+                Each alternative PersonID must have a different schemeID.
+            </svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates mode="M22" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+  <xsl:template match="text()" mode="M22" priority="-1" />
+  <xsl:template match="@*|node()" mode="M22" priority="-2">
+    <xsl:apply-templates mode="M22" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+
+<!--PATTERN -->
+
+
+	<!--RULE -->
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" mode="M23" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" />
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="( (@schemeID = 'LEI') and ( string-length(normalize-space(.)) = 20) or (@schemeID != 'LEI')   )" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="( (@schemeID = 'LEI') and ( string-length(normalize-space(.)) = 20) or (@schemeID != 'LEI') )">
+          <xsl:attribute name="id">br_invalid_euid_length</xsl:attribute>
+          <xsl:attribute name="flag">warning</xsl:attribute>
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>
+                The LEI code length should be 20.
+            </svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates mode="M23" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+  <xsl:template match="text()" mode="M23" priority="-1" />
+  <xsl:template match="@*|node()" mode="M23" priority="-2">
+    <xsl:apply-templates mode="M23" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+
+<!--PATTERN -->
+<xsl:variable name="gendertypecodes" select="document('../codelist/toop/Gender-CodeList.gc')//Value[@ColumnRef='code']" />
+
+	<!--RULE -->
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonGenderCode              | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonGenderCode" mode="M24" priority="1000">
     <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonGenderCode              | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonGenderCode" />
 
 		<!--ASSERT -->
@@ -430,19 +653,19 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M20" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M24" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M20" priority="-1" />
-  <xsl:template match="@*|node()" mode="M20" priority="-2">
-    <xsl:apply-templates mode="M20" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M24" priority="-1" />
+  <xsl:template match="@*|node()" mode="M24" priority="-2">
+    <xsl:apply-templates mode="M24" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
-<xsl:variable name="countrycodes" select="document('..\codelists\std-gc\CountryIdentificationCode-2.1.gc')//Value[@ColumnRef='code']" />
+<xsl:variable name="countrycodes" select="document('../codelist/external/CountryIdentificationCode-2.2.gc')//Value[@ColumnRef='code']" />
 
-	<!--RULE gc_check_country_countrycode-->
-<xsl:template match="cva:PersonCoreAddress/cvb:AddressAdminUnitLocationOne              | cva:LegalEntityCoreAddress/cvb:AddressAdminUnitLocationOne              | query:QueryRequest/rim:Slot[@name = 'DataConsumer']/rim:SlotValue/cagv:Agent/cagv:location/locn:address/locn:adminUnitLevel1" mode="M21" priority="1001">
-    <svrl:fired-rule context="cva:PersonCoreAddress/cvb:AddressAdminUnitLocationOne              | cva:LegalEntityCoreAddress/cvb:AddressAdminUnitLocationOne              | query:QueryRequest/rim:Slot[@name = 'DataConsumer']/rim:SlotValue/cagv:Agent/cagv:location/locn:address/locn:adminUnitLevel1" id="gc_check_country_countrycode" />
+	<!--RULE br_check_country_countrycode-->
+<xsl:template match="cva:PersonCoreAddress/cvb:AddressAdminUnitLocationOne              | cva:LegalEntityCoreAddress/cvb:AddressAdminUnitLocationOne              | query:QueryRequest/rim:Slot[@name = 'DataConsumer']/rim:SlotValue/cagv:Agent/cagv:location/locn:address/locn:adminUnitLevel1" mode="M25" priority="1001">
+    <svrl:fired-rule context="cva:PersonCoreAddress/cvb:AddressAdminUnitLocationOne              | cva:LegalEntityCoreAddress/cvb:AddressAdminUnitLocationOne              | query:QueryRequest/rim:Slot[@name = 'DataConsumer']/rim:SlotValue/cagv:Agent/cagv:location/locn:address/locn:adminUnitLevel1" id="br_check_country_countrycode" />
 
 		<!--ASSERT -->
 <xsl:choose>
@@ -452,18 +675,19 @@
           <xsl:attribute name="location">
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
           </xsl:attribute>
-          <svrl:text>The country code must always be specified using the correct code list. Please check <xsl:text />
+          <svrl:text>
+                The country code must always be specified using the correct code list. Please check <xsl:text />
             <xsl:value-of select="name(.)" />
             <xsl:text />.</svrl:text>
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M21" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M25" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
-	<!--RULE gc_check_id_countrycode-->
-<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" mode="M21" priority="1000">
-    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" id="gc_check_id_countrycode" />
+	<!--RULE br_check_id_countrycode-->
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" mode="M25" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" id="br_check_id_countrycode" />
 
 		<!--ASSERT -->
 <xsl:choose>
@@ -473,7 +697,8 @@
           <xsl:attribute name="location">
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
           </xsl:attribute>
-          <svrl:text>The country code in the first part of the identifier must always be specified using the correct code list (found:<xsl:text />
+          <svrl:text>
+                The country code in the first part of the identifier must always be specified using the correct code list (found:<xsl:text />
             <xsl:value-of select="(tokenize(normalize-space(current()/.),'/')[1])" />
             <xsl:text />).</svrl:text>
         </svrl:failed-assert>
@@ -488,16 +713,339 @@
           <xsl:attribute name="location">
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
           </xsl:attribute>
-          <svrl:text>The country code in the second part of the identifier must always be specified using the correct code list (found:<xsl:text />
+          <svrl:text>
+                The country code in the second part of the identifier must always be specified using the correct code list (found:<xsl:text />
             <xsl:value-of select="(tokenize(normalize-space(current()/.),'/')[2])" />
             <xsl:text />).</svrl:text>
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M21" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M25" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M21" priority="-1" />
-  <xsl:template match="@*|node()" mode="M21" priority="-2">
-    <xsl:apply-templates mode="M21" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M25" priority="-1" />
+  <xsl:template match="@*|node()" mode="M25" priority="-2">
+    <xsl:apply-templates mode="M25" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+
+<!--PATTERN -->
+<xsl:variable name="mimetypecodes" select="document('../codelist/external/BinaryObjectMimeCode-2.2.gc')//Value[@ColumnRef='code']" />
+
+	<!--RULE br_check_doc_media_type-->
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution/dcat:mediaType             | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution/cccev:documentType" mode="M26" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution/dcat:mediaType             | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution/cccev:documentType" id="br_check_doc_media_type" />
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="$mimetypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="$mimetypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>
+                A mimetype code SHOULD always be specified using the correct code list.</svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates mode="M26" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+  <xsl:template match="text()" mode="M26" priority="-1" />
+  <xsl:template match="@*|node()" mode="M26" priority="-2">
+    <xsl:apply-templates mode="M26" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+
+<!--PATTERN -->
+<xsl:variable name="errorseveritycodes" select="document('../codelist/toop/ErrorSeverity-CodeList.gc')//Value[@ColumnRef='code']" />
+  <xsl:variable name="errorcodecodes" select="document('../codelist/toop/ErrorCode-CodeList.gc')//Value[@ColumnRef='code']" />
+
+	<!--RULE -->
+<xsl:template match="query:QueryResponse/rs:Exception" mode="M27" priority="1000">
+    <svrl:fired-rule context="query:QueryResponse/rs:Exception" />
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="$errorseveritycodes/SimpleValue[normalize-space(.) = normalize-space(current()/@severity)]" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="$errorseveritycodes/SimpleValue[normalize-space(.) = normalize-space(current()/@severity)]">
+          <xsl:attribute name="id">br_check_error_severity</xsl:attribute>
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>
+                An error severity code must always be specified using the correct code list.</svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="$errorcodecodes/SimpleValue[normalize-space(.) = normalize-space(current()/@code)]" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="$errorcodecodes/SimpleValue[normalize-space(.) = normalize-space(current()/@code)]">
+          <xsl:attribute name="id">br_check_error_code</xsl:attribute>
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>
+                An error code must always be specified using the correct code list.</svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates mode="M27" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+  <xsl:template match="text()" mode="M27" priority="-1" />
+  <xsl:template match="@*|node()" mode="M27" priority="-2">
+    <xsl:apply-templates mode="M27" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+
+<!--PATTERN -->
+<xsl:variable name="errororigincodes" select="document('../codelist/toop/ErrorOrigin-CodeList.gc')//Value[@ColumnRef='code']" />
+
+	<!--RULE br_check_error_origin-->
+<xsl:template match="query:QueryResponse/rs:Exception/rim:Slot[@name = 'ErrorOrigin']/rim:SlotValue/rim:Value" mode="M28" priority="1000">
+    <svrl:fired-rule context="query:QueryResponse/rs:Exception/rim:Slot[@name = 'ErrorOrigin']/rim:SlotValue/rim:Value" id="br_check_error_origin" />
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="$errororigincodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="$errororigincodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>
+                An error origin code must always be specified using the correct code list.</svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates mode="M28" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+  <xsl:template match="text()" mode="M28" priority="-1" />
+  <xsl:template match="@*|node()" mode="M28" priority="-2">
+    <xsl:apply-templates mode="M28" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+
+<!--PATTERN -->
+<xsl:variable name="distributionformatcodes" select="document('../codelist/toop/DistributionFormat-CodeList.gc')//Value[@ColumnRef='code']" />
+
+	<!--RULE br_check_distribution_format-->
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution/dct:format" mode="M29" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution/dct:format" id="br_check_distribution_format" />
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="$distributionformatcodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="$distributionformatcodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>
+                A distribution format code must always be specified using the correct code list.</svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates mode="M29" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+  <xsl:template match="text()" mode="M29" priority="-1" />
+  <xsl:template match="@*|node()" mode="M29" priority="-2">
+    <xsl:apply-templates mode="M29" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+
+<!--PATTERN -->
+<xsl:variable name="querydefinitions" select="document('../codelist/toop/QueryDefinition-CodeList.gc')//Value[@ColumnRef='code']" />
+
+	<!--RULE br_check_query_definition-->
+<xsl:template match="query:QueryRequest/query:Query" mode="M30" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query" id="br_check_query_definition" />
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="$querydefinitions/SimpleValue[normalize-space(.) = normalize-space(current()/@queryDefinition)]" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="$querydefinitions/SimpleValue[normalize-space(.) = normalize-space(current()/@queryDefinition)]">
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>A query definition code must always be specified using the correct code list.</svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates mode="M30" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+  <xsl:template match="text()" mode="M30" priority="-1" />
+  <xsl:template match="@*|node()" mode="M30" priority="-2">
+    <xsl:apply-templates mode="M30" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+
+<!--PATTERN -->
+<xsl:variable name="currencytypecodes" select="document('../codelist/external/CurrencyCode-2.2.gc')//Value[@ColumnRef='code']" />
+
+	<!--RULE br_check_currency_code-->
+<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element//cccev:concept/cccev:value/cccev:amountValue" mode="M31" priority="1000">
+    <svrl:fired-rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element//cccev:concept/cccev:value/cccev:amountValue" id="br_check_currency_code" />
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="$currencytypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/@currencyID)]" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="$currencytypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/@currencyID)]">
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>
+                A currency type code must always be specified using the correct code list.</svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates mode="M31" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+  <xsl:template match="text()" mode="M31" priority="-1" />
+  <xsl:template match="@*|node()" mode="M31" priority="-2">
+    <xsl:apply-templates mode="M31" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+
+<!--PATTERN -->
+<xsl:variable name="languagecodes" select="document('../codelist/external/LanguageCode-2.2.gc')//Value[@ColumnRef='code']" />
+
+	<!--RULE br_check_language_code-->
+<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name='DocumentMetadata']/rim:SlotValue/dcat:Dataset/dct:language" mode="M32" priority="1000">
+    <svrl:fired-rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name='DocumentMetadata']/rim:SlotValue/dcat:Dataset/dct:language" id="br_check_language_code" />
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="$languagecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="$languagecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>A language code must always be specified using the correct code list.</svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates mode="M32" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+  <xsl:template match="text()" mode="M32" priority="-1" />
+  <xsl:template match="@*|node()" mode="M32" priority="-2">
+    <xsl:apply-templates mode="M32" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+
+<!--PATTERN -->
+<xsl:variable name="dataelementresponseerrorcodes" select="document('../codelist/toop/DataElementResponseErrorCode-CodeList.gc')//Value[@ColumnRef='code']" />
+
+	<!--RULE -->
+<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element//cccev:concept/cccev:value/cccev:error" mode="M33" priority="1000">
+    <svrl:fired-rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element//cccev:concept/cccev:value/cccev:error" />
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="$dataelementresponseerrorcodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="$dataelementresponseerrorcodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">
+          <xsl:attribute name="id">br_check_error_data_element_response</xsl:attribute>
+          <xsl:attribute name="flag">warning</xsl:attribute>
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>
+                An error code must always be specified using the correct code list.</svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates mode="M33" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+  <xsl:template match="text()" mode="M33" priority="-1" />
+  <xsl:template match="@*|node()" mode="M33" priority="-2">
+    <xsl:apply-templates mode="M33" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+
+<!--PATTERN -->
+<xsl:variable name="industrialtypecodes" select="document('../codelist/toop/StandardIndustrialClassCode-CodeList.gc')//Value[@ColumnRef='code']" />
+
+	<!--RULE -->
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" mode="M34" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" />
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="( (@schemeID = 'SIC') and ($industrialtypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]) or (@schemeID != 'SIC') )" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="( (@schemeID = 'SIC') and ($industrialtypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]) or (@schemeID != 'SIC') )">
+          <xsl:attribute name="id">br_check_sic_cod</xsl:attribute>
+          <xsl:attribute name="flag">warning</xsl:attribute>
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>
+                A standard industrial classification code should always be specified using the correct code list.</svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates mode="M34" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+  <xsl:template match="text()" mode="M34" priority="-1" />
+  <xsl:template match="@*|node()" mode="M34" priority="-2">
+    <xsl:apply-templates mode="M34" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+
+<!--PATTERN -->
+<xsl:variable name="procotolexceptioncodes" select="document('../codelist/toop/ProcotolException-CodeList.gc')//Value[@ColumnRef='code']" />
+
+	<!--RULE -->
+<xsl:template match="query:QueryResponse/rs:Exception" mode="M35" priority="1000">
+    <svrl:fired-rule context="query:QueryResponse/rs:Exception" />
+    <xsl:variable name="datatype" select="@*[ends-with(name(.), ':type') and . != '']" />
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="$procotolexceptioncodes/SimpleValue[normalize-space(.) = normalize-space(substring-after($datatype,':'))]" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="$procotolexceptioncodes/SimpleValue[normalize-space(.) = normalize-space(substring-after($datatype,':'))]">
+          <xsl:attribute name="id">br_check_error_protocol_exception</xsl:attribute>
+          <xsl:attribute name="flag">ERROR</xsl:attribute>
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>
+                A protocol exception code must always be specified using the correct code list.</svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates mode="M35" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+  <xsl:template match="text()" mode="M35" priority="-1" />
+  <xsl:template match="@*|node()" mode="M35" priority="-2">
+    <xsl:apply-templates mode="M35" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+
+<!--PATTERN -->
+<xsl:variable name="identifiertypecodes" select="document('../codelist/toop/IdentifierType-CodeList.gc')//Value[@ColumnRef='code']" />
+
+	<!--RULE -->
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonID              | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonID             | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" mode="M36" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonID              | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonID             | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" />
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="$identifiertypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/@schemeID)]" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="$identifiertypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/@schemeID)]">
+          <xsl:attribute name="id">br_check_identifier_code</xsl:attribute>
+          <xsl:attribute name="flag">warning</xsl:attribute>
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>
+                An identifier type code SHOULD always be specified using the correct code list. 
+            </svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates mode="M36" select="*|comment()|processing-instruction()" />
+  </xsl:template>
+  <xsl:template match="text()" mode="M36" priority="-1" />
+  <xsl:template match="@*|node()" mode="M36" priority="-2">
+    <xsl:apply-templates mode="M36" select="*|comment()|processing-instruction()" />
   </xsl:template>
 </xsl:stylesheet>
