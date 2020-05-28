@@ -27,7 +27,6 @@ import com.helger.schematron.svrl.AbstractSVRLMessage;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import com.helger.schematron.xslt.SchematronResourceXSLT;
-import com.helger.xml.sax.DefaultEntityResolver;
 import com.helger.xml.serialize.read.DOMReader;
 
 /**
@@ -62,7 +61,6 @@ public abstract class AbstractSchematronValidator
   {
     final IReadableResource aRes = getSchematronXSLTResource ();
     final SchematronResourceXSLT aSchematron = new SchematronResourceXSLT (aRes);
-    aSchematron.setEntityResolver (DefaultEntityResolver.createOnDemand (aRes));
     if (!aSchematron.isValidSchematron ())
       throw new IllegalStateException ("Failed to compile Schematron/XSLT " + aRes.getPath ());
     return aSchematron;

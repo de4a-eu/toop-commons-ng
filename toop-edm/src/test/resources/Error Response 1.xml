@@ -30,7 +30,7 @@
       <rim:Value>toop-edm:v2.0</rim:Value>
     </rim:SlotValue>
   </rim:Slot>
-  <rs:Exception xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rs:ObjectNotFoundExceptionType" code="ec1" message="What went wrong: OBJECT_NOT_FOUND" severity="FAILURE">
+  <rs:Exception xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rs:ObjectNotFoundExceptionType" code="GEN" message="What went wrong: OBJECT_NOT_FOUND" severity="FAILURE">
     <rim:Slot name="Timestamp">
       <rim:SlotValue xsi:type="rim:DateTimeValueType">
         <rim:Value>2020-05-19T07:59:38.252</rim:Value>
@@ -42,7 +42,7 @@
       </rim:SlotValue>
     </rim:Slot>
   </rs:Exception>
-  <rs:Exception xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rs:TimeoutExceptionType" code="ec1" message="What went wrong: TIMEOUT" severity="FAILURE">
+  <rs:Exception xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rs:TimeoutExceptionType" code="GEN" message="What went wrong: TIMEOUT" severity="FAILURE">
     <rim:Slot name="Timestamp">
       <rim:SlotValue xsi:type="rim:DateTimeValueType">
         <rim:Value>2020-05-19T07:59:38.262</rim:Value>

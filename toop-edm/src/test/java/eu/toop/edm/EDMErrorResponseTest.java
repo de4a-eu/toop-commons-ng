@@ -34,6 +34,7 @@ import com.helger.schematron.svrl.AbstractSVRLMessage;
 
 import eu.toop.edm.error.EDMExceptionPojo;
 import eu.toop.edm.error.EEDMExceptionType;
+import eu.toop.edm.error.EToopErrorCode;
 import eu.toop.edm.error.EToopErrorOrigin;
 import eu.toop.edm.error.EToopErrorSeverity;
 import eu.toop.edm.schematron.SchematronBusinessRules2Validator;
@@ -82,7 +83,7 @@ public final class EDMErrorResponseTest
   {
     return EDMExceptionPojo.builder ()
                            .exceptionType (eType)
-                           .errorCode ("ec1")
+                           .errorCode (EToopErrorCode.GEN)
                            .errorMessage ("What went wrong: " + eType.name ())
                            .severity (EToopErrorSeverity.FAILURE)
                            .timestampNow ()

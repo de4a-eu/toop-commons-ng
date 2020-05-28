@@ -56,7 +56,7 @@ public final class MainCreateJavaCode_ErrorCategory_GC
   public static void main (final String [] args)
   {
     final CodeListDocument aCLD = GenericodeReader.gc10CodeList ()
-                                                  .read (new File ("src/main/resources/codelists/gc/ErrorCategory-CodeList.gc"));
+                                                  .read (new File ("src/main/resources/codelist/toop/ErrorCategory-CodeList.gc"));
     final StringBuilder aSB = new StringBuilder ();
     for (final Row aRow : aCLD.getSimpleCodeList ().getRow ())
     {

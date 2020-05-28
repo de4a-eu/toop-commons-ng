@@ -39,7 +39,7 @@ public final class MainCreateJavaCode_ErrorCode_GC
   public static void main (final String [] args)
   {
     final CodeListDocument aCLD = GenericodeReader.gc10CodeList ()
-                                                  .read (new File ("src/main/resources/codelists/gc/ErrorCode-CodeList.gc"));
+                                                  .read (new File ("src/main/resources/codelist/toop/ErrorCode-CodeList.gc"));
     final StringBuilder aSB = new StringBuilder ();
     for (final Row aRow : aCLD.getSimpleCodeList ().getRow ())
     {
@@ -48,10 +48,7 @@ public final class MainCreateJavaCode_ErrorCode_GC
       if (sName != null)
         aSB.append ("/** ").append (sName).append (" */\n");
       if (sID != null)
-        aSB.append (RegExHelper.getAsIdentifier (sID.toUpperCase (Locale.US)))
-           .append (" (\"")
-           .append (sID)
-           .append ("\"),\n");
+        aSB.append (RegExHelper.getAsIdentifier (sID.toUpperCase (Locale.US))).append (" (\"").append (sID).append ("\"),\n");
     }
     LOGGER.info (aSB.toString ());
   }

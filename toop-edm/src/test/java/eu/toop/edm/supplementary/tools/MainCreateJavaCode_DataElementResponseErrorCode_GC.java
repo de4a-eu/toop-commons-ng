@@ -39,7 +39,7 @@ public final class MainCreateJavaCode_DataElementResponseErrorCode_GC
   public static void main (final String [] args)
   {
     final CodeListDocument aCLD = GenericodeReader.gc10CodeList ()
-                                                  .read (new File ("src/main/resources/codelists/gc/DataElementResponseErrorCode-CodeList.gc"));
+                                                  .read (new File ("src/main/resources/codelist/toop/DataElementResponseErrorCode-CodeList.gc"));
     final StringBuilder aSB = new StringBuilder ();
     for (final Row aRow : aCLD.getSimpleCodeList ().getRow ())
     {

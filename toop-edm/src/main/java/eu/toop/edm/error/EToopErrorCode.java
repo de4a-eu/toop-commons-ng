@@ -28,15 +28,19 @@ import com.helger.commons.lang.EnumHelper;
  */
 public enum EToopErrorCode implements IToopErrorCode
 {
-  /** Uncategorized error */
   GEN ("GEN"),
-
   /** The payload provided from DC/DP to the TOOP Connector is not valid */
   IF_001 ("IF-001"),
   /** Message Validation Failed */
   IF_002 ("IF-002"),
-
-  /** The DSD is not reachable */
+  /** The Semantic Mapping Service is not reachable */
+  SM_001 ("SM-001"),
+  /**
+   * The Semantic Mapping Service could not provide a mapping on provided
+   * concepts
+   */
+  SM_002 ("SM-002"),
+  /** The TOOP Directory is not reachable */
   DD_001 ("DD-001"),
   /** An SMP could not be queried */
   DD_002 ("DD-002"),
@@ -47,7 +51,15 @@ public enum EToopErrorCode implements IToopErrorCode
    * Identifiers
    */
   DD_004 ("DD-004"),
-
+  /**
+   * At least one, but not all SMP Servers where not able to find a Service
+   * Metadata
+   */
+  DD_005 ("DD-005"),
+  /** None of the SMP Servers was able to find a Service Metadata */
+  DD_006 ("DD-006"),
+  /** Error creating the ASIC Container */
+  TC_001 ("TC-001"),
   /**
    * The TOOP Connector was not able to communicate with the Local AS4 gateway
    */
