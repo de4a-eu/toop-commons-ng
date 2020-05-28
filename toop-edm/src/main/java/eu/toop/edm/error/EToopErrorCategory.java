@@ -30,18 +30,12 @@ import com.helger.commons.lang.EnumHelper;
  */
 public enum EToopErrorCategory implements IHasID <String>
 {
-  /** Semantic Mapping */
-  @Deprecated
-  SEMANTIC_MAPPING ("SemanticMapping"),
   /** Parsing */
   PARSING ("Parsing"),
   /** Dynamic Discovery */
   DYNAMIC_DISCOVERY ("DynamicDiscovery"),
   /** eDelivery */
   E_DELIVERY ("eDelivery"),
-  /** Results Aggregation */
-  @Deprecated
-  RESULTS_AGGREGATION ("ResultsAggregation"),
   /** Business Processing */
   BUSINESS_PROCESSING ("BusinessProcessing"),
   /** Technical Error */
