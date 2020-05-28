@@ -36,22 +36,21 @@ public final class CDCatAP
   public static final List <ClassPathResource> XSDS = new CommonsArrayList <> (CCCTS.getXSDResource (),
                                                                                CXML_XSD.getXSDResource (),
                                                                                CXLink.getXSDResource (),
-                                                                               new ClassPathResource ("schemas/skos.xsd",
-                                                                                                      _getCL ()),
-                                                                               new ClassPathResource ("schemas/dcterms.xsd",
-                                                                                                      _getCL ()),
-                                                                               new ClassPathResource ("schemas/locn.xsd",
-                                                                                                      _getCL ()),
-                                                                               new ClassPathResource ("schemas/CV-Agent.xsd",
-                                                                                                      _getCL ()),
+                                                                               new ClassPathResource ("schemas/foaf.xsd", _getCL ()),
+                                                                               new ClassPathResource ("schemas/adms.xsd", _getCL ()),
+                                                                               new ClassPathResource ("schemas/odrl.xsd", _getCL ()),
+                                                                               new ClassPathResource ("schemas/skos.xsd", _getCL ()),
+                                                                               new ClassPathResource ("schemas/spdx.xsd", _getCL ()),
+                                                                               new ClassPathResource ("schemas/dcterms.xsd", _getCL ()),
+                                                                               new ClassPathResource ("schemas/locn.xsd", _getCL ()),
+                                                                               new ClassPathResource ("schemas/CV-Agent.xsd", _getCL ()),
                                                                                new ClassPathResource ("schemas/CV-CommonBasicComponents.xsd",
                                                                                                       _getCL ()),
-                                                                               new ClassPathResource ("schemas/rdf.xsd",
-                                                                                                      _getCL ()),
-                                                                               new ClassPathResource ("schemas/dcat-ap.xsd",
-                                                                                                      _getCL ()),
-                                                                               new ClassPathResource ("schemas/cccev-2.0.0.xsd",
-                                                                                                      _getCL ())).getAsUnmodifiable ();
+                                                                               new ClassPathResource ("schemas/rdf.xsd", _getCL ()),
+                                                                               new ClassPathResource ("schemas/vcard.xsd", _getCL ()),
+                                                                               new ClassPathResource ("schemas/dcat-ap.xsd", _getCL ()),
+                                                                               new ClassPathResource ("schemas/cccev-2.0.0.xsd", _getCL ()))
+                                                                                                                                            .getAsUnmodifiable ();
 
   private CDCatAP ()
   {}

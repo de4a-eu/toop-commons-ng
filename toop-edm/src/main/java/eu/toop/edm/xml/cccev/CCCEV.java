@@ -41,8 +41,7 @@ public final class CCCEV
     aList.addAll (CCV.XSDS);
     aList.addAll (CDCatAP.XSDS);
     aList.addAll (new ClassPathResource ("schemas/CV-CommonAggregateComponents.xsd", _getCL ()),
-                  new ClassPathResource ("schemas/CV-Agent.xsd", _getCL ()),
-                  new ClassPathResource ("schemas/cccev-2.0.0.xsd", _getCL ()));
+                  new ClassPathResource ("schemas/CV-Agent.xsd", _getCL ()));
     XSDS = aList.getAsUnmodifiable ();
   }
 
