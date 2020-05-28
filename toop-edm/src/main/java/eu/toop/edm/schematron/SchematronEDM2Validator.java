@@ -34,8 +34,8 @@ public class SchematronEDM2Validator extends AbstractSchematronValidator
    * The resource with the rules. Important: this Schematron requires additional
    * code lists in a relative directory!
    */
-  public static final ClassPathResource TOOP_EDM2_XSLT = new ClassPathResource ("200/TOOP_EDM.xslt",
-                                                                                SchematronEDM2Validator.class.getClassLoader ());
+  @Deprecated
+  public static final ClassPathResource TOOP_EDM2_XSLT = CEDMSchematron.TOOP_EDM2_XSLT;
 
   public SchematronEDM2Validator ()
   {}
@@ -44,6 +44,6 @@ public class SchematronEDM2Validator extends AbstractSchematronValidator
   @Nonnull
   protected final IReadableResource getSchematronXSLTResource ()
   {
-    return TOOP_EDM2_XSLT;
+    return CEDMSchematron.TOOP_EDM2_XSLT;
   }
 }

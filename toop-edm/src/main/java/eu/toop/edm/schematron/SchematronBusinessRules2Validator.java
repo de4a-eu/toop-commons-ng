@@ -35,8 +35,8 @@ public class SchematronBusinessRules2Validator extends AbstractSchematronValidat
    * The resource with the rules. Important: this Schematron requires additional
    * code lists in a relative directory!
    */
-  public static final ClassPathResource TOOP_BUSINESS_RULES_XSLT = new ClassPathResource ("200/TOOP_BUSINESS_RULES.xslt",
-                                                                                          SchematronBusinessRules2Validator.class.getClassLoader ());
+  @Deprecated
+  public static final ClassPathResource TOOP_BUSINESS_RULES_XSLT = CEDMSchematron.TOOP_BUSINESS_RULES_XSLT;
 
   public SchematronBusinessRules2Validator ()
   {}
@@ -45,6 +45,6 @@ public class SchematronBusinessRules2Validator extends AbstractSchematronValidat
   @Nonnull
   protected final IReadableResource getSchematronXSLTResource ()
   {
-    return TOOP_BUSINESS_RULES_XSLT;
+    return CEDMSchematron.TOOP_BUSINESS_RULES_XSLT;
   }
 }
