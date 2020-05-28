@@ -83,7 +83,7 @@
             <cagv:Agent xmlns:cagv="https://semic.org/sa/cv/cagv/agent-2.0.0#"
                 xmlns:cbc="https://semic.org/sa/cv/common/cbc-2.0.0#"
                 xmlns:locn="http://www.w3.org/ns/locn#">
-                <cbc:id schemeID="VAT">DE730757727</cbc:id>
+                <cbc:id schemeID="EIDAS">DE730757727</cbc:id>
                 <cbc:name>aCompanyName</cbc:name>
                 <cagv:location>
                     <locn:address>
@@ -121,7 +121,7 @@
                 <!--     Core Person Vocabulary (CPV) Expression of the LegalRepresentative -->
                 <cva:CorePerson xmlns:cva="http://www.w3.org/ns/corevocabulary/AggregateComponents"
                     xmlns:cvb="http://www.w3.org/ns/corevocabulary/BasicComponents">
-                    <cvb:PersonID schemeID="VAT">1212</cvb:PersonID>
+                    <cvb:PersonID schemeID="EIDAS">1212</cvb:PersonID>
                     <cvb:PersonFamilyName>Sabatini</cvb:PersonFamilyName>
                     <cvb:PersonGivenName>Bianca</cvb:PersonGivenName>
                     <cvb:PersonGenderCode>F</cvb:PersonGenderCode>
@@ -149,7 +149,7 @@
                 <!--     Core Person Vocabulary (CPV) Expression of the LegalRepresentative -->
                 <cva:CorePerson xmlns:cva="http://www.w3.org/ns/corevocabulary/AggregateComponents"
                     xmlns:cvb="http://www.w3.org/ns/corevocabulary/BasicComponents">
-                    <cvb:PersonID schemeID="VAT">1515</cvb:PersonID>
+                    <cvb:PersonID schemeID="EIDAS">1515</cvb:PersonID>
                     <cvb:PersonFamilyName>Smith</cvb:PersonFamilyName>
                     <cvb:PersonGivenName>Mark</cvb:PersonGivenName>
                     <cvb:PersonGenderCode>M</cvb:PersonGenderCode>

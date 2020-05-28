@@ -37,6 +37,7 @@ import com.helger.schematron.svrl.AbstractSVRLMessage;
 
 import eu.toop.edm.model.ConceptPojo;
 import eu.toop.edm.model.DatasetPojo;
+import eu.toop.edm.model.EIdentifierType;
 import eu.toop.edm.pilot.gbm.EToopConcept;
 import eu.toop.edm.schematron.SchematronBusinessRules2Validator;
 import eu.toop.edm.schematron.SchematronEDM2Validator;
@@ -71,12 +72,9 @@ public final class EDMResponseTest
       ICommonsList <AbstractSVRLMessage> aMsgs = new SchematronEDM2Validator ().validateDocument (aDoc);
       assertTrue (aMsgs.toString (), aMsgs.isEmpty ());
 
-      if (false)
-      {
-        // Schematron 2
-        aMsgs = new SchematronBusinessRules2Validator ().validateDocument (aDoc);
-        assertTrue (aMsgs.toString (), aMsgs.isEmpty ());
-      }
+      // Schematron 2
+      aMsgs = new SchematronBusinessRules2Validator ().validateDocument (aDoc);
+      assertTrue (aMsgs.toString (), aMsgs.isEmpty ());
     }
   }
 
@@ -85,6 +83,7 @@ public final class EDMResponseTest
   {
     return aBuilder.requestID (UUID.randomUUID ())
                    .issueDateTimeNow ()
+                   .specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
                    .dataProvider (x -> x.address (y -> y.town ("MyTown")
                                                         .streetName ("MyStreet")
                                                         .buildingNumber ("22")
@@ -93,9 +92,8 @@ public final class EDMResponseTest
                                                         .postalCode ("11134"))
                                         .name ("DP NAME")
                                         .id ("1234")
-                                        .idSchemeID ("VAT"))
-                   .responseStatus (ERegRepResponseStatus.SUCCESS)
-                   .specificationIdentifier ("Niar");
+                                        .idSchemeID (EIdentifierType.EIDAS))
+                   .responseStatus (ERegRepResponseStatus.SUCCESS);
   }
 
   @Nonnull
@@ -124,12 +122,12 @@ public final class EDMResponseTest
                       .title ("bla title")
                       .distribution (x -> x.documentURI ("URI")
                                            .documentDescription ("DocumentDescription")
-                                           .documentType ("docType")
+                                           .documentType ("application/xml")
                                            .localeCode ("GR"))
                       .creator (x -> x.name ("Agent name").address (y -> y.town ("Kewlkidshome")))
                       .ids ("RE238918378", "DOC-555")
                       .issuedNow ()
-                      .language ("en")
+                      .language ("EN")
                       .lastModifiedNow ()
                       .validFrom (PDTFactory.getCurrentLocalDate ().minusMonths (1))
                       .validTo (PDTFactory.getCurrentLocalDate ().plusYears (1))

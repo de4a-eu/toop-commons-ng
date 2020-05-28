@@ -73,7 +73,7 @@
                                 <cbc:id>ConceptID-2</cbc:id>
                                 <cbc:QName>toop:Concept-Name-2</cbc:QName>
                                 <cccev:value>
-                                    <cccev:amountValue currencyID="eur">1000001</cccev:amountValue>
+                                    <cccev:amountValue currencyID="EUR">1000001</cccev:amountValue>
                                 </cccev:value>
                             </cccev:concept>
                             <cccev:concept>

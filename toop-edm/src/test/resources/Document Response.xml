@@ -80,7 +80,7 @@
                             <dcat:accessURL></dcat:accessURL>
                             <cccev:documentURI>URI</cccev:documentURI>
                             <cccev:documentDescription>DocumentDescription</cccev:documentDescription>
-                            <cccev:documentType>DocumentType</cccev:documentType>
+                            <cccev:documentType>application/xml</cccev:documentType>
                             <cccev:localeCode>GR</cccev:localeCode>
                         </dcat:distribution>
                         <!-- Creator is an Agent OrganizationType-->

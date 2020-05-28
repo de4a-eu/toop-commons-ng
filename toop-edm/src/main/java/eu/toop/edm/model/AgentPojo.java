@@ -125,11 +125,7 @@ public class AgentPojo
   @Override
   public int hashCode ()
   {
-    return new HashCodeGenerator (this).append (m_sID)
-                                       .append (m_sIDSchemeID)
-                                       .append (m_sName)
-                                       .append (m_aAddress)
-                                       .getHashCode ();
+    return new HashCodeGenerator (this).append (m_sID).append (m_sIDSchemeID).append (m_sName).append (m_aAddress).getHashCode ();
   }
 
   @Override
@@ -179,6 +175,12 @@ public class AgentPojo
     {
       m_sID = s;
       return this;
+    }
+
+    @Nonnull
+    public Builder idSchemeID (@Nullable final EIdentifierType e)
+    {
+      return idSchemeID (e == null ? null : e.getID ());
     }
 
     @Nonnull

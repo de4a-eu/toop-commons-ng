@@ -83,7 +83,7 @@
             <cagv:Agent xmlns:cagv="https://semic.org/sa/cv/cagv/agent-2.0.0#"
                         xmlns:cbc="https://semic.org/sa/cv/common/cbc-2.0.0#"
                         xmlns:locn="http://www.w3.org/ns/locn#">
-                <cbc:id schemeID="VAT">DE730757727</cbc:id>
+                <cbc:id schemeID="EIDAS">DE730757727</cbc:id>
                 <cbc:name>AgentName</cbc:name>
                 <cagv:location>
                     <locn:address>
@@ -124,8 +124,8 @@
                 <cva:CoreBusiness
                     xmlns:cva="http://www.w3.org/ns/corevocabulary/AggregateComponents"
                     xmlns:cvb="http://www.w3.org/ns/corevocabulary/BasicComponents">
-                    <cvb:LegalEntityLegalID schemeID="VAT">DE730757727</cvb:LegalEntityLegalID>
-                    <cvb:LegalEntityID schemeID='EIDAS'>DE/GB/02735442Z</cvb:LegalEntityID>
+                    <cvb:LegalEntityLegalID schemeID="VAT">DE/GB/02735442Z</cvb:LegalEntityLegalID>
+                    <cvb:LegalEntityID schemeID='EIDAS'>DE730757727</cvb:LegalEntityID>
                     <cvb:LegalEntityLegalName>AnyCompanyName</cvb:LegalEntityLegalName>
                     <!--     Core Location Vocabuary (CLV) Expression of the LegalEntityRegisteredAddress  -->
                     <cva:LegalEntityCoreAddress>
@@ -146,7 +146,7 @@
                 <!--     Core Person Vocabulary (CPV) Expression of the LegalRepresentative -->
                 <cva:CorePerson xmlns:cva="http://www.w3.org/ns/corevocabulary/AggregateComponents"
                     xmlns:cvb="http://www.w3.org/ns/corevocabulary/BasicComponents">
-                    <cvb:PersonID schemeID="VAT">1515</cvb:PersonID>
+                    <cvb:PersonID schemeID="EIDAS">1515</cvb:PersonID>
                     <cvb:PersonFamilyName>Smith</cvb:PersonFamilyName>
                     <cvb:PersonGivenName>Mark</cvb:PersonGivenName>
                     <cvb:PersonGenderCode>M</cvb:PersonGenderCode>

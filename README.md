@@ -13,6 +13,7 @@ The code contained in this project is used by:
 Working on `v2.0.0-beta5`
 * Added new Schematrons to check if a document type is the expected one
 * Improved the loading of XSDs for DCatAP Schemas
+* Added enumeration `EIdentifierType` for the valid person and company identifier types
 
 2020-05-26: release of `v2.0.0-beta4`
 * Removed all methods deprecated in beta3

@@ -40,6 +40,7 @@ import eu.toop.edm.jaxb.cccev.CCCEVRequirementType;
 import eu.toop.edm.model.BusinessPojo;
 import eu.toop.edm.model.EDistributionFormat;
 import eu.toop.edm.model.EGenderCode;
+import eu.toop.edm.model.EIdentifierType;
 import eu.toop.edm.model.EResponseOptionType;
 import eu.toop.edm.model.PersonPojo;
 import eu.toop.edm.pilot.gbm.EToopConcept;
@@ -76,19 +77,17 @@ public final class EDMRequestTest
       ICommonsList <AbstractSVRLMessage> aMsgs = new SchematronEDM2Validator ().validateDocument (aDoc);
       assertTrue (aMsgs.toString (), aMsgs.isEmpty ());
 
-      if (false)
-      {
-        // Schematron 2
-        aMsgs = new SchematronBusinessRules2Validator ().validateDocument (aDoc);
-        assertTrue (aMsgs.toString (), aMsgs.isEmpty ());
-      }
+      // Schematron 2
+      aMsgs = new SchematronBusinessRules2Validator ().validateDocument (aDoc);
+      assertTrue (aMsgs.toString (), aMsgs.isEmpty ());
     }
   }
 
   @Nonnull
   private static <T extends EDMRequest.AbstractBuilder <T>> T _req (@Nonnull final T aBuilder)
   {
-    return aBuilder.responseOption (EResponseOptionType.INLINE)
+    return aBuilder.specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+                   .responseOption (EResponseOptionType.INLINE)
                    .randomID ()
                    .issueDateTimeNow ()
                    .procedure (Locale.US, "GBM Procedure")
@@ -101,7 +100,7 @@ public final class EDMRequestTest
                                                         .postalCode ("11134"))
                                         .name ("DC NAME")
                                         .id ("1234")
-                                        .idSchemeID ("VAT"))
+                                        .idSchemeID (EIdentifierType.VATREGISTRATION))
                    .authorizedRepresentative (x -> x.address (y -> y.town ("MyTown")
                                                                     .streetName ("MyStreet")
                                                                     .buildingNumber ("22")
@@ -115,9 +114,8 @@ public final class EDMRequestTest
                                                     .genderCode (EGenderCode.M)
                                                     .givenName ("John")
                                                     .id ("LALALA")
-                                                    .idSchemeID ("LALALA"))
+                                                    .idSchemeID (EIdentifierType.EIDAS))
                    .datasetIdentifier ("IdentifierForDatasets")
-                   .specificationIdentifier ("SpecID")
                    .consentToken ("AAABBB");
   }
 
@@ -161,7 +159,7 @@ public final class EDMRequestTest
                      .genderCode (EGenderCode.M)
                      .givenName ("John")
                      .id ("LALALA")
-                     .idSchemeID ("LALALA");
+                     .idSchemeID (EIdentifierType.EIDAS);
   }
 
   @Nonnull
@@ -174,11 +172,11 @@ public final class EDMRequestTest
                                        .countryCode ("GR")
                                        .fullAddress ("MyStreet 22, 11134, MyTown, GR")
                                        .postalCode ("11134"))
-                       .legalID ("Niar")
+                       .legalID ("DE/AT/12345")
                        .legalIDSchemeID ("Tsiou")
                        .legalName ("NiarTsiou")
                        .id ("anID")
-                       .idSchemeID ("so-true");
+                       .idSchemeID (EIdentifierType.EIDAS);
   }
 
   @Test

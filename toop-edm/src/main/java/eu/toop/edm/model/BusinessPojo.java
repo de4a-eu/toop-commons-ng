@@ -45,16 +45,16 @@ public class BusinessPojo
   private final AddressPojo m_aAddress;
 
   public BusinessPojo (@Nullable final String sLegalID,
-                       @Nullable final String sLegalIDType,
+                       @Nullable final String sLegalIDSchemeID,
                        @Nullable final String sID,
-                       @Nullable final String sIDType,
+                       @Nullable final String sIDSchemeID,
                        @Nullable final String sLegalName,
                        @Nullable final AddressPojo aAddress)
   {
     m_sLegalID = sLegalID;
-    m_sLegalIDSchemeID = sLegalIDType;
+    m_sLegalIDSchemeID = sLegalIDSchemeID;
     m_sID = sID;
-    m_sIDSchemeID = sIDType;
+    m_sIDSchemeID = sIDSchemeID;
     m_sLegalName = sLegalName;
     m_aAddress = aAddress;
   }
@@ -179,10 +179,15 @@ public class BusinessPojo
     if (a != null)
     {
       if (a.hasLegalEntityLegalIDEntries ())
-        ret.legalID (a.getLegalEntityLegalIDAtIndex (0).getValue ())
-           .legalIDSchemeID (a.getLegalEntityLegalIDAtIndex (0).getSchemeID ());
+      {
+        final LegalEntityLegalIDType aItem = a.getLegalEntityLegalIDAtIndex (0);
+        ret.legalID (aItem.getValue ()).legalIDSchemeID (aItem.getSchemeID ());
+      }
       if (a.hasLegalEntityIDEntries ())
-        ret.id (a.getLegalEntityIDAtIndex (0).getValue ()).idSchemeID (a.getLegalEntityIDAtIndex (0).getSchemeID ());
+      {
+        final LegalEntityIDType aItem = a.getLegalEntityIDAtIndex (0);
+        ret.id (aItem.getValue ()).idSchemeID (aItem.getSchemeID ());
+      }
       if (a.hasLegalEntityLegalNameEntries ())
         ret.legalName (a.getLegalEntityLegalNameAtIndex (0).getValue ());
       if (a.getLegalEntityCoreAddress () != null)
@@ -222,6 +227,12 @@ public class BusinessPojo
     {
       m_sID = s;
       return this;
+    }
+
+    @Nonnull
+    public Builder idSchemeID (@Nullable final EIdentifierType e)
+    {
+      return idSchemeID (e == null ? null : e.getID ());
     }
 
     @Nonnull

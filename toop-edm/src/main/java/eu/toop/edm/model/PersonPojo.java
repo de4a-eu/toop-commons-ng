@@ -298,6 +298,12 @@ public class PersonPojo
     }
 
     @Nonnull
+    public Builder idSchemeID (@Nullable final EIdentifierType e)
+    {
+      return idSchemeID (e == null ? null : e.getID ());
+    }
+
+    @Nonnull
     public Builder idSchemeID (@Nullable final String s)
     {
       m_sIDSchemeID = s;
