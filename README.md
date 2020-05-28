@@ -4,10 +4,17 @@ This is the successor project of the old [toop-commons](https://github.com/TOOP4
 The code contained in this project is used by:
 * https://github.com/TOOP4EU/toop-connector-ng - TOOP Connector NG (TC NG)
 * https://github.com/TOOP4EU/data-services-directory - Data Services Directory (DSD)
+* https://github.com/TOOP4EU/toop-simulator-ng/ - TOOP Simulator NG
+* https://github.com/TOOP4EU/toop-playground-ng/ - Playground NG (the previous DemoUI)
 
 ## Status
 
-Work in progress `v2.0.0-beta4`
+
+Working on `v2.0.0-beta5`
+* Added new Schematrons to check if a document type is the expected one
+* Improved the loading of XSDs for DCatAP Schemas
+
+2020-05-26: release of `v2.0.0-beta4`
 * Removed all methods deprecated in beta3
 * Micro optimizations, but no material changes
 
@@ -38,7 +45,7 @@ Work in progress `v2.0.0-beta4`
       <dependency>
         <groupId>eu.toop</groupId>
         <artifactId>toop-edm</artifactId>
-        <version>2.0.0-beta3</version>
+        <version>2.0.0-beta4</version>
       </dependency>
 ```
 

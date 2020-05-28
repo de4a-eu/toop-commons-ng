@@ -9,6 +9,7 @@ import com.helger.commons.io.resource.ClassPathResource;
  * TOOP EDM Schematron constants
  *
  * @author Philip Helger
+ * @since 2.0.0-beta5
  */
 @Immutable
 public final class CEDMSchematron
