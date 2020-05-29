@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query:QueryRequest xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:4.0" xmlns:spi="urn:oasis:names:tc:ebxml-regrep:xsd:spi:4.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:4.0" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:4.0" id="3e39315f-ffe8-4d8a-b4c4-a4381cd87fb4">
+  <rim:Slot name="SpecificationIdentifier">
+    <rim:SlotValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rim:StringValueType">
+      <rim:Value>toop-edm:v2.0</rim:Value>
+    </rim:SlotValue>
+  </rim:Slot>
+  <rim:Slot name="IssueDateTime">
+    <rim:SlotValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rim:DateTimeValueType">
+      <rim:Value>2020-05-15T15:43:10.489</rim:Value>
+    </rim:SlotValue>
+  </rim:Slot>
+  <rim:Slot name="Procedure">
+    <rim:SlotValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rim:InternationalStringValueType">
+      <rim:Value>
+        <rim:LocalizedString xml:lang="en" value="GBM Procedure" />
+      </rim:Value>
+    </rim:SlotValue>
+  </rim:Slot>
+  <rim:Slot name="ConsentToken">
+    <rim:SlotValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rim:StringValueType">
+      <rim:Value>AAABBB</rim:Value>
+    </rim:SlotValue>
+  </rim:Slot>
+  <rim:Slot name="DatasetIdentifier">
+    <rim:SlotValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rim:StringValueType">
+      <rim:Value>IdentifierForDatasets</rim:Value>
+    </rim:SlotValue>
+  </rim:Slot>
+  <rim:Slot name="DataConsumer">
+    <rim:SlotValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rim:AnyValueType">
+      <cagv:Agent xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:regorg="http://www.w3.org/ns/regorg#" xmlns:locn="http://www.w3.org/ns/locn#" xmlns:cbc="https://semic.org/sa/cv/common/cbc-2.0.0#" xmlns:cac="https://semic.org/sa/cv/common/cac-2.0.0#" xmlns:cagv="https://semic.org/sa/cv/cagv/agent-2.0.0#">
+        <cbc:id schemeID="VAT">1234</cbc:id>
+              <cbc:name>DC NAME</cbc:name>
+              <cagv:location>
+          <locn:address xsi:type="cac:AddressType">
+            <locn:fullAddress>MyStreet 22, 11134, MyTown, GR</locn:fullAddress>
+                      <locn:thoroughfare>MyStreet</locn:thoroughfare>
+                      <locn:locatorDesignator>22</locn:locatorDesignator>
+                      <locn:postName>MyTown</locn:postName>
+                      <locn:adminUnitLevel1>GR</locn:adminUnitLevel1>
+                      <locn:postCode>11134</locn:postCode>
+          </locn:address>
+        </cagv:location>
+      </cagv:Agent>
+    </rim:SlotValue>
+  </rim:Slot>
+  <query:ResponseOption returnType="LeafClassWithRepositoryItem" />
+  <query:Query queryDefinition="ConceptQuery">
+    <rim:Slot name="LegalPerson">
+      <rim:SlotValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rim:AnyValueType">
+        <cva:CoreBusiness xmlns:cvb="http://www.w3.org/ns/corevocabulary/BasicComponents" xmlns:cva="http://www.w3.org/ns/corevocabulary/AggregateComponents">
+          <cvb:LegalEntityLegalID schemeID="VAT">DE/GB/02735442Z</cvb:LegalEntityLegalID>
+                  <cvb:LegalEntityID schemeID="VAT">02735442Z</cvb:LegalEntityID>
+                  <cvb:LegalEntityLegalName>AnyCompanyName</cvb:LegalEntityLegalName>
+                  <cva:LegalEntityCoreAddress>
+            <cvb:AddressFullAddress>Prince Street 15</cvb:AddressFullAddress>
+                      <cvb:AddressThoroughfare>Prince Street</cvb:AddressThoroughfare>
+                      <cvb:AddressLocatorDesignator>15</cvb:AddressLocatorDesignator>
+                      <cvb:AddressPostName>Liverpool</cvb:AddressPostName>
+                      <cvb:AddressAdminUnitLocationOne>GB</cvb:AddressAdminUnitLocationOne>
+                      <cvb:AddressPostCode>15115</cvb:AddressPostCode>
+          </cva:LegalEntityCoreAddress>
+        </cva:CoreBusiness>
+      </rim:SlotValue>
+    </rim:Slot>
+      <rim:Slot name="AuthorizedRepresentative">
+      <rim:SlotValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rim:AnyValueType">
+        <cva:CorePerson xmlns:cvb="http://www.w3.org/ns/corevocabulary/BasicComponents" xmlns:cva="http://www.w3.org/ns/corevocabulary/AggregateComponents">
+          <cvb:PersonID schemeID="EIDAS">GB/GR/1234</cvb:PersonID>
+                  <cvb:PersonFamilyName>Doe</cvb:PersonFamilyName>
+                  <cvb:PersonGivenName>John</cvb:PersonGivenName>
+                  <cvb:PersonGenderCode>M</cvb:PersonGenderCode>
+                  <cvb:PersonBirthName>John Doe</cvb:PersonBirthName>
+                  <cvb:PersonBirthDate>1994-02-01</cvb:PersonBirthDate>
+                  <cva:PersonPlaceOfBirthCoreLocation>
+            <cva:LocationCoreAddress>
+              <cvb:AddressPostName>ATown</cvb:AddressPostName>
+            </cva:LocationCoreAddress>
+          </cva:PersonPlaceOfBirthCoreLocation>
+                  <cva:PersonCoreAddress>
+            <cvb:AddressFullAddress>MyStreet 22, 11134, MyTown, GR</cvb:AddressFullAddress>
+                      <cvb:AddressThoroughfare>MyStreet</cvb:AddressThoroughfare>
+                      <cvb:AddressLocatorDesignator>22</cvb:AddressLocatorDesignator>
+                      <cvb:AddressPostName>MyTown</cvb:AddressPostName>
+                      <cvb:AddressAdminUnitLocationOne>GR</cvb:AddressAdminUnitLocationOne>
+                      <cvb:AddressPostCode>11134</cvb:AddressPostCode>
+          </cva:PersonCoreAddress>
+        </cva:CorePerson>
+      </rim:SlotValue>
+    </rim:Slot>
+      <rim:Slot name="ConceptRequestList">
+      <rim:SlotValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rim:CollectionValueType" collectionType="urn:oasis:names:tc:ebxml-regrep:CollectionType:Set">
+        <rim:Element xsi:type="rim:AnyValueType">
+          <cccev:concept xmlns:spdx="spdx:xsd::1.0" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:regorg="http://www.w3.org/ns/regorg#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:r5r="http://data.europa.eu/r5r/" xmlns:odrl="http://www.w3.org/ns/odrl/2/" xmlns:locn="http://www.w3.org/ns/locn#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:cbc="https://semic.org/sa/cv/common/cbc-2.0.0#" xmlns:cagv="https://semic.org/sa/cv/cagv/agent-2.0.0#" xmlns:cac="https://semic.org/sa/cv/common/cac-2.0.0#" xmlns:adms="http://www.w3.org/ns/adms#" xmlns:cccev="https://semic.org/sa/cv/cccev-2.0.0#">
+            <cbc:id>5c2b77c0-19d0-41ba-8649-e07ab8b788b2</cbc:id>
+                      <cbc:QName xmlns="http://toop.eu/registered-organization">RegisteredOrganization</cbc:QName>
+                      <cccev:concept>
+              <cbc:id>083ac8e6-f452-4f0a-a337-07a3b5058a4e</cbc:id>
+                          <cbc:QName xmlns="http://toop.eu/registered-organization">CompanyName</cbc:QName>
+            </cccev:concept>
+                      <cccev:concept>
+              <cbc:id>c3fc6964-28ee-4e55-bc13-da1fe7d57da3</cbc:id>
+                          <cbc:QName xmlns="http://toop.eu/registered-organization">CompanyCode</cbc:QName>
+            </cccev:concept>
+                      <cccev:concept>
+              <cbc:id>4d6fba11-8e50-49e0-b5b8-133c9d305d6c</cbc:id>
+                          <cbc:QName xmlns="http://toop.eu/registered-organization">HasLegalRepresentative</cbc:QName>
+            </cccev:concept>
+                      <cccev:concept>
+              <cbc:id>cae5e26e-385f-4d3d-a6c4-7ab2211c72bc</cbc:id>
+                          <cbc:QName xmlns="http://toop.eu/registered-organization">FoundationDate</cbc:QName>
+            </cccev:concept>
+                      <cccev:concept>
+              <cbc:id>bc9e1fa0-0231-4b6c-a180-37de07eadc53</cbc:id>
+                          <cbc:QName xmlns="http://toop.eu/registered-organization">Custom_Concept_Numeric</cbc:QName>
+            </cccev:concept>
+          </cccev:concept>
+        </rim:Element>
+      </rim:SlotValue>
+    </rim:Slot>
+  </query:Query>
+</query:QueryRequest>

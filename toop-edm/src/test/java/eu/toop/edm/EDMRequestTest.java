@@ -242,6 +242,12 @@ public final class EDMRequestTest
 
     aRequest = EDMRequest.reader ().read (new ClassPathResource ("Document Request_NP.xml"));
     _testWriteAndRead (aRequest);
+
+    if (false)
+    {
+      aRequest = EDMRequest.reader ().read (new ClassPathResource ("request/request1.xml"));
+      _testWriteAndRead (aRequest);
+    }
   }
 
   @Test
