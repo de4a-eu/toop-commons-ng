@@ -20,6 +20,8 @@ import static org.junit.Assert.assertNotNull;
 import javax.annotation.Nonnull;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.helger.commons.datetime.PDTFactory;
 import com.helger.commons.mock.CommonsTestHelper;
@@ -34,20 +36,25 @@ import eu.toop.edm.xml.dcatap.DatasetMarshaller;
  */
 public final class DatasetPojoTest
 {
+  private static final Logger LOGGER = LoggerFactory.getLogger (DatasetPojoTest.class);
+
   private static void _testWriteAndRead (@Nonnull final DatasetPojo x)
   {
     assertNotNull (x);
 
-    final DCatAPDatasetType aDataset = x.getAsDataset ();
-    assertNotNull (aDataset);
+    final DCatAPDatasetType aObj = x.getAsDataset ();
+    assertNotNull (aObj);
+    CommonsTestHelper.testDefaultImplementationWithEqualContentObject (aObj, aObj.clone ());
 
     // Write
     final DatasetMarshaller m = new DatasetMarshaller ();
     m.setFormattedOutput (true);
-    assertNotNull (m.getAsDocument (aDataset));
+    assertNotNull (m.getAsDocument (aObj));
+    if (false)
+      LOGGER.info (m.getAsString (aObj));
 
     // Re-read
-    final DatasetPojo y = DatasetPojo.builder (aDataset).build ();
+    final DatasetPojo y = DatasetPojo.builder (aObj).build ();
     CommonsTestHelper.testDefaultImplementationWithEqualContentObject (x, y);
   }
 

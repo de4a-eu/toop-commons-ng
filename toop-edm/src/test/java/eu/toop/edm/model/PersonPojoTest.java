@@ -42,15 +42,17 @@ public final class PersonPojoTest
   {
     assertNotNull (x);
 
-    final CorePersonType aPerson = x.getAsCorePerson ();
-    assertNotNull (aPerson);
+    final CorePersonType aObj = x.getAsCorePerson ();
+    assertNotNull (aObj);
+    CommonsTestHelper.testDefaultImplementationWithEqualContentObject (aObj, aObj.clone ());
 
     final PersonMarshaller m = new PersonMarshaller ();
     m.setFormattedOutput (true);
-    assertNotNull (m.getAsDocument (aPerson));
-    LOGGER.info (m.getAsString (aPerson));
+    assertNotNull (m.getAsDocument (aObj));
+    if (false)
+      LOGGER.info (m.getAsString (aObj));
 
-    final PersonPojo y = PersonPojo.builder (aPerson).build ();
+    final PersonPojo y = PersonPojo.builder (aObj).build ();
     CommonsTestHelper.testDefaultImplementationWithEqualContentObject (x, y);
   }
 

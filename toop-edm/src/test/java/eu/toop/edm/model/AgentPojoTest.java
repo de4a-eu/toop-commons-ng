@@ -37,14 +37,15 @@ public final class AgentPojoTest
   {
     assertNotNull (x);
 
-    final AgentType aAgent = x.getAsAgent ();
-    assertNotNull (aAgent);
+    final AgentType aObj = x.getAsAgent ();
+    assertNotNull (aObj);
+    CommonsTestHelper.testDefaultImplementationWithEqualContentObject (aObj, aObj.clone ());
 
     final AgentMarshaller m = new AgentMarshaller ();
     m.setFormattedOutput (true);
-    assertNotNull (m.getAsDocument (aAgent));
+    assertNotNull (m.getAsDocument (aObj));
 
-    final AgentPojo y = AgentPojo.builder (aAgent).build ();
+    final AgentPojo y = AgentPojo.builder (aObj).build ();
     CommonsTestHelper.testDefaultImplementationWithEqualContentObject (x, y);
   }
 

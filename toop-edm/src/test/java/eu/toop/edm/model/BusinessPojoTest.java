@@ -41,17 +41,19 @@ public final class BusinessPojoTest
   {
     assertNotNull (x);
 
-    final CoreBusinessType aBusiness = x.getAsCoreBusiness ();
-    assertNotNull (aBusiness);
+    final CoreBusinessType aObj = x.getAsCoreBusiness ();
+    assertNotNull (aObj);
+    CommonsTestHelper.testDefaultImplementationWithEqualContentObject (aObj, aObj.clone ());
 
     // Write
     final BusinessMarshaller m = new BusinessMarshaller ();
     m.setFormattedOutput (true);
-    assertNotNull (m.getAsDocument (aBusiness));
-    LOGGER.info (m.getAsString (aBusiness));
+    assertNotNull (m.getAsDocument (aObj));
+    if (false)
+      LOGGER.info (m.getAsString (aObj));
 
     // Re-read
-    final BusinessPojo y = BusinessPojo.builder (aBusiness).build ();
+    final BusinessPojo y = BusinessPojo.builder (aObj).build ();
     CommonsTestHelper.testDefaultImplementationWithEqualContentObject (x, y);
   }
 

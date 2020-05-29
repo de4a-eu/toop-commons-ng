@@ -55,16 +55,19 @@ public final class ConceptPojoTest
   {
     assertNotNull (x);
 
-    final CCCEVConceptType aConcept = x.getAsCCCEVConcept ();
-    assertNotNull (aConcept);
+    final CCCEVConceptType aObj = x.getAsCCCEVConcept ();
+    assertNotNull (aObj);
+    CommonsTestHelper.testDefaultImplementationWithEqualContentObject (aObj, aObj.clone ());
 
     // Write
     final ConceptMarshaller m = new ConceptMarshaller ();
     m.setFormattedOutput (true);
-    assertNotNull (m.getAsDocument (aConcept));
+    assertNotNull (m.getAsDocument (aObj));
+    if (false)
+      LOGGER.info (m.getAsString (aObj));
 
     // Re-read
-    final ConceptPojo y = ConceptPojo.builder (aConcept).build ();
+    final ConceptPojo y = ConceptPojo.builder (aObj).build ();
     CommonsTestHelper.testDefaultImplementationWithEqualContentObject (x, y);
   }
 
@@ -123,10 +126,8 @@ public final class ConceptPojoTest
                                      .addChild (_concept (y -> y.measure (BigDecimal.ONE, "unit")))
                                      .addChild (_concept (y -> y.numeric (42)))
                                      .addChild (_concept (y -> y.numeric (4.2)))
-                                     .addChild (_concept (y -> y.period (PDTFactory.getCurrentLocalDateTime ()
-                                                                                   .minusDays (1),
-                                                                         PDTFactory.getCurrentLocalDateTime ()
-                                                                                   .plusDays (1))))
+                                     .addChild (_concept (y -> y.period (PDTFactory.getCurrentLocalDateTime ().minusDays (1),
+                                                                         PDTFactory.getCurrentLocalDateTime ().plusDays (1))))
                                      .addChild (_concept (y -> y.quantity (BigDecimal.ONE.negate (), "qty")))
                                      .addChild (_concept (y -> y.text ("a", "b", "c")))
                                      .addChild (_concept (y -> y.time (PDTXMLConverter.getXMLCalendarTimeNow ())))
@@ -141,10 +142,8 @@ public final class ConceptPojoTest
                                      .addChild (_concept ().valueMeasure (BigDecimal.ONE, "unit"))
                                      .addChild (_concept ().valueNumeric (42))
                                      .addChild (_concept ().valueNumeric (4.2))
-                                     .addChild (_concept ().valuePeriod (PDTFactory.getCurrentLocalDateTime ()
-                                                                                   .minusDays (1),
-                                                                         PDTFactory.getCurrentLocalDateTime ()
-                                                                                   .plusDays (1)))
+                                     .addChild (_concept ().valuePeriod (PDTFactory.getCurrentLocalDateTime ().minusDays (1),
+                                                                         PDTFactory.getCurrentLocalDateTime ().plusDays (1)))
                                      .addChild (_concept ().valueQuantity (BigDecimal.ONE.negate (), "qty"))
                                      .addChild (_concept ().valueText ("a", "b", "c"))
                                      .addChild (_concept ().valueTime (PDTFactory.getCurrentLocalTime ()))

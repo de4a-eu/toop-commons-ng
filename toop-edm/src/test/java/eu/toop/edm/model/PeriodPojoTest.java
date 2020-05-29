@@ -37,11 +37,12 @@ public final class PeriodPojoTest
   {
     assertNotNull (x);
 
-    final PeriodType a = x.getAsPeriod ();
-    assertNotNull (a);
+    final PeriodType aObj = x.getAsPeriod ();
+    assertNotNull (aObj);
+    CommonsTestHelper.testDefaultImplementationWithEqualContentObject (aObj, aObj.clone ());
 
     // Re-read
-    final PeriodPojo y = PeriodPojo.builder (a).build ();
+    final PeriodPojo y = PeriodPojo.builder (aObj).build ();
     CommonsTestHelper.testDefaultImplementationWithEqualContentObject (x, y);
   }
 

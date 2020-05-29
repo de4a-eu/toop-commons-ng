@@ -41,15 +41,17 @@ public final class QualifiedRelationPojoTest
   {
     assertNotNull (x);
 
-    final DCatAPRelationshipType aQualifiedRelation = x.getAsRelationship ();
-    assertNotNull (aQualifiedRelation);
+    final DCatAPRelationshipType aObj = x.getAsRelationship ();
+    assertNotNull (aObj);
+    CommonsTestHelper.testDefaultImplementationWithEqualContentObject (aObj, aObj.clone ());
 
     final RelationshipMarshaller m = new RelationshipMarshaller ();
     m.setFormattedOutput (true);
-    assertNotNull (m.getAsDocument (aQualifiedRelation));
-    LOGGER.info (m.getAsString (aQualifiedRelation));
+    assertNotNull (m.getAsDocument (aObj));
+    if (false)
+      LOGGER.info (m.getAsString (aObj));
 
-    final QualifiedRelationPojo y = QualifiedRelationPojo.builder (aQualifiedRelation).build ();
+    final QualifiedRelationPojo y = QualifiedRelationPojo.builder (aObj).build ();
     CommonsTestHelper.testDefaultImplementationWithEqualContentObject (x, y);
   }
 
