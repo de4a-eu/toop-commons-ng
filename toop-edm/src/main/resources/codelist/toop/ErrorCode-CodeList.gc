@@ -69,22 +69,6 @@
 		</Row>
 		<Row>
 			<Value ColumnRef="code">
-				<SimpleValue>SM-001</SimpleValue>
-			</Value>
-			<Value ColumnRef="name-en">
-				<SimpleValue>The Semantic Mapping Service is not reachable</SimpleValue>
-			</Value>
-		</Row>
-		<Row>
-			<Value ColumnRef="code">
-				<SimpleValue>SM-002</SimpleValue>
-			</Value>
-			<Value ColumnRef="name-en">
-				<SimpleValue>The Semantic Mapping Service could not provide a mapping on provided concepts</SimpleValue>
-			</Value>
-		</Row>
-		<Row>
-			<Value ColumnRef="code">
 				<SimpleValue>DD-001</SimpleValue>
 			</Value>
 			<Value ColumnRef="name-en">
@@ -113,30 +97,6 @@
 			</Value>
 			<Value ColumnRef="name-en">
 				<SimpleValue>The Dynamic Discovery Service was not able to find any Participant Identifiers</SimpleValue>
-			</Value>
-		</Row>
-		<Row>
-			<Value ColumnRef="code">
-				<SimpleValue>DD-005</SimpleValue>
-			</Value>
-			<Value ColumnRef="name-en">
-				<SimpleValue>At least one, but not all SMP Servers where not able to find a Service Metadata</SimpleValue>
-			</Value>
-		</Row>
-		<Row>
-			<Value ColumnRef="code">
-				<SimpleValue>DD-006</SimpleValue>
-			</Value>
-			<Value ColumnRef="name-en">
-				<SimpleValue>None of the SMP Servers was able to find a Service Metadata</SimpleValue>
-			</Value>
-		</Row>
-		<Row>
-			<Value ColumnRef="code">
-				<SimpleValue>TC-001</SimpleValue>
-			</Value>
-			<Value ColumnRef="name-en">
-				<SimpleValue>Error creating the ASIC Container</SimpleValue>
 			</Value>
 		</Row>
 		<Row>

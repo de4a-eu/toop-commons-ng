@@ -51,21 +51,29 @@
 				<SimpleValue>Query Definition for requesting values of Concepts</SimpleValue>
 			</Value>
 		</Row>
-    <Row>
-      <Value ColumnRef="code">
-        <SimpleValue>DocumentQuery</SimpleValue>
-      </Value>
-      <Value ColumnRef="name-en">
-        <SimpleValue>Query Definition for requesting Structured or Unstructured Documents </SimpleValue>
-      </Value>
-    </Row>
-    <Row>
-      <Value ColumnRef="code">
-        <SimpleValue>urn:oasis:names:tc:ebxml-regrep:query:GetObjectById</SimpleValue>
-      </Value>
-      <Value ColumnRef="name-en">
-        <SimpleValue>Query Definition for get by ID</SimpleValue>
-      </Value>
-    </Row>    
+		<Row>
+			<Value ColumnRef="code">
+				<SimpleValue>DocumentQuery</SimpleValue>
+			</Value>
+			<Value ColumnRef="name-en">
+				<SimpleValue>Query Definition for requesting Structured or Unstructured Documents</SimpleValue>
+			</Value>
+		</Row>
+		<Row>
+			<Value ColumnRef="code">
+				<SimpleValue>ConceptQuery</SimpleValue>
+			</Value>
+			<Value ColumnRef="name-en">
+				<SimpleValue>Query Definition for requesting values of Concepts</SimpleValue>
+			</Value>
+		</Row>
+		<Row>
+			<Value ColumnRef="code">
+				<SimpleValue>urn:oasis:names:tc:ebxml-regrep:query:GetObjectById</SimpleValue>
+			</Value>
+			<Value ColumnRef="name-en">
+				<SimpleValue>Query Definition for step 2 in a Document Request</SimpleValue>
+			</Value>
+		</Row>
 	</SimpleCodeList>
 </gc:CodeList>
