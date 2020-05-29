@@ -19,6 +19,10 @@ import javax.annotation.Nonnull;
 
 import com.helger.commons.annotation.Singleton;
 import com.helger.xml.namespace.MapBasedNamespaceContext;
+import com.helger.xsds.ccts.cct.schemamodule.CCCTS;
+import com.helger.xsds.xlink.CXLink;
+
+import eu.toop.edm.xml.cv.CCVNamespaceContext;
 
 /**
  * XML Namespace context for CAGV
@@ -35,14 +39,21 @@ public class CAGVNamespaceContext extends MapBasedNamespaceContext
 
   protected CAGVNamespaceContext ()
   {
-    addMapping ("cagv", "https://semic.org/sa/cv/cagv/agent-2.0.0#");
-    addMapping ("cbc", "https://semic.org/sa/cv/common/cbc-2.0.0#");
-    addMapping ("cac", "https://semic.org/sa/cv/common/cac-2.0.0#");
-    addMapping ("locn", "http://www.w3.org/ns/locn#");
+    // Add W3 CoreVocabularies
+    addMappings (CCVNamespaceContext.getInstance ());
+    addMapping (CCCTS.DEFAULT_PREFIX, CCCTS.NAMESPACE_URI);
+    addMapping (CXLink.DEFAULT_PREFIX, CXLink.NAMESPACE_URI);
     addMapping ("skos", "http://www.w3.org/2004/02/skos/core#");
+    addMapping ("locn", "http://www.w3.org/ns/locn#");
+    addMapping ("foaf", "http://xmlns.com/foaf/0.1/");
+    addMapping ("org", "http://www.w3.org/ns/org#");
+    addMapping ("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+    addMapping ("dct", "http://purl.org/dc/terms/");
     addMapping ("regorg", "http://www.w3.org/ns/regorg#");
-    addMapping ("cvbc", "http://www.w3.org/ns/corevocabulary/BasicComponents");
-    addMapping ("cvac", "http://www.w3.org/ns/corevocabulary/AggregateComponents");
+    addMapping ("csdt", "https://semic.org/sa/cv/common/dataTypes-2.0.0#");
+    addMapping ("csbc", "https://semic.org/sa/cv/common/cbc-2.0.0#");
+    addMapping ("csac", "https://semic.org/sa/cv/common/cac-2.0.0#");
+    addMapping ("cagv", "https://semic.org/sa/cv/cagv/agent-2.0.0#");
   }
 
   @Nonnull

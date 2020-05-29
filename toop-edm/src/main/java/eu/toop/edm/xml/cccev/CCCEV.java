@@ -19,8 +19,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.helger.commons.collection.impl.CommonsArrayList;
-import com.helger.commons.collection.impl.ICommonsList;
+import com.helger.commons.collection.impl.CommonsLinkedHashSet;
+import com.helger.commons.collection.impl.ICommonsSet;
 import com.helger.commons.io.resource.ClassPathResource;
 
 import eu.toop.edm.xml.cv.CCV;
@@ -37,12 +37,13 @@ public final class CCCEV
   public static final List <ClassPathResource> XSDS;
   static
   {
-    final ICommonsList <ClassPathResource> aList = new CommonsArrayList <> ();
-    aList.addAll (CCV.XSDS);
-    aList.addAll (CDCatAP.XSDS);
-    aList.addAll (new ClassPathResource ("schemas/CV-CommonAggregateComponents.xsd", _getCL ()),
-                  new ClassPathResource ("schemas/CV-Agent.xsd", _getCL ()));
-    XSDS = aList.getAsUnmodifiable ();
+    final ICommonsSet <ClassPathResource> aSet = new CommonsLinkedHashSet <> ();
+    aSet.addAll (CCV.XSDS);
+    aSet.addAll (CDCatAP.XSDS);
+    aSet.addAll (new ClassPathResource ("schemas/CV-CommonAggregateComponents.xsd", _getCL ()),
+                 new ClassPathResource ("schemas/CV-Agent.xsd", _getCL ()),
+                 new ClassPathResource ("schemas/cccev-2.0.0.xsd", _getCL ()));
+    XSDS = aSet.getCopyAsList ().getAsUnmodifiable ();
   }
 
   private CCCEV ()

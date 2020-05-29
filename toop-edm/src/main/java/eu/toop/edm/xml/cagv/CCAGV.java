@@ -26,6 +26,8 @@ import com.helger.xsds.ccts.cct.schemamodule.CCCTS;
 import com.helger.xsds.xlink.CXLink;
 import com.helger.xsds.xml.CXML_XSD;
 
+import eu.toop.edm.xml.cv.CCV;
+
 /**
  * Core Agent Vocabulary (CAGV) constants
  *
@@ -47,16 +49,18 @@ public final class CCAGV
                   CXML_XSD.getXSDResource (),
                   CXLink.getXSDResource (),
                   new ClassPathResource ("schemas/skos.xsd", _getCL ()),
-                  new ClassPathResource ("schemas/regorg.xsd", _getCL ()),
-                  new ClassPathResource ("schemas/org.xsd", _getCL ()),
                   new ClassPathResource ("schemas/locn.xsd", _getCL ()),
                   new ClassPathResource ("schemas/foaf.xsd", _getCL ()),
+                  new ClassPathResource ("schemas/org.xsd", _getCL ()),
                   new ClassPathResource ("schemas/rdf.xsd", _getCL ()),
                   new ClassPathResource ("schemas/dcterms.xsd", _getCL ()),
+                  new ClassPathResource ("schemas/regorg.xsd", _getCL ()),
                   new ClassPathResource ("schemas/CV-DataTypes.xsd", _getCL ()),
                   new ClassPathResource ("schemas/CV-CommonBasicComponents.xsd", _getCL ()),
                   new ClassPathResource ("schemas/CV-CommonAggregateComponents.xsd", _getCL ()),
                   new ClassPathResource ("schemas/CV-Agent.xsd", _getCL ()));
+    // Add W3 CoreVocabularies
+    aList.addAll (CCV.XSDS);
     XSDS = aList.getAsUnmodifiable ();
   }
 

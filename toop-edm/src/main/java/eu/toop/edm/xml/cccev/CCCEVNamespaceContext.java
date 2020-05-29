@@ -21,6 +21,7 @@ import com.helger.commons.annotation.Singleton;
 import com.helger.xml.namespace.MapBasedNamespaceContext;
 
 import eu.toop.edm.xml.cagv.CAGVNamespaceContext;
+import eu.toop.edm.xml.dcatap.DCatNamespaceContext;
 
 /**
  * XML Namespace context for CCCEV
@@ -38,14 +39,8 @@ public class CCCEVNamespaceContext extends MapBasedNamespaceContext
   protected CCCEVNamespaceContext ()
   {
     addMappings (CAGVNamespaceContext.getInstance ());
+    setMappings (DCatNamespaceContext.getInstance ());
     addMapping ("cccev", "https://semic.org/sa/cv/cccev-2.0.0#");
-    addMapping ("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-    addMapping ("spdx", "spdx:xsd::1.0");
-    addMapping ("odrl", "http://www.w3.org/ns/odrl/2/");
-    addMapping ("r5r", "http://data.europa.eu/r5r/");
-    addMapping ("foaf", "http://xmlns.com/foaf/0.1/");
-    addMapping ("adms", "http://www.w3.org/ns/adms#");
-    addMapping ("dcterms", "http://purl.org/dc/terms/");
   }
 
   @Nonnull

@@ -18,14 +18,16 @@ package eu.toop.edm.xml.dcatap;
 import javax.annotation.Nonnull;
 
 import com.helger.commons.annotation.Singleton;
+import com.helger.ubl21.UBL21NamespaceContext;
 import com.helger.xml.namespace.MapBasedNamespaceContext;
-
-import eu.toop.edm.xml.cccev.CCCEVNamespaceContext;
+import com.helger.xsds.ccts.cct.schemamodule.CCCTS;
+import com.helger.xsds.xlink.CXLink;
 
 /**
- * XML Namespace context for DCAT
+ * XML Namespace context for DCAT. Depends on CGAV stuff.
  *
  * @author yerlibilgin
+ * @author Philip Helger
  */
 @Singleton
 public class DCatNamespaceContext extends MapBasedNamespaceContext
@@ -37,10 +39,21 @@ public class DCatNamespaceContext extends MapBasedNamespaceContext
 
   protected DCatNamespaceContext ()
   {
-    addMappings (CCCEVNamespaceContext.getInstance ());
-    addMapping ("dcat", "http://data.europa.eu/r5r/");
+    addMappings (UBL21NamespaceContext.getInstance ());
+    addMapping (CCCTS.DEFAULT_PREFIX, CCCTS.NAMESPACE_URI);
+    addMapping (CXLink.DEFAULT_PREFIX, CXLink.NAMESPACE_URI);
+    addMapping ("foaf", "http://xmlns.com/foaf/0.1/");
+    addMapping ("locn", "http://www.w3.org/ns/locn#");
+    addMapping ("skos", "http://www.w3.org/2004/02/skos/core#");
+    addMapping ("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
     addMapping ("dct", "http://purl.org/dc/terms/");
+    addMapping ("csdt", "https://semic.org/sa/cv/common/dataTypes-2.0.0#");
+    addMapping ("csbc", "https://semic.org/sa/cv/common/cbc-2.0.0#");
+    addMapping ("adms", "http://www.w3.org/ns/adms#");
+    addMapping ("odrl", "http://www.w3.org/ns/odrl/2/");
+    addMapping ("spdx", "spdx:xsd::1.0");
     addMapping ("vcard", "http://www.w3.org/2001/vcard-rdf/3.0#");
+    addMapping ("dcat", "http://data.europa.eu/r5r/");
   }
 
   @Nonnull
