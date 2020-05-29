@@ -44,6 +44,8 @@ public final class ReverseDocumentTypeMapping
   static
   {
     // Fill the map
+
+    // EDM v1, Codelist v2
     _add (EPredefinedDocumentTypeIdentifier.URN_EU_TOOP_NS_DATAEXCHANGE_1P40_REQUEST_URN_EU_TOOP_REQUEST_REGISTEREDORGANIZATION_LIST_1_40,
           EPredefinedDocumentTypeIdentifier.URN_EU_TOOP_NS_DATAEXCHANGE_1P40_RESPONSE_URN_EU_TOOP_RESPONSE_REGISTEREDORGANIZATION_LIST_1_40);
     _add (EPredefinedDocumentTypeIdentifier.URN_EU_TOOP_NS_DATAEXCHANGE_1P40_REQUEST_URN_EU_TOOP_REQUEST_REGISTEREDORGANIZATION_1_40,
@@ -60,6 +62,8 @@ public final class ReverseDocumentTypeMapping
           EPredefinedDocumentTypeIdentifier.URN_EU_TOOP_NS_DATAEXCHANGE_1P40_RESPONSE_URN_EU_TOOP_RESPONSE_EVIDENCE_LIST_1_40);
     _add (EPredefinedDocumentTypeIdentifier.URN_EU_TOOP_NS_DATAEXCHANGE_1P40_REQUEST_URN_EU_TOOP_REQUEST_EVIDENCE_1_40,
           EPredefinedDocumentTypeIdentifier.URN_EU_TOOP_NS_DATAEXCHANGE_1P40_RESPONSE_URN_EU_TOOP_RESPONSE_EVIDENCE_1_40);
+
+    // EDM v2, Codelist v3
     _add (EPredefinedDocumentTypeIdentifier.REGISTEREDORGANIZATION_REGISTERED_ORGANIZATION_TYPE_CONCEPT_CCCEV_TOOP_EDM_V2_0,
           EPredefinedDocumentTypeIdentifier.QUERYRESPONSE_TOOP_EDM_V2_0);
     _add (EPredefinedDocumentTypeIdentifier.FINANCIALRECORD_FINANCIAL_RECORD_TYPE_UNSTRUCTURED_TOOP_EDM_V2_0,
