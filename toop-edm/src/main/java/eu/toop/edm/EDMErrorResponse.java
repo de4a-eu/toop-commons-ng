@@ -47,6 +47,7 @@ import eu.toop.edm.xml.IVersatileWriter;
 import eu.toop.edm.xml.JAXBVersatileReader;
 import eu.toop.edm.xml.JAXBVersatileWriter;
 import eu.toop.edm.xml.cagv.AgentMarshaller;
+import eu.toop.edm.xml.cccev.CCCEV;
 import eu.toop.regrep.ERegRepResponseStatus;
 import eu.toop.regrep.RegRep4Reader;
 import eu.toop.regrep.RegRep4Writer;
@@ -182,13 +183,13 @@ public class EDMErrorResponse implements IEDMTopLevelObject
   @Nonnull
   public IVersatileWriter <QueryResponse> getWriter ()
   {
-    return new JAXBVersatileWriter <> (getAsErrorResponse (), RegRep4Writer.queryResponse ().setFormattedOutput (true));
+    return new JAXBVersatileWriter <> (getAsErrorResponse (), RegRep4Writer.queryResponse (CCCEV.XSDS).setFormattedOutput (true));
   }
 
   @Nonnull
   public static IJAXBVersatileReader <EDMErrorResponse> reader ()
   {
-    return new JAXBVersatileReader <> (RegRep4Reader.queryResponse (), EDMErrorResponse::create);
+    return new JAXBVersatileReader <> (RegRep4Reader.queryResponse (CCCEV.XSDS), EDMErrorResponse::create);
   }
 
   @Override

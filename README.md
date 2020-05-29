@@ -16,6 +16,7 @@ Working on `v2.0.0-beta5`
 * Added enumeration `EIdentifierType` for the valid person and company identifier types
 * Updated the Schematron rules to a new version - this may break backwards compatibility
 * Updated to code lists v3 - see https://github.com/TOOP4EU/toop/tree/master/Code%20Lists
+* Fixed an XSD bug with error responses, if an "error provider" is used
 
 2020-05-26: release of `v2.0.0-beta4`
 * Removed all methods deprecated in beta3

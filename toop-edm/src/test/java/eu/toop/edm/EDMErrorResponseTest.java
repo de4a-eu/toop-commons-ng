@@ -37,6 +37,7 @@ import eu.toop.edm.error.EEDMExceptionType;
 import eu.toop.edm.error.EToopErrorCode;
 import eu.toop.edm.error.EToopErrorOrigin;
 import eu.toop.edm.error.EToopErrorSeverity;
+import eu.toop.edm.model.EIdentifierType;
 import eu.toop.edm.schematron.SchematronBusinessRules2Validator;
 import eu.toop.edm.schematron.SchematronEDM2Validator;
 
@@ -71,8 +72,10 @@ public final class EDMErrorResponseTest
       // Schematron validation
       final Document aDoc = aResp.getWriter ().getAsDocument ();
       assertNotNull (aDoc);
+
       ICommonsList <AbstractSVRLMessage> aMsgs = new SchematronEDM2Validator ().validateDocument (aDoc);
       assertTrue (aMsgs.toString (), aMsgs.isEmpty ());
+
       aMsgs = new SchematronBusinessRules2Validator ().validateDocument (aDoc);
       assertTrue (aMsgs.toString (), aMsgs.isEmpty ());
     }
@@ -93,7 +96,17 @@ public final class EDMErrorResponseTest
   @Nonnull
   private static EDMErrorResponse.Builder _builder ()
   {
-    return EDMErrorResponse.builder ().requestID ("c4369c4d-740e-4b64-80f0-7b209a66d629");
+    return EDMErrorResponse.builder ()
+                           .requestID ("c4369c4d-740e-4b64-80f0-7b209a66d629")
+                           .errorProvider (x -> x.address (y -> y.town ("MyTown")
+                                                                 .streetName ("MyStreet")
+                                                                 .buildingNumber ("22")
+                                                                 .countryCode ("GR")
+                                                                 .fullAddress ("MyStreet 22, 11134, MyTown, GR")
+                                                                 .postalCode ("11134"))
+                                                 .name ("DP NAME")
+                                                 .id ("1234")
+                                                 .idSchemeID (EIdentifierType.EIDAS));
   }
 
   @Test

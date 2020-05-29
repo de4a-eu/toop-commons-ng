@@ -131,7 +131,10 @@ public final class EDMResponseTest
                       .lastModifiedNow ()
                       .validFrom (PDTFactory.getCurrentLocalDate ().minusMonths (1))
                       .validTo (PDTFactory.getCurrentLocalDate ().plusYears (1))
-                      .qualifiedRelation (x -> x.description ("LegalResourceDesc").title ("Name").id ("RE238918378"));
+                      .addQualifiedRelation (x -> x.description ("LegalResourceDesc").title ("Name").id ("RE238918378"))
+                      .addQualifiedRelation (x -> x.descriptions ("LegalResourceDesc2", "nice isn't it")
+                                                   .titles ("Name1", "Name2")
+                                                   .ids ("RE238918378", "and-id2"));
   }
 
   @Nonnull
