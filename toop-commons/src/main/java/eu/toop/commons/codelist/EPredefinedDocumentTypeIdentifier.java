@@ -1,18 +1,3 @@
-/**
- * Copyright (C) 2018-2020 toop.eu
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package eu.toop.commons.codelist;
 
 import com.helger.commons.annotation.CodingStyleguideUnaware;
@@ -159,7 +144,28 @@ public enum EPredefinedDocumentTypeIdentifier
      * 
      * @since code list v2
      */
-    URN_EU_TOOP_NS_DATAEXCHANGE_1P40_RESPONSE_URN_EU_TOOP_RESPONSE_EVIDENCE_1_40("Evidence Response", "urn:eu:toop:ns:dataexchange-1p40::Response##urn:eu.toop.response.evidence::1.40", Version.parse("2"), false, null);
+    URN_EU_TOOP_NS_DATAEXCHANGE_1P40_RESPONSE_URN_EU_TOOP_RESPONSE_EVIDENCE_1_40("Evidence Response", "urn:eu:toop:ns:dataexchange-1p40::Response##urn:eu.toop.response.evidence::1.40", Version.parse("2"), false, null),
+
+    /**
+     * EDM Concept Request on RegisteredOrganisation Data - <code>RegisteredOrganization::REGISTERED_ORGANIZATION_TYPE::CONCEPT##CCCEV::toop-edm:v2.0</code><br>
+     * 
+     * @since code list v3
+     */
+    REGISTEREDORGANIZATION_REGISTERED_ORGANIZATION_TYPE_CONCEPT_CCCEV_TOOP_EDM_V2_0("EDM Concept Request on RegisteredOrganisation Data", "RegisteredOrganization::REGISTERED_ORGANIZATION_TYPE::CONCEPT##CCCEV::toop-edm:v2.0", Version.parse("3"), false, null),
+
+    /**
+     * EDM Document Request on Fincancial Record - <code>FinancialRecord::FINANCIAL_RECORD_TYPE::UNSTRUCTURED::toop-edm:v2.0</code><br>
+     * 
+     * @since code list v3
+     */
+    FINANCIALRECORD_FINANCIAL_RECORD_TYPE_UNSTRUCTURED_TOOP_EDM_V2_0("EDM Document Request on Fincancial Record", "FinancialRecord::FINANCIAL_RECORD_TYPE::UNSTRUCTURED::toop-edm:v2.0", Version.parse("3"), false, null),
+
+    /**
+     * EDM Response - <code>QueryResponse::toop-edm:v2.0</code><br>
+     * 
+     * @since code list v3
+     */
+    QUERYRESPONSE_TOOP_EDM_V2_0("EDM Response", "QueryResponse::toop-edm:v2.0", Version.parse("3"), false, null);
     public static final EPredefinedDocumentTypeIdentifier REQUEST_REGISTEREDORGANIZATION_LIST = EPredefinedDocumentTypeIdentifier.URN_EU_TOOP_NS_DATAEXCHANGE_1P40_REQUEST_URN_EU_TOOP_REQUEST_REGISTEREDORGANIZATION_LIST_1_40;
     public static final EPredefinedDocumentTypeIdentifier RESPONSE_REGISTEREDORGANIZATION_LIST = EPredefinedDocumentTypeIdentifier.URN_EU_TOOP_NS_DATAEXCHANGE_1P40_RESPONSE_URN_EU_TOOP_RESPONSE_REGISTEREDORGANIZATION_LIST_1_40;
     public static final EPredefinedDocumentTypeIdentifier REQUEST_REGISTEREDORGANIZATION = EPredefinedDocumentTypeIdentifier.URN_EU_TOOP_NS_DATAEXCHANGE_1P40_REQUEST_URN_EU_TOOP_REQUEST_REGISTEREDORGANIZATION_1_40;
@@ -176,6 +182,7 @@ public enum EPredefinedDocumentTypeIdentifier
     public static final EPredefinedDocumentTypeIdentifier RESPONSE_EVIDENCE_LIST = EPredefinedDocumentTypeIdentifier.URN_EU_TOOP_NS_DATAEXCHANGE_1P40_RESPONSE_URN_EU_TOOP_RESPONSE_EVIDENCE_LIST_1_40;
     public static final EPredefinedDocumentTypeIdentifier REQUEST_EVIDENCE = EPredefinedDocumentTypeIdentifier.URN_EU_TOOP_NS_DATAEXCHANGE_1P40_REQUEST_URN_EU_TOOP_REQUEST_EVIDENCE_1_40;
     public static final EPredefinedDocumentTypeIdentifier RESPONSE_EVIDENCE = EPredefinedDocumentTypeIdentifier.URN_EU_TOOP_NS_DATAEXCHANGE_1P40_RESPONSE_URN_EU_TOOP_RESPONSE_EVIDENCE_1_40;
+    public static final EPredefinedDocumentTypeIdentifier CCCEV = EPredefinedDocumentTypeIdentifier.REGISTEREDORGANIZATION_REGISTERED_ORGANIZATION_TYPE_CONCEPT_CCCEV_TOOP_EDM_V2_0;
     public static final String DOC_TYPE_SCHEME = "toop-doctypeid-qns";
     private final String m_sName;
     private final String m_sID;

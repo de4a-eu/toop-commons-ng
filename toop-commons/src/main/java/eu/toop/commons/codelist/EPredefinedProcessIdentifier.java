@@ -1,18 +1,3 @@
-/**
- * Copyright (C) 2018-2020 toop.eu
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package eu.toop.commons.codelist;
 
 import com.helger.commons.annotation.CodingStyleguideUnaware;
@@ -52,10 +37,34 @@ public enum EPredefinedProcessIdentifier
      * 
      * @since code list v2
      */
-    URN_EU_TOOP_PROCESS_TWOPHASEDREQUESTRESPONSE("TOOP Two Phased Request Response for Documents", "urn:eu.toop.process.twophasedrequestresponse", Version.parse("2"), false, null);
+    URN_EU_TOOP_PROCESS_TWOPHASEDREQUESTRESPONSE("TOOP Two Phased Request Response for Documents", "urn:eu.toop.process.twophasedrequestresponse", Version.parse("2"), false, null),
+
+    /**
+     * TOOP DataQuery - <code>urn:eu.toop.process.dataquery</code><br>
+     * 
+     * @since code list v3
+     */
+    URN_EU_TOOP_PROCESS_DATAQUERY("TOOP DataQuery", "urn:eu.toop.process.dataquery", Version.parse("3"), false, null),
+
+    /**
+     * TOOP DocumentQuery - <code>urn:eu.toop.process.documentquery</code><br>
+     * 
+     * @since code list v3
+     */
+    URN_EU_TOOP_PROCESS_DOCUMENTQUERY("TOOP DocumentQuery", "urn:eu.toop.process.documentquery", Version.parse("3"), false, null),
+
+    /**
+     * TOOP DocumentReferenceQuery - <code>urn:eu.toop.process.documentreferencequery</code><br>
+     * 
+     * @since code list v3
+     */
+    URN_EU_TOOP_PROCESS_DOCUMENTREFERENCEQUERY("TOOP DocumentReferenceQuery", "urn:eu.toop.process.documentreferencequery", Version.parse("3"), false, null);
     public static final EPredefinedProcessIdentifier DATAREQUESTRESPONSE = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_DATAREQUESTRESPONSE;
     public static final EPredefinedProcessIdentifier DOCUMENTREQUESTRESPONSE = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_DOCUMENTREQUESTRESPONSE;
     public static final EPredefinedProcessIdentifier TWOPHASEDREQUESTRESPONSE = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_TWOPHASEDREQUESTRESPONSE;
+    public static final EPredefinedProcessIdentifier DATAQUERY = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_DATAQUERY;
+    public static final EPredefinedProcessIdentifier DOCUMENTQUERY = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_DOCUMENTQUERY;
+    public static final EPredefinedProcessIdentifier DOCUMENTREFERENCEQUERY = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_DOCUMENTREFERENCEQUERY;
     public static final String PROCESS_SCHEME = "toop-procid-agreement";
     private final String m_sName;
     private final String m_sID;

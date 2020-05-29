@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import com.helger.commons.annotation.CodingStyleguideUnaware;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.collection.impl.CommonsHashSet;
+import com.helger.commons.collection.impl.ICommonsList;
 import com.helger.commons.collection.impl.ICommonsSet;
 import com.helger.commons.functional.IThrowingConsumer;
 import com.helger.commons.regex.RegExHelper;
@@ -79,7 +80,10 @@ public final class MainCreateJavaCodeFromCodeList extends AbstractMain
   @Nullable
   private static String _createDocTypeShortcut (@Nonnull final String sID)
   {
-    String sSubType = StringHelper.getExploded ("##", sID, 2).get (1);
+    final ICommonsList <String> aParts = StringHelper.getExploded ("##", sID, 2);
+    if (aParts.size () < 2)
+      return null;
+    String sSubType = aParts.get (1);
     sSubType = StringHelper.trimStart (sSubType, "urn:eu.toop.");
     sSubType = StringHelper.getExploded ("::", sSubType, 2).get (0);
     return _getIdentifier (sSubType);
