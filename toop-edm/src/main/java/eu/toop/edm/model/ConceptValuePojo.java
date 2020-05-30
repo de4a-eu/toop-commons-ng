@@ -28,6 +28,7 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.helger.commons.annotation.ReturnsMutableCopy;
@@ -291,8 +292,7 @@ public class ConceptValuePojo
          .amount (a.getAmountValue () == null ? null : AmountPojo.builder (a.getAmountValue ()))
          .code (a.getCodeValueValue ())
          .date (a.getDateValueValue ())
-         .indicator (a.getIndicatorValue () == null ? null
-                                                    : StringParser.parseBoolObj (a.getIndicatorValue ().getValue ()))
+         .indicator (a.getIndicatorValue () == null ? null : StringParser.parseBoolObj (a.getIndicatorValue ().getValue ()))
          .measure (a.getMeasureValue () == null ? null : MeasurePojo.builder (a.getMeasureValue ()))
          .numeric (a.getNumericValueValue ())
          .period (a.getPeriodValue () == null ? null : PeriodPojo.builder (a.getPeriodValue ()).build ())
@@ -566,6 +566,7 @@ public class ConceptValuePojo
       return this;
     }
 
+    @OverridingMethodsMustInvokeSuper
     public void checkConsistency ()
     {
       int nCount = 0;

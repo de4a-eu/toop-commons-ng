@@ -20,6 +20,7 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.helger.commons.ValueEnforcer;
@@ -389,6 +390,7 @@ public class PersonPojo
       return this;
     }
 
+    @OverridingMethodsMustInvokeSuper
     public void checkConsistency ()
     {
       if (StringHelper.hasNoText (m_sID))
