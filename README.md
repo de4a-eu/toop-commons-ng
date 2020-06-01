@@ -2,15 +2,14 @@
 
 This is the successor project of the old [toop-commons](https://github.com/TOOP4EU/toop-commons) project.
 The code contained in this project is used by:
-* https://github.com/TOOP4EU/toop-connector-ng - TOOP Connector NG (TC NG)
+* https://github.com/TOOP4EU/toop-connector-ng - TOOP Connector NG
 * https://github.com/TOOP4EU/data-services-directory - Data Services Directory (DSD)
 * https://github.com/TOOP4EU/toop-simulator-ng/ - TOOP Simulator NG
 * https://github.com/TOOP4EU/toop-playground-ng/ - Playground NG (the previous DemoUI)
 
 ## Status
 
-
-Working on `v2.0.0-beta5`
+2020-06-01: release of `v2.0.0-beta5`
 * Added new Schematrons to check if a document type is the expected one
 * Improved the loading of XSDs for all Schemas
 * Added enumeration `EIdentifierType` for the valid person and company identifier types
@@ -49,7 +48,7 @@ Working on `v2.0.0-beta5`
       <dependency>
         <groupId>eu.toop</groupId>
         <artifactId>toop-edm</artifactId>
-        <version>2.0.0-beta4</version>
+        <version>2.0.0-beta5</version>
       </dependency>
 ```
 
