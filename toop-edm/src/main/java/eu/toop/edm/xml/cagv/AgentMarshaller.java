@@ -28,7 +28,7 @@ import eu.toop.edm.jaxb.cv.agent.ObjectFactory;
 
 /**
  * CAGV Marshaller
- * 
+ *
  * @author Philip Helger
  */
 public class AgentMarshaller extends GenericJAXBMarshaller <AgentType>
@@ -42,8 +42,19 @@ public class AgentMarshaller extends GenericJAXBMarshaller <AgentType>
   @Override
   protected JAXBContext getJAXBContext (@Nullable final ClassLoader aClassLoader) throws JAXBException
   {
-    final Class <?> [] aClasses = new Class <?> [] { eu.toop.edm.jaxb.cv.agent.ObjectFactory.class,
-                                                     eu.toop.edm.jaxb.cv.cbc.ObjectFactory.class };
+    final Class <?> [] aClasses = new Class <?> [] { com.helger.xsds.ccts.cct.schemamodule.ObjectFactory.class,
+                                                     com.helger.xsds.xlink.ObjectFactory.class,
+                                                     eu.toop.edm.jaxb.w3.skos.ObjectFactory.class,
+                                                     eu.toop.edm.jaxb.w3.locn.ObjectFactory.class,
+                                                     eu.toop.edm.jaxb.foaf.ObjectFactory.class,
+                                                     eu.toop.edm.jaxb.w3.org.ObjectFactory.class,
+                                                     eu.toop.edm.jaxb.rdf.ObjectFactory.class,
+                                                     eu.toop.edm.jaxb.dcterms.ObjectFactory.class,
+                                                     eu.toop.edm.jaxb.w3.regorg.ObjectFactory.class,
+                                                     eu.toop.edm.jaxb.cv.dt.ObjectFactory.class,
+                                                     eu.toop.edm.jaxb.cv.cbc.ObjectFactory.class,
+                                                     eu.toop.edm.jaxb.cv.cac.ObjectFactory.class,
+                                                     eu.toop.edm.jaxb.cv.agent.ObjectFactory.class };
     if (isUseContextCache ())
       return JAXBContextCache.getInstance ().getFromCache (new CommonsArrayList <> (aClasses));
     return JAXBContext.newInstance (aClasses);
