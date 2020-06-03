@@ -652,8 +652,9 @@
         <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element/cccev:concept//cccev:concept">
             
             <let name="countConceptValues" value="count(cccev:value)"/>      
-            <assert test="($countConceptValues = 1)" flag='ERROR' id='cardinality_concept_value'>
-                Each concept (except the main concept) must contain exactly ONE value (found: <value-of select="$countConceptValues"/> for id:<value-of select="cbc:id"/> and QName:<value-of select="cbc:QName"/>. ).
+            <let name="countConceptConcepts" value="count(cccev:concept)"/>   
+            <assert test="( ($countConceptValues = 1) or ($countConceptConcepts &gt; 0 and $countConceptValues &lt; 2 ) )" flag='ERROR' id='cardinality_concept_value'>
+                Each concept must contain exactly ONE value or at least ONE concept (check id:<value-of select="cbc:id"/> and QName:<value-of select="cbc:QName"/>. ).
             </assert>   
             
         </rule>
