@@ -41,7 +41,7 @@
     
     <!--Check the format of the UUID's-->
     <pattern>
-        <rule context="query:QueryRequest/@id | query:QueryResponse/@requestId">
+        <rule context="query:QueryRequest/@id | query:QueryResponse/@requestId | query:QueryResponse/rim:ObjectRefList/rim:ObjectRef/@id | query:QueryRequest/query:Query/rim:Slot[@name = 'id']/rim:SlotValue/rim:Value">
             <assert test="matches(normalize-space((.)),'^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$','i')" 
                 flag='ERROR' id="br_wrong_uuid_format">
                 Rule: The UUID MUST be created following the UUID Version 4 specification. 
@@ -49,7 +49,6 @@
             </assert>
         </rule>
     </pattern>
-    
     
     <!--Check the Specification Identifier-->
     <pattern>
@@ -64,9 +63,9 @@
        
     <!--Check if an identifier is valid according to the eIDAS specifications-->
     <pattern>
-        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID">
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID[@schemeID='EIDAS']">
             <assert test="matches(normalize-space(text()),'^[a-z]{2}/[a-z]{2}/(.*?)','i')"  
-                flag='ERROR' id="br_wrong_id_format">
+                flag='warning' id="br_wrong_id_format">
                 Rule: The uniqueness identifier consists of:
                 1. The first part is the Nationality Code of the identifier. This is one of the ISO 3166-1 alpha-2 codes, followed by a slash ("/"))
                 2. The second part is the Nationality Code of the destination country or international organization. This is one of the ISO 3166-1 alpha-2 codes, followed by a slash ("/")
@@ -141,7 +140,7 @@
     <pattern>
         <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID">
             <assert test="( (@schemeID = 'LEI') and ( string-length(normalize-space(.)) = 20) or (@schemeID != 'LEI')   )" 
-                flag='warning' id='br_invalid_euid_length'>
+                flag='warning' id='br_invalid_lei_length'>
                 The LEI code length should be 20.
             </assert>  
         </rule>
@@ -176,8 +175,8 @@
             <assert test="$countrycodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">
                 The country code must always be specified using the correct code list. Please check <value-of select="name(.)"/>.</assert> 
         </rule> 
-        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" 
-            flag='ERROR' id='br_check_id_countrycode'>
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID[@schemeID='EIDAS']" 
+            flag='warning' id='br_check_id_countrycode'>
             <assert test="$countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[1])]">
                 The country code in the first part of the identifier must always be specified using the correct code list (found:<value-of select="(tokenize(normalize-space(current()/.),'/')[1])"/>).</assert> 
             <assert test="$countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[2])]">
@@ -281,7 +280,7 @@
         <let name="industrialtypecodes" value="document('..\codelist\toop\StandardIndustrialClassCode-CodeList.gc')//Value[@ColumnRef='code']" />
         <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID">
             <assert test="( (@schemeID = 'SIC') and ($industrialtypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]) or (@schemeID != 'SIC') )"
-                flag='warning' id='br_check_sic_cod'>
+                flag='warning' id='br_check_sic_code'>
                 A standard industrial classification code should always be specified using the correct code list.</assert> 
         </rule> 
     </pattern> 
