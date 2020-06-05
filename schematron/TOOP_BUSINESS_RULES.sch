@@ -35,6 +35,7 @@
     <ns prefix="dcat"   uri="http://data.europa.eu/r5r/"/>
     <ns prefix="dct"    uri="http://purl.org/dc/terms/"/>
     <ns prefix="xsi"    uri="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0"/>    
+    <ns prefix="gc"     uri="http://docs.oasis-open.org/codelist/ns/genericode/1.0/"/>
     
     <title>TOOP EDM Business Rules (specs Version 2.0.1)</title>
     
@@ -63,7 +64,7 @@
        
     <!--Check if an identifier is valid according to the eIDAS specifications-->
     <pattern>
-        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID[@schemeID='EIDAS']">
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID[@schemeID='EIDAS']">
             <assert test="matches(normalize-space(text()),'^[a-z]{2}/[a-z]{2}/(.*?)','i')"  
                 flag='warning' id="br_wrong_id_format">
                 Rule: The uniqueness identifier consists of:
@@ -145,7 +146,7 @@
             </assert>  
         </rule>
     </pattern>
-    
+   
 
     
     <!--***********************-->
@@ -154,7 +155,7 @@
     
     <!--Check codelist for gender-->
     <pattern> 
-        <let name="gendertypecodes" value="document('..\codelist\toop\Gender-CodeList.gc')//Value[@ColumnRef='code']" />
+        <let name="gendertypecodes" value="document('..\codelist\toop\Gender-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
         <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonGenderCode 
             | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonGenderCode">
             <assert test="$gendertypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]"
@@ -167,7 +168,7 @@
     
     <!--Check codelist for country-->
     <pattern> 
-        <let name="countrycodes" value="document('..\codelist\external\CountryIdentificationCode-2.2.gc')//Value[@ColumnRef='code']" />
+        <let name="countrycodes" value="document('..\codelist\external\CountryIdentificationCode-2.2.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
         <rule context="cva:PersonCoreAddress/cvb:AddressAdminUnitLocationOne 
             | cva:LegalEntityCoreAddress/cvb:AddressAdminUnitLocationOne 
             | query:QueryRequest/rim:Slot[@name = 'DataConsumer']/rim:SlotValue/cagv:Agent/cagv:location/locn:address/locn:adminUnitLevel1"            
@@ -187,7 +188,7 @@
     
     <!--Check codelist for mimetype code-->
     <pattern> 
-        <let name="mimetypecodes" value="document('..\codelist\external\BinaryObjectMimeCode-2.2.gc')//Value[@ColumnRef='code']" />
+        <let name="mimetypecodes" value="document('..\codelist\external\BinaryObjectMimeCode-2.2.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
         <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution/dcat:mediaType
             | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution/cccev:documentType" 
             flag='warning' id='br_check_doc_media_type'> 
@@ -199,8 +200,8 @@
     
     <!--Check codelist for the attributes of a QueryResponse returning exceptions-->
     <pattern> 
-        <let name="errorseveritycodes" value="document('..\codelist\toop\ErrorSeverity-CodeList.gc')//Value[@ColumnRef='code']" />
-        <let name="errorcodecodes" value="document('..\codelist\toop\ErrorCode-CodeList.gc')//Value[@ColumnRef='code']" />
+        <let name="errorseveritycodes" value="document('..\codelist\toop\ErrorSeverity-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
+        <let name="errorcodecodes" value="document('..\codelist\toop\ErrorCode-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
         <rule context="query:QueryResponse/rs:Exception" 
             flag='ERROR'> 
             <assert  id='br_check_error_severity' test="$errorseveritycodes/SimpleValue[normalize-space(.) = normalize-space(current()/@severity)]">
@@ -213,7 +214,7 @@
     
     <!--Check codelist for error origin in a QueryResponse returning exceptions-->
     <pattern> 
-        <let name="errororigincodes" value="document('..\codelist\toop\ErrorOrigin-CodeList.gc')//Value[@ColumnRef='code']" />
+        <let name="errororigincodes" value="document('..\codelist\toop\ErrorOrigin-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
         <rule context="query:QueryResponse/rs:Exception/rim:Slot[@name = 'ErrorOrigin']/rim:SlotValue/rim:Value" 
             flag='ERROR' id='br_check_error_origin'> 
             <assert test="$errororigincodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">
@@ -224,7 +225,7 @@
     
     <!--Check codelist for distribution format-->
     <pattern> 
-        <let name="distributionformatcodes" value="document('..\codelist\toop\DistributionFormat-CodeList.gc')//Value[@ColumnRef='code']" />
+        <let name="distributionformatcodes" value="document('..\codelist\toop\DistributionFormat-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
         <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution/dct:format"
             flag='ERROR' id='br_check_distribution_format'> 
             <assert test="$distributionformatcodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">
@@ -235,7 +236,7 @@
     
     <!--Check codelist for query definition-->
     <pattern> 
-        <let name="querydefinitions" value="document('..\codelist\toop\QueryDefinition-CodeList.gc')//Value[@ColumnRef='code']" />
+        <let name="querydefinitions" value="document('..\codelist\toop\QueryDefinition-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
         <rule context="query:QueryRequest/query:Query" 
             flag='ERROR' id='br_check_query_definition' > 
             <assert test="$querydefinitions/SimpleValue[normalize-space(.) = normalize-space(current()/@queryDefinition)]">A query definition code must always be specified using the correct code list.</assert> 
@@ -245,7 +246,7 @@
     
     <!--Check codelist for currency-->
     <pattern> 
-        <let name="currencytypecodes" value="document('..\codelist\external\CurrencyCode-2.2.gc')//Value[@ColumnRef='code']" />
+        <let name="currencytypecodes" value="document('..\codelist\external\CurrencyCode-2.2.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
         <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element//cccev:concept/cccev:value/cccev:amountValue" 
             flag='ERROR' id='br_check_currency_code'> 
             <assert test="$currencytypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/@currencyID)]">
@@ -256,7 +257,7 @@
     
     <!--Check codelist for language-->
     <pattern> 
-        <let name="languagecodes" value="document('..\codelist\external\LanguageCode-2.2.gc')//Value[@ColumnRef='code']" />
+        <let name="languagecodes" value="document('..\codelist\external\LanguageCode-2.2.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
         <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name='DocumentMetadata']/rim:SlotValue/dcat:Dataset/dct:language" 
             flag='ERROR' id='br_check_language_code'> 
             <assert test="$languagecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">A language code must always be specified using the correct code list.</assert> 
@@ -266,7 +267,7 @@
     
     <!--Check codelist for data element response error code-->
     <pattern> 
-        <let name="dataelementresponseerrorcodes" value="document('..\codelist\toop\DataElementResponseErrorCode-CodeList.gc')//Value[@ColumnRef='code']" />
+        <let name="dataelementresponseerrorcodes" value="document('..\codelist\toop\DataElementResponseErrorCode-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
         <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element//cccev:concept/cccev:value/cccev:error"> 
             <assert test="$dataelementresponseerrorcodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]"
                 flag='warning' id='br_check_error_data_element_response'>
@@ -277,7 +278,7 @@
     
     <!--Check codelist for standard industrial class code-->
     <pattern> 
-        <let name="industrialtypecodes" value="document('..\codelist\toop\StandardIndustrialClassCode-CodeList.gc')//Value[@ColumnRef='code']" />
+        <let name="industrialtypecodes" value="document('..\codelist\toop\StandardIndustrialClassCode-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
         <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID">
             <assert test="( (@schemeID = 'SIC') and ($industrialtypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]) or (@schemeID != 'SIC') )"
                 flag='warning' id='br_check_sic_code'>
@@ -288,7 +289,7 @@
     
     <!--Check codelist for protocol exceptions-->
     <pattern> 
-        <let name="procotolexceptioncodes" value="document('..\codelist\toop\ProcotolException-CodeList.gc')//Value[@ColumnRef='code']" />
+        <let name="procotolexceptioncodes" value="document('..\codelist\toop\ProcotolException-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
         <rule context="query:QueryResponse/rs:Exception"> 
             <let name="datatype" value="@*[ends-with(name(.), ':type') and . != '']"/>
             <assert test="$procotolexceptioncodes/SimpleValue[normalize-space(.) = normalize-space(substring-after($datatype,':'))]"
@@ -300,10 +301,11 @@
     
     <!--Check codelist for identifier type-->
     <pattern> 
-        <let name="identifiertypecodes" value="document('..\codelist\toop\IdentifierType-CodeList.gc')//Value[@ColumnRef='code']" />
+        <let name="identifiertypecodes" value="document('..\codelist\toop\IdentifierType-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
         <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonID 
             | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonID
-            | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" 
+            | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID
+            | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" 
             > 
             <assert test="$identifiertypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/@schemeID)]"
                 flag='warning' id='br_check_identifier_code'>

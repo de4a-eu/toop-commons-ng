@@ -311,6 +311,10 @@
                 The value of the queryDefinition attribute in the Query element must always be 'DocumentQuery' when requesting Document Evidence, and include a DistributionRequestList. 
             </assert>
             
+            <assert test="( ((@queryDefinition='urn:oasis:names:tc:ebxml-regrep:query:GetObjectById') and (exists(rim:Slot[@name = 'id'])) or (@queryDefinition!='urn:oasis:names:tc:ebxml-regrep:query:GetObjectById') ))" flag='ERROR' id='req_getobjectbyid_query'>
+                The value of the queryDefinition attribute in the Query element must always be 'urn:oasis:names:tc:ebxml-regrep:query:GetObjectById' when requesting an object by Id (in Step 2), and include an Id slot. 
+            </assert>
+            
         </rule>
     </pattern>
     
