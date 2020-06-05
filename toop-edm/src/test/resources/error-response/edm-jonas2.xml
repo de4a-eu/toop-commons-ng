@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query:QueryResponse xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:4.0" xmlns:spi="urn:oasis:names:tc:ebxml-regrep:xsd:spi:4.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:4.0" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:4.0" status="urn:oasis:names:tc:ebxml-regrep:ResponseStatusType:Failure" requestId="8ad2f89a-f566-4c91-9b4d-9b40f095a78c">
+  <rim:Slot name="SpecificationIdentifier">
+    <rim:SlotValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rim:StringValueType">
+      <rim:Value>toop-edm:v2.0</rim:Value>
+    </rim:SlotValue>
+  </rim:Slot>
+  <rim:Slot name="ErrorProvider">
+    <rim:SlotValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rim:AnyValueType">
+      <cagv:Agent xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:regorg="http://www.w3.org/ns/regorg#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:org="http://www.w3.org/ns/org#" xmlns:locn="http://www.w3.org/ns/locn#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:csdt="https://semic.org/sa/cv/common/dataTypes-2.0.0#" xmlns:csbc="https://semic.org/sa/cv/common/cbc-2.0.0#" xmlns:csac="https://semic.org/sa/cv/common/cac-2.0.0#" xmlns:cagv="https://semic.org/sa/cv/cagv/agent-2.0.0#">
+        <csbc:id schemeID="iso6523-actorid-upis">9999:bolagsverket1</csbc:id>
+              <csbc:name>Bolagsverket</csbc:name>
+              <cagv:location>
+          <locn:address xsi:type="csac:AddressType">
+            <locn:adminUnitLevel1>SE</locn:adminUnitLevel1>
+          </locn:address>
+        </cagv:location>
+      </cagv:Agent>
+    </rim:SlotValue>
+  </rim:Slot>
+  <rs:Exception xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rs:InvalidRequestExceptionType" code="GEN" detail="Identifier must be exactly 10 digits" message="Invalid identifier format" severity="FAILURE">
+    <rim:Slot name="Timestamp">
+      <rim:SlotValue xsi:type="rim:DateTimeValueType">
+        <rim:Value>2020-06-04T15:55:32.078</rim:Value>
+      </rim:SlotValue>
+    </rim:Slot>
+      <rim:Slot name="ErrorOrigin">
+      <rim:SlotValue xsi:type="rim:StringValueType">
+        <rim:Value>RequestSubmission</rim:Value>
+      </rim:SlotValue>
+    </rim:Slot>
+  </rs:Exception>
+</query:QueryResponse>

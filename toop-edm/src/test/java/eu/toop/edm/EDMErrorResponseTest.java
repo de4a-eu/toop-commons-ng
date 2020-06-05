@@ -121,7 +121,10 @@ public final class EDMErrorResponseTest
   @Test
   public void testReadAndWriteExampleFiles ()
   {
-    final EDMErrorResponse aErrorResponse = EDMErrorResponse.reader ().read (new ClassPathResource ("Error Response 1.xml"));
+    EDMErrorResponse aErrorResponse = EDMErrorResponse.reader ().read (new ClassPathResource ("Error Response 1.xml"));
+    _testWriteAndRead (aErrorResponse);
+
+    aErrorResponse = EDMErrorResponse.reader ().read (new ClassPathResource ("error-response/edm-jonas2.xml"));
     _testWriteAndRead (aErrorResponse);
   }
 
