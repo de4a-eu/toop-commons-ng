@@ -523,13 +523,6 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public final T responseOption (@Nullable final EResponseOptionType e)
-    {
-      m_eResponseOption = e;
-      return thisAsT ();
-    }
-
-    @Nonnull
     public final T id (@Nullable final UUID a)
     {
       return id (a == null ? null : a.toString ());
@@ -539,6 +532,13 @@ public class EDMRequest implements IEDMTopLevelObject
     public final T id (@Nullable final String s)
     {
       m_sRequestID = s;
+      return thisAsT ();
+    }
+
+    @Nonnull
+    public final T responseOption (@Nullable final EResponseOptionType e)
+    {
+      m_eResponseOption = e;
       return thisAsT ();
     }
 

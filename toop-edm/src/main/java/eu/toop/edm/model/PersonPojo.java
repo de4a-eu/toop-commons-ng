@@ -311,11 +311,37 @@ public class PersonPojo
       return this;
     }
 
+    /**
+     * Alias for {@link #familyName(String)}
+     *
+     * @param s
+     *        Last or family name
+     * @return this for chaining
+     */
+    @Nonnull
+    public Builder lastName (@Nullable final String s)
+    {
+      return familyName (s);
+    }
+
     @Nonnull
     public Builder familyName (@Nullable final String s)
     {
       m_sFamilyName = s;
       return this;
+    }
+
+    /**
+     * Alias for {@link #givenName(String)}
+     *
+     * @param s
+     *        First or given name
+     * @return this for chaining
+     */
+    @Nonnull
+    public Builder firstName (@Nullable final String s)
+    {
+      return givenName (s);
     }
 
     @Nonnull
