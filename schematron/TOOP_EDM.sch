@@ -131,6 +131,8 @@
         </rule>
     </pattern>
     
+    
+
     <!--CHECK THE STRUCTURE FOR AN ERROR QUERY RESPONSE CONTAINING SOME EXCEPTIONS-->
     <pattern>
         <rule context="query:QueryResponse">
@@ -628,10 +630,14 @@
             <assert test="($countRepositoryItemRef=0) or ($countRepositoryItemRef=1)" flag='ERROR' id='res_card_RepositoryItemRef'>
                 The RegistryObjectList must contain ZERO or ONE RepositoryItemRef elements (found: <value-of select="$countRepositoryItemRef"/>).
             </assert>
+            
+            <assert test="exists(rim:RepositoryItemRef) or exists(rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution) or ($countConceptValues &gt; 0)" flag='ERROR' id='mandatory_doc_res_itemref_or_distribution'>
+                The RegistryObjectList in a Dcoument Response must contain a rim:RepositoryItemRef or a dcat:distribution.
+            </assert>   
      
         </rule>
     </pattern>
-    
+ 
     
     <!--***********************************-->
     <!--CHECK CONCEPT VALUES LIST STRUCTURE-->
@@ -750,22 +756,6 @@
             
         </rule>
     </pattern>
-    
-    <!--********************************************-->
-    <!--CHECK RESPONSE REPOSITORY ITEM REF STRUCTURE-->
-    <!--********************************************-->
-    
-    <!--TODO: check href and title-->
-    
-<!--    <pattern>
-        <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:RepositoryItemRef">
-            
-            <assert test="exists(@rhref)" flag='ERROR' id='res_rir_href'>
-                The RepositoryItemRef must contain a href attribute.
-            </assert>  
-
-        </rule>
-    </pattern>-->
     
     
     <!--******************************-->
