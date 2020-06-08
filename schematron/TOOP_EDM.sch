@@ -632,7 +632,7 @@
             </assert>
             
             <assert test="exists(rim:RepositoryItemRef) or exists(rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution) or ($countConceptValues &gt; 0)" flag='ERROR' id='mandatory_doc_res_itemref_or_distribution'>
-                The RegistryObjectList in a Dcoument Response must contain a rim:RepositoryItemRef or a dcat:distribution.
+                The RegistryObjectList in a Document Response must contain a rim:RepositoryItemRef or a dcat:distribution.
             </assert>   
      
         </rule>
