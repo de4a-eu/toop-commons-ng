@@ -63,7 +63,7 @@
     
        
     <!--Check if an identifier is valid according to the eIDAS specifications-->
-    <pattern>
+    <!--pattern>
         <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID[@schemeID='EIDAS']">
             <assert test="matches(normalize-space(text()),'^[a-z]{2}/[a-z]{2}/(.*?)','i')"  
                 flag='warning' id="br_wrong_id_format">
@@ -74,7 +74,7 @@
                 Please check <value-of select="name(.)"/>.
             </assert>
         </rule>
-    </pattern>
+    </pattern-->
     
     
     <!--Check for unique ID's in concepts-->
@@ -134,9 +134,6 @@
     </pattern>
     
     
-    <!--TODO warning if the schemeID is not coming from the codelist-->
-    
-    
     <!--Check the length of the LEI code.-->
     <pattern>
         <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID">
@@ -146,8 +143,8 @@
             </assert>  
         </rule>
     </pattern>
-   
-
+    
+    
     
     <!--***********************-->
     <!--*RULES USING CODELISTS*-->
@@ -176,15 +173,18 @@
             <assert test="$countrycodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">
                 The country code must always be specified using the correct code list. Please check <value-of select="name(.)"/>.</assert> 
         </rule> 
-        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID[@schemeID='EIDAS']" 
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonID[@schemeID='EIDAS'] 
+            | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonID[@schemeID='EIDAS']
+            | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID[@schemeID='EIDAS']
+            | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID[@schemeID='EIDAS']" 
             flag='warning' id='br_check_id_countrycode'>
-            <assert test="$countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[1])]">
-                The country code in the first part of the identifier must always be specified using the correct code list (found:<value-of select="(tokenize(normalize-space(current()/.),'/')[1])"/>).</assert> 
-            <assert test="$countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[2])]">
-                The country code in the second part of the identifier must always be specified using the correct code list (found:<value-of select="(tokenize(normalize-space(current()/.),'/')[2])"/>).</assert> 
+            <let name="hasEidasFormat" value="matches(normalize-space(current()/.),'^[a-z]{2}/[a-z]{2}/(.*?)','i')"/> 
+            <assert test="( ($countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[1])]) or ($hasEidasFormat=false()) )">
+                If the EIDAS code has the format "XX/YY/12345", the country code in the first part of the identifier must always be specified using the correct code list (found:<value-of select="(tokenize(normalize-space(current()/.),'/')[1])"/>).</assert> 
+            <assert test="( ($countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[2])]) or ($hasEidasFormat=false()) )">
+                If the EIDAS code has the format "XX/YY/12345", the country code in the second part of the identifier must always be specified using the correct code list (found:<value-of select="(tokenize(normalize-space(current()/.),'/')[2])"/>).</assert> 
         </rule>
     </pattern> 
-    
     
     <!--Check codelist for mimetype code-->
     <pattern> 
