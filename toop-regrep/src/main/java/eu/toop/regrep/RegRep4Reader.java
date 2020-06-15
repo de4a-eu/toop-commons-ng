@@ -109,7 +109,6 @@ public class RegRep4Reader <JAXBTYPE> extends JAXBReaderBuilder <JAXBTYPE, RegRe
     return new RegRep4Reader <> (ERegRep4XMLDocumentType.QUERY_REQUEST, QueryRequest.class);
   }
 
-
   /**
    * Create a reader builder for {@link QueryRequest}.
    *
@@ -148,6 +147,7 @@ public class RegRep4Reader <JAXBTYPE> extends JAXBReaderBuilder <JAXBTYPE, RegRe
   {
     return new RegRep4Reader <> (ERegRep4XMLDocumentType.QUERY_RESPONSE, QueryResponse.class);
   }
+
   /**
    * Create a reader builder for {@link QueryResponse}.
    *
@@ -158,7 +158,7 @@ public class RegRep4Reader <JAXBTYPE> extends JAXBReaderBuilder <JAXBTYPE, RegRe
   @Nonnull
   public static RegRep4Reader <QueryResponse> queryResponse (@Nonnull final ClassPathResource... aAdditionalXSDs)
   {
-    return queryResponse (new CommonsArrayList<>(aAdditionalXSDs));
+    return queryResponse (new CommonsArrayList <> (aAdditionalXSDs));
   }
 
   /**
@@ -171,9 +171,9 @@ public class RegRep4Reader <JAXBTYPE> extends JAXBReaderBuilder <JAXBTYPE, RegRe
   @Nonnull
   public static RegRep4Reader <QueryResponse> queryResponse (@Nonnull final Iterable <? extends ClassPathResource> aAdditionalXSDs)
   {
-    final ICommonsList<ClassPathResource> aXSDs = CRegRep4.getAllXSDsQuery ().getClone ();
+    final ICommonsList <ClassPathResource> aXSDs = CRegRep4.getAllXSDsQuery ().getClone ();
     aXSDs.addAll (aAdditionalXSDs);
-    return new RegRep4Reader <> (new JAXBDocumentType(eu.toop.regrep.query.QueryResponse.class, aXSDs, null));
+    return new RegRep4Reader <> (new JAXBDocumentType (eu.toop.regrep.query.QueryResponse.class, aXSDs, null));
   }
 
   /**
