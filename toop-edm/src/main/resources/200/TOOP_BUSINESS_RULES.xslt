@@ -16,7 +16,7 @@
     limitations under the License.
 
 -->
-<xsl:stylesheet xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:cagv="https://semic.org/sa/cv/cagv/agent-2.0.0#" xmlns:cbc="https://semic.org/sa/cv/common/cbc-2.0.0#" xmlns:cbd="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:cccev="https://semic.org/sa/cv/cccev-2.0.0#" xmlns:cpov="http://www.w3.org/ns/corevocabulary/po" xmlns:cva="http://www.w3.org/ns/corevocabulary/AggregateComponents" xmlns:cvb="http://www.w3.org/ns/corevocabulary/BasicComponents" xmlns:dcat="http://data.europa.eu/r5r/" xmlns:dct="http://purl.org/dc/terms/" xmlns:iso="http://purl.oclc.org/dsdl/schematron" xmlns:locn="http://www.w3.org/ns/locn#" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:4.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:4.0" xmlns:saxon="http://saxon.sf.net/" xmlns:schold="http://www.ascc.net/xml/schematron" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
+<xsl:stylesheet xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:cagv="https://semic.org/sa/cv/cagv/agent-2.0.0#" xmlns:cbc="https://semic.org/sa/cv/common/cbc-2.0.0#" xmlns:cbd="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:cccev="https://semic.org/sa/cv/cccev-2.0.0#" xmlns:cpov="http://www.w3.org/ns/corevocabulary/po" xmlns:cva="http://www.w3.org/ns/corevocabulary/AggregateComponents" xmlns:cvb="http://www.w3.org/ns/corevocabulary/BasicComponents" xmlns:dcat="http://data.europa.eu/r5r/" xmlns:dct="http://purl.org/dc/terms/" xmlns:gc="http://docs.oasis-open.org/codelist/ns/genericode/1.0/" xmlns:iso="http://purl.oclc.org/dsdl/schematron" xmlns:locn="http://www.w3.org/ns/locn#" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:4.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:4.0" xmlns:saxon="http://saxon.sf.net/" xmlns:schold="http://www.ascc.net/xml/schematron" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
 <!--Implementers: please note that overriding process-prolog or process-root is 
     the preferred method for meta-stylesheets to use where possible. -->
 
@@ -191,13 +191,7 @@
       <svrl:ns-prefix-in-attribute-values prefix="dcat" uri="http://data.europa.eu/r5r/" />
       <svrl:ns-prefix-in-attribute-values prefix="dct" uri="http://purl.org/dc/terms/" />
       <svrl:ns-prefix-in-attribute-values prefix="xsi" uri="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" />
-      <svrl:active-pattern>
-        <xsl:attribute name="document">
-          <xsl:value-of select="document-uri(/)" />
-        </xsl:attribute>
-        <xsl:apply-templates />
-      </svrl:active-pattern>
-      <xsl:apply-templates mode="M15" select="/" />
+      <svrl:ns-prefix-in-attribute-values prefix="gc" uri="http://docs.oasis-open.org/codelist/ns/genericode/1.0/" />
       <svrl:active-pattern>
         <xsl:attribute name="document">
           <xsl:value-of select="document-uri(/)" />
@@ -355,8 +349,8 @@
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryRequest/@id | query:QueryResponse/@requestId" mode="M15" priority="1000">
-    <svrl:fired-rule context="query:QueryRequest/@id | query:QueryResponse/@requestId" />
+<xsl:template match="query:QueryRequest/@id | query:QueryResponse/@requestId | query:QueryResponse/rim:ObjectRefList/rim:ObjectRef/@id | query:QueryRequest/query:Query/rim:Slot[@name = 'id']/rim:SlotValue/rim:Value" mode="M16" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/@id | query:QueryResponse/@requestId | query:QueryResponse/rim:ObjectRefList/rim:ObjectRef/@id | query:QueryRequest/query:Query/rim:Slot[@name = 'id']/rim:SlotValue/rim:Value" />
 
 		<!--ASSERT -->
 <xsl:choose>
@@ -379,18 +373,18 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M15" select="*|comment()|processing-instruction()" />
+    <xsl:apply-templates mode="M16" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M15" priority="-1" />
-  <xsl:template match="@*|node()" mode="M15" priority="-2">
-    <xsl:apply-templates mode="M15" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M16" priority="-1" />
+  <xsl:template match="@*|node()" mode="M16" priority="-2">
+    <xsl:apply-templates mode="M16" select="*|comment()|processing-instruction()" />
   </xsl:template>
 
 <!--PATTERN -->
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryRequest | query:QueryResponse" mode="M16" priority="1000">
+<xsl:template match="query:QueryRequest | query:QueryResponse" mode="M17" priority="1000">
     <svrl:fired-rule context="query:QueryRequest | query:QueryResponse" />
 
 		<!--ASSERT -->
@@ -405,42 +399,6 @@
           </xsl:attribute>
           <svrl:text>
                 Rule: The message MUST have the specification identifier "toop-edm:v2.0".
-            </svrl:text>
-        </svrl:failed-assert>
-      </xsl:otherwise>
-    </xsl:choose>
-    <xsl:apply-templates mode="M16" select="*|comment()|processing-instruction()" />
-  </xsl:template>
-  <xsl:template match="text()" mode="M16" priority="-1" />
-  <xsl:template match="@*|node()" mode="M16" priority="-2">
-    <xsl:apply-templates mode="M16" select="*|comment()|processing-instruction()" />
-  </xsl:template>
-
-<!--PATTERN -->
-
-
-	<!--RULE -->
-<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" mode="M17" priority="1000">
-    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" />
-
-		<!--ASSERT -->
-<xsl:choose>
-      <xsl:when test="matches(normalize-space(text()),'^[a-z]{2}/[a-z]{2}/(.*?)','i')" />
-      <xsl:otherwise>
-        <svrl:failed-assert test="matches(normalize-space(text()),'^[a-z]{2}/[a-z]{2}/(.*?)','i')">
-          <xsl:attribute name="id">br_wrong_id_format</xsl:attribute>
-          <xsl:attribute name="flag">ERROR</xsl:attribute>
-          <xsl:attribute name="location">
-            <xsl:apply-templates mode="schematron-select-full-path" select="." />
-          </xsl:attribute>
-          <svrl:text>
-                Rule: The uniqueness identifier consists of:
-                1. The first part is the Nationality Code of the identifier. This is one of the ISO 3166-1 alpha-2 codes, followed by a slash ("/"))
-                2. The second part is the Nationality Code of the destination country or international organization. This is one of the ISO 3166-1 alpha-2 codes, followed by a slash ("/")
-                3. The third part a combination of readable characters. This uniquely identifies the identity asserted in the country of origin but does not necessarily reveal any discernible correspondence with the subject's actual identifier (for example, username, fiscal number etc).
-                Please check <xsl:text />
-            <xsl:value-of select="name(.)" />
-            <xsl:text />.
             </svrl:text>
         </svrl:failed-assert>
       </xsl:otherwise>
@@ -612,7 +570,7 @@
       <xsl:when test="( (@schemeID = 'LEI') and ( string-length(normalize-space(.)) = 20) or (@schemeID != 'LEI')   )" />
       <xsl:otherwise>
         <svrl:failed-assert test="( (@schemeID = 'LEI') and ( string-length(normalize-space(.)) = 20) or (@schemeID != 'LEI') )">
-          <xsl:attribute name="id">br_invalid_euid_length</xsl:attribute>
+          <xsl:attribute name="id">br_invalid_lei_length</xsl:attribute>
           <xsl:attribute name="flag">warning</xsl:attribute>
           <xsl:attribute name="location">
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
@@ -631,7 +589,7 @@
   </xsl:template>
 
 <!--PATTERN -->
-<xsl:variable name="gendertypecodes" select="document('../codelist/toop/Gender-CodeList.gc')//Value[@ColumnRef='code']" />
+<xsl:variable name="gendertypecodes" select="document('..\codelist\toop\Gender-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
 
 	<!--RULE -->
 <xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonGenderCode              | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonGenderCode" mode="M24" priority="1000">
@@ -661,7 +619,7 @@
   </xsl:template>
 
 <!--PATTERN -->
-<xsl:variable name="countrycodes" select="document('../codelist/external/CountryIdentificationCode-2.2.gc')//Value[@ColumnRef='code']" />
+<xsl:variable name="countrycodes" select="document('..\codelist\external\CountryIdentificationCode-2.2.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
 
 	<!--RULE br_check_country_countrycode-->
 <xsl:template match="cva:PersonCoreAddress/cvb:AddressAdminUnitLocationOne              | cva:LegalEntityCoreAddress/cvb:AddressAdminUnitLocationOne              | query:QueryRequest/rim:Slot[@name = 'DataConsumer']/rim:SlotValue/cagv:Agent/cagv:location/locn:address/locn:adminUnitLevel1" mode="M25" priority="1001">
@@ -686,19 +644,20 @@
   </xsl:template>
 
 	<!--RULE br_check_id_countrycode-->
-<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" mode="M25" priority="1000">
-    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" id="br_check_id_countrycode" />
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonID[@schemeID='EIDAS']              | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonID[@schemeID='EIDAS']             | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID[@schemeID='EIDAS']             | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID[@schemeID='EIDAS']" mode="M25" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonID[@schemeID='EIDAS']              | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonID[@schemeID='EIDAS']             | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID[@schemeID='EIDAS']             | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID[@schemeID='EIDAS']" id="br_check_id_countrycode" />
+    <xsl:variable name="hasEidasFormat" select="matches(normalize-space(current()/.),'^[a-z]{2}/[a-z]{2}/(.*?)','i')" />
 
 		<!--ASSERT -->
 <xsl:choose>
-      <xsl:when test="$countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[1])]" />
+      <xsl:when test="( ($countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[1])]) or ($hasEidasFormat=false()) )" />
       <xsl:otherwise>
-        <svrl:failed-assert test="$countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[1])]">
+        <svrl:failed-assert test="( ($countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[1])]) or ($hasEidasFormat=false()) )">
           <xsl:attribute name="location">
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
           </xsl:attribute>
           <svrl:text>
-                The country code in the first part of the identifier must always be specified using the correct code list (found:<xsl:text />
+                If the EIDAS code has the format "XX/YY/12345", the country code in the first part of the identifier must always be specified using the correct code list (found:<xsl:text />
             <xsl:value-of select="(tokenize(normalize-space(current()/.),'/')[1])" />
             <xsl:text />).</svrl:text>
         </svrl:failed-assert>
@@ -707,14 +666,14 @@
 
 		<!--ASSERT -->
 <xsl:choose>
-      <xsl:when test="$countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[2])]" />
+      <xsl:when test="( ($countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[2])]) or ($hasEidasFormat=false()) )" />
       <xsl:otherwise>
-        <svrl:failed-assert test="$countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[2])]">
+        <svrl:failed-assert test="( ($countrycodes/SimpleValue[normalize-space(.) = (tokenize(normalize-space(current()/.),'/')[2])]) or ($hasEidasFormat=false()) )">
           <xsl:attribute name="location">
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
           </xsl:attribute>
           <svrl:text>
-                The country code in the second part of the identifier must always be specified using the correct code list (found:<xsl:text />
+                If the EIDAS code has the format "XX/YY/12345", the country code in the second part of the identifier must always be specified using the correct code list (found:<xsl:text />
             <xsl:value-of select="(tokenize(normalize-space(current()/.),'/')[2])" />
             <xsl:text />).</svrl:text>
         </svrl:failed-assert>
@@ -728,7 +687,7 @@
   </xsl:template>
 
 <!--PATTERN -->
-<xsl:variable name="mimetypecodes" select="document('../codelist/external/BinaryObjectMimeCode-2.2.gc')//Value[@ColumnRef='code']" />
+<xsl:variable name="mimetypecodes" select="document('..\codelist\external\BinaryObjectMimeCode-2.2.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
 
 	<!--RULE br_check_doc_media_type-->
 <xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution/dcat:mediaType             | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution/cccev:documentType" mode="M26" priority="1000">
@@ -755,8 +714,8 @@
   </xsl:template>
 
 <!--PATTERN -->
-<xsl:variable name="errorseveritycodes" select="document('../codelist/toop/ErrorSeverity-CodeList.gc')//Value[@ColumnRef='code']" />
-  <xsl:variable name="errorcodecodes" select="document('../codelist/toop/ErrorCode-CodeList.gc')//Value[@ColumnRef='code']" />
+<xsl:variable name="errorseveritycodes" select="document('..\codelist\toop\ErrorSeverity-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
+  <xsl:variable name="errorcodecodes" select="document('..\codelist\toop\ErrorCode-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
 
 	<!--RULE -->
 <xsl:template match="query:QueryResponse/rs:Exception" mode="M27" priority="1000">
@@ -799,7 +758,7 @@
   </xsl:template>
 
 <!--PATTERN -->
-<xsl:variable name="errororigincodes" select="document('../codelist/toop/ErrorOrigin-CodeList.gc')//Value[@ColumnRef='code']" />
+<xsl:variable name="errororigincodes" select="document('..\codelist\toop\ErrorOrigin-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
 
 	<!--RULE br_check_error_origin-->
 <xsl:template match="query:QueryResponse/rs:Exception/rim:Slot[@name = 'ErrorOrigin']/rim:SlotValue/rim:Value" mode="M28" priority="1000">
@@ -826,7 +785,7 @@
   </xsl:template>
 
 <!--PATTERN -->
-<xsl:variable name="distributionformatcodes" select="document('../codelist/toop/DistributionFormat-CodeList.gc')//Value[@ColumnRef='code']" />
+<xsl:variable name="distributionformatcodes" select="document('..\codelist\toop\DistributionFormat-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
 
 	<!--RULE br_check_distribution_format-->
 <xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution/dct:format" mode="M29" priority="1000">
@@ -853,7 +812,7 @@
   </xsl:template>
 
 <!--PATTERN -->
-<xsl:variable name="querydefinitions" select="document('../codelist/toop/QueryDefinition-CodeList.gc')//Value[@ColumnRef='code']" />
+<xsl:variable name="querydefinitions" select="document('..\codelist\toop\QueryDefinition-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
 
 	<!--RULE br_check_query_definition-->
 <xsl:template match="query:QueryRequest/query:Query" mode="M30" priority="1000">
@@ -879,7 +838,7 @@
   </xsl:template>
 
 <!--PATTERN -->
-<xsl:variable name="currencytypecodes" select="document('../codelist/external/CurrencyCode-2.2.gc')//Value[@ColumnRef='code']" />
+<xsl:variable name="currencytypecodes" select="document('..\codelist\external\CurrencyCode-2.2.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
 
 	<!--RULE br_check_currency_code-->
 <xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element//cccev:concept/cccev:value/cccev:amountValue" mode="M31" priority="1000">
@@ -906,7 +865,7 @@
   </xsl:template>
 
 <!--PATTERN -->
-<xsl:variable name="languagecodes" select="document('../codelist/external/LanguageCode-2.2.gc')//Value[@ColumnRef='code']" />
+<xsl:variable name="languagecodes" select="document('..\codelist\external\LanguageCode-2.2.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
 
 	<!--RULE br_check_language_code-->
 <xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name='DocumentMetadata']/rim:SlotValue/dcat:Dataset/dct:language" mode="M32" priority="1000">
@@ -932,7 +891,7 @@
   </xsl:template>
 
 <!--PATTERN -->
-<xsl:variable name="dataelementresponseerrorcodes" select="document('../codelist/toop/DataElementResponseErrorCode-CodeList.gc')//Value[@ColumnRef='code']" />
+<xsl:variable name="dataelementresponseerrorcodes" select="document('..\codelist\toop\DataElementResponseErrorCode-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
 
 	<!--RULE -->
 <xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element//cccev:concept/cccev:value/cccev:error" mode="M33" priority="1000">
@@ -961,7 +920,7 @@
   </xsl:template>
 
 <!--PATTERN -->
-<xsl:variable name="industrialtypecodes" select="document('../codelist/toop/StandardIndustrialClassCode-CodeList.gc')//Value[@ColumnRef='code']" />
+<xsl:variable name="industrialtypecodes" select="document('..\codelist\toop\StandardIndustrialClassCode-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
 
 	<!--RULE -->
 <xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" mode="M34" priority="1000">
@@ -972,7 +931,7 @@
       <xsl:when test="( (@schemeID = 'SIC') and ($industrialtypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]) or (@schemeID != 'SIC') )" />
       <xsl:otherwise>
         <svrl:failed-assert test="( (@schemeID = 'SIC') and ($industrialtypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]) or (@schemeID != 'SIC') )">
-          <xsl:attribute name="id">br_check_sic_cod</xsl:attribute>
+          <xsl:attribute name="id">br_check_sic_code</xsl:attribute>
           <xsl:attribute name="flag">warning</xsl:attribute>
           <xsl:attribute name="location">
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
@@ -990,7 +949,7 @@
   </xsl:template>
 
 <!--PATTERN -->
-<xsl:variable name="procotolexceptioncodes" select="document('../codelist/toop/ProcotolException-CodeList.gc')//Value[@ColumnRef='code']" />
+<xsl:variable name="procotolexceptioncodes" select="document('..\codelist\toop\ProcotolException-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
 
 	<!--RULE -->
 <xsl:template match="query:QueryResponse/rs:Exception" mode="M35" priority="1000">
@@ -1020,11 +979,11 @@
   </xsl:template>
 
 <!--PATTERN -->
-<xsl:variable name="identifiertypecodes" select="document('../codelist/toop/IdentifierType-CodeList.gc')//Value[@ColumnRef='code']" />
+<xsl:variable name="identifiertypecodes" select="document('..\codelist\toop\IdentifierType-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
 
 	<!--RULE -->
-<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonID              | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonID             | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" mode="M36" priority="1000">
-    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonID              | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonID             | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" />
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonID              | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonID             | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID             | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" mode="M36" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'NaturalPerson']/rim:SlotValue/cva:CorePerson/cvb:PersonID              | query:QueryRequest/query:Query/rim:Slot[@name = 'AuthorizedRepresentative']/rim:SlotValue/cva:CorePerson/cvb:PersonID             | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID             | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" />
 
 		<!--ASSERT -->
 <xsl:choose>

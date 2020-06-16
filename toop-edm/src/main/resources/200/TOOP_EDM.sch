@@ -131,6 +131,8 @@
         </rule>
     </pattern>
     
+    
+
     <!--CHECK THE STRUCTURE FOR AN ERROR QUERY RESPONSE CONTAINING SOME EXCEPTIONS-->
     <pattern>
         <rule context="query:QueryResponse">
@@ -309,6 +311,10 @@
             
             <assert test="( ((@queryDefinition='DocumentQuery') and (exists(rim:Slot[@name = 'DistributionRequestList'])) or (@queryDefinition!='DocumentQuery') ))" flag='ERROR' id='req_document_query'>
                 The value of the queryDefinition attribute in the Query element must always be 'DocumentQuery' when requesting Document Evidence, and include a DistributionRequestList. 
+            </assert>
+            
+            <assert test="( ((@queryDefinition='urn:oasis:names:tc:ebxml-regrep:query:GetObjectById') and (exists(rim:Slot[@name = 'id'])) or (@queryDefinition!='urn:oasis:names:tc:ebxml-regrep:query:GetObjectById') ))" flag='ERROR' id='req_getobjectbyid_query'>
+                The value of the queryDefinition attribute in the Query element must always be 'urn:oasis:names:tc:ebxml-regrep:query:GetObjectById' when requesting an object by Id (in Step 2), and include an Id slot. 
             </assert>
             
         </rule>
@@ -624,10 +630,14 @@
             <assert test="($countRepositoryItemRef=0) or ($countRepositoryItemRef=1)" flag='ERROR' id='res_card_RepositoryItemRef'>
                 The RegistryObjectList must contain ZERO or ONE RepositoryItemRef elements (found: <value-of select="$countRepositoryItemRef"/>).
             </assert>
+            
+            <assert test="exists(rim:RepositoryItemRef) or exists(rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution) or ($countConceptValues &gt; 0)" flag='ERROR' id='mandatory_doc_res_itemref_or_distribution'>
+                The RegistryObjectList in a Document Response must contain a rim:RepositoryItemRef or a dcat:distribution.
+            </assert>   
      
         </rule>
     </pattern>
-    
+ 
     
     <!--***********************************-->
     <!--CHECK CONCEPT VALUES LIST STRUCTURE-->
@@ -652,8 +662,9 @@
         <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element/cccev:concept//cccev:concept">
             
             <let name="countConceptValues" value="count(cccev:value)"/>      
-            <assert test="($countConceptValues = 1)" flag='ERROR' id='cardinality_concept_value'>
-                Each concept (except the main concept) must contain exactly ONE value (found: <value-of select="$countConceptValues"/> for id:<value-of select="cbc:id"/> and QName:<value-of select="cbc:QName"/>. ).
+            <let name="countConceptConcepts" value="count(cccev:concept)"/>   
+            <assert test="( ($countConceptValues = 1) or ($countConceptConcepts &gt; 0 and $countConceptValues &lt; 2 ) )" flag='ERROR' id='cardinality_concept_value'>
+                Each concept must contain exactly ONE value or at least ONE concept (check id:<value-of select="cbc:id"/> and QName:<value-of select="cbc:QName"/>. ).
             </assert>   
             
         </rule>
@@ -745,22 +756,6 @@
             
         </rule>
     </pattern>
-    
-    <!--********************************************-->
-    <!--CHECK RESPONSE REPOSITORY ITEM REF STRUCTURE-->
-    <!--********************************************-->
-    
-    <!--TODO: check href and title-->
-    
-<!--    <pattern>
-        <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:RepositoryItemRef">
-            
-            <assert test="exists(@rhref)" flag='ERROR' id='res_rir_href'>
-                The RepositoryItemRef must contain a href attribute.
-            </assert>  
-
-        </rule>
-    </pattern>-->
     
     
     <!--******************************-->

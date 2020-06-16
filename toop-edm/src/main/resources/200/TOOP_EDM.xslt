@@ -1301,6 +1301,23 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="( ((@queryDefinition='urn:oasis:names:tc:ebxml-regrep:query:GetObjectById') and (exists(rim:Slot[@name = 'id'])) or (@queryDefinition!='urn:oasis:names:tc:ebxml-regrep:query:GetObjectById') ))" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="( ((@queryDefinition='urn:oasis:names:tc:ebxml-regrep:query:GetObjectById') and (exists(rim:Slot[@name = 'id'])) or (@queryDefinition!='urn:oasis:names:tc:ebxml-regrep:query:GetObjectById') ))">
+          <xsl:attribute name="id">req_getobjectbyid_query</xsl:attribute>
+          <xsl:attribute name="flag">ERROR</xsl:attribute>
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>
+                The value of the queryDefinition attribute in the Query element must always be 'urn:oasis:names:tc:ebxml-regrep:query:GetObjectById' when requesting an object by Id (in Step 2), and include an Id slot. 
+            </svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:apply-templates mode="M24" select="*|comment()|processing-instruction()" />
   </xsl:template>
   <xsl:template match="text()" mode="M24" priority="-1" />
@@ -2177,6 +2194,23 @@
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
+
+		<!--ASSERT -->
+<xsl:choose>
+      <xsl:when test="exists(rim:RepositoryItemRef) or exists(rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution) or ($countConceptValues > 0)" />
+      <xsl:otherwise>
+        <svrl:failed-assert test="exists(rim:RepositoryItemRef) or exists(rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution) or ($countConceptValues > 0)">
+          <xsl:attribute name="id">mandatory_doc_res_itemref_or_distribution</xsl:attribute>
+          <xsl:attribute name="flag">ERROR</xsl:attribute>
+          <xsl:attribute name="location">
+            <xsl:apply-templates mode="schematron-select-full-path" select="." />
+          </xsl:attribute>
+          <svrl:text>
+                The RegistryObjectList in a Document Response must contain a rim:RepositoryItemRef or a dcat:distribution.
+            </svrl:text>
+        </svrl:failed-assert>
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:apply-templates mode="M38" select="*|comment()|processing-instruction()" />
   </xsl:template>
   <xsl:template match="text()" mode="M38" priority="-1" />
@@ -2244,21 +2278,20 @@
 <xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element/cccev:concept//cccev:concept" mode="M40" priority="1000">
     <svrl:fired-rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element/cccev:concept//cccev:concept" />
     <xsl:variable name="countConceptValues" select="count(cccev:value)" />
+    <xsl:variable name="countConceptConcepts" select="count(cccev:concept)" />
 
 		<!--ASSERT -->
 <xsl:choose>
-      <xsl:when test="($countConceptValues = 1)" />
+      <xsl:when test="( ($countConceptValues = 1) or ($countConceptConcepts > 0 and $countConceptValues &lt; 2 ) )" />
       <xsl:otherwise>
-        <svrl:failed-assert test="($countConceptValues = 1)">
+        <svrl:failed-assert test="( ($countConceptValues = 1) or ($countConceptConcepts > 0 and $countConceptValues &lt; 2 ) )">
           <xsl:attribute name="id">cardinality_concept_value</xsl:attribute>
           <xsl:attribute name="flag">ERROR</xsl:attribute>
           <xsl:attribute name="location">
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
           </xsl:attribute>
           <svrl:text>
-                Each concept (except the main concept) must contain exactly ONE value (found: <xsl:text />
-            <xsl:value-of select="$countConceptValues" />
-            <xsl:text /> for id:<xsl:text />
+                Each concept must contain exactly ONE value or at least ONE concept (check id:<xsl:text />
             <xsl:value-of select="cbc:id" />
             <xsl:text /> and QName:<xsl:text />
             <xsl:value-of select="cbc:QName" />

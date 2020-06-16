@@ -173,10 +173,10 @@ public final class EDMRequestTest
                                        .fullAddress ("MyStreet 22, 11134, MyTown, GR")
                                        .postalCode ("11134"))
                        .legalID ("DE/AT/12345")
-                       .legalIDSchemeID ("Tsiou")
+                       .legalIDSchemeID (EIdentifierType.EIDAS)
                        .legalName ("NiarTsiou")
                        .id ("anID")
-                       .idSchemeID (EIdentifierType.EIDAS);
+                       .idSchemeID (EIdentifierType.VATREGISTRATION);
   }
 
   @Test

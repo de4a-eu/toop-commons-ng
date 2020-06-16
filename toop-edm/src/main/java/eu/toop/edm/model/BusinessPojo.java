@@ -216,6 +216,12 @@ public class BusinessPojo
     }
 
     @Nonnull
+    public Builder legalIDSchemeID (@Nullable final EIdentifierType e)
+    {
+      return legalIDSchemeID (e == null ? null : e.getID ());
+    }
+
+    @Nonnull
     public Builder legalIDSchemeID (@Nullable final String s)
     {
       m_sLegalIDSchemeID = s;
