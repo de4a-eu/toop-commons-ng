@@ -15,6 +15,8 @@
  */
 package eu.toop.edm;
 
+import com.helger.commons.annotation.MustImplementEqualsAndHashcode;
+
 import eu.toop.edm.response.EDMResponsePayloadConcepts;
 
 /**
@@ -23,6 +25,7 @@ import eu.toop.edm.response.EDMResponsePayloadConcepts;
  *
  * @author Philip Helger
  */
+@MustImplementEqualsAndHashcode
 public interface IEDMTopLevelObject
 {
   /* empty */
