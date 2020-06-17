@@ -23,33 +23,26 @@ import com.helger.commons.id.IHasID;
 import com.helger.commons.lang.EnumHelper;
 
 /**
- * Source: IdentifierType-CodeList.gc<br>
+ * Response option. Used in the request to determine the desired response
+ * layout. Used in the response to depict the actually used layout.
  *
- * @since 2.0.0-beta5
+ * @since 2.0.0-beta3
  * @author Philip Helger
  */
-public enum EIdentifierType implements IHasID <String>
+public enum EToopResponseOptionType implements IHasID <String>
 {
-  /** VAT Registration Number */
-  VATREGISTRATION ("VATRegistration"),
-  /** Tax Reference Number */
-  TAXREFERENCE ("TaxReference"),
-  /** Directive 2012/17/EU Identifier */
-  BUSINESSCODES ("BusinessCodes"),
-  /** Legal Entity Identifier (LEI) */
-  LEI ("LEI"),
-  /** Economic Operator Registration and Identification (EORI) */
-  EORI ("EORI"),
-  /** System for Exchange of Excise Data (SEED) */
-  SEED ("SEED"),
-  /** Standard Industrial Classification (SIC) */
-  SIC ("SIC"),
-  /** EIDAS Identifier */
-  EIDAS ("EIDAS");
+  /**
+   * Response payload is part of the response.
+   */
+  INLINE ("LeafClassWithRepositoryItem"),
+  /**
+   * Response payload is referenced from within the response.
+   */
+  REFERENCE ("ObjectRef");
 
   private final String m_sID;
 
-  EIdentifierType (@Nonnull @Nonempty final String sID)
+  EToopResponseOptionType (@Nonnull @Nonempty final String sID)
   {
     m_sID = sID;
   }
@@ -62,8 +55,8 @@ public enum EIdentifierType implements IHasID <String>
   }
 
   @Nullable
-  public static EIdentifierType getFromIDOrNull (@Nullable final String sID)
+  public static EToopResponseOptionType getFromIDOrNull (@Nullable final String sID)
   {
-    return EnumHelper.getFromIDOrNull (EIdentifierType.class, sID);
+    return EnumHelper.getFromIDOrNull (EToopResponseOptionType.class, sID);
   }
 }

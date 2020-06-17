@@ -27,7 +27,7 @@ import com.helger.commons.lang.EnumHelper;
  *
  * @author Philip Helger
  */
-public enum EQueryDefinitionType implements IHasID <String>
+public enum EToopQueryDefinitionType implements IHasID <String>
 {
   /**
    * Query for concepts (name-value-pairs).
@@ -46,7 +46,7 @@ public enum EQueryDefinitionType implements IHasID <String>
 
   private final String m_sID;
 
-  EQueryDefinitionType (@Nonnull @Nonempty final String sID)
+  EToopQueryDefinitionType (@Nonnull @Nonempty final String sID)
   {
     m_sID = sID;
   }
@@ -59,8 +59,8 @@ public enum EQueryDefinitionType implements IHasID <String>
   }
 
   @Nullable
-  public static EQueryDefinitionType getFromIDOrNull (@Nullable final String sID)
+  public static EToopQueryDefinitionType getFromIDOrNull (@Nullable final String sID)
   {
-    return EnumHelper.getFromIDOrNull (EQueryDefinitionType.class, sID);
+    return EnumHelper.getFromIDOrNull (EToopQueryDefinitionType.class, sID);
   }
 }

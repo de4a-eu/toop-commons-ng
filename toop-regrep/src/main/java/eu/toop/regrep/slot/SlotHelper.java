@@ -66,20 +66,28 @@ public final class SlotHelper
   {
     ValueEnforcer.notNull (aLocale, "Locale");
     ValueEnforcer.notNull (sText, "Text");
+    return createLocalizedString (aLocale.getLanguage (), sText);
+  }
+
+  @Nonnull
+  public static LocalizedStringType createLocalizedString (@Nonnull @Nonempty final String sLanguage, @Nonnull final String sText)
+  {
+    ValueEnforcer.notEmpty (sLanguage, "Language");
+    ValueEnforcer.notNull (sText, "Text");
     final LocalizedStringType ret = new LocalizedStringType ();
-    ret.setLang (aLocale.getLanguage ());
+    ret.setLang (sLanguage);
     ret.setValue (sText);
     return ret;
   }
 
   @Nonnull
-  public static InternationalStringType createInternationalStringType (@Nullable final Map <Locale, String> aMap)
+  public static InternationalStringType createInternationalStringType (@Nullable final Map <String, String> aMap)
   {
     ValueEnforcer.noNullValue (aMap, "Map");
 
     final InternationalStringType ret = new InternationalStringType ();
     if (aMap != null)
-      for (final Map.Entry <Locale, String> aEntry : aMap.entrySet ())
+      for (final Map.Entry <String, String> aEntry : aMap.entrySet ())
         ret.addLocalizedString (createLocalizedString (aEntry.getKey (), aEntry.getValue ()));
     return ret;
   }
@@ -162,8 +170,7 @@ public final class SlotHelper
   }
 
   @Nonnull
-  public static CollectionValueType createSlotValue (@Nullable final ERegRepCollectionType eType,
-                                                     @Nullable final ValueType... x)
+  public static CollectionValueType createSlotValue (@Nullable final ERegRepCollectionType eType, @Nullable final ValueType... x)
   {
     ValueEnforcer.noNullValue (x, "Value");
     final CollectionValueType ret = new CollectionValueType ();

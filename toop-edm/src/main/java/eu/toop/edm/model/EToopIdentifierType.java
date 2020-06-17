@@ -23,32 +23,47 @@ import com.helger.commons.id.IHasID;
 import com.helger.commons.lang.EnumHelper;
 
 /**
- * Defines the underlying distribution format.
+ * Source: IdentifierType-CodeList.gc<br>
  *
+ * @since 2.0.0-beta5
  * @author Philip Helger
  */
-public enum EDistributionFormat implements IHasID <String>
+public enum EToopIdentifierType implements IHasID <String>
 {
-  STRUCTURED ("STRUCTURED"),
-  UNSTRUCTURED ("UNSTRUCTURED");
+  /** VAT Registration Number */
+  VATREGISTRATION ("VATRegistration"),
+  /** Tax Reference Number */
+  TAXREFERENCE ("TaxReference"),
+  /** Directive 2012/17/EU Identifier */
+  BUSINESSCODES ("BusinessCodes"),
+  /** Legal Entity Identifier (LEI) */
+  LEI ("LEI"),
+  /** Economic Operator Registration and Identification (EORI) */
+  EORI ("EORI"),
+  /** System for Exchange of Excise Data (SEED) */
+  SEED ("SEED"),
+  /** Standard Industrial Classification (SIC) */
+  SIC ("SIC"),
+  /** EIDAS Identifier */
+  EIDAS ("EIDAS");
 
-  private final String m_sValue;
+  private final String m_sID;
 
-  EDistributionFormat (@Nonnull @Nonempty final String sValue)
+  EToopIdentifierType (@Nonnull @Nonempty final String sID)
   {
-    m_sValue = sValue;
+    m_sID = sID;
   }
 
   @Nonnull
   @Nonempty
   public String getID ()
   {
-    return m_sValue;
+    return m_sID;
   }
 
   @Nullable
-  public static EDistributionFormat getFromIDOrNull (@Nullable final String sID)
+  public static EToopIdentifierType getFromIDOrNull (@Nullable final String sID)
   {
-    return EnumHelper.getFromIDOrNull (EDistributionFormat.class, sID);
+    return EnumHelper.getFromIDOrNull (EToopIdentifierType.class, sID);
   }
 }

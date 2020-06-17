@@ -48,7 +48,6 @@ import eu.toop.edm.xml.cccev.ConceptMarshaller;
  */
 public final class ConceptPojoTest
 {
-
   private static final Logger LOGGER = LoggerFactory.getLogger (ConceptPojoTest.class);
 
   private static void _testWriteAndRead (@Nonnull final ConceptPojo x)

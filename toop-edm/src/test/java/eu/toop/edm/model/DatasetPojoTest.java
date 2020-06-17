@@ -68,7 +68,7 @@ public final class DatasetPojoTest
                                                                          .documentURI ("URI")
                                                                          .documentDescription ("DocumentDescription")
                                                                          .documentType ("docType")
-                                                                         .localeCode ("GR"))
+                                                                         .localeCode (EToopLanguageCode.DE))
                                      .creator (AgentPojo.builder ()
                                                         .name ("Agent name")
                                                         .address (AddressPojo.builder ().town ("Kewlkidshome")))

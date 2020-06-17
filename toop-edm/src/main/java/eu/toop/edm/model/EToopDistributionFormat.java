@@ -23,40 +23,32 @@ import com.helger.commons.id.IHasID;
 import com.helger.commons.lang.EnumHelper;
 
 /**
- * Response option. Used in the request to determine the desired response
- * layout. Used in the response to depict the actually used layout.
+ * Defines the underlying distribution format.
  *
- * @since 2.0.0-beta3
  * @author Philip Helger
  */
-public enum EResponseOptionType implements IHasID <String>
+public enum EToopDistributionFormat implements IHasID <String>
 {
-  /**
-   * Response payload is part of the response.
-   */
-  INLINE ("LeafClassWithRepositoryItem"),
-  /**
-   * Response payload is referenced from within the response.
-   */
-  REFERENCE ("ObjectRef");
+  STRUCTURED ("STRUCTURED"),
+  UNSTRUCTURED ("UNSTRUCTURED");
 
-  private final String m_sID;
+  private final String m_sValue;
 
-  EResponseOptionType (@Nonnull @Nonempty final String sID)
+  EToopDistributionFormat (@Nonnull @Nonempty final String sValue)
   {
-    m_sID = sID;
+    m_sValue = sValue;
   }
 
   @Nonnull
   @Nonempty
   public String getID ()
   {
-    return m_sID;
+    return m_sValue;
   }
 
   @Nullable
-  public static EResponseOptionType getFromIDOrNull (@Nullable final String sID)
+  public static EToopDistributionFormat getFromIDOrNull (@Nullable final String sID)
   {
-    return EnumHelper.getFromIDOrNull (EResponseOptionType.class, sID);
+    return EnumHelper.getFromIDOrNull (EToopDistributionFormat.class, sID);
   }
 }

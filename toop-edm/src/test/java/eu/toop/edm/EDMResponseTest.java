@@ -37,7 +37,8 @@ import com.helger.schematron.svrl.AbstractSVRLMessage;
 
 import eu.toop.edm.model.ConceptPojo;
 import eu.toop.edm.model.DatasetPojo;
-import eu.toop.edm.model.EIdentifierType;
+import eu.toop.edm.model.EToopIdentifierType;
+import eu.toop.edm.model.EToopLanguageCode;
 import eu.toop.edm.pilot.gbm.EToopConcept;
 import eu.toop.edm.schematron.SchematronBusinessRules2Validator;
 import eu.toop.edm.schematron.SchematronEDM2Validator;
@@ -92,7 +93,7 @@ public final class EDMResponseTest
                                                         .postalCode ("11134"))
                                         .name ("DP NAME")
                                         .id ("1234")
-                                        .idSchemeID (EIdentifierType.EIDAS))
+                                        .idSchemeID (EToopIdentifierType.EIDAS))
                    .responseStatus (ERegRepResponseStatus.SUCCESS);
   }
 
@@ -123,7 +124,7 @@ public final class EDMResponseTest
                       .distribution (x -> x.documentURI ("URI")
                                            .documentDescription ("DocumentDescription")
                                            .documentType ("application/xml")
-                                           .localeCode ("DE"))
+                                           .localeCode (EToopLanguageCode.DE))
                       .creator (x -> x.name ("Agent name").address (y -> y.town ("Kewlkidshome")))
                       .ids ("RE238918378", "DOC-555")
                       .issuedNow ()

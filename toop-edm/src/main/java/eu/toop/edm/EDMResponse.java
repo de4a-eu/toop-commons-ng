@@ -50,7 +50,7 @@ import eu.toop.edm.jaxb.cccev.CCCEVConceptType;
 import eu.toop.edm.jaxb.cv.agent.AgentType;
 import eu.toop.edm.model.AgentPojo;
 import eu.toop.edm.model.ConceptPojo;
-import eu.toop.edm.model.EResponseOptionType;
+import eu.toop.edm.model.EToopResponseOptionType;
 import eu.toop.edm.response.EDMResponsePayloadConcepts;
 import eu.toop.edm.response.IEDMResponsePayloadProvider;
 import eu.toop.edm.response.ResponseDocumentPojo;
@@ -111,7 +111,7 @@ public class EDMResponse implements IEDMTopLevelObject
                                                                                                   SlotIssueDateTime.NAME,
                                                                                                   SlotDataProvider.NAME);
 
-  private final EResponseOptionType m_eResponseOption;
+  private final EToopResponseOptionType m_eResponseOption;
   private final ERegRepResponseStatus m_eResponseStatus;
   private final String m_sRequestID;
   private final String m_sSpecificationIdentifier;
@@ -119,7 +119,7 @@ public class EDMResponse implements IEDMTopLevelObject
   private final AgentPojo m_aDataProvider;
   private final ICommonsList <IEDMResponsePayloadProvider> m_aPayloadProviders = new CommonsArrayList <> ();
 
-  protected EDMResponse (@Nonnull final EResponseOptionType eResponseOption,
+  protected EDMResponse (@Nonnull final EToopResponseOptionType eResponseOption,
                          @Nonnull final ERegRepResponseStatus eResponseStatus,
                          @Nonnull @Nonempty final String sRequestID,
                          @Nonnull @Nonempty final String sSpecificationIdentifier,
@@ -147,7 +147,7 @@ public class EDMResponse implements IEDMTopLevelObject
   }
 
   @Nonnull
-  public final EResponseOptionType getResponseOption ()
+  public final EToopResponseOptionType getResponseOption ()
   {
     return m_eResponseOption;
   }
@@ -356,14 +356,14 @@ public class EDMResponse implements IEDMTopLevelObject
    */
   public abstract static class AbstractBuilder <T extends AbstractBuilder <T>> implements IGenericImplTrait <T>
   {
-    protected EResponseOptionType m_eResponseOption;
+    protected EToopResponseOptionType m_eResponseOption;
     protected ERegRepResponseStatus m_eResponseStatus;
     protected String m_sRequestID;
     protected String m_sSpecificationIdentifier;
     protected LocalDateTime m_aIssueDateTime;
     protected AgentPojo m_aDataProvider;
 
-    protected AbstractBuilder (@Nonnull final EResponseOptionType e)
+    protected AbstractBuilder (@Nonnull final EToopResponseOptionType e)
     {
       ValueEnforcer.notNull (e, "ResponseOption");
       m_eResponseOption = e;
@@ -476,7 +476,7 @@ public class EDMResponse implements IEDMTopLevelObject
     protected BuilderConcept ()
     {
       // Always inline responses
-      super (EResponseOptionType.INLINE);
+      super (EToopResponseOptionType.INLINE);
     }
 
     @Nonnull
@@ -615,7 +615,7 @@ public class EDMResponse implements IEDMTopLevelObject
     protected BuilderDocument ()
     {
       // Always inline responses
-      super (EResponseOptionType.INLINE);
+      super (EToopResponseOptionType.INLINE);
     }
 
     @Nonnull
@@ -732,7 +732,7 @@ public class EDMResponse implements IEDMTopLevelObject
     protected BuilderDocumentReference ()
     {
       // Always object references
-      super (EResponseOptionType.REFERENCE);
+      super (EToopResponseOptionType.REFERENCE);
     }
 
     @Nonnull

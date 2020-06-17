@@ -216,7 +216,7 @@ public class BusinessPojo
     }
 
     @Nonnull
-    public Builder legalIDSchemeID (@Nullable final EIdentifierType e)
+    public Builder legalIDSchemeID (@Nullable final EToopIdentifierType e)
     {
       return legalIDSchemeID (e == null ? null : e.getID ());
     }
@@ -236,7 +236,7 @@ public class BusinessPojo
     }
 
     @Nonnull
-    public Builder idSchemeID (@Nullable final EIdentifierType e)
+    public Builder idSchemeID (@Nullable final EToopIdentifierType e)
     {
       return idSchemeID (e == null ? null : e.getID ());
     }

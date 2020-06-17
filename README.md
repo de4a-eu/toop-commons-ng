@@ -9,6 +9,16 @@ The code contained in this project is used by:
 
 ## Status
 
+Work on `v2.0.0-rc1`
+* Updated Schematron rules
+* Renamed enumerations: 
+    * `EDistributionFormat` -> `EToopDistributionFormat`
+    * `EGenderCode` -> `EToopGenderCode`
+    * `EIdentifierType` -> `EToopIdentifierType`
+    * `EQueryDefinitionType` -> `EToopQueryDefinitionType`
+    * `EResponseOptionType` -> `EToopResponseOptionType`
+* Added new enumeration `EToopLanguageCode`    
+
 2020-06-01: release of `v2.0.0-beta5`
 * Added new Schematrons to check if a document type is the expected one
 * Improved the loading of XSDs for all Schemas

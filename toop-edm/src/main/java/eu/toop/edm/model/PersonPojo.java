@@ -299,7 +299,7 @@ public class PersonPojo
     }
 
     @Nonnull
-    public Builder idSchemeID (@Nullable final EIdentifierType e)
+    public Builder idSchemeID (@Nullable final EToopIdentifierType e)
     {
       return idSchemeID (e == null ? null : e.getID ());
     }
@@ -352,7 +352,7 @@ public class PersonPojo
     }
 
     @Nonnull
-    public Builder genderCode (@Nullable final EGenderCode e)
+    public Builder genderCode (@Nullable final EToopGenderCode e)
     {
       return genderCode (e == null ? null : e.getID ());
     }

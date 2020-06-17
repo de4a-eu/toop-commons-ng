@@ -37,7 +37,7 @@ import eu.toop.edm.error.EEDMExceptionType;
 import eu.toop.edm.error.EToopErrorCode;
 import eu.toop.edm.error.EToopErrorOrigin;
 import eu.toop.edm.error.EToopErrorSeverity;
-import eu.toop.edm.model.EIdentifierType;
+import eu.toop.edm.model.EToopIdentifierType;
 import eu.toop.edm.schematron.SchematronBusinessRules2Validator;
 import eu.toop.edm.schematron.SchematronEDM2Validator;
 
@@ -106,7 +106,7 @@ public final class EDMErrorResponseTest
                                                                  .postalCode ("11134"))
                                                  .name ("DP NAME")
                                                  .id ("1234")
-                                                 .idSchemeID (EIdentifierType.EIDAS));
+                                                 .idSchemeID (EToopIdentifierType.EIDAS));
   }
 
   @Test

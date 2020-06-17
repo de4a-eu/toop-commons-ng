@@ -220,6 +220,12 @@ public class DocumentReferencePojo
     }
 
     @Nonnull
+    public Builder localeCode (@Nullable final EToopLanguageCode e)
+    {
+      return localeCode (e == null ? null : e.getID ());
+    }
+
+    @Nonnull
     public Builder localeCode (@Nullable final String s)
     {
       m_sLocaleCode = s;

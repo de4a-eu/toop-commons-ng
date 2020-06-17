@@ -35,17 +35,17 @@ import eu.toop.edm.jaxb.dcterms.DCMediaType;
  */
 public class DistributionPojo
 {
-  private final EDistributionFormat m_eFormat;
+  private final EToopDistributionFormat m_eFormat;
   private final String m_sMediaType;
 
-  public DistributionPojo (@Nullable final EDistributionFormat eFormat, @Nullable final String sMediaType)
+  public DistributionPojo (@Nullable final EToopDistributionFormat eFormat, @Nullable final String sMediaType)
   {
     m_eFormat = eFormat;
     m_sMediaType = sMediaType;
   }
 
   @Nullable
-  public final EDistributionFormat getFormat ()
+  public final EToopDistributionFormat getFormat ()
   {
     return m_eFormat;
   }
@@ -113,7 +113,7 @@ public class DistributionPojo
     if (a != null)
     {
       if (a.getFormat () != null)
-        ret.format (EDistributionFormat.getFromIDOrNull (TypeConverter.convert (a.getFormat ().getContentAtIndex (0),
+        ret.format (EToopDistributionFormat.getFromIDOrNull (TypeConverter.convert (a.getFormat ().getContentAtIndex (0),
                                                                                 String.class)));
       if (a.getMediaType () != null)
         ret.mediaType (TypeConverter.convert (a.getMediaType ().getContentAtIndex (0), String.class));
@@ -123,14 +123,14 @@ public class DistributionPojo
 
   public static class Builder
   {
-    private EDistributionFormat m_eFormat;
+    private EToopDistributionFormat m_eFormat;
     private String m_sMediaType;
 
     public Builder ()
     {}
 
     @Nonnull
-    public Builder format (@Nullable final EDistributionFormat e)
+    public Builder format (@Nullable final EToopDistributionFormat e)
     {
       m_eFormat = e;
       return this;

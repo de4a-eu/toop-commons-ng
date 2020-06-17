@@ -27,8 +27,10 @@ import com.helger.genericode.builder.GenericodeReader;
 import com.helger.genericode.v10.CodeListDocument;
 import com.helger.genericode.v10.Row;
 
+import eu.toop.edm.error.EToopErrorCode;
+
 /**
- * Extract error code enum content from Genericode file
+ * Extract {@link EToopErrorCode} enum content from Genericode file
  *
  * @author Philip Helger
  */

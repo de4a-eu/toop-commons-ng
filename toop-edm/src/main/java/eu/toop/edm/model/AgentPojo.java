@@ -178,7 +178,7 @@ public class AgentPojo
     }
 
     @Nonnull
-    public Builder idSchemeID (@Nullable final EIdentifierType e)
+    public Builder idSchemeID (@Nullable final EToopIdentifierType e)
     {
       return idSchemeID (e == null ? null : e.getID ());
     }

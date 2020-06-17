@@ -64,7 +64,7 @@ public final class DistributionPojoTest
   public void testBasic ()
   {
     final DistributionPojo x = DistributionPojo.builder ()
-                                               .format (EDistributionFormat.STRUCTURED)
+                                               .format (EToopDistributionFormat.STRUCTURED)
                                                .mediaType (CMimeType.TEXT_PLAIN)
                                                .build ();
     _testWriteAndRead (x);

@@ -26,7 +26,7 @@ import com.helger.commons.name.IHasDisplayName;
  *
  * @author Philip Helger
  */
-public enum EGenderCode implements IHasID <String>, IHasDisplayName
+public enum EToopGenderCode implements IHasID <String>, IHasDisplayName
 {
   M ("M", "Male"),
   F ("F", "Female"),
@@ -36,7 +36,7 @@ public enum EGenderCode implements IHasID <String>, IHasDisplayName
   private final String m_sID;
   private final String m_sDisplayName;
 
-  EGenderCode (@Nonnull @Nonempty final String sID, @Nonnull @Nonempty final String sDisplayName)
+  EToopGenderCode (@Nonnull @Nonempty final String sID, @Nonnull @Nonempty final String sDisplayName)
   {
     m_sID = sID;
     m_sDisplayName = sDisplayName;

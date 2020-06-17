@@ -38,10 +38,10 @@ import com.helger.schematron.svrl.AbstractSVRLMessage;
 
 import eu.toop.edm.jaxb.cccev.CCCEVRequirementType;
 import eu.toop.edm.model.BusinessPojo;
-import eu.toop.edm.model.EDistributionFormat;
-import eu.toop.edm.model.EGenderCode;
-import eu.toop.edm.model.EIdentifierType;
-import eu.toop.edm.model.EResponseOptionType;
+import eu.toop.edm.model.EToopDistributionFormat;
+import eu.toop.edm.model.EToopGenderCode;
+import eu.toop.edm.model.EToopIdentifierType;
+import eu.toop.edm.model.EToopResponseOptionType;
 import eu.toop.edm.model.PersonPojo;
 import eu.toop.edm.pilot.gbm.EToopConcept;
 import eu.toop.edm.schematron.SchematronBusinessRules2Validator;
@@ -87,7 +87,7 @@ public final class EDMRequestTest
   private static <T extends EDMRequest.AbstractBuilder <T>> T _req (@Nonnull final T aBuilder)
   {
     return aBuilder.specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
-                   .responseOption (EResponseOptionType.INLINE)
+                   .responseOption (EToopResponseOptionType.INLINE)
                    .randomID ()
                    .issueDateTimeNow ()
                    .procedure (Locale.US, "GBM Procedure")
@@ -100,7 +100,7 @@ public final class EDMRequestTest
                                                         .postalCode ("11134"))
                                         .name ("DC NAME")
                                         .id ("1234")
-                                        .idSchemeID (EIdentifierType.VATREGISTRATION))
+                                        .idSchemeID (EToopIdentifierType.VATREGISTRATION))
                    .authorizedRepresentative (x -> x.address (y -> y.town ("MyTown")
                                                                     .streetName ("MyStreet")
                                                                     .buildingNumber ("22")
@@ -111,10 +111,10 @@ public final class EDMRequestTest
                                                     .birthTown ("ATown")
                                                     .birthName ("John Doe")
                                                     .familyName ("Doe")
-                                                    .genderCode (EGenderCode.M)
+                                                    .genderCode (EToopGenderCode.M)
                                                     .givenName ("John")
                                                     .id ("LALALA")
-                                                    .idSchemeID (EIdentifierType.EIDAS))
+                                                    .idSchemeID (EToopIdentifierType.EIDAS))
                    .datasetIdentifier ("IdentifierForDatasets")
                    .consentToken ("AAABBB");
   }
@@ -132,7 +132,7 @@ public final class EDMRequestTest
   @Nonnull
   private static EDMRequest.BuilderDocumentsByDistribution _reqDocument ()
   {
-    return _req (EDMRequest.builderDocumentsByDistribution ()).distribution (x -> x.format (EDistributionFormat.STRUCTURED)
+    return _req (EDMRequest.builderDocumentsByDistribution ()).distribution (x -> x.format (EToopDistributionFormat.STRUCTURED)
                                                                                    .mediaType (CMimeType.APPLICATION_PDF));
   }
 
@@ -156,10 +156,10 @@ public final class EDMRequestTest
                      .birthTown ("ATown")
                      .birthName ("John Doe")
                      .familyName ("Doe")
-                     .genderCode (EGenderCode.M)
+                     .genderCode (EToopGenderCode.M)
                      .givenName ("John")
                      .id ("LALALA")
-                     .idSchemeID (EIdentifierType.EIDAS);
+                     .idSchemeID (EToopIdentifierType.EIDAS);
   }
 
   @Nonnull
@@ -173,10 +173,10 @@ public final class EDMRequestTest
                                        .fullAddress ("MyStreet 22, 11134, MyTown, GR")
                                        .postalCode ("11134"))
                        .legalID ("DE/AT/12345")
-                       .legalIDSchemeID (EIdentifierType.EIDAS)
+                       .legalIDSchemeID (EToopIdentifierType.EIDAS)
                        .legalName ("NiarTsiou")
                        .id ("anID")
-                       .idSchemeID (EIdentifierType.VATREGISTRATION);
+                       .idSchemeID (EToopIdentifierType.VATREGISTRATION);
   }
 
   @Test
@@ -224,7 +224,7 @@ public final class EDMRequestTest
   @Test
   public void createEDMDocumentRefRequestNP ()
   {
-    final EDMRequest aRequest = _reqDocument ().dataSubject (_np ()).responseOption (EResponseOptionType.REFERENCE).build ();
+    final EDMRequest aRequest = _reqDocument ().dataSubject (_np ()).responseOption (EToopResponseOptionType.REFERENCE).build ();
     _testWriteAndRead (aRequest);
   }
 

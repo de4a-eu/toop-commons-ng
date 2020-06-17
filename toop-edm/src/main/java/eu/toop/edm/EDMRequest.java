@@ -60,8 +60,9 @@ import eu.toop.edm.model.AgentPojo;
 import eu.toop.edm.model.BusinessPojo;
 import eu.toop.edm.model.ConceptPojo;
 import eu.toop.edm.model.DistributionPojo;
-import eu.toop.edm.model.EQueryDefinitionType;
-import eu.toop.edm.model.EResponseOptionType;
+import eu.toop.edm.model.EToopLanguageCode;
+import eu.toop.edm.model.EToopQueryDefinitionType;
+import eu.toop.edm.model.EToopResponseOptionType;
 import eu.toop.edm.model.PersonPojo;
 import eu.toop.edm.request.EDMRequestPayloadConcepts;
 import eu.toop.edm.request.EDMRequestPayloadDistribution;
@@ -144,9 +145,9 @@ public class EDMRequest implements IEDMTopLevelObject
                                                                                                   SlotDatasetIdentifier.NAME,
                                                                                                   SlotDataConsumer.NAME);
 
-  private final EQueryDefinitionType m_eQueryDefinition;
+  private final EToopQueryDefinitionType m_eQueryDefinition;
   private final String m_sRequestID;
-  private final EResponseOptionType m_eResponseOption;
+  private final EToopResponseOptionType m_eResponseOption;
   private final String m_sSpecificationIdentifier;
   private final LocalDateTime m_aIssueDateTime;
   private final InternationalStringType m_aProcedure;
@@ -159,9 +160,9 @@ public class EDMRequest implements IEDMTopLevelObject
   private final PersonPojo m_aAuthorizedRepresentative;
   private final IEDMRequestPayloadProvider m_aPayloadProvider;
 
-  protected EDMRequest (@Nonnull final EQueryDefinitionType eQueryDefinition,
+  protected EDMRequest (@Nonnull final EToopQueryDefinitionType eQueryDefinition,
                         @Nonnull @Nonempty final String sRequestID,
-                        @Nonnull final EResponseOptionType eResponseOption,
+                        @Nonnull final EToopResponseOptionType eResponseOption,
                         @Nonnull @Nonempty final String sSpecificationIdentifier,
                         @Nonnull final LocalDateTime aIssueDateTime,
                         @Nullable final InternationalStringType aProcedure,
@@ -204,7 +205,7 @@ public class EDMRequest implements IEDMTopLevelObject
   }
 
   @Nonnull
-  public final EQueryDefinitionType getQueryDefinition ()
+  public final EToopQueryDefinitionType getQueryDefinition ()
   {
     return m_eQueryDefinition;
   }
@@ -217,7 +218,7 @@ public class EDMRequest implements IEDMTopLevelObject
   }
 
   @Nonnull
-  public final EResponseOptionType getResponseOption ()
+  public final EToopResponseOptionType getResponseOption ()
   {
     return m_eResponseOption;
   }
@@ -462,21 +463,21 @@ public class EDMRequest implements IEDMTopLevelObject
   public static BuilderConcept builderConcept ()
   {
     return new BuilderConcept ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
-                                .responseOption (EResponseOptionType.INLINE);
+                                .responseOption (EToopResponseOptionType.INLINE);
   }
 
   @Nonnull
   public static BuilderDocumentsByDistribution builderDocumentsByDistribution ()
   {
     return new BuilderDocumentsByDistribution ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
-                                                .responseOption (EResponseOptionType.INLINE);
+                                                .responseOption (EToopResponseOptionType.INLINE);
   }
 
   @Nonnull
   public static BuilderDocumentsByDistribution builderDocumentReferencesByDistribution ()
   {
     return new BuilderDocumentsByDistribution ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
-                                                .responseOption (EResponseOptionType.REFERENCE);
+                                                .responseOption (EToopResponseOptionType.REFERENCE);
   }
 
   /**
@@ -486,7 +487,7 @@ public class EDMRequest implements IEDMTopLevelObject
   public static BuilderDocumentByID builderDocumentByID ()
   {
     return new BuilderDocumentByID ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
-                                     .responseOption (EResponseOptionType.INLINE);
+                                     .responseOption (EToopResponseOptionType.INLINE);
   }
 
   /**
@@ -496,9 +497,9 @@ public class EDMRequest implements IEDMTopLevelObject
    */
   public abstract static class AbstractBuilder <T extends AbstractBuilder <T>> implements IGenericImplTrait <T>
   {
-    protected final EQueryDefinitionType m_eQueryDefinition;
+    protected final EToopQueryDefinitionType m_eQueryDefinition;
     protected String m_sRequestID;
-    protected EResponseOptionType m_eResponseOption;
+    protected EToopResponseOptionType m_eResponseOption;
     protected String m_sSpecificationIdentifier;
     protected LocalDateTime m_aIssueDateTime;
     protected InternationalStringType m_aProcedure;
@@ -510,7 +511,7 @@ public class EDMRequest implements IEDMTopLevelObject
     protected PersonPojo m_aDataSubjectNaturalPerson;
     protected PersonPojo m_aAuthorizedRepresentative;
 
-    protected AbstractBuilder (@Nonnull final EQueryDefinitionType e)
+    protected AbstractBuilder (@Nonnull final EToopQueryDefinitionType e)
     {
       ValueEnforcer.notNull (e, "QueryDefinitionType");
       m_eQueryDefinition = e;
@@ -536,7 +537,7 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public final T responseOption (@Nullable final EResponseOptionType e)
+    public final T responseOption (@Nullable final EToopResponseOptionType e)
     {
       m_eResponseOption = e;
       return thisAsT ();
@@ -575,7 +576,19 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public final T procedure (@Nullable final Map <Locale, String> a)
+    public final T procedure (@Nonnull @Nonempty final String sLanguage, @Nonnull final String sText)
+    {
+      return procedure (SlotHelper.createLocalizedString (sLanguage, sText));
+    }
+
+    @Nonnull
+    public final T procedure (@Nonnull final EToopLanguageCode eLanguage, @Nonnull final String sText)
+    {
+      return procedure (SlotHelper.createLocalizedString (eLanguage == null ? null : eLanguage.getID (), sText));
+    }
+
+    @Nonnull
+    public final T procedure (@Nullable final Map <String, String> a)
     {
       return procedure (a == null ? null : SlotHelper.createInternationalStringType (a));
     }
@@ -796,7 +809,7 @@ public class EDMRequest implements IEDMTopLevelObject
 
     protected BuilderConcept ()
     {
-      super (EQueryDefinitionType.CONCEPT);
+      super (EToopQueryDefinitionType.CONCEPT);
     }
 
     @Nonnull
@@ -923,7 +936,7 @@ public class EDMRequest implements IEDMTopLevelObject
 
     protected BuilderDocumentsByDistribution ()
     {
-      super (EQueryDefinitionType.DOCUMENT_BY_DISTRIBUTION);
+      super (EToopQueryDefinitionType.DOCUMENT_BY_DISTRIBUTION);
     }
 
     @Nonnull
@@ -1049,7 +1062,7 @@ public class EDMRequest implements IEDMTopLevelObject
 
     protected BuilderDocumentByID ()
     {
-      super (EQueryDefinitionType.DOCUMENT_BY_ID);
+      super (EToopQueryDefinitionType.DOCUMENT_BY_ID);
     }
 
     @Nonnull
@@ -1253,13 +1266,13 @@ public class EDMRequest implements IEDMTopLevelObject
 
     // Default response option is "CONTAINED" for backwards compatibility from
     // beta3 to beta2
-    EResponseOptionType eResponseOption = null;
+    EToopResponseOptionType eResponseOption = null;
     final ResponseOptionType aResponseOption = aQueryRequest.getResponseOption ();
     if (aResponseOption != null && aResponseOption.getReturnType () != null)
     {
-      eResponseOption = EResponseOptionType.getFromIDOrNull (aResponseOption.getReturnType ());
+      eResponseOption = EToopResponseOptionType.getFromIDOrNull (aResponseOption.getReturnType ());
     }
-    aBuilder.responseOption (eResponseOption != null ? eResponseOption : EResponseOptionType.INLINE);
+    aBuilder.responseOption (eResponseOption != null ? eResponseOption : EToopResponseOptionType.INLINE);
 
     return aBuilder.build ();
   }

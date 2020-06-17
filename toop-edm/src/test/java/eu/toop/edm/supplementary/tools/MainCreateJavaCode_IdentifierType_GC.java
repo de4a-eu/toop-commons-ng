@@ -27,8 +27,10 @@ import com.helger.genericode.builder.GenericodeReader;
 import com.helger.genericode.v10.CodeListDocument;
 import com.helger.genericode.v10.Row;
 
+import eu.toop.edm.model.EToopIdentifierType;
+
 /**
- * Extract error category enum content from Genericode file
+ * Extract {@link EToopIdentifierType} enum content from Genericode file
  *
  * @author Philip Helger
  */
@@ -44,7 +46,7 @@ public final class MainCreateJavaCode_IdentifierType_GC
     for (final Row aRow : aCLD.getSimpleCodeList ().getRow ())
     {
       final String sID = Genericode10Helper.getRowValue (aRow, "code");
-      final String sName = Genericode10Helper.getRowValue (aRow, "name-en");
+      final String sName = Genericode10Helper.getRowValue (aRow, "name");
       if (sName != null)
         aSB.append ("/** ").append (sName).append (" */\n");
       if (sID != null)
