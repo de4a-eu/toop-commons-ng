@@ -18,7 +18,6 @@ package eu.toop.edm.schematron;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
 
-import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.commons.io.resource.IReadableResource;
 
 /**
@@ -31,13 +30,6 @@ import com.helger.commons.io.resource.IReadableResource;
 @ThreadSafe
 public class SchematronBusinessRules2Validator extends AbstractSchematronValidator
 {
-  /**
-   * The resource with the rules. Important: this Schematron requires additional
-   * code lists in a relative directory!
-   */
-  @Deprecated
-  public static final ClassPathResource TOOP_BUSINESS_RULES_XSLT = CEDMSchematron.TOOP_BUSINESS_RULES_XSLT;
-
   public SchematronBusinessRules2Validator ()
   {}
 
