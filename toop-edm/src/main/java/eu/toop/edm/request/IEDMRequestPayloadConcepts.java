@@ -32,10 +32,16 @@ import eu.toop.edm.model.ConceptPojo;
  */
 public interface IEDMRequestPayloadConcepts extends IEDMRequestPayloadProvider
 {
+  /**
+   * @return All contains concepts as a mutable list. Never <code>null</code>.
+   */
   @Nonnull
   @ReturnsMutableObject
   List <ConceptPojo> concepts ();
 
+  /**
+   * @return All contains concepts as a copied list. Never <code>null</code>.
+   */
   @Nonnull
   @ReturnsMutableCopy
   List <ConceptPojo> getAllConcepts ();
