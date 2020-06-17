@@ -258,13 +258,18 @@
     <!--Check codelist for language-->
     <pattern> 
         <let name="languagecodes" value="document('..\codelist\external\LanguageCode-2.2.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
-        <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name='DocumentMetadata']/rim:SlotValue/dcat:Dataset/dct:language" 
+        <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name='DocumentMetadata']/rim:SlotValue/dcat:Dataset/dct:language
+                     | query:QueryRequest/rim:Slot[@name='Procedure']/rim:SlotValue/rim:Value/rim:LocalizedString/@xml:lang
+                     | query:QueryResponse/rs:Exception/rim:Slot[@name = 'ErrorText']/rim:SlotValue/rim:Value/@xml:lang
+                     | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution/cccev:localeCode
+                     | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution/cccev:documentDescription/@languageID
+                     "
             flag='ERROR' id='br_check_language_code'> 
             <assert test="$languagecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">A language code must always be specified using the correct code list.</assert> 
         </rule> 
     </pattern> 
-    
-    
+
+
     <!--Check codelist for data element response error code-->
     <pattern> 
         <let name="dataelementresponseerrorcodes" value="document('..\codelist\toop\DataElementResponseErrorCode-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />

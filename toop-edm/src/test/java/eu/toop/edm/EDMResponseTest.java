@@ -123,7 +123,7 @@ public final class EDMResponseTest
                       .distribution (x -> x.documentURI ("URI")
                                            .documentDescription ("DocumentDescription")
                                            .documentType ("application/xml")
-                                           .localeCode ("GR"))
+                                           .localeCode ("DE"))
                       .creator (x -> x.name ("Agent name").address (y -> y.town ("Kewlkidshome")))
                       .ids ("RE238918378", "DOC-555")
                       .issuedNow ()
