@@ -98,21 +98,30 @@ public enum EEDMExceptionType
   private final Class <? extends RegistryExceptionType> m_aClass;
   private final Supplier <? extends RegistryExceptionType> m_aInvoker;
 
-  <T extends RegistryExceptionType> EEDMExceptionType (@Nonnull final Class <T> aClass,
-                                                       @Nonnull final Supplier <T> aInvoker)
+  <T extends RegistryExceptionType> EEDMExceptionType (@Nonnull final Class <T> aClass, @Nonnull final Supplier <T> aInvoker)
   {
     m_aClass = aClass;
     m_aInvoker = aInvoker;
   }
 
+  /**
+   * @return Create a new RegRep JAXB object. Never <code>null</code>
+   */
   @Nonnull
   public RegistryExceptionType invoke ()
   {
     return m_aInvoker.get ();
   }
 
+  /**
+   * Find the exception type enum entry matching the provided class name.
+   * 
+   * @param aClass
+   *        The class name to search. May be <code>null</code>.
+   * @return <code>null</code> if none was found.
+   */
   @Nullable
-  public static EEDMExceptionType getFromClassOrNull (final Class <? extends RegistryExceptionType> aClass)
+  public static EEDMExceptionType getFromClassOrNull (@Nullable final Class <? extends RegistryExceptionType> aClass)
   {
     if (aClass != null)
       for (final EEDMExceptionType e : values ())
