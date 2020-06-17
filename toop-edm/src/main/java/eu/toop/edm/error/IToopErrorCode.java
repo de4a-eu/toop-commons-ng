@@ -15,6 +15,8 @@
  */
 package eu.toop.edm.error;
 
+import java.io.Serializable;
+
 import com.helger.commons.id.IHasID;
 
 /**
@@ -22,7 +24,7 @@ import com.helger.commons.id.IHasID;
  *
  * @author Philip Helger
  */
-public interface IToopErrorCode extends IHasID <String>
+public interface IToopErrorCode extends IHasID <String>, Serializable
 {
   /* empty */
 }
