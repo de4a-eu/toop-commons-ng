@@ -45,8 +45,7 @@ public class JAXBVersatileReader <JAXBTYPE, T> implements IJAXBVersatileReader <
   private final IJAXBReader <JAXBTYPE> m_aReader;
   private final Function <JAXBTYPE, T> m_aMapper;
 
-  public JAXBVersatileReader (@Nonnull final IJAXBReader <JAXBTYPE> aReader,
-                              @Nonnull final Function <JAXBTYPE, T> aMapper)
+  public JAXBVersatileReader (@Nonnull final IJAXBReader <JAXBTYPE> aReader, @Nonnull final Function <JAXBTYPE, T> aMapper)
   {
     ValueEnforcer.notNull (aReader, "Reader");
     ValueEnforcer.notNull (aMapper, "Mapper");
@@ -55,12 +54,8 @@ public class JAXBVersatileReader <JAXBTYPE, T> implements IJAXBVersatileReader <
   }
 
   @Nullable
-  public T read (@Nonnull final Source aSource)
+  private T _read (@Nonnull final JAXBTYPE aObj)
   {
-    final JAXBTYPE aObj = m_aReader.read (aSource);
-    if (aObj == null)
-      return null;
-
     try
     {
       return m_aMapper.apply (aObj);
@@ -68,15 +63,22 @@ public class JAXBVersatileReader <JAXBTYPE, T> implements IJAXBVersatileReader <
     catch (final RuntimeException ex)
     {
       if (GlobalDebug.isDebugMode ())
-        LOGGER.warn ("Error mapping the read XML to the target type", ex);
+        LOGGER.warn ("Error mapping the read XML (" + aObj + ") to the target type", ex);
       return null;
     }
+  }
+
+  @Nullable
+  public T read (@Nonnull final Source aSource)
+  {
+    final JAXBTYPE aObj = m_aReader.read (aSource);
+    return aObj == null ? null : _read (aObj);
   }
 
   @Nullable
   public T read (@Nonnull final Node aNode)
   {
     final JAXBTYPE aObj = m_aReader.read (aNode);
-    return aObj == null ? null : m_aMapper.apply (aObj);
+    return aObj == null ? null : _read (aObj);
   }
 }

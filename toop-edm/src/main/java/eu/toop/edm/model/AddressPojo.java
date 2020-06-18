@@ -32,7 +32,7 @@ import eu.toop.edm.jaxb.w3.cv.bc.AddressPostNameType;
 import eu.toop.edm.jaxb.w3.cv.bc.AddressThoroughfareType;
 
 /**
- * Represents the needed extract of an Address.
+ * Represents the needed extract of an "Address".
  *
  * @author Philip Helger
  */

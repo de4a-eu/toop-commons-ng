@@ -18,6 +18,11 @@ package eu.toop.edm.xml.dcatap;
 import eu.toop.edm.jaxb.dcatap.DCatAPRelationshipType;
 import eu.toop.edm.jaxb.dcatap.ObjectFactory;
 
+/**
+ * XML marshaller for DCAT AP relationships
+ *
+ * @author Philip Helger
+ */
 public class RelationshipMarshaller extends AbstractDCatMarshaller <DCatAPRelationshipType>
 {
   public RelationshipMarshaller ()

@@ -26,6 +26,11 @@ import com.helger.commons.io.resource.ClassPathResource;
 import eu.toop.edm.xml.cv.CCV;
 import eu.toop.edm.xml.dcatap.CDCatAP;
 
+/**
+ * CCCEV constants
+ * 
+ * @author Philip Helger
+ */
 public final class CCCEV
 {
   @Nonnull

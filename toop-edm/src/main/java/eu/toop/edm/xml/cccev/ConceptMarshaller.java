@@ -22,6 +22,11 @@ import com.helger.xml.namespace.MapBasedNamespaceContext;
 
 import eu.toop.edm.jaxb.cccev.CCCEVConceptType;
 
+/**
+ * XML marshaller for CCCEV concept
+ * 
+ * @author Philip Helger
+ */
 public class ConceptMarshaller extends AbstractCCCEVMarshaller <CCCEVConceptType>
 {
   public ConceptMarshaller ()

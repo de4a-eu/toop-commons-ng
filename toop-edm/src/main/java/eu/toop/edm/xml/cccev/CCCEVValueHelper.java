@@ -43,6 +43,11 @@ import eu.toop.edm.jaxb.cv.cbc.TextType;
 import eu.toop.edm.jaxb.cv.cbc.TimeType;
 import eu.toop.edm.jaxb.cv.cbc.URIType;
 
+/**
+ * Helper class to easily create {@link CCCEVValueType} objects from Java types.
+ * 
+ * @author Philip Helger
+ */
 @Immutable
 public final class CCCEVValueHelper
 {

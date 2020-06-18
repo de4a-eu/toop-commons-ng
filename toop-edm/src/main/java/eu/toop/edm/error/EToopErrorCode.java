@@ -23,6 +23,7 @@ import com.helger.commons.lang.EnumHelper;
 
 /**
  * Source: ErrorCode-CodeList.gc<br>
+ * Content created by MainCreateJavaCode_ErrorCode_GC
  *
  * @author Philip Helger
  */

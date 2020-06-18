@@ -27,7 +27,7 @@ import eu.toop.regrep.slot.ISlotProvider;
 import eu.toop.regrep.slot.SlotBuilder;
 
 /**
- * DataSubject "AuthorizedRepresentative" slot
+ * "AuthorizedRepresentative" slot
  *
  * @author Philip Helger
  */
@@ -54,8 +54,7 @@ public class SlotAuthorizedRepresentative implements ISlotProvider
   public SlotType createSlot ()
   {
     return new SlotBuilder ().setName (NAME)
-                             .setValue (new PersonMarshaller ().getAsDocument (m_aNaturalPerson.getAsCorePerson ())
-                                                               .getDocumentElement ())
+                             .setValue (new PersonMarshaller ().getAsDocument (m_aNaturalPerson.getAsCorePerson ()).getDocumentElement ())
                              .build ();
   }
 }

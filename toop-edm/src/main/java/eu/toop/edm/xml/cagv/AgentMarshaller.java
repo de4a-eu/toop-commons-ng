@@ -27,7 +27,7 @@ import eu.toop.edm.jaxb.cv.agent.AgentType;
 import eu.toop.edm.jaxb.cv.agent.ObjectFactory;
 
 /**
- * CAGV Marshaller
+ * Core Agent XML Marshaller
  *
  * @author Philip Helger
  */

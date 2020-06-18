@@ -43,13 +43,18 @@ import eu.toop.edm.jaxb.cccev.CCCEVValueType;
 import eu.toop.edm.jaxb.cv.cbc.IDType;
 
 /**
- * Represents a "Concept" that can be nested. Only response concepts can have
- * values.
+ * Represents a "Concept" that can be recursively nested. Only response concepts
+ * can have values.
  *
  * @author Philip Helger
  */
 public class ConceptPojo
 {
+  /**
+   * A visitor for concepts.
+   *
+   * @author Philip Helger
+   */
   public interface IConceptVisitor
   {
     void onConcept (@Nonnegative int nLevel, @Nonnull ConceptPojo aPojo);
@@ -173,11 +178,7 @@ public class ConceptPojo
   @Override
   public int hashCode ()
   {
-    return new HashCodeGenerator (this).append (m_sID)
-                                       .append (m_aName)
-                                       .append (m_aValue)
-                                       .append (m_aChildren)
-                                       .getHashCode ();
+    return new HashCodeGenerator (this).append (m_sID).append (m_aName).append (m_aValue).append (m_aChildren).getHashCode ();
   }
 
   @Override
@@ -223,8 +224,7 @@ public class ConceptPojo
   }
 
   @Nonnull
-  public static Builder builder (@Nullable final ConceptPojo a,
-                                 @Nullable final Consumer <? super ConceptPojo.Builder> aModificationHandler)
+  public static Builder builder (@Nullable final ConceptPojo a, @Nullable final Consumer <? super ConceptPojo.Builder> aModificationHandler)
   {
     final Builder ret = new Builder ();
     if (a != null)

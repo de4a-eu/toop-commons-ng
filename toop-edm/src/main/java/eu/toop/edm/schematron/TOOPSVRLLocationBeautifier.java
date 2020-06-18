@@ -21,16 +21,21 @@ import javax.annotation.Nullable;
 import com.helger.commons.annotation.IsSPIImplementation;
 import com.helger.schematron.svrl.ISVRLLocationBeautifierSPI;
 
-import eu.toop.edm.xml.dcatap.DCatNamespaceContext;
+import eu.toop.edm.xml.cccev.CCCEVNamespaceContext;
 import eu.toop.regrep.RegRep4NamespaceContext;
 
+/**
+ * Beautifier for Schematron error messages.
+ *
+ * @author Philip Helger
+ */
 @IsSPIImplementation
 public final class TOOPSVRLLocationBeautifier implements ISVRLLocationBeautifierSPI
 {
   @Nullable
   public String getReplacementText (@Nonnull final String sNamespaceURI, @Nonnull final String sLocalName)
   {
-    String sPrefix = DCatNamespaceContext.getInstance ().getCustomPrefix (sNamespaceURI);
+    String sPrefix = CCCEVNamespaceContext.getInstance ().getCustomPrefix (sNamespaceURI);
     if (sPrefix == null)
       sPrefix = RegRep4NamespaceContext.getInstance ().getCustomPrefix (sNamespaceURI);
 

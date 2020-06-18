@@ -22,7 +22,7 @@ import com.helger.commons.id.IHasID;
 import com.helger.commons.name.IHasDisplayName;
 
 /**
- * Gender code code list
+ * Gender code code list. Automatically generated from a code list.
  *
  * @author Philip Helger
  */
@@ -30,8 +30,7 @@ public enum EToopGenderCode implements IHasID <String>, IHasDisplayName
 {
   M ("M", "Male"),
   F ("F", "Female"),
-  UN ("UN",
-      "Undifferentiated (the gender of a person could not be uniquely defined as male or female, such as hermaphrodite)");
+  UN ("UN", "Undifferentiated (the gender of a person could not be uniquely defined as male or female, such as hermaphrodite)");
 
   private final String m_sID;
   private final String m_sDisplayName;

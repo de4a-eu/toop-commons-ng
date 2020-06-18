@@ -18,6 +18,11 @@ package eu.toop.edm.xml.dcatap;
 import eu.toop.edm.jaxb.dcatap.DCatAPDatasetType;
 import eu.toop.edm.jaxb.dcatap.ObjectFactory;
 
+/**
+ * XML marshaller for DCAT AP datasets
+ * 
+ * @author Philip Helger
+ */
 public class DatasetMarshaller extends AbstractDCatMarshaller <DCatAPDatasetType>
 {
   public DatasetMarshaller ()

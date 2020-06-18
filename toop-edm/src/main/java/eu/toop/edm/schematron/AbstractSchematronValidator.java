@@ -30,8 +30,8 @@ import com.helger.schematron.xslt.SchematronResourceXSLT;
 import com.helger.xml.serialize.read.DOMReader;
 
 /**
- * TOOP Schematron validator for the 1.2.0 data model. Validate DOM documents or
- * other resources using the predefined TOOP Schematron rules.
+ * Abstract TOOP Schematron validator. Validate DOM documents or other resources
+ * using the predefined TOOP Schematron rules.
  *
  * @author Philip Helger
  */

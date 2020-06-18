@@ -29,6 +29,13 @@ import com.helger.jaxb.JAXBContextCache;
 import eu.toop.edm.xml.cccev.CCCEV;
 import eu.toop.edm.xml.cccev.CCCEVNamespaceContext;
 
+/**
+ * Abstract DCat AP XML marshaller
+ *
+ * @author Philip Helger
+ * @param <T>
+ *        The type to be marshaled
+ */
 public abstract class AbstractDCatMarshaller <T> extends GenericJAXBMarshaller <T>
 {
   public AbstractDCatMarshaller (@Nonnull final Class <T> aType,

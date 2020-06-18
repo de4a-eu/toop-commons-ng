@@ -22,9 +22,10 @@ import com.helger.commons.id.IHasID;
 import com.helger.commons.name.IHasDisplayName;
 
 /**
- * Language code code list
+ * Language code code list. Automatically generated from a code list.
  *
  * @author Philip Helger
+ * @since 2.0.0-rc1
  */
 public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
 {

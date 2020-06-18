@@ -24,7 +24,7 @@ import com.helger.xsds.ccts.cct.schemamodule.CCCTS;
 import com.helger.xsds.xlink.CXLink;
 
 /**
- * XML Namespace context for DCAT. Depends on CGAV stuff.
+ * XML Namespace context for DCAT AP.
  *
  * @author yerlibilgin
  * @author Philip Helger

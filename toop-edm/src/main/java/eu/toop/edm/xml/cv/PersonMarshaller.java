@@ -20,6 +20,11 @@ import com.helger.jaxb.GenericJAXBMarshaller;
 import eu.toop.edm.jaxb.w3.cv.ac.CorePersonType;
 import eu.toop.edm.jaxb.w3.cv.ac.ObjectFactory;
 
+/**
+ * Core Person XML marshaller
+ * 
+ * @author Philip Helger
+ */
 public class PersonMarshaller extends GenericJAXBMarshaller <CorePersonType>
 {
   public PersonMarshaller ()

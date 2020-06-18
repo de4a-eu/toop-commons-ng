@@ -20,6 +20,11 @@ import com.helger.jaxb.GenericJAXBMarshaller;
 import eu.toop.edm.jaxb.w3.cv.ac.CoreBusinessType;
 import eu.toop.edm.jaxb.w3.cv.ac.ObjectFactory;
 
+/**
+ * Core Business XML marshaller
+ * 
+ * @author Philip Helger
+ */
 public class BusinessMarshaller extends GenericJAXBMarshaller <CoreBusinessType>
 {
   public BusinessMarshaller ()

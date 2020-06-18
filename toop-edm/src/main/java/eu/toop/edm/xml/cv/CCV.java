@@ -23,6 +23,11 @@ import com.helger.commons.collection.impl.CommonsArrayList;
 import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.ubl21.CUBL21;
 
+/**
+ * Constants for the Core vocabulary
+ * 
+ * @author Philip Helger
+ */
 public final class CCV
 {
   @Nonnull

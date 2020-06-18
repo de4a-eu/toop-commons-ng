@@ -26,6 +26,13 @@ import com.helger.commons.functional.IFunction;
 import com.helger.jaxb.GenericJAXBMarshaller;
 import com.helger.jaxb.JAXBContextCache;
 
+/**
+ * Abstract CCCEV XML marshaller
+ *
+ * @author Philip Helger
+ * @param <T>
+ *        Type to be marshalled
+ */
 public abstract class AbstractCCCEVMarshaller <T> extends GenericJAXBMarshaller <T>
 {
   public AbstractCCCEVMarshaller (@Nonnull final Class <T> aType,

@@ -18,6 +18,11 @@ package eu.toop.edm.xml.cccev;
 import eu.toop.edm.jaxb.cccev.CCCEVRequirementType;
 import eu.toop.edm.jaxb.cccev.ObjectFactory;
 
+/**
+ * XML marshaller for CCCEV requirements
+ *
+ * @author Philip Helger
+ */
 public class RequirementMarshaller extends AbstractCCCEVMarshaller <CCCEVRequirementType>
 {
   public RequirementMarshaller ()

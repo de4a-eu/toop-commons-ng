@@ -19,6 +19,7 @@ import javax.annotation.Nonnull;
 import javax.xml.namespace.QName;
 
 import com.helger.commons.annotation.Nonempty;
+import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.id.IHasID;
 
 /**
@@ -32,7 +33,12 @@ public interface IConceptName extends IHasID <String>
   @Nonempty
   String getConceptNamespaceURI ();
 
+  /**
+   * @return a new QName from {@link #getConceptNamespaceURI()} and
+   *         {@link #getID()}
+   */
   @Nonnull
+  @ReturnsMutableCopy
   default QName getAsQName ()
   {
     return new QName (getConceptNamespaceURI (), getID ());

@@ -60,6 +60,9 @@ public enum EToopConcept implements IConceptName
   TELEPHONE_NUMBER ("TelephoneNumber"),
   VAT_NUMBER ("VATNumber");
 
+  /**
+   * The namespace URI to be used for these concepts
+   */
   public static final String NAMESPACE_URI = "http://toop.eu/registered-organization";
 
   private final String m_sID;

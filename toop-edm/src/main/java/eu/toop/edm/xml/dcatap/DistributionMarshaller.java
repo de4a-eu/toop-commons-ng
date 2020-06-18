@@ -18,6 +18,11 @@ package eu.toop.edm.xml.dcatap;
 import eu.toop.edm.jaxb.dcatap.DCatAPDistributionType;
 import eu.toop.edm.jaxb.dcatap.ObjectFactory;
 
+/**
+ * XML marshaller for DCAT AP distributions
+ *
+ * @author Philip Helger
+ */
 public class DistributionMarshaller extends AbstractDCatMarshaller <DCatAPDistributionType>
 {
   public DistributionMarshaller ()

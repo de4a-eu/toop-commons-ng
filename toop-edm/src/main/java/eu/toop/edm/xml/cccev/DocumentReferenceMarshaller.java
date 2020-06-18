@@ -18,6 +18,11 @@ package eu.toop.edm.xml.cccev;
 import eu.toop.edm.jaxb.cccev.CCCEVDocumentReferenceType;
 import eu.toop.edm.jaxb.cccev.ObjectFactory;
 
+/**
+ * XML marshaller for CCCEV document references
+ *
+ * @author Philip Helger
+ */
 public class DocumentReferenceMarshaller extends AbstractCCCEVMarshaller <CCCEVDocumentReferenceType>
 {
   public DocumentReferenceMarshaller ()

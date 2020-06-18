@@ -18,6 +18,11 @@ package eu.toop.edm.xml.cccev;
 import eu.toop.edm.jaxb.cccev.CCCEVReferenceFrameworkType;
 import eu.toop.edm.jaxb.cccev.ObjectFactory;
 
+/**
+ * XML marshaller for CCCEV reference frameworks
+ *
+ * @author Philip Helger
+ */
 public class ReferenceFrameworkMarshaller extends AbstractCCCEVMarshaller <CCCEVReferenceFrameworkType>
 {
   public ReferenceFrameworkMarshaller ()

@@ -22,7 +22,8 @@ import com.helger.commons.io.resource.IReadableResource;
 
 /**
  * TOOP Schematron validator for the 2.0.0 data model. Validate DOM documents or
- * other resources using the predefined TOOP Schematron rules.
+ * other resources using the predefined TOOP Schematron rules. This should be
+ * run BEFORE {@link SchematronBusinessRules2Validator}.
  *
  * @author Philip Helger
  */

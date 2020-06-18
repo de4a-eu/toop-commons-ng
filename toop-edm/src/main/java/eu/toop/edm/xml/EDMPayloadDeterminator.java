@@ -97,7 +97,7 @@ public final class EDMPayloadDeterminator
                   LOGGER.info ("Sucessfully read the payload as an EDMErrorResponse");
                   return ret;
                 }
-                LOGGER.warn ("Failed to read the payload as an EDMErrorResponse");
+                LOGGER.warn ("Failed to read the payload as an EDMErrorResponse, even though an Exception is present");
               }
 
               // It's supposed to be an EDMResponse
@@ -112,10 +112,7 @@ public final class EDMPayloadDeterminator
             else
             {
               if (LOGGER.isWarnEnabled ())
-                LOGGER.warn ("The contained XML could not be interpreted. Root element is {" +
-                             sNamespaceURI +
-                             "}" +
-                             sLocalName);
+                LOGGER.warn ("The contained XML could not be interpreted. Root element is {" + sNamespaceURI + "}" + sLocalName);
             }
         }
         else

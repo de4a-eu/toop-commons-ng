@@ -25,6 +25,11 @@ import com.helger.xsds.ccts.cct.schemamodule.CCCTS;
 import com.helger.xsds.xlink.CXLink;
 import com.helger.xsds.xml.CXML_XSD;
 
+/**
+ * Constants for handling DCatAP
+ * 
+ * @author Philip Helger
+ */
 public final class CDCatAP
 {
   @Nonnull

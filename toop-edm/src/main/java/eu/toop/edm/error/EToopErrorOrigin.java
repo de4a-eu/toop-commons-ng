@@ -23,21 +23,22 @@ import com.helger.commons.id.IHasID;
 import com.helger.commons.lang.EnumHelper;
 
 /**
- * Source: ErrorOrigin-CodeList.gc
+ * Source: ErrorOrigin-CodeList.gc Content created by
+ * MainCreateJavaCode_ErrorOrigin_GC
  *
  * @author Philip Helger
  */
 public enum EToopErrorOrigin implements IHasID <String>
 {
-  /** 1/4 */
+  /** Request Submission */
   REQUEST_SUBMISSION ("RequestSubmission"),
-  /** 2/4 */
+  /** Request Reception */
   REQUEST_RECEPTION ("RequestReception"),
-  /** inside DP */
+  /** Response Creation */
   RESPONSE_CREATION ("ResponseCreation"),
-  /** 3/4 */
+  /** Response Submission */
   RESPONSE_SUBMISSION ("ResponseSubmission"),
-  /** 4/4 */
+  /** Response Reception */
   RESPONSE_RECEPTION ("ResponseReception");
 
   private final String m_sID;
