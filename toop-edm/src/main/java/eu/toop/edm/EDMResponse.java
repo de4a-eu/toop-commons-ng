@@ -574,7 +574,7 @@ public class EDMResponse implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public <T> BuilderConcept concepts (@Nullable final Iterable <T> a, @Nonnull final Function <? super T, ConceptPojo> aMapper)
+    public <T> BuilderConcept concepts (@Nullable final Iterable <? extends T> a, @Nonnull final Function <? super T, ConceptPojo> aMapper)
     {
       m_aConcepts.setAllMapped (a, aMapper);
       return thisAsT ();
@@ -709,7 +709,7 @@ public class EDMResponse implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public <T> BuilderDocument responseObjects (@Nullable final Iterable <T> a,
+    public <T> BuilderDocument responseObjects (@Nullable final Iterable <? extends T> a,
                                                 @Nonnull final Function <? super T, ResponseDocumentPojo> aMapper)
     {
       m_aResponseObjects.setAllMapped (a, aMapper);
@@ -832,7 +832,7 @@ public class EDMResponse implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public <T> BuilderDocumentReference responseObjects (@Nullable final Iterable <T> a,
+    public <T> BuilderDocumentReference responseObjects (@Nullable final Iterable <? extends T> a,
                                                          @Nonnull final Function <? super T, ResponseDocumentReferencePojo> aMapper)
     {
       m_aResponseObjects.setAllMapped (a, aMapper);

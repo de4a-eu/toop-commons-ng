@@ -17,6 +17,8 @@ package eu.toop.edm.model;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
 
 import com.helger.commons.equals.EqualsHelper;
 import com.helger.commons.hashcode.HashCodeGenerator;
@@ -33,6 +35,7 @@ import eu.toop.edm.jaxb.dcterms.DCMediaType;
  *
  * @author Philip Helger
  */
+@Immutable
 public class DistributionPojo
 {
   private final EToopDistributionFormat m_eFormat;
@@ -113,14 +116,19 @@ public class DistributionPojo
     if (a != null)
     {
       if (a.getFormat () != null)
-        ret.format (EToopDistributionFormat.getFromIDOrNull (TypeConverter.convert (a.getFormat ().getContentAtIndex (0),
-                                                                                String.class)));
+        ret.format (EToopDistributionFormat.getFromIDOrNull (TypeConverter.convert (a.getFormat ().getContentAtIndex (0), String.class)));
       if (a.getMediaType () != null)
         ret.mediaType (TypeConverter.convert (a.getMediaType ().getContentAtIndex (0), String.class));
     }
     return ret;
   }
 
+  /**
+   * A builder for this class
+   *
+   * @author Philip Helger
+   */
+  @NotThreadSafe
   public static class Builder
   {
     private EToopDistributionFormat m_eFormat;

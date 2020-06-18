@@ -16,9 +16,12 @@
 package eu.toop.edm.model;
 
 import java.util.List;
+import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
@@ -40,6 +43,7 @@ import eu.toop.edm.jaxb.dcatap.DCatAPRelationshipType;
  *
  * @author Philip Helger
  */
+@Immutable
 public class QualifiedRelationPojo
 {
   private final ICommonsList <String> m_aDescriptions = new CommonsArrayList <> ();
@@ -167,6 +171,12 @@ public class QualifiedRelationPojo
     return ret;
   }
 
+  /**
+   * A builder for this class
+   *
+   * @author Philip Helger
+   */
+  @NotThreadSafe
   public static class Builder
   {
     private final ICommonsList <String> m_aDescriptions = new CommonsArrayList <> ();
@@ -209,6 +219,13 @@ public class QualifiedRelationPojo
     }
 
     @Nonnull
+    public <T> Builder descriptions (@Nullable final Iterable <? extends T> a, @Nonnull final Function <? super T, String> aMapper)
+    {
+      m_aDescriptions.setAllMapped (a, aMapper);
+      return this;
+    }
+
+    @Nonnull
     public Builder addTitle (@Nullable final String s)
     {
       if (StringHelper.hasText (s))
@@ -241,6 +258,13 @@ public class QualifiedRelationPojo
     }
 
     @Nonnull
+    public <T> Builder titles (@Nullable final Iterable <? extends T> a, @Nonnull final Function <? super T, String> aMapper)
+    {
+      m_aTitles.setAllMapped (a, aMapper);
+      return this;
+    }
+
+    @Nonnull
     public Builder addID (@Nullable final String s)
     {
       if (StringHelper.hasText (s))
@@ -269,6 +293,13 @@ public class QualifiedRelationPojo
     public Builder ids (@Nullable final Iterable <String> a)
     {
       m_aIDs.setAll (a);
+      return this;
+    }
+
+    @Nonnull
+    public <T> Builder ids (@Nullable final Iterable <? extends T> a, @Nonnull final Function <? super T, String> aMapper)
+    {
+      m_aIDs.setAllMapped (a, aMapper);
       return this;
     }
 

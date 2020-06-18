@@ -17,6 +17,8 @@ package eu.toop.edm.model;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
 
 import com.helger.commons.equals.EqualsHelper;
 import com.helger.commons.hashcode.HashCodeGenerator;
@@ -36,6 +38,7 @@ import eu.toop.edm.jaxb.w3.cv.bc.AddressThoroughfareType;
  *
  * @author Philip Helger
  */
+@Immutable
 public class AddressPojo
 {
   private final String m_sFullAddress;
@@ -287,6 +290,12 @@ public class AddressPojo
     return ret;
   }
 
+  /**
+   * A builder for this class
+   * 
+   * @author Philip Helger
+   */
+  @NotThreadSafe
   public static class Builder
   {
     private String m_sFullAddress;

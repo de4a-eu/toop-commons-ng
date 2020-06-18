@@ -16,9 +16,12 @@
 package eu.toop.edm.model;
 
 import java.util.List;
+import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.ReturnsMutableCopy;
@@ -39,6 +42,7 @@ import eu.toop.edm.jaxb.cv.cbc.IDType;
  *
  * @author Philip Helger
  */
+@Immutable
 public class DocumentReferencePojo
 {
   private final String m_sDocumentURI;
@@ -163,6 +167,12 @@ public class DocumentReferencePojo
     return ret;
   }
 
+  /**
+   * A builder for this class
+   *
+   * @author Philip Helger
+   */
+  @NotThreadSafe
   public static class Builder
   {
     private String m_sDocumentURI;
@@ -209,6 +219,13 @@ public class DocumentReferencePojo
     public Builder documentDescriptions (@Nullable final Iterable <String> a)
     {
       m_aDocumentDescriptions.setAll (a);
+      return this;
+    }
+
+    @Nonnull
+    public <T> Builder documentDescriptions (@Nullable final Iterable <? extends T> a, @Nonnull final Function <? super T, String> aMapper)
+    {
+      m_aDocumentDescriptions.setAllMapped (a, aMapper);
       return this;
     }
 

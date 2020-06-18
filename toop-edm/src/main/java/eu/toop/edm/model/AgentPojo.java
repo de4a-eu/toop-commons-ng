@@ -19,6 +19,8 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
 
 import com.helger.commons.equals.EqualsHelper;
 import com.helger.commons.hashcode.HashCodeGenerator;
@@ -36,6 +38,7 @@ import eu.toop.edm.jaxb.cv.cbc.NameType;
  *
  * @author Philip Helger
  */
+@Immutable
 public class AgentPojo
 {
   private final String m_sID;
@@ -160,6 +163,12 @@ public class AgentPojo
     return ret;
   }
 
+  /**
+   * A builder for this class
+   *
+   * @author Philip Helger
+   */
+  @NotThreadSafe
   public static class Builder
   {
     private String m_sID;

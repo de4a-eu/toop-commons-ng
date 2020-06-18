@@ -902,7 +902,7 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public <T> BuilderConcept concepts (@Nullable final Iterable <T> a, @Nonnull final Function <? super T, ConceptPojo> aMapper)
+    public <T> BuilderConcept concepts (@Nullable final Iterable <? extends T> a, @Nonnull final Function <? super T, ConceptPojo> aMapper)
     {
       m_aConcepts.setAllMapped (a, aMapper);
       return thisAsT ();
@@ -1036,7 +1036,7 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public <T> BuilderDocumentsByDistribution distributions (@Nullable final Iterable <T> a,
+    public <T> BuilderDocumentsByDistribution distributions (@Nullable final Iterable <? extends T> a,
                                                              @Nonnull final Function <? super T, DistributionPojo> aMapper)
     {
       m_aDistributions.setAllMapped (a, aMapper);

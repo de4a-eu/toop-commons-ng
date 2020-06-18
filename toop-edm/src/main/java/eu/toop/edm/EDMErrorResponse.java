@@ -383,7 +383,7 @@ public class EDMErrorResponse implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public <T> Builder exceptions (@Nullable final Iterable <T> a, @Nonnull final Function <? super T, EDMExceptionPojo> aMapper)
+    public <T> Builder exceptions (@Nullable final Iterable <? extends T> a, @Nonnull final Function <? super T, EDMExceptionPojo> aMapper)
     {
       m_aExceptions.setAllMapped (a, aMapper);
       return this;

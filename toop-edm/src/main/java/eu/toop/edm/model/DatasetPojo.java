@@ -20,9 +20,12 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.helger.commons.ValueEnforcer;
@@ -50,6 +53,7 @@ import eu.toop.edm.jaxb.dcterms.DCPeriodOfTimeType;
  *
  * @author Philip Helger
  */
+@Immutable
 public class DatasetPojo
 {
   private final ICommonsList <String> m_aDescriptions = new CommonsArrayList <> ();
@@ -322,6 +326,12 @@ public class DatasetPojo
     return ret;
   }
 
+  /**
+   * A builder for this class
+   *
+   * @author Philip Helger
+   */
+  @NotThreadSafe
   public static class Builder
   {
     private final ICommonsList <String> m_aDescriptions = new CommonsArrayList <> ();
@@ -372,6 +382,13 @@ public class DatasetPojo
     }
 
     @Nonnull
+    public <T> Builder descriptions (@Nullable final Iterable <? extends T> a, @Nonnull final Function <? super T, String> aMapper)
+    {
+      m_aDescriptions.setAllMapped (a, aMapper);
+      return this;
+    }
+
+    @Nonnull
     public Builder addTitle (@Nullable final String s)
     {
       if (StringHelper.hasText (s))
@@ -400,6 +417,13 @@ public class DatasetPojo
     public Builder titles (@Nullable final Iterable <String> a)
     {
       m_aTitles.setAll (a);
+      return this;
+    }
+
+    @Nonnull
+    public <T> Builder titles (@Nullable final Iterable <? extends T> a, @Nonnull final Function <? super T, String> aMapper)
+    {
+      m_aTitles.setAllMapped (a, aMapper);
       return this;
     }
 
@@ -494,6 +518,13 @@ public class DatasetPojo
     public Builder ids (@Nullable final Iterable <String> a)
     {
       m_aIDs.setAll (a);
+      return this;
+    }
+
+    @Nonnull
+    public <T> Builder ids (@Nullable final Iterable <? extends T> a, @Nonnull final Function <? super T, String> aMapper)
+    {
+      m_aIDs.setAllMapped (a, aMapper);
       return this;
     }
 
@@ -645,6 +676,14 @@ public class DatasetPojo
     public Builder qualifiedRelations (@Nullable final Iterable <? extends QualifiedRelationPojo> a)
     {
       m_aQualifiedRelations.setAll (a);
+      return this;
+    }
+
+    @Nonnull
+    public <T> Builder qualifiedRelations (@Nullable final Iterable <? extends T> a,
+                                           @Nonnull final Function <? super T, QualifiedRelationPojo> aMapper)
+    {
+      m_aQualifiedRelations.setAllMapped (a, aMapper);
       return this;
     }
 

@@ -22,10 +22,13 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
 import javax.xml.namespace.QName;
 
 import com.helger.commons.annotation.ReturnsMutableCopy;
@@ -48,6 +51,7 @@ import eu.toop.edm.jaxb.cv.cbc.IDType;
  *
  * @author Philip Helger
  */
+@Immutable
 public class ConceptPojo
 {
   /**
@@ -270,6 +274,12 @@ public class ConceptPojo
     return ret;
   }
 
+  /**
+   * A builder for this class
+   *
+   * @author Philip Helger
+   */
+  @NotThreadSafe
   public static class Builder
   {
     private String m_sID;
@@ -600,6 +610,13 @@ public class ConceptPojo
     public Builder children (@Nullable final Iterable <? extends ConceptPojo> a)
     {
       m_aChildren.setAll (a);
+      return this;
+    }
+
+    @Nonnull
+    public <T> Builder children (@Nullable final Iterable <? extends T> a, @Nonnull final Function <? super T, ConceptPojo> aMapper)
+    {
+      m_aChildren.setAllMapped (a, aMapper);
       return this;
     }
 

@@ -21,6 +21,7 @@ import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
+import javax.annotation.concurrent.Immutable;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.helger.commons.ValueEnforcer;
@@ -44,6 +45,7 @@ import eu.toop.edm.jaxb.w3.cv.bc.PersonIDType;
  *
  * @author Philip Helger
  */
+@Immutable
 public class PersonPojo
 {
   private final String m_sID;
@@ -276,6 +278,11 @@ public class PersonPojo
     return ret;
   }
 
+  /**
+   * A builder for this class
+   *
+   * @author Philip Helger
+   */
   public static class Builder
   {
     private String m_sID;

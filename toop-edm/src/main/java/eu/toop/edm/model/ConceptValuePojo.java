@@ -22,13 +22,15 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
+import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.helger.commons.annotation.ReturnsMutableCopy;
@@ -52,6 +54,7 @@ import eu.toop.edm.xml.cccev.CCCEVValueHelper;
  *
  * @author Philip Helger
  */
+@Immutable
 public class ConceptValuePojo
 {
   private final String m_sIdentifier;
@@ -189,6 +192,42 @@ public class ConceptValuePojo
     return StringHelper.hasText (m_sErrorCode);
   }
 
+  /**
+   * @return The string representation of this concept value or
+   *         <code>null</code> if no value is part.
+   */
+  @Nullable
+  public String getAsString ()
+  {
+    if (m_sIdentifier != null)
+      return m_sIdentifier;
+    if (m_aAmount != null)
+      return m_aAmount.getAsString ();
+    if (m_sCode != null)
+      return m_sCode;
+    if (m_aDate != null)
+      return m_aDate.toString ();
+    if (m_aIndicator != null)
+      return m_aIndicator.toString ();
+    if (m_aMeasure != null)
+      return m_aMeasure.getAsString ();
+    if (m_aNumeric != null)
+      return m_aNumeric.toString ();
+    if (m_aPeriod != null)
+      return m_aPeriod.getAsString ();
+    if (m_aQuantity != null)
+      return m_aQuantity.getAsString ();
+    if (m_aText != null)
+      return StringHelper.getImploded ('\n', m_aText);
+    if (m_aTime != null)
+      return m_aTime.toString ();
+    if (m_sURI != null)
+      return m_sURI;
+    if (m_sErrorCode != null)
+      return m_sErrorCode;
+    return null;
+  }
+
   @Nullable
   public CCCEVValueType getAsCCCEVValueType ()
   {
@@ -311,6 +350,12 @@ public class ConceptValuePojo
     return ret;
   }
 
+  /**
+   * A builder for this class
+   *
+   * @author Philip Helger
+   */
+  @NotThreadSafe
   public static class Builder
   {
     private String m_sIdentifier;
@@ -521,9 +566,16 @@ public class ConceptValuePojo
     }
 
     @Nonnull
-    public Builder text (@Nullable final Collection <String> a)
+    public Builder text (@Nullable final Iterable <String> a)
     {
       m_aText.setAll (a);
+      return this;
+    }
+
+    @Nonnull
+    public <T> Builder text (@Nullable final Iterable <? extends T> a, @Nonnull final Function <? super T, String> aMapper)
+    {
+      m_aText.setAllMapped (a, aMapper);
       return this;
     }
 

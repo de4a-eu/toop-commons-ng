@@ -19,6 +19,8 @@ import java.math.BigDecimal;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
 
 import com.helger.commons.equals.EqualsHelper;
 import com.helger.commons.hashcode.HashCodeGenerator;
@@ -32,6 +34,7 @@ import eu.toop.edm.jaxb.cv.cbc.MeasureType;
  *
  * @author Philip Helger
  */
+@Immutable
 public class MeasurePojo
 {
   private final BigDecimal m_aValue;
@@ -62,6 +65,18 @@ public class MeasurePojo
     ret.setValue (m_aValue);
     ret.setUnitCode (m_sUnitCode);
     return ret;
+  }
+
+  @Nullable
+  public String getAsString ()
+  {
+    if (m_aValue != null)
+    {
+      if (m_sUnitCode != null)
+        return m_aValue.toString () + " " + m_sUnitCode;
+      return m_aValue.toString ();
+    }
+    return m_sUnitCode;
   }
 
   @Override
@@ -102,6 +117,12 @@ public class MeasurePojo
     return ret;
   }
 
+  /**
+   * A builder for this class
+   *
+   * @author Philip Helger
+   */
+  @NotThreadSafe
   public static class Builder
   {
     private BigDecimal m_aValue;

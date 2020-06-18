@@ -22,10 +22,14 @@ import java.time.temporal.ChronoUnit;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import com.helger.commons.datetime.PDTFactory;
 import com.helger.commons.equals.EqualsHelper;
 import com.helger.commons.hashcode.HashCodeGenerator;
+import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.datetime.util.PDTXMLConverter;
 
@@ -37,6 +41,7 @@ import eu.toop.edm.jaxb.cv.cac.PeriodType;
  * @author Konstantinos Douloudis
  * @author Philip Helger
  */
+@Immutable
 public class PeriodPojo
 {
   private final LocalDate m_aStartDate;
@@ -94,6 +99,26 @@ public class PeriodPojo
     return ret;
   }
 
+  @Nullable
+  private static String _getAsString (@Nullable final LocalDate aDate, @Nullable final LocalTime aTime)
+  {
+    if (aDate != null)
+    {
+      if (aTime != null)
+        return "[" + aDate.atTime (aTime).toString () + "]";
+      return "[" + aDate.toString () + "]";
+    }
+    if (aTime != null)
+      return "[" + aTime.toString () + "]";
+    return null;
+  }
+
+  @Nullable
+  public String getAsString ()
+  {
+    return StringHelper.getConcatenatedOnDemand (_getAsString (m_aStartDate, m_aStartTime), "-", _getAsString (m_aEndDate, m_aEndTime));
+  }
+
   @Override
   public boolean equals (final Object o)
   {
@@ -111,11 +136,7 @@ public class PeriodPojo
   @Override
   public int hashCode ()
   {
-    return new HashCodeGenerator (this).append (m_aStartDate)
-                                       .append (m_aStartTime)
-                                       .append (m_aEndDate)
-                                       .append (m_aEndTime)
-                                       .getHashCode ();
+    return new HashCodeGenerator (this).append (m_aStartDate).append (m_aStartTime).append (m_aEndDate).append (m_aEndTime).getHashCode ();
   }
 
   @Override
@@ -148,6 +169,12 @@ public class PeriodPojo
     return ret;
   }
 
+  /**
+   * A builder for this class
+   *
+   * @author Philip Helger
+   */
+  @NotThreadSafe
   public static class Builder
   {
     private LocalDate m_aStartDate;
@@ -159,6 +186,12 @@ public class PeriodPojo
     {}
 
     @Nonnull
+    public Builder startDateTimeNow ()
+    {
+      return startDateTime (PDTFactory.getCurrentLocalDateTime ());
+    }
+
+    @Nonnull
     public Builder startDateTime (@Nullable final XMLGregorianCalendar a)
     {
       return startDateTime (PDTXMLConverter.getLocalDateTime (a));
@@ -168,6 +201,12 @@ public class PeriodPojo
     public Builder startDateTime (@Nullable final LocalDateTime a)
     {
       return startDate (a == null ? null : a.toLocalDate ()).startTime (a == null ? null : a.toLocalTime ());
+    }
+
+    @Nonnull
+    public Builder startDateNow ()
+    {
+      return startDate (PDTFactory.getCurrentLocalDate ());
     }
 
     @Nonnull
@@ -184,6 +223,12 @@ public class PeriodPojo
     }
 
     @Nonnull
+    public Builder startTimeNow ()
+    {
+      return startTime (PDTFactory.getCurrentLocalTime ());
+    }
+
+    @Nonnull
     public Builder startTime (@Nullable final XMLGregorianCalendar a)
     {
       return startTime (PDTXMLConverter.getLocalTime (a));
@@ -194,6 +239,12 @@ public class PeriodPojo
     {
       m_aStartTime = a == null ? null : a.truncatedTo (ChronoUnit.MILLIS);
       return this;
+    }
+
+    @Nonnull
+    public Builder endDateTimeNow ()
+    {
+      return endDateTime (PDTFactory.getCurrentLocalDateTime ());
     }
 
     @Nonnull
@@ -209,6 +260,12 @@ public class PeriodPojo
     }
 
     @Nonnull
+    public Builder endDateNow ()
+    {
+      return endDate (PDTFactory.getCurrentLocalDate ());
+    }
+
+    @Nonnull
     public Builder endDate (@Nullable final XMLGregorianCalendar a)
     {
       return endDate (PDTXMLConverter.getLocalDate (a));
@@ -219,6 +276,12 @@ public class PeriodPojo
     {
       m_aEndDate = a;
       return this;
+    }
+
+    @Nonnull
+    public Builder endTimeNow ()
+    {
+      return endTime (PDTFactory.getCurrentLocalTime ());
     }
 
     @Nonnull
