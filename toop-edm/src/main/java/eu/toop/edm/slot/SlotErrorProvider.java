@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 
-import eu.toop.edm.jaxb.cv.agent.AgentType;
+import eu.toop.edm.model.AgentPojo;
 import eu.toop.edm.xml.cagv.AgentMarshaller;
 import eu.toop.regrep.rim.SlotType;
 import eu.toop.regrep.slot.ISlotProvider;
@@ -35,9 +35,9 @@ public class SlotErrorProvider implements ISlotProvider
 {
   public static final String NAME = "ErrorProvider";
 
-  private final AgentType m_aAgent;
+  private final AgentPojo m_aAgent;
 
-  public SlotErrorProvider (@Nonnull final AgentType aAgent)
+  public SlotErrorProvider (@Nonnull final AgentPojo aAgent)
   {
     ValueEnforcer.notNull (aAgent, "Agent");
     m_aAgent = aAgent;
@@ -54,7 +54,7 @@ public class SlotErrorProvider implements ISlotProvider
   public SlotType createSlot ()
   {
     return new SlotBuilder ().setName (NAME)
-                             .setValue (new AgentMarshaller ().getAsDocument (m_aAgent).getDocumentElement ())
+                             .setValue (new AgentMarshaller ().getAsDocument (m_aAgent.getAsAgent ()).getDocumentElement ())
                              .build ();
   }
 }

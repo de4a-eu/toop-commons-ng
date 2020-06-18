@@ -17,7 +17,8 @@ Work on `v2.0.0-rc1`
     * `EIdentifierType` -> `EToopIdentifierType`
     * `EQueryDefinitionType` -> `EToopQueryDefinitionType`
     * `EResponseOptionType` -> `EToopResponseOptionType`
-* Added new enumeration `EToopLanguageCode`    
+* Added new enumeration `EToopLanguageCode`
+* The class `EDMErrorResponse` changed return type for `getAgent` to `AgentPojo`
 
 2020-06-01: release of `v2.0.0-beta5`
 * Added new Schematrons to check if a document type is the expected one

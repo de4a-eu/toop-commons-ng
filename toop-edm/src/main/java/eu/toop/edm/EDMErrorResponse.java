@@ -75,13 +75,13 @@ public class EDMErrorResponse implements IEDMTopLevelObject
   private final ERegRepResponseStatus m_eResponseStatus;
   private final String m_sRequestID;
   private final String m_sSpecificationIdentifier;
-  private final AgentType m_aErrorProvider;
+  private final AgentPojo m_aErrorProvider;
   private final ICommonsList <EDMExceptionPojo> m_aExceptions = new CommonsArrayList <> ();
 
   protected EDMErrorResponse (@Nonnull final ERegRepResponseStatus eResponseStatus,
                               @Nonnull @Nonempty final String sRequestID,
                               @Nonnull @Nonempty final String sSpecificationIdentifier,
-                              @Nullable final AgentType aErrorProvider,
+                              @Nullable final AgentPojo aErrorProvider,
                               @Nonnull @Nonempty final ICommonsList <EDMExceptionPojo> aExceptions)
   {
     ValueEnforcer.notNull (eResponseStatus, "ResponseStatus");
@@ -119,7 +119,7 @@ public class EDMErrorResponse implements IEDMTopLevelObject
   }
 
   @Nullable
-  public final AgentType getErrorProvider ()
+  public final AgentPojo getErrorProvider ()
   {
     return m_aErrorProvider;
   }
@@ -244,7 +244,7 @@ public class EDMErrorResponse implements IEDMTopLevelObject
     private ERegRepResponseStatus m_eResponseStatus;
     private String m_sRequestID;
     private String m_sSpecificationIdentifier;
-    private AgentType m_aErrorProvider;
+    private AgentPojo m_aErrorProvider;
     private final ICommonsList <EDMExceptionPojo> m_aExceptions = new CommonsArrayList <> ();
 
     public Builder ()
@@ -290,13 +290,13 @@ public class EDMErrorResponse implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public Builder errorProvider (@Nullable final AgentPojo a)
+    public Builder errorProvider (@Nullable final AgentType a)
     {
-      return errorProvider (a == null ? null : a.getAsAgent ());
+      return errorProvider (a == null ? null : AgentPojo.builder (a));
     }
 
     @Nonnull
-    public Builder errorProvider (@Nullable final AgentType a)
+    public Builder errorProvider (@Nullable final AgentPojo a)
     {
       m_aErrorProvider = a;
       return this;
