@@ -9,7 +9,7 @@ The code contained in this project is used by:
 
 ## Status
 
-Work on `v2.0.0-rc1`
+2020-06-18: release of `v2.0.0-rc1`
 * Updated Schematron rules
 * Renamed enumerations: 
     * `EDistributionFormat` -> `EToopDistributionFormat`
@@ -19,6 +19,7 @@ Work on `v2.0.0-rc1`
     * `EResponseOptionType` -> `EToopResponseOptionType`
 * Added new enumeration `EToopLanguageCode`
 * The class `EDMErrorResponse` changed return type for `getAgent` to `AgentPojo`
+* A lot of minor API extensions
 
 2020-06-01: release of `v2.0.0-beta5`
 * Added new Schematrons to check if a document type is the expected one
@@ -59,7 +60,7 @@ Work on `v2.0.0-rc1`
       <dependency>
         <groupId>eu.toop</groupId>
         <artifactId>toop-edm</artifactId>
-        <version>2.0.0-beta5</version>
+        <version>2.0.0-rc1</version>
       </dependency>
 ```
 
