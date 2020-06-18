@@ -426,13 +426,13 @@ public class PersonPojo
     @OverridingMethodsMustInvokeSuper
     public void checkConsistency ()
     {
-      if (StringHelper.hasNoText (m_sID))
+      if (m_sID == null)
         throw new IllegalStateException ("ID must be present");
-      if (StringHelper.hasNoText (m_sIDSchemeID))
+      if (m_sIDSchemeID == null)
         throw new IllegalStateException ("ID SchemeID must be present");
-      if (StringHelper.hasNoText (m_sFamilyName))
+      if (m_sFamilyName == null)
         throw new IllegalStateException ("Family Name must be present");
-      if (StringHelper.hasNoText (m_sGivenName))
+      if (m_sGivenName == null)
         throw new IllegalStateException ("Given Name must be present");
       if (m_aBirthDate == null)
         throw new IllegalStateException ("Birth Date must be present");
