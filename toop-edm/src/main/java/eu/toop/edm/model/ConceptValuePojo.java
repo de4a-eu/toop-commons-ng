@@ -37,6 +37,7 @@ import com.helger.commons.collection.impl.ICommonsList;
 import com.helger.commons.equals.EqualsHelper;
 import com.helger.commons.hashcode.HashCodeGenerator;
 import com.helger.commons.math.MathHelper;
+import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.StringParser;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.datetime.util.PDTXMLConverter;
@@ -181,6 +182,11 @@ public class ConceptValuePojo
   public final String getErrorCode ()
   {
     return m_sErrorCode;
+  }
+
+  public final boolean isErrorCodeValue ()
+  {
+    return StringHelper.hasText (m_sErrorCode);
   }
 
   @Nullable

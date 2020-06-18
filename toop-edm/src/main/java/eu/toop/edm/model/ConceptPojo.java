@@ -77,22 +77,50 @@ public class ConceptPojo
       m_aChildren.addAll (aChildren);
   }
 
+  /**
+   * @return The internal ID of the concept inside the request. This is NOT the
+   *         concet name.
+   */
   @Nullable
   public final String getID ()
   {
     return m_sID;
   }
 
+  /**
+   * @return The qualified name of the concept. Consisting of a namespace URI
+   *         and the local part as the name.
+   */
   @Nullable
   public final QName getName ()
   {
     return m_aName;
   }
 
+  /**
+   * @return The value of the concept. Usually only present for responses.
+   */
   @Nullable
   public final ConceptValuePojo getValue ()
   {
     return m_aValue;
+  }
+
+  /**
+   * @return <code>true</code> if a value is present, <code>false</code> if not.
+   */
+  public final boolean hasValue ()
+  {
+    return m_aValue != null;
+  }
+
+  /**
+   * @return <code>true</code> if a value is present, and if that value contains
+   *         an error code.
+   */
+  public final boolean isErrorValue ()
+  {
+    return m_aValue != null && m_aValue.isErrorCodeValue ();
   }
 
   @Nonnull
