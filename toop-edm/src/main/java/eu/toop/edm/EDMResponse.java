@@ -20,6 +20,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -493,7 +494,7 @@ public class EDMResponse implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public final BuilderConcept addConcept (@Nullable final Consumer <? super ConceptPojo.Builder> a)
+    public BuilderConcept addConcept (@Nullable final Consumer <? super ConceptPojo.Builder> a)
     {
       if (a != null)
       {
@@ -525,7 +526,7 @@ public class EDMResponse implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public final BuilderConcept concept (@Nullable final Consumer <? super ConceptPojo.Builder> a)
+    public BuilderConcept concept (@Nullable final Consumer <? super ConceptPojo.Builder> a)
     {
       if (a != null)
       {
@@ -566,10 +567,17 @@ public class EDMResponse implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public BuilderConcept concepts (@Nullable final Iterable <ConceptPojo> a)
+    public BuilderConcept concepts (@Nullable final Iterable <? extends ConceptPojo> a)
     {
       m_aConcepts.setAll (a);
       return this;
+    }
+
+    @Nonnull
+    public <T> BuilderConcept concepts (@Nullable final Iterable <T> a, @Nonnull final Function <? super T, ConceptPojo> aMapper)
+    {
+      m_aConcepts.setAllMapped (a, aMapper);
+      return thisAsT ();
     }
 
     @Override
@@ -694,9 +702,17 @@ public class EDMResponse implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public BuilderDocument responseObjects (@Nullable final Iterable <ResponseDocumentPojo> a)
+    public BuilderDocument responseObjects (@Nullable final Iterable <? extends ResponseDocumentPojo> a)
     {
       m_aResponseObjects.setAll (a);
+      return this;
+    }
+
+    @Nonnull
+    public <T> BuilderDocument responseObjects (@Nullable final Iterable <T> a,
+                                                @Nonnull final Function <? super T, ResponseDocumentPojo> aMapper)
+    {
+      m_aResponseObjects.setAllMapped (a, aMapper);
       return this;
     }
 
@@ -809,9 +825,17 @@ public class EDMResponse implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public BuilderDocumentReference responseObjects (@Nullable final Iterable <ResponseDocumentReferencePojo> a)
+    public BuilderDocumentReference responseObjects (@Nullable final Iterable <? extends ResponseDocumentReferencePojo> a)
     {
       m_aResponseObjects.setAll (a);
+      return this;
+    }
+
+    @Nonnull
+    public <T> BuilderDocumentReference responseObjects (@Nullable final Iterable <T> a,
+                                                         @Nonnull final Function <? super T, ResponseDocumentReferencePojo> aMapper)
+    {
+      m_aResponseObjects.setAllMapped (a, aMapper);
       return this;
     }
 

@@ -17,6 +17,7 @@ package eu.toop.edm;
 
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -378,6 +379,13 @@ public class EDMErrorResponse implements IEDMTopLevelObject
     public Builder exceptions (@Nullable final Iterable <? extends EDMExceptionPojo> a)
     {
       m_aExceptions.setAll (a);
+      return this;
+    }
+
+    @Nonnull
+    public <T> Builder exceptions (@Nullable final Iterable <T> a, @Nonnull final Function <? super T, EDMExceptionPojo> aMapper)
+    {
+      m_aExceptions.setAllMapped (a, aMapper);
       return this;
     }
 

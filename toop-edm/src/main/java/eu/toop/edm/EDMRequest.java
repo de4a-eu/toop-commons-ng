@@ -22,6 +22,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -633,6 +634,14 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
+    public final <U> T fullfillingRequirements (@Nullable final Iterable <? extends U> a,
+                                                @Nonnull final Function <? super U, CCCEVRequirementType> aMapper)
+    {
+      m_aFullfillingRequirements.setAllMapped (a, aMapper);
+      return thisAsT ();
+    }
+
+    @Nonnull
     public final T consentToken (@Nullable final String s)
     {
       m_sConsentToken = s;
@@ -813,7 +822,7 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public final BuilderConcept addConcept (@Nullable final Consumer <? super ConceptPojo.Builder> a)
+    public BuilderConcept addConcept (@Nullable final Consumer <? super ConceptPojo.Builder> a)
     {
       if (a != null)
       {
@@ -845,7 +854,7 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public final BuilderConcept concept (@Nullable final Consumer <? super ConceptPojo.Builder> a)
+    public BuilderConcept concept (@Nullable final Consumer <? super ConceptPojo.Builder> a)
     {
       if (a != null)
       {
@@ -886,10 +895,17 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public BuilderConcept concepts (@Nullable final Iterable <ConceptPojo> a)
+    public BuilderConcept concepts (@Nullable final Iterable <? extends ConceptPojo> a)
     {
       m_aConcepts.setAll (a);
       return this;
+    }
+
+    @Nonnull
+    public <T> BuilderConcept concepts (@Nullable final Iterable <T> a, @Nonnull final Function <? super T, ConceptPojo> aMapper)
+    {
+      m_aConcepts.setAllMapped (a, aMapper);
+      return thisAsT ();
     }
 
     @Override
@@ -1013,10 +1029,18 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public BuilderDocumentsByDistribution distributions (@Nullable final Iterable <DistributionPojo> a)
+    public BuilderDocumentsByDistribution distributions (@Nullable final Iterable <? extends DistributionPojo> a)
     {
       m_aDistributions.setAll (a);
       return this;
+    }
+
+    @Nonnull
+    public <T> BuilderDocumentsByDistribution distributions (@Nullable final Iterable <T> a,
+                                                             @Nonnull final Function <? super T, DistributionPojo> aMapper)
+    {
+      m_aDistributions.setAllMapped (a, aMapper);
+      return thisAsT ();
     }
 
     @Override
