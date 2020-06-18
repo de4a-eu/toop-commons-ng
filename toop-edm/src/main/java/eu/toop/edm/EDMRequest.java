@@ -584,7 +584,7 @@ public class EDMRequest implements IEDMTopLevelObject
     @Nonnull
     public final T procedure (@Nonnull final EToopLanguageCode eLanguage, @Nonnull final String sText)
     {
-      return procedure (SlotHelper.createLocalizedString (eLanguage == null ? null : eLanguage.getID (), sText));
+      return procedure (SlotHelper.createLocalizedString (eLanguage.getID (), sText));
     }
 
     @Nonnull

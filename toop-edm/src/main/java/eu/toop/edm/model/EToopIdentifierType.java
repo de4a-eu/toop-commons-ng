@@ -24,6 +24,7 @@ import com.helger.commons.lang.EnumHelper;
 
 /**
  * Source: IdentifierType-CodeList.gc<br>
+ * Content created by MainCreateJavaCode_IdentifierType_GC
  *
  * @since 2.0.0-beta5
  * @author Philip Helger

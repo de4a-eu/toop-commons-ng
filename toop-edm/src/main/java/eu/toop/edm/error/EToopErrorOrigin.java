@@ -23,8 +23,8 @@ import com.helger.commons.id.IHasID;
 import com.helger.commons.lang.EnumHelper;
 
 /**
- * Source: ErrorOrigin-CodeList.gc Content created by
- * MainCreateJavaCode_ErrorOrigin_GC
+ * Source: ErrorOrigin-CodeList.gc<br>
+ * Content created by MainCreateJavaCode_ErrorOrigin_GC
  *
  * @author Philip Helger
  */

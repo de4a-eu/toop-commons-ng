@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.helger.commons.regex.RegExHelper;
+import com.helger.commons.string.StringHelper;
 import com.helger.genericode.Genericode10Helper;
 import com.helger.genericode.builder.GenericodeReader;
 import com.helger.genericode.v10.CodeListDocument;
@@ -55,7 +56,7 @@ public final class MainCreateJavaCode_LanguageCode_GC
         if (sName != null)
           aSB.append ("/** ").append (sName).append (" */\n");
         if (sID != null)
-          aSB.append (RegExHelper.getAsIdentifier (sID.toUpperCase (Locale.US)))
+          aSB.append (StringHelper.trimEnd (RegExHelper.getAsIdentifier (sID.toUpperCase (Locale.US)), '_'))
              .append (" (\"")
              .append (sID)
              .append ("\", \"")

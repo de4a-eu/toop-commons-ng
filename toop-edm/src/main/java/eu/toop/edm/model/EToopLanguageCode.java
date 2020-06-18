@@ -22,7 +22,8 @@ import com.helger.commons.id.IHasID;
 import com.helger.commons.name.IHasDisplayName;
 
 /**
- * Language code code list. Automatically generated from a code list.
+ * Source: LanguageCode-2.2.gc<br>
+ * Content created by MainCreateJavaCode_LanguageCode_GC
  *
  * @author Philip Helger
  * @since 2.0.0-rc1
@@ -64,7 +65,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Akkadian */
   AKK ("AKK", "Akkadian"),
   /** Albanian */
-  ALB__B__SQI__T_ ("ALB (B) SQI (T)", "Albanian"),
+  ALB__B__SQI__T ("ALB (B) SQI (T)", "Albanian"),
   /** Aleut */
   ALE ("ALE", "Aleut"),
   /** Algonquian languages */
@@ -92,7 +93,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Aragonese */
   ARG ("ARG", "Aragonese"),
   /** Armenian */
-  ARM__B__HYE__T_ ("ARM (B) HYE (T)", "Armenian"),
+  ARM__B__HYE__T ("ARM (B) HYE (T)", "Armenian"),
   /** Mapudungun; Mapuche */
   ARN ("ARN", "Mapudungun; Mapuche"),
   /** Arapaho */
@@ -142,7 +143,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Balinese */
   BAN ("BAN", "Balinese"),
   /** Basque */
-  BAQ__B__EUS__T_ ("BAQ (B) EUS (T)", "Basque"),
+  BAQ__B__EUS__T ("BAQ (B) EUS (T)", "Basque"),
   /** Basa */
   BAS ("BAS", "Basa"),
   /** Baltic languages */
@@ -204,7 +205,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Bulgarian */
   BUL ("BUL", "Bulgarian"),
   /** Burmese */
-  BUR__B__MYA__T_ ("BUR (B) MYA (T)", "Burmese"),
+  BUR__B__MYA__T ("BUR (B) MYA (T)", "Burmese"),
   /** Blin; Bilin */
   BYN ("BYN", "Blin; Bilin"),
   /** Catalan; Valencian */
@@ -236,7 +237,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Chagatai */
   CHG ("CHG", "Chagatai"),
   /** Chinese */
-  CHI__B__ZHO__T_ ("CHI (B) ZHO (T)", "Chinese"),
+  CHI__B__ZHO__T ("CHI (B) ZHO (T)", "Chinese"),
   /** Chuukese */
   CHK ("CHK", "Chuukese"),
   /** Mari */
@@ -300,7 +301,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Welsh */
   CY ("CY", "Welsh"),
   /** Czech */
-  CZE__B__CES__T_ ("CZE (B) CES (T)", "Czech"),
+  CZE__B__CES__T ("CZE (B) CES (T)", "Czech"),
   /** Danish */
   DA ("DA", "Danish"),
   /** Dakota */
@@ -334,7 +335,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Dutch, Middle (ca.1050-1350) */
   DUM ("DUM", "Dutch, Middle (ca.1050-1350)"),
   /** Dutch; Flemish */
-  DUT__B__NLD__T_ ("DUT (B) NLD (T)", "Dutch; Flemish"),
+  DUT__B__NLD__T ("DUT (B) NLD (T)", "Dutch; Flemish"),
   /** Divehi; Dhivehi; Maldivian */
   DV ("DV", "Divehi; Dhivehi; Maldivian"),
   /** Dyula */
@@ -406,7 +407,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** French */
   FR ("FR", "French"),
   /** French */
-  FRE__B__FRA__T_ ("FRE (B) FRA (T)", "French"),
+  FRE__B__FRA__T ("FRE (B) FRA (T)", "French"),
   /** French, Middle (ca.1400-1600) */
   FRM ("FRM", "French, Middle (ca.1400-1600)"),
   /** French, Old (842-ca.1400) */
@@ -436,9 +437,9 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Germanic languages */
   GEM ("GEM", "Germanic languages"),
   /** Georgian */
-  GEO__B__KAT__T_ ("GEO (B) KAT (T)", "Georgian"),
+  GEO__B__KAT__T ("GEO (B) KAT (T)", "Georgian"),
   /** German */
-  GER__B__DEU__T_ ("GER (B) DEU (T)", "German"),
+  GER__B__DEU__T ("GER (B) DEU (T)", "German"),
   /** Geez */
   GEZ ("GEZ", "Geez"),
   /** Gilbertese */
@@ -470,7 +471,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Greek, Ancient (to 1453) */
   GRC ("GRC", "Greek, Ancient (to 1453)"),
   /** Greek, Modern (1453-) */
-  GRE__B__ELL__T_ ("GRE (B) ELL (T)", "Greek, Modern (1453-)"),
+  GRE__B__ELL__T ("GRE (B) ELL (T)", "Greek, Modern (1453-)"),
   /** Guarani */
   GRN ("GRN", "Guarani"),
   /** Swiss German; Alemannic; Alsatian */
@@ -540,7 +541,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Igbo */
   IBO ("IBO", "Igbo"),
   /** Icelandic */
-  ICE__B__ISL__T_ ("ICE (B) ISL (T)", "Icelandic"),
+  ICE__B__ISL__T ("ICE (B) ISL (T)", "Icelandic"),
   /** Indonesian */
   ID ("ID", "Indonesian"),
   /** Ido */
@@ -760,7 +761,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Latvian */
   LV ("LV", "Latvian"),
   /** Macedonian */
-  MAC__B__MKD__T_ ("MAC (B) MKD (T)", "Macedonian"),
+  MAC__B__MKD__T ("MAC (B) MKD (T)", "Macedonian"),
   /** Madurese */
   MAD ("MAD", "Madurese"),
   /** Magahi */
@@ -776,7 +777,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Mandingo */
   MAN ("MAN", "Mandingo"),
   /** Maori */
-  MAO__B__MRI__T_ ("MAO (B) MRI (T)", "Maori"),
+  MAO__B__MRI__T ("MAO (B) MRI (T)", "Maori"),
   /** Austronesian languages */
   MAP ("MAP", "Austronesian languages"),
   /** Marathi */
@@ -784,7 +785,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Masai */
   MAS ("MAS", "Masai"),
   /** Malay */
-  MAY__B__MSA__T_ ("MAY (B) MSA (T)", "Malay"),
+  MAY__B__MSA__T ("MAY (B) MSA (T)", "Malay"),
   /** Moksha */
   MDF ("MDF", "Moksha"),
   /** Mandar */
@@ -974,7 +975,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Persian, Old (ca.600-400 B.C.) */
   PEO ("PEO", "Persian, Old (ca.600-400 B.C.)"),
   /** Persian */
-  PER__B__FAS__T_ ("PER (B) FAS (T)", "Persian"),
+  PER__B__FAS__T ("PER (B) FAS (T)", "Persian"),
   /** Philippine languages */
   PHI ("PHI", "Philippine languages"),
   /** Phoenician */
@@ -1028,7 +1029,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Russian */
   RU ("RU", "Russian"),
   /** Romanian; Moldavian; Moldovan */
-  RUM__B__RON__T_ ("RUM (B) RON (T)", "Romanian; Moldavian; Moldovan"),
+  RUM__B__RON__T ("RUM (B) RON (T)", "Romanian; Moldavian; Moldovan"),
   /** Rundi */
   RUN ("RUN", "Rundi"),
   /** Aromanian; Arumanian; Macedo-Romanian */
@@ -1096,7 +1097,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Slavic languages */
   SLA ("SLA", "Slavic languages"),
   /** Slovak */
-  SLO__B__SLK__T_ ("SLO (B) SLK (T)", "Slovak"),
+  SLO__B__SLK__T ("SLO (B) SLK (T)", "Slovak"),
   /** Slovenian */
   SLV ("SLV", "Slovenian"),
   /** Samoan */
@@ -1210,7 +1211,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Tigrinya */
   TI ("TI", "Tigrinya"),
   /** Tibetan */
-  TIB__B__BOD__T_ ("TIB (B) BOD (T)", "Tibetan"),
+  TIB__B__BOD__T ("TIB (B) BOD (T)", "Tibetan"),
   /** Tigre */
   TIG ("TIG", "Tigre"),
   /** Tigrinya */
@@ -1322,7 +1323,7 @@ public enum EToopLanguageCode implements IHasID <String>, IHasDisplayName
   /** Washo */
   WAS ("WAS", "Washo"),
   /** Welsh */
-  WEL__B__CYM__T_ ("WEL (B) CYM (T)", "Welsh"),
+  WEL__B__CYM__T ("WEL (B) CYM (T)", "Welsh"),
   /** Sorbian languages */
   WEN ("WEN", "Sorbian languages"),
   /** Walloon */
