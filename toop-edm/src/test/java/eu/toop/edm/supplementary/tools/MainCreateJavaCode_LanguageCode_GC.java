@@ -20,6 +20,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +43,14 @@ public final class MainCreateJavaCode_LanguageCode_GC
 {
   private static final Logger LOGGER = LoggerFactory.getLogger (MainCreateJavaCode_LanguageCode_GC.class);
 
+  @Nonnull
+  public static String _id (@Nonnull final String s)
+  {
+    return StringHelper.replaceAllRepeatedly (StringHelper.trimEnd (RegExHelper.getAsIdentifier (s.toUpperCase (Locale.US)), '_'),
+                                              "__",
+                                              "_");
+  }
+
   public static void main (final String [] args)
   {
     final CodeListDocument aCLD = GenericodeReader.gc10CodeList ()
@@ -56,12 +66,7 @@ public final class MainCreateJavaCode_LanguageCode_GC
         if (sName != null)
           aSB.append ("/** ").append (sName).append (" */\n");
         if (sID != null)
-          aSB.append (StringHelper.trimEnd (RegExHelper.getAsIdentifier (sID.toUpperCase (Locale.US)), '_'))
-             .append (" (\"")
-             .append (sID)
-             .append ("\", \"")
-             .append (sName)
-             .append ("\"),\n");
+          aSB.append (_id (sID)).append (" (\"").append (sID).append ("\", \"").append (sName).append ("\"),\n");
       }
     }
     LOGGER.info (aSB.toString ());
