@@ -18,6 +18,7 @@ package eu.toop.edm.response;
 import javax.annotation.Nonnull;
 
 import com.helger.commons.annotation.MustImplementEqualsAndHashcode;
+import com.helger.commons.annotation.Nonempty;
 
 import eu.toop.regrep.rim.ObjectRefType;
 import eu.toop.regrep.rim.RegistryObjectType;
@@ -31,6 +32,10 @@ import eu.toop.regrep.rim.RegistryObjectType;
 @MustImplementEqualsAndHashcode
 public interface IEDMResponsePayloadProvider
 {
+  @Nonnull
+  @Nonempty
+  String getRegistryObjectID ();
+
   @Nonnull
   default RegistryObjectType getAsRegistryObject ()
   {

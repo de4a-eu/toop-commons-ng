@@ -19,7 +19,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.annotation.ReturnsMutableObject;
 
@@ -33,14 +32,16 @@ import eu.toop.edm.model.ConceptPojo;
  */
 public interface IEDMResponsePayloadConcepts extends IEDMResponsePayloadProvider
 {
-  @Nonnull
-  @Nonempty
-  String getRegistryObjectID ();
-
+  /**
+   * @return All contains concepts as a mutable list. Never <code>null</code>.
+   */
   @Nonnull
   @ReturnsMutableObject
   List <ConceptPojo> concepts ();
 
+  /**
+   * @return All contains concepts as a copied list. Never <code>null</code>.
+   */
   @Nonnull
   @ReturnsMutableCopy
   List <ConceptPojo> getAllConcepts ();

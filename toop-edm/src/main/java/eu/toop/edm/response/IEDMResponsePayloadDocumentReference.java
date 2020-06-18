@@ -17,8 +17,6 @@ package eu.toop.edm.response;
 
 import javax.annotation.Nonnull;
 
-import com.helger.commons.annotation.Nonempty;
-
 import eu.toop.edm.model.DatasetPojo;
 
 /**
@@ -29,10 +27,6 @@ import eu.toop.edm.model.DatasetPojo;
  */
 public interface IEDMResponsePayloadDocumentReference extends IEDMResponsePayloadProvider
 {
-  @Nonnull
-  @Nonempty
-  String getRegistryObjectID ();
-
   @Nonnull
   DatasetPojo getDataset ();
 }
