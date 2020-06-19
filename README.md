@@ -9,6 +9,9 @@ The code contained in this project is used by:
 
 ## Status
 
+2020-06-19: release of `v2.0.0-rc2`
+* No changes just for consistency
+
 2020-06-18: release of `v2.0.0-rc1`
 * Updated Schematron rules
 * Renamed enumerations: 
@@ -56,11 +59,13 @@ The code contained in this project is used by:
 
 ## Maven coordinates
 
+Use one of the following artefacts for inclusion, replacing `x.y.z` with the effective version number:
+
 ```xml
       <dependency>
         <groupId>eu.toop</groupId>
         <artifactId>toop-edm</artifactId>
-        <version>2.0.0-rc1</version>
+        <version>x.y.z</version>
       </dependency>
 ```
 
