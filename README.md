@@ -9,6 +9,9 @@ The code contained in this project is used by:
 
 ## Status
 
+2020-07-13: release of `v2.0.0-rc3`
+* No changes just for consistency
+
 2020-06-19: release of `v2.0.0-rc2`
 * No changes just for consistency
 
