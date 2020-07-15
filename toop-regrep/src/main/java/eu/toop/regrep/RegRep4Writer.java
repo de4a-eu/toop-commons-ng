@@ -75,8 +75,7 @@ public class RegRep4Writer <JAXBTYPE> extends JAXBWriterBuilder <JAXBTYPE, RegRe
   // Hack to disable package name check for QueryException
   @Override
   @Nonnull
-  public ESuccess write (@Nonnull final JAXBTYPE aJAXBDocument,
-                         @Nonnull final IJAXBMarshaller <JAXBTYPE> aMarshallerFunc)
+  public ESuccess write (@Nonnull final JAXBTYPE aJAXBDocument, @Nonnull final IJAXBMarshaller <JAXBTYPE> aMarshallerFunc)
   {
     ValueEnforcer.notNull (aJAXBDocument, "JAXBDocument");
     ValueEnforcer.notNull (aMarshallerFunc, "MarshallerFunc");

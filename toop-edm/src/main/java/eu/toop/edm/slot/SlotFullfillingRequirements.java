@@ -63,7 +63,7 @@ public class SlotFullfillingRequirements implements ISlotProvider
     return new SlotBuilder ().setName (NAME)
                              .setValue (ERegRepCollectionType.SET,
                                         m_aRequirements.getAllMapped (x -> SlotHelper.createSlotValue (m.getAsDocument (x)
-                                                                                                          .getDocumentElement ())))
+                                                                                                        .getDocumentElement ())))
                              .build ();
   }
 }

@@ -97,8 +97,7 @@ public class EDMResponsePayloadConcepts implements IEDMResponsePayloadConcepts
     if (o == null || !getClass ().equals (o.getClass ()))
       return false;
     final EDMResponsePayloadConcepts rhs = (EDMResponsePayloadConcepts) o;
-    return EqualsHelper.equals (m_sRegistryObjectID, rhs.m_sRegistryObjectID) &&
-           EqualsHelper.equals (m_aConcepts, rhs.m_aConcepts);
+    return EqualsHelper.equals (m_sRegistryObjectID, rhs.m_sRegistryObjectID) && EqualsHelper.equals (m_aConcepts, rhs.m_aConcepts);
   }
 
   @Override
@@ -110,8 +109,6 @@ public class EDMResponsePayloadConcepts implements IEDMResponsePayloadConcepts
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("RegistryObjectID", m_sRegistryObjectID)
-                                       .append ("Concepts", m_aConcepts)
-                                       .getToString ();
+    return new ToStringGenerator (this).append ("RegistryObjectID", m_sRegistryObjectID).append ("Concepts", m_aConcepts).getToString ();
   }
 }

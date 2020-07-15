@@ -54,8 +54,7 @@ public class SlotDocumentMetadata implements ISlotProvider
   public SlotType createSlot ()
   {
     return new SlotBuilder ().setName (NAME)
-                             .setValue (new DatasetMarshaller ().getAsDocument (m_aDataset.getAsDataset ())
-                                                                .getDocumentElement ())
+                             .setValue (new DatasetMarshaller ().getAsDocument (m_aDataset.getAsDataset ()).getDocumentElement ())
                              .build ();
   }
 }

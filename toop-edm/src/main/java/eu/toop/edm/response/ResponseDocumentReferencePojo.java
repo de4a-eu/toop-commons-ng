@@ -50,8 +50,7 @@ public class ResponseDocumentReferencePojo implements IEDMResponsePayloadDocumen
   private final String m_sRegistryObjectID;
   private final DatasetPojo m_aDataset;
 
-  public ResponseDocumentReferencePojo (@Nonnull @Nonempty final String sRegistryObjectID,
-                                        @Nonnull final DatasetPojo aDataset)
+  public ResponseDocumentReferencePojo (@Nonnull @Nonempty final String sRegistryObjectID, @Nonnull final DatasetPojo aDataset)
   {
     ValueEnforcer.notEmpty (sRegistryObjectID, "RegistryObjectID");
     ValueEnforcer.notNull (aDataset, "Dataset");
@@ -94,8 +93,7 @@ public class ResponseDocumentReferencePojo implements IEDMResponsePayloadDocumen
     if (o == null || !getClass ().equals (o.getClass ()))
       return false;
     final ResponseDocumentReferencePojo rhs = (ResponseDocumentReferencePojo) o;
-    return EqualsHelper.equals (m_sRegistryObjectID, rhs.m_sRegistryObjectID) &&
-           EqualsHelper.equals (m_aDataset, rhs.m_aDataset);
+    return EqualsHelper.equals (m_sRegistryObjectID, rhs.m_sRegistryObjectID) && EqualsHelper.equals (m_aDataset, rhs.m_aDataset);
   }
 
   @Override
@@ -107,9 +105,7 @@ public class ResponseDocumentReferencePojo implements IEDMResponsePayloadDocumen
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (this).append ("RegistryObjectID", m_sRegistryObjectID)
-                                       .append ("Dataset", m_aDataset)
-                                       .getToString ();
+    return new ToStringGenerator (this).append ("RegistryObjectID", m_sRegistryObjectID).append ("Dataset", m_aDataset).getToString ();
   }
 
   @Nonnull

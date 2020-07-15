@@ -54,8 +54,7 @@ public class SlotDataSubjectLegalPerson implements ISlotProvider
   public SlotType createSlot ()
   {
     return new SlotBuilder ().setName (NAME)
-                             .setValue (new BusinessMarshaller ().getAsDocument (m_aLegalPerson.getAsCoreBusiness ())
-                                                                 .getDocumentElement ())
+                             .setValue (new BusinessMarshaller ().getAsDocument (m_aLegalPerson.getAsCoreBusiness ()).getDocumentElement ())
                              .build ();
   }
 }

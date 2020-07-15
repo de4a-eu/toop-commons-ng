@@ -91,8 +91,7 @@ public final class SlotBuilderTest
                                                                                    SlotHelper.createSlotValue ("simpleString")))
                                                  .build (),
                                            _sb ().setValue ("text only").build (),
-                                           _sb ().setValue (SlotHelper.createVocabularyTerm ("myVoc", "myTerm"))
-                                                 .build (),
+                                           _sb ().setValue (SlotHelper.createVocabularyTerm ("myVoc", "myTerm")).build (),
                                            _sb ().setVocabularyTermValue ("myVoc2", "myTerm2").build ());
     assertNotNull (RegRep4Writer.queryRequest ().getAsDocument (aQR));
 

@@ -83,15 +83,13 @@ public class SlotBuilder
   }
 
   @Nonnull
-  public SlotBuilder setValue (@Nullable final ERegRepCollectionType eCollectionType,
-                               @Nullable final ValueType... aArray)
+  public SlotBuilder setValue (@Nullable final ERegRepCollectionType eCollectionType, @Nullable final ValueType... aArray)
   {
     return setValue (SlotHelper.createSlotValue (eCollectionType, aArray));
   }
 
   @Nonnull
-  public SlotBuilder setValue (@Nullable final ERegRepCollectionType eCollectionType,
-                               @Nullable final Iterable <? extends ValueType> aCont)
+  public SlotBuilder setValue (@Nullable final ERegRepCollectionType eCollectionType, @Nullable final Iterable <? extends ValueType> aCont)
   {
     return setValue (SlotHelper.createSlotValue (eCollectionType, aCont));
   }

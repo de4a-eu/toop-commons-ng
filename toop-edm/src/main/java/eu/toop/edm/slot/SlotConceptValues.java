@@ -67,7 +67,7 @@ public class SlotConceptValues implements ISlotProvider
     return new SlotBuilder ().setName (NAME)
                              .setValue (ERegRepCollectionType.SET,
                                         m_aConcepts.getAllMapped (x -> SlotHelper.createSlotValue (m.getAsDocument (x.getAsCCCEVConcept ())
-                                                                                                      .getDocumentElement ())))
+                                                                                                    .getDocumentElement ())))
                              .build ();
   }
 }

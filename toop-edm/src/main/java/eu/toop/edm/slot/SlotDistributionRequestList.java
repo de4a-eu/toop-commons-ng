@@ -67,7 +67,7 @@ public class SlotDistributionRequestList implements ISlotProvider
     return new SlotBuilder ().setName (NAME)
                              .setValue (ERegRepCollectionType.SORTED_SET,
                                         m_aDistributions.getAllMapped (x -> SlotHelper.createSlotValue (m.getAsDocument (x.getAsDistribution ())
-                                                                                                           .getDocumentElement ())))
+                                                                                                         .getDocumentElement ())))
                              .build ();
   }
 }

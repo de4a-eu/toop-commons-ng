@@ -118,10 +118,7 @@ public class ResponseDocumentPojo implements IEDMResponsePayloadDocument
   @Override
   public int hashCode ()
   {
-    return new HashCodeGenerator (this).append (m_sRegistryObjectID)
-                                       .append (m_aDataset)
-                                       .append (m_aRepositoryItemRef)
-                                       .getHashCode ();
+    return new HashCodeGenerator (this).append (m_sRegistryObjectID).append (m_aDataset).append (m_aRepositoryItemRef).getHashCode ();
   }
 
   @Override

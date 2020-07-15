@@ -43,8 +43,7 @@ public final class EDMExceptionBuilderTest
     assertNotNull (aBytes);
 
     // Re-read
-    final EDMExceptionPojo aResp2 = EDMExceptionPojo.builder (RegRep4Reader.registryException ().read (aBytes))
-                                                    .build ();
+    final EDMExceptionPojo aResp2 = EDMExceptionPojo.builder (RegRep4Reader.registryException ().read (aBytes)).build ();
     assertNotNull (aResp2);
 
     // Compare with original

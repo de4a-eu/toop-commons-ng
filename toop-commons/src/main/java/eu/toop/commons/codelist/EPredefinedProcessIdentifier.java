@@ -23,141 +23,175 @@ import com.helger.peppolid.IProcessIdentifier;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-
 /**
- * This file was automatically generated.
- * Do NOT edit!
+ * This file was automatically generated. Do NOT edit!
  */
 @CodingStyleguideUnaware
-public enum EPredefinedProcessIdentifier
-    implements IProcessIdentifier, IPredefined
+public enum EPredefinedProcessIdentifier implements IProcessIdentifier, IPredefined
 {
 
-    /**
-     * TOOP Request Response for Data - <code>urn:eu.toop.process.datarequestresponse</code><br>
-     * 
-     * @since code list v1
-     */
-    URN_EU_TOOP_PROCESS_DATAREQUESTRESPONSE("TOOP Request Response for Data", "urn:eu.toop.process.datarequestresponse", Version.parse("1"), false, null),
+  /**
+   * TOOP Request Response for Data -
+   * <code>urn:eu.toop.process.datarequestresponse</code><br>
+   * 
+   * @since code list v1
+   */
+  URN_EU_TOOP_PROCESS_DATAREQUESTRESPONSE ("TOOP Request Response for Data",
+                                           "urn:eu.toop.process.datarequestresponse",
+                                           Version.parse ("1"),
+                                           false,
+                                           null),
 
-    /**
-     * TOOP Request Response for Documents - <code>urn:eu.toop.process.documentrequestresponse</code><br>
-     * 
-     * @since code list v1
-     */
-    URN_EU_TOOP_PROCESS_DOCUMENTREQUESTRESPONSE("TOOP Request Response for Documents", "urn:eu.toop.process.documentrequestresponse", Version.parse("1"), false, null),
+  /**
+   * TOOP Request Response for Documents -
+   * <code>urn:eu.toop.process.documentrequestresponse</code><br>
+   * 
+   * @since code list v1
+   */
+  URN_EU_TOOP_PROCESS_DOCUMENTREQUESTRESPONSE ("TOOP Request Response for Documents",
+                                               "urn:eu.toop.process.documentrequestresponse",
+                                               Version.parse ("1"),
+                                               false,
+                                               null),
 
-    /**
-     * TOOP Two Phased Request Response for Documents - <code>urn:eu.toop.process.twophasedrequestresponse</code><br>
-     * 
-     * @since code list v2
-     */
-    URN_EU_TOOP_PROCESS_TWOPHASEDREQUESTRESPONSE("TOOP Two Phased Request Response for Documents", "urn:eu.toop.process.twophasedrequestresponse", Version.parse("2"), false, null),
+  /**
+   * TOOP Two Phased Request Response for Documents -
+   * <code>urn:eu.toop.process.twophasedrequestresponse</code><br>
+   * 
+   * @since code list v2
+   */
+  URN_EU_TOOP_PROCESS_TWOPHASEDREQUESTRESPONSE ("TOOP Two Phased Request Response for Documents",
+                                                "urn:eu.toop.process.twophasedrequestresponse",
+                                                Version.parse ("2"),
+                                                false,
+                                                null),
 
-    /**
-     * TOOP DataQuery - <code>urn:eu.toop.process.dataquery</code><br>
-     * 
-     * @since code list v3
-     */
-    URN_EU_TOOP_PROCESS_DATAQUERY("TOOP DataQuery", "urn:eu.toop.process.dataquery", Version.parse("3"), false, null),
+  /**
+   * TOOP DataQuery - <code>urn:eu.toop.process.dataquery</code><br>
+   * 
+   * @since code list v3
+   */
+  URN_EU_TOOP_PROCESS_DATAQUERY ("TOOP DataQuery", "urn:eu.toop.process.dataquery", Version.parse ("3"), false, null),
 
-    /**
-     * TOOP DocumentQuery - <code>urn:eu.toop.process.documentquery</code><br>
-     * 
-     * @since code list v3
-     */
-    URN_EU_TOOP_PROCESS_DOCUMENTQUERY("TOOP DocumentQuery", "urn:eu.toop.process.documentquery", Version.parse("3"), false, null),
+  /**
+   * TOOP DocumentQuery - <code>urn:eu.toop.process.documentquery</code><br>
+   * 
+   * @since code list v3
+   */
+  URN_EU_TOOP_PROCESS_DOCUMENTQUERY ("TOOP DocumentQuery", "urn:eu.toop.process.documentquery", Version.parse ("3"), false, null),
 
-    /**
-     * TOOP DocumentReferenceQuery - <code>urn:eu.toop.process.documentreferencequery</code><br>
-     * 
-     * @since code list v3
-     */
-    URN_EU_TOOP_PROCESS_DOCUMENTREFERENCEQUERY("TOOP DocumentReferenceQuery", "urn:eu.toop.process.documentreferencequery", Version.parse("3"), false, null);
-    public static final EPredefinedProcessIdentifier DATAREQUESTRESPONSE = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_DATAREQUESTRESPONSE;
-    public static final EPredefinedProcessIdentifier DOCUMENTREQUESTRESPONSE = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_DOCUMENTREQUESTRESPONSE;
-    public static final EPredefinedProcessIdentifier TWOPHASEDREQUESTRESPONSE = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_TWOPHASEDREQUESTRESPONSE;
-    public static final EPredefinedProcessIdentifier DATAQUERY = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_DATAQUERY;
-    public static final EPredefinedProcessIdentifier DOCUMENTQUERY = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_DOCUMENTQUERY;
-    public static final EPredefinedProcessIdentifier DOCUMENTREFERENCEQUERY = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_DOCUMENTREFERENCEQUERY;
-    public static final String PROCESS_SCHEME = "toop-procid-agreement";
-    private final String m_sName;
-    private final String m_sID;
-    private final Version m_aSince;
-    private final boolean m_bDeprecated;
-    private final Version m_aDeprecatedSince;
+  /**
+   * TOOP DocumentReferenceQuery -
+   * <code>urn:eu.toop.process.documentreferencequery</code><br>
+   * 
+   * @since code list v3
+   */
+  URN_EU_TOOP_PROCESS_DOCUMENTREFERENCEQUERY ("TOOP DocumentReferenceQuery",
+                                              "urn:eu.toop.process.documentreferencequery",
+                                              Version.parse ("3"),
+                                              false,
+                                              null);
 
-    private EPredefinedProcessIdentifier(@Nonnull @Nonempty final String sName,
-        @Nonnull @Nonempty final String sID,
-        @Nonnull final Version aSince,
-        final boolean bDeprecated,
-        @Nullable final Version aDeprecatedSince) {
-        m_sName = sName;
-        m_sID = sID;
-        m_aSince = aSince;
-        m_bDeprecated = bDeprecated;
-        m_aDeprecatedSince = aDeprecatedSince;
-    }
+  public static final EPredefinedProcessIdentifier DATAREQUESTRESPONSE = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_DATAREQUESTRESPONSE;
+  public static final EPredefinedProcessIdentifier DOCUMENTREQUESTRESPONSE = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_DOCUMENTREQUESTRESPONSE;
+  public static final EPredefinedProcessIdentifier TWOPHASEDREQUESTRESPONSE = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_TWOPHASEDREQUESTRESPONSE;
+  public static final EPredefinedProcessIdentifier DATAQUERY = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_DATAQUERY;
+  public static final EPredefinedProcessIdentifier DOCUMENTQUERY = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_DOCUMENTQUERY;
+  public static final EPredefinedProcessIdentifier DOCUMENTREFERENCEQUERY = EPredefinedProcessIdentifier.URN_EU_TOOP_PROCESS_DOCUMENTREFERENCEQUERY;
+  public static final String PROCESS_SCHEME = "toop-procid-agreement";
+  private final String m_sName;
+  private final String m_sID;
+  private final Version m_aSince;
+  private final boolean m_bDeprecated;
+  private final Version m_aDeprecatedSince;
 
-    @Nonnull
-    @Nonempty
-    public String getName() {
-        return m_sName;
-    }
+  private EPredefinedProcessIdentifier (@Nonnull @Nonempty final String sName,
+                                        @Nonnull @Nonempty final String sID,
+                                        @Nonnull final Version aSince,
+                                        final boolean bDeprecated,
+                                        @Nullable final Version aDeprecatedSince)
+  {
+    m_sName = sName;
+    m_sID = sID;
+    m_aSince = aSince;
+    m_bDeprecated = bDeprecated;
+    m_aDeprecatedSince = aDeprecatedSince;
+  }
 
-    @Nonnull
-    @Nonempty
-    public String getScheme() {
-        return PROCESS_SCHEME;
-    }
+  @Nonnull
+  @Nonempty
+  public String getName ()
+  {
+    return m_sName;
+  }
 
-    @Nonnull
-    @Nonempty
-    public String getID() {
-        return m_sID;
-    }
+  @Nonnull
+  @Nonempty
+  public String getScheme ()
+  {
+    return PROCESS_SCHEME;
+  }
 
-    @Nonnull
-    @Nonempty
-    public String getValue() {
-        return m_sID;
-    }
+  @Nonnull
+  @Nonempty
+  public String getID ()
+  {
+    return m_sID;
+  }
 
-    @Nonnull
-    public Version getSince() {
-        return m_aSince;
-    }
+  @Nonnull
+  @Nonempty
+  public String getValue ()
+  {
+    return m_sID;
+  }
 
-    public boolean isDeprecated() {
-        return m_bDeprecated;
-    }
+  @Nonnull
+  public Version getSince ()
+  {
+    return m_aSince;
+  }
 
-    @Nullable
-    public Version getDeprecatedSince() {
-        return m_aDeprecatedSince;
-    }
+  public boolean isDeprecated ()
+  {
+    return m_bDeprecated;
+  }
 
-    @Nullable
-    public static EPredefinedProcessIdentifier getFromProcessIdentifierOrNull(@Nullable final String sID) {
-        if (StringHelper.hasText(sID)) {
-            for (EPredefinedProcessIdentifier e: EPredefinedProcessIdentifier.values()) {
-                if (e.getID().equals(sID)) {
-                    return e;
-                }
-            }
+  @Nullable
+  public Version getDeprecatedSince ()
+  {
+    return m_aDeprecatedSince;
+  }
+
+  @Nullable
+  public static EPredefinedProcessIdentifier getFromProcessIdentifierOrNull (@Nullable final String sID)
+  {
+    if (StringHelper.hasText (sID))
+    {
+      for (EPredefinedProcessIdentifier e : EPredefinedProcessIdentifier.values ())
+      {
+        if (e.getID ().equals (sID))
+        {
+          return e;
         }
-        return null;
+      }
     }
+    return null;
+  }
 
-    @Nullable
-    public static EPredefinedProcessIdentifier getFromProcessIdentifierOrNull(@Nullable final String sScheme, @Nullable final String sID) {
-        if (StringHelper.hasText(sScheme)&&StringHelper.hasText(sID)) {
-            for (EPredefinedProcessIdentifier e: EPredefinedProcessIdentifier.values()) {
-                if (e.getScheme().equals(sScheme)&&e.getID().equals(sID)) {
-                    return e;
-                }
-            }
+  @Nullable
+  public static EPredefinedProcessIdentifier getFromProcessIdentifierOrNull (@Nullable final String sScheme, @Nullable final String sID)
+  {
+    if (StringHelper.hasText (sScheme) && StringHelper.hasText (sID))
+    {
+      for (EPredefinedProcessIdentifier e : EPredefinedProcessIdentifier.values ())
+      {
+        if (e.getScheme ().equals (sScheme) && e.getID ().equals (sID))
+        {
+          return e;
         }
-        return null;
+      }
     }
+    return null;
+  }
 }

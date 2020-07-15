@@ -107,9 +107,7 @@ final class ToopKafkaManager
         if (ret == null)
         {
           // Create new one
-          s_aProducer = ret = new KafkaProducer <> (_getCreationProperties (),
-                                                    new StringSerializer (),
-                                                    new StringSerializer ());
+          s_aProducer = ret = new KafkaProducer <> (_getCreationProperties (), new StringSerializer (), new StringSerializer ());
           if (LOGGER.isDebugEnabled ())
             LOGGER.debug ("Successfully created new KafkaProducer");
         }
@@ -161,9 +159,7 @@ final class ToopKafkaManager
   {
     ValueEnforcer.notNull (sValue, "Value");
 
-    final ProducerRecord <String, String> aMessage = new ProducerRecord <> (ToopKafkaSettings.getKafkaTopic (),
-                                                                            sKey,
-                                                                            sValue);
+    final ProducerRecord <String, String> aMessage = new ProducerRecord <> (ToopKafkaSettings.getKafkaTopic (), sKey, sValue);
     return getOrCreateProducer ().send (aMessage, aKafkaCallback);
   }
 }

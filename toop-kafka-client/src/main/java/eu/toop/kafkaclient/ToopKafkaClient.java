@@ -100,9 +100,7 @@ public final class ToopKafkaClient
    *        Exception to be logged. May be <code>null</code>.
    * @see ToopKafkaSettings#isKafkaEnabled()
    */
-  public static void send (@Nullable final IErrorLevel aErrorLevel,
-                           @Nonnull final Supplier <String> aValue,
-                           @Nullable final Throwable t)
+  public static void send (@Nullable final IErrorLevel aErrorLevel, @Nonnull final Supplier <String> aValue, @Nullable final Throwable t)
   {
     String sValue = null;
     if (aErrorLevel != null && ToopKafkaSettings.isLoggingEnabled ())

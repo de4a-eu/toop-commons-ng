@@ -81,8 +81,7 @@ public final class MainCreateCodeListsFromExcel extends AbstractMain
   private static void _emitDocumentTypes (final Sheet aDocumentSheet) throws URISyntaxException
   {
     // Create GeneriCode file
-    final ExcelReadOptions <UseType> aReadOptions = new ExcelReadOptions <UseType> ().setLinesToSkip (1)
-                                                                                     .setLineIndexShortName (0);
+    final ExcelReadOptions <UseType> aReadOptions = new ExcelReadOptions <UseType> ().setLinesToSkip (1).setLineIndexShortName (0);
     aReadOptions.addColumn (0, "name", UseType.REQUIRED, "string", false);
     aReadOptions.addColumn (1, "doctypeid", UseType.REQUIRED, "string", true);
     aReadOptions.addColumn (2, "since", UseType.REQUIRED, "string", false);
@@ -120,8 +119,7 @@ public final class MainCreateCodeListsFromExcel extends AbstractMain
   private static void _emitParticipantIdentifierSchemes (final Sheet aParticipantSheet) throws URISyntaxException
   {
     // Read excel file
-    final ExcelReadOptions <UseType> aReadOptions = new ExcelReadOptions <UseType> ().setLinesToSkip (1)
-                                                                                     .setLineIndexShortName (0);
+    final ExcelReadOptions <UseType> aReadOptions = new ExcelReadOptions <UseType> ().setLinesToSkip (1).setLineIndexShortName (0);
     aReadOptions.addColumn (0, "schemeid", UseType.REQUIRED, "string", true);
     aReadOptions.addColumn (1, "iso6523", UseType.REQUIRED, "string", true);
     aReadOptions.addColumn (2, "country", UseType.REQUIRED, "string", false);
@@ -192,8 +190,7 @@ public final class MainCreateCodeListsFromExcel extends AbstractMain
 
   private static void _emitProcessIdentifiers (final Sheet aProcessSheet) throws URISyntaxException
   {
-    final ExcelReadOptions <UseType> aReadOptions = new ExcelReadOptions <UseType> ().setLinesToSkip (1)
-                                                                                     .setLineIndexShortName (0);
+    final ExcelReadOptions <UseType> aReadOptions = new ExcelReadOptions <UseType> ().setLinesToSkip (1).setLineIndexShortName (0);
     aReadOptions.addColumn (0, "name", UseType.REQUIRED, "string", true);
     aReadOptions.addColumn (1, "id", UseType.REQUIRED, "string", true);
     aReadOptions.addColumn (2, "since", UseType.REQUIRED, "string", false);
@@ -231,8 +228,7 @@ public final class MainCreateCodeListsFromExcel extends AbstractMain
 
   private static void _emitTransportProfiles (final Sheet aProcessSheet) throws URISyntaxException
   {
-    final ExcelReadOptions <UseType> aReadOptions = new ExcelReadOptions <UseType> ().setLinesToSkip (1)
-                                                                                     .setLineIndexShortName (0);
+    final ExcelReadOptions <UseType> aReadOptions = new ExcelReadOptions <UseType> ().setLinesToSkip (1).setLineIndexShortName (0);
     aReadOptions.addColumn (0, "name", UseType.REQUIRED, "string", true);
     aReadOptions.addColumn (1, "version", UseType.REQUIRED, "string", true);
     aReadOptions.addColumn (2, "id", UseType.REQUIRED, "string", true);
@@ -264,12 +260,7 @@ public final class MainCreateCodeListsFromExcel extends AbstractMain
                                                           AbstractToopCLItem.DEFAULT_DEPRECATED);
       final String sDeprecatedSince = Genericode10Helper.getRowValue (aRow, "deprecated-since");
 
-      final ToopCLTransportProfileItem aItem = new ToopCLTransportProfileItem (sName,
-                                                                               sVersion,
-                                                                               sID,
-                                                                               sSince,
-                                                                               bDeprecated,
-                                                                               sDeprecatedSince);
+      final ToopCLTransportProfileItem aItem = new ToopCLTransportProfileItem (sName, sVersion, sID, sSince, bDeprecated, sDeprecatedSince);
       eRoot.appendChild (aItem.getAsMicroElement ());
     }
     MicroWriter.writeToFile (aDoc, new File (getTransportProfilesPrefix () + ".xml"));
@@ -280,8 +271,7 @@ public final class MainCreateCodeListsFromExcel extends AbstractMain
     private final File m_aFile;
     private final IThrowingConsumer <? super Sheet, Exception> m_aHandler;
 
-    public CodeListFile (@Nonnull final String sFilenamePart,
-                         @Nonnull final IThrowingConsumer <? super Sheet, Exception> aHandler)
+    public CodeListFile (@Nonnull final String sFilenamePart, @Nonnull final IThrowingConsumer <? super Sheet, Exception> aHandler)
     {
       m_aFile = new File (CODELIST_XLSX_DIR +
                           "Toop" +
@@ -309,9 +299,7 @@ public final class MainCreateCodeListsFromExcel extends AbstractMain
       // Where is the Excel?
       final IReadableResource aXls = new FileSystemResource (aCLF.m_aFile);
       if (!aXls.exists ())
-        throw new IllegalStateException ("The Excel file '" +
-                                         aCLF.m_aFile.getAbsolutePath () +
-                                         "' could not be found!");
+        throw new IllegalStateException ("The Excel file '" + aCLF.m_aFile.getAbsolutePath () + "' could not be found!");
 
       // Interpret as Excel
       try (final Workbook aWB = new XSSFWorkbook (aXls.getInputStream ()))

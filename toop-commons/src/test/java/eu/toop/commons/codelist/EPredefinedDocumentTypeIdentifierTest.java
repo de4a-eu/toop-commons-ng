@@ -38,8 +38,7 @@ public final class EPredefinedDocumentTypeIdentifierTest
       assertNotNull (e.getID ());
       assertNotNull (e.getURIEncoded ());
       assertSame (e, EPredefinedDocumentTypeIdentifier.getFromDocumentTypeIdentifierOrNull (e.getID ()));
-      assertSame (e,
-                  EPredefinedDocumentTypeIdentifier.getFromDocumentTypeIdentifierOrNull (e.getScheme (), e.getID ()));
+      assertSame (e, EPredefinedDocumentTypeIdentifier.getFromDocumentTypeIdentifierOrNull (e.getScheme (), e.getID ()));
     }
   }
 }
