@@ -49,3 +49,14 @@ with
     </xsd:simpleContent>
   </xsd:complexType>
 ```
+
+Background: underlying definition of CodeType:
+
+```xml
+ <complexType name="CodeType">
+   <simpleContent>
+     <extension base="<https://semic.org/sa/cv/common/dataTypes-2.0.0#>CodeType" />
+   </simpleContent>
+ </complexType>
+ ```
+ 
