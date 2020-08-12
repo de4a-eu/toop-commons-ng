@@ -181,7 +181,7 @@
                         <cbc:QName>toop:CompanyData</cbc:QName>
                         <cccev:concept>
                             <cbc:id>ConceptID-2</cbc:id>
-                            <cbc:QName>toop:Concept-Name-2</cbc:QName>
+                            <cbc:QName xmlns="http://toop.eu/registered-organization">Concept-Name-2</cbc:QName>
                         </cccev:concept>
                         <cccev:concept>
                             <cbc:id>ConceptID-3</cbc:id>

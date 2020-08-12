@@ -15,12 +15,11 @@
  */
 package eu.toop.edm.request;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 
 import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.annotation.ReturnsMutableObject;
+import com.helger.commons.collection.impl.ICommonsList;
 
 import eu.toop.edm.model.ConceptPojo;
 
@@ -37,12 +36,12 @@ public interface IEDMRequestPayloadConcepts extends IEDMRequestPayloadProvider
    */
   @Nonnull
   @ReturnsMutableObject
-  List <ConceptPojo> concepts ();
+  ICommonsList <ConceptPojo> concepts ();
 
   /**
    * @return All contains concepts as a copied list. Never <code>null</code>.
    */
   @Nonnull
   @ReturnsMutableCopy
-  List <ConceptPojo> getAllConcepts ();
+  ICommonsList <ConceptPojo> getAllConcepts ();
 }

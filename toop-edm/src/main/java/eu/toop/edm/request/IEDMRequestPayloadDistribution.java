@@ -15,12 +15,11 @@
  */
 package eu.toop.edm.request;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 
 import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.annotation.ReturnsMutableObject;
+import com.helger.commons.collection.impl.ICommonsList;
 
 import eu.toop.edm.model.DistributionPojo;
 
@@ -34,9 +33,9 @@ public interface IEDMRequestPayloadDistribution extends IEDMRequestPayloadProvid
 {
   @Nonnull
   @ReturnsMutableObject
-  List <DistributionPojo> distributions ();
+  ICommonsList <DistributionPojo> distributions ();
 
   @Nonnull
   @ReturnsMutableCopy
-  List <DistributionPojo> getAllDistributions ();
+  ICommonsList <DistributionPojo> getAllDistributions ();
 }

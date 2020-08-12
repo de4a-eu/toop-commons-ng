@@ -44,6 +44,7 @@ import eu.toop.edm.model.EToopIdentifierType;
 import eu.toop.edm.model.EToopResponseOptionType;
 import eu.toop.edm.model.PersonPojo;
 import eu.toop.edm.pilot.gbm.EToopConcept;
+import eu.toop.edm.request.EDMRequestPayloadConcepts;
 import eu.toop.edm.schematron.SchematronBusinessRules2Validator;
 import eu.toop.edm.schematron.SchematronEDM2Validator;
 
@@ -233,6 +234,14 @@ public final class EDMRequestTest
   {
     EDMRequest aRequest = EDMRequest.reader ().read (new ClassPathResource ("Concept Request_LP.xml"));
     _testWriteAndRead (aRequest);
+
+    assertTrue (aRequest.getPayloadProvider () instanceof EDMRequestPayloadConcepts);
+    final EDMRequestPayloadConcepts aRPC = (EDMRequestPayloadConcepts) aRequest.getPayloadProvider ();
+    assertTrue (aRPC.concepts ()
+                    .containsAny (x -> x.getAllChildren ()
+                                        .containsAny (y -> y.getID ().equals ("ConceptID-2") &&
+                                                           y.getName ().getNamespaceURI ().equals (EToopConcept.NAMESPACE_URI) &&
+                                                           y.getName ().getLocalPart ().equals ("Concept-Name-2"))));
 
     aRequest = EDMRequest.reader ().read (new ClassPathResource ("Concept Request_NP.xml"));
     _testWriteAndRead (aRequest);

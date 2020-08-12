@@ -15,8 +15,6 @@
  */
 package eu.toop.edm.request;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
@@ -51,14 +49,14 @@ public class EDMRequestPayloadDistribution implements IEDMRequestPayloadDistribu
 
   @Nonnull
   @ReturnsMutableObject
-  public final List <DistributionPojo> distributions ()
+  public final ICommonsList <DistributionPojo> distributions ()
   {
     return m_aDistributions;
   }
 
   @Nonnull
   @ReturnsMutableCopy
-  public final List <DistributionPojo> getAllDistributions ()
+  public final ICommonsList <DistributionPojo> getAllDistributions ()
   {
     return m_aDistributions.getClone ();
   }

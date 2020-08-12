@@ -129,14 +129,14 @@ public class ConceptPojo
 
   @Nonnull
   @ReturnsMutableObject
-  public final List <ConceptPojo> children ()
+  public final ICommonsList <ConceptPojo> children ()
   {
     return m_aChildren;
   }
 
   @Nonnull
   @ReturnsMutableCopy
-  public final List <ConceptPojo> getAllChildren ()
+  public final ICommonsList <ConceptPojo> getAllChildren ()
   {
     return m_aChildren.getClone ();
   }

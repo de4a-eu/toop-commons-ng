@@ -15,8 +15,6 @@
  */
 package eu.toop.edm.request;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
@@ -51,14 +49,14 @@ public class EDMRequestPayloadConcepts implements IEDMRequestPayloadConcepts
 
   @Nonnull
   @ReturnsMutableObject
-  public final List <ConceptPojo> concepts ()
+  public final ICommonsList <ConceptPojo> concepts ()
   {
     return m_aConcepts;
   }
 
   @Nonnull
   @ReturnsMutableCopy
-  public final List <ConceptPojo> getAllConcepts ()
+  public final ICommonsList <ConceptPojo> getAllConcepts ()
   {
     return m_aConcepts.getClone ();
   }
