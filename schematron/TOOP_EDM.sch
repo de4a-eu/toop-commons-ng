@@ -29,14 +29,14 @@
     <ns prefix="rs"     uri="urn:oasis:names:tc:ebxml-regrep:xsd:rs:4.0"/>
     <ns prefix="cpov"   uri="http://www.w3.org/ns/corevocabulary/po"/>
     <ns prefix="cagv"   uri="https://semic.org/sa/cv/cagv/agent-2.0.0#"/>
-    <ns prefix="cbc"    uri="https://semic.org/sa/cv/common/cbc-2.0.0#"/> 
+    <ns prefix="cbc"    uri="https://data.europe.eu/semanticassets/ns/cv/common/cbc_v2.0.0#"/> 
     <ns prefix="locn"   uri="http://www.w3.org/ns/locn#"/>
-    <ns prefix="cccev"  uri="https://semic.org/sa/cv/cccev-2.0.0#"/>
+    <ns prefix="cccev"  uri="https://data.europe.eu/semanticassets/ns/cv/cccev_v2.0.0#"/>
     <ns prefix="dcat"   uri="http://data.europa.eu/r5r/"/>
     <ns prefix="dct"    uri="http://purl.org/dc/terms/"/>
     <ns prefix="xsi"    uri="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0"/>    
     
-    <title>TOOP EDM Rules (specs Version 2.0.1)</title>
+    <title>TOOP EDM Rules (specs Version 2.1.0)</title>
     
     
     <pattern>
@@ -339,14 +339,13 @@
     <pattern>
         <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element">
             
-            <let name="countElementConcept" value="count(cccev:concept)"/>      
+            <let name="countElementConcept" value="count(cccev:Concept)"/>      
             <assert test="($countElementConcept = 1)" flag='ERROR' id='req_crlist_element_concept'>
-                Each ConceptRequestList/Element must contain exactly ONE concept (found: <value-of select="$countElementConcept"/>).
+                Each ConceptRequestList/Element must contain exactly ONE Concept (found: <value-of select="$countElementConcept"/>).
             </assert>   
             
         </rule>
     </pattern>
-    
     
     
     <!--*****************************************-->
@@ -360,7 +359,7 @@
                 The DistributionRequestList slot must contain at least ONE Element (found: <value-of select="$countElement"/>).
             </assert>  
             
-            <let name="countElementDistribution" value="count(rim:SlotValue/rim:Element/dcat:distribution)"/>      
+            <let name="countElementDistribution" value="count(rim:SlotValue/rim:Element/dcat:Distribution)"/>      
             <assert test="($countElementDistribution = 1)" flag='ERROR' id='req_crlist_element_distribution'>
                 Each DistributionRequestList/Element must contain exactly ONE distribution (found: <value-of select="$countElementDistribution"/>).
             </assert>  
@@ -454,8 +453,8 @@
     <!--CHECK CONCEPT STRUCTURE-->
     <!--***********************-->
     <pattern>
-        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element/cccev:concept
-                      |query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/rim:Element/cccev:concept">
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element/cccev:Concept
+                      |query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/rim:Element/cccev:Concept">
             
             <let name="countconcepts" value="count(cccev:concept)"/>      
             <assert test="($countconcepts &gt; 0)" flag='ERROR' id='req_card_Concepts_concepts'>
@@ -477,7 +476,7 @@
                 Each concept must have ONE ConceptId (found: <value-of select="$countConceptId"/>).
             </assert>  
             
-            <let name="countConceptQName" value="count(cbc:QName)"/>      
+            <let name="countConceptQName" value="count(cbc:qName)"/>      
             <assert test="($countConceptQName=1)" flag='ERROR' id='req_card_nested_concept_qname'>
                 Each concept must have ONE QName (found: <value-of select="$countConceptQName"/>).
             </assert>        
@@ -650,7 +649,7 @@
                 The ConceptValues slot must contain at least ONE Element (found: <value-of select="$countElement"/>).
             </assert>  
             
-            <let name="countElementConcept" value="count(rim:SlotValue/rim:Element/cccev:concept)"/>      
+            <let name="countElementConcept" value="count(rim:SlotValue/rim:Element/cccev:Concept)"/>      
             <assert test="($countElementConcept = 1)" flag='ERROR' id='res_crvalues_element_concept'>
                 Each ConceptValues/Element must contain exactly ONE concept (found: <value-of select="$countElementConcept"/>).
             </assert>   
@@ -659,12 +658,12 @@
     </pattern>
     
     <pattern>
-        <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element/cccev:concept//cccev:concept">
+        <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element/cccev:Concept//cccev:Concept">
             
             <let name="countConceptValues" value="count(cccev:value)"/>      
-            <let name="countConceptConcepts" value="count(cccev:concept)"/>   
+            <let name="countConceptConcepts" value="count(cccev:Concept)"/>   
             <assert test="( ($countConceptValues = 1) or ($countConceptConcepts &gt; 0 and $countConceptValues &lt; 2 ) )" flag='ERROR' id='cardinality_concept_value'>
-                Each concept must contain exactly ONE value or at least ONE concept (check id:<value-of select="cbc:id"/> and QName:<value-of select="cbc:QName"/>. ).
+                Each concept must contain exactly ONE value or at least ONE concept (check id:<value-of select="cbc:id"/> and QName:<value-of select="cbc:qName"/>. ).
             </assert>   
             
         </rule>
@@ -716,11 +715,6 @@
             <let name="countaccessURL" value="count(dcat:accessURL)"/>      
             <assert test="($countaccessURL &gt; 0)" flag='ERROR' id='res_card_distribution_accessURL'>
                 The distribution Element must contain at least ONE accessURL element (found: <value-of select="$countaccessURL"/>).
-            </assert>
-            
-            <let name="countdocumentURI" value="count(cccev:documentURI)"/>      
-            <assert test="($countdocumentURI = 1)" flag='ERROR' id='res_card_distribution_documentURI'>
-                The distribution Element must contain exactly ONE documentURI element (found: <value-of select="$countdocumentURI"/>).
             </assert>
             
             <let name="countdocumentType" value="count(cccev:documentType)"/>      
@@ -791,7 +785,7 @@
                 +$countperiodValue
                 +$counterror"/>         
                 <assert test="( ($sum=1 and $counttextValue  = 0) or ($counttextValue &gt;0 and $sum=0) )" flag='ERROR' id='res_one_valid_value'>
-                Invalid value in concept (id:<value-of select="../cbc:id"/> and QName:<value-of select="../cbc:QName"/>). 
+                Invalid value in concept (id:<value-of select="../cbc:id"/> and QName:<value-of select="../cbc:qName"/>). 
             </assert>  
         </rule>
     </pattern>
