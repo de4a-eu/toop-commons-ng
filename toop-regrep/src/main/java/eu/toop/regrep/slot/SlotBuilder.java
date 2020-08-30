@@ -24,13 +24,12 @@ import java.util.Date;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.w3c.dom.Element;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
-import com.helger.datetime.util.PDTXMLConverter;
+import com.helger.commons.datetime.PDTFactory;
 
 import eu.toop.regrep.helper.VocabularyTerm;
 import eu.toop.regrep.rim.InternationalStringType;
@@ -95,16 +94,10 @@ public class SlotBuilder
   }
 
   @Nonnull
-  public SlotBuilder setValue (@Nonnull final XMLGregorianCalendar x)
-  {
-    return setValue (SlotHelper.createSlotValue (x));
-  }
-
-  @Nonnull
   public SlotBuilder setValue (@Nonnull final LocalDateTime x)
   {
     ValueEnforcer.notNull (x, "Value");
-    return setValue (PDTXMLConverter.getXMLCalendar (x));
+    return setValue (SlotHelper.createSlotValue (x));
   }
 
   @Nonnull
@@ -118,14 +111,14 @@ public class SlotBuilder
   public SlotBuilder setValue (@Nonnull final ZonedDateTime x)
   {
     ValueEnforcer.notNull (x, "Value");
-    return setValue (PDTXMLConverter.getXMLCalendar (x));
+    return setValue (x.toLocalDateTime ());
   }
 
   @Nonnull
   public SlotBuilder setValue (@Nonnull final Date x)
   {
     ValueEnforcer.notNull (x, "Value");
-    return setValue (PDTXMLConverter.getXMLCalendar (x));
+    return setValue (PDTFactory.createLocalDateTime (x));
   }
 
   @Nonnull

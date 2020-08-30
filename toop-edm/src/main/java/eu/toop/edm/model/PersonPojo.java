@@ -178,7 +178,7 @@ public class PersonPojo
     if (m_aBirthDate != null)
     {
       final PersonBirthDateType aBirthDate = new PersonBirthDateType ();
-      aBirthDate.setValue (PDTXMLConverter.getXMLCalendarDate (m_aBirthDate));
+      aBirthDate.setValue (m_aBirthDate);
       ret.addPersonBirthDate (aBirthDate);
     }
     if (StringHelper.hasText (m_sBirthTown))

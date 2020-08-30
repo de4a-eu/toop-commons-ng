@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
-import com.helger.datetime.util.PDTXMLConverter;
+import com.helger.commons.datetime.PDTFactory;
 import com.helger.xml.serialize.read.DOMReader;
 
 import eu.toop.regrep.query.QueryRequest;
@@ -60,7 +60,7 @@ public final class RegRepHelperTest
 
     final QueryRequest aQR = RegRepHelper.createQueryRequest ("mock-data-request",
                                                               new SlotBuilder ().setName ("IssueDateTime")
-                                                                                .setValue (PDTXMLConverter.getXMLCalendarNow ())
+                                                                                .setValue (PDTFactory.getCurrentLocalDateTime ())
                                                                                 .build (),
                                                               new SlotBuilder ().setName ("DataConsumerRequestPurpose")
                                                                                 .setValue (SlotHelper.createInternationalStringType (SlotHelper.createLocalizedString (Locale.ENGLISH,
@@ -92,7 +92,7 @@ public final class RegRepHelperTest
     final QueryResponse aQR = RegRepHelper.createQueryResponse (ERegRepResponseStatus.SUCCESS,
                                                                 "mock-data-Response",
                                                                 new SlotBuilder ().setName ("IssueDateTime")
-                                                                                  .setValue (PDTXMLConverter.getXMLCalendarNow ())
+                                                                                  .setValue (PDTFactory.getCurrentLocalDateTime ())
                                                                                   .build (),
                                                                 new SlotBuilder ().setName ("DataConsumerResponsePurpose")
                                                                                   .setValue (SlotHelper.createInternationalStringType (SlotHelper.createLocalizedString (Locale.ENGLISH,

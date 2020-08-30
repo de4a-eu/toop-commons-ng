@@ -25,7 +25,6 @@ import java.util.function.Function;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.w3c.dom.Node;
 
@@ -45,7 +44,6 @@ import com.helger.commons.hashcode.HashCodeGenerator;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.commons.traits.IGenericImplTrait;
-import com.helger.datetime.util.PDTXMLConverter;
 
 import eu.toop.edm.jaxb.cccev.CCCEVConceptType;
 import eu.toop.edm.jaxb.cv.agent.AgentType;
@@ -881,8 +879,8 @@ public class EDMResponse implements IEDMTopLevelObject
       case SlotIssueDateTime.NAME:
         if (aSlotValue instanceof DateTimeValueType)
         {
-          final XMLGregorianCalendar aCal = ((DateTimeValueType) aSlotValue).getValue ();
-          aBuilder.issueDateTime (PDTXMLConverter.getLocalDateTime (aCal));
+          final LocalDateTime aCal = ((DateTimeValueType) aSlotValue).getValue ();
+          aBuilder.issueDateTime (aCal);
         }
         break;
       case SlotDataProvider.NAME:

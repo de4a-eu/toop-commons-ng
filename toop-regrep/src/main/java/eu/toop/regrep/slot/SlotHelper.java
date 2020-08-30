@@ -16,13 +16,13 @@
 package eu.toop.regrep.slot;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.w3c.dom.Element;
 
@@ -197,7 +197,7 @@ public final class SlotHelper
   }
 
   @Nonnull
-  public static DateTimeValueType createSlotValue (@Nonnull final XMLGregorianCalendar x)
+  public static DateTimeValueType createSlotValue (@Nonnull final LocalDateTime x)
   {
     ValueEnforcer.notNull (x, "Value");
     return new DateTimeValueType (x);

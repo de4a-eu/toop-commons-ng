@@ -32,7 +32,6 @@ import com.helger.commons.collection.impl.CommonsLinkedHashMap;
 import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.datetime.PDTFactory;
 import com.helger.commons.mutable.MutableInt;
-import com.helger.datetime.util.PDTXMLConverter;
 import com.helger.xml.serialize.read.DOMReader;
 
 import eu.toop.regrep.RegRep4Writer;
@@ -61,7 +60,7 @@ public final class SlotBuilderTest
   {
     final Document aDoc = DOMReader.readXMLDOM ("<root attr='a' xmlns='urn:anything-weird/bla-foo'><child><child2>value</child2></child></root>");
     final ICommonsMap <ValueType, ValueType> aMap = new CommonsLinkedHashMap <> ();
-    aMap.put (SlotHelper.createSlotValue ("Key1"), SlotHelper.createSlotValue (PDTXMLConverter.getXMLCalendarNow ()));
+    aMap.put (SlotHelper.createSlotValue ("Key1"), SlotHelper.createSlotValue (PDTFactory.getCurrentLocalDateTime ()));
     aMap.put (SlotHelper.createSlotValue (BigInteger.valueOf (1234)), SlotHelper.createSlotValue (42f));
 
     final QueryRequest aQR;
@@ -72,7 +71,6 @@ public final class SlotBuilderTest
                                                             SlotHelper.createSlotValue ("ListItem1"),
                                                             SlotHelper.createSlotValue ("ListItem2"))
                                                  .build (),
-                                           _sb ().setValue (PDTXMLConverter.getXMLCalendarNow ()).build (),
                                            _sb ().setValue (PDTFactory.getCurrentLocalDateTime ()).build (),
                                            _sb ().setValue (PDTFactory.getCurrentLocalDate ()).build (),
                                            _sb ().setValue (PDTFactory.getCurrentZonedDateTimeUTC ()).build (),

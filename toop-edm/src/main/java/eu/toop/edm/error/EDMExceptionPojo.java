@@ -20,7 +20,6 @@ import java.time.temporal.ChronoUnit;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.datetime.PDTFactory;
@@ -28,7 +27,6 @@ import com.helger.commons.equals.EqualsHelper;
 import com.helger.commons.hashcode.HashCodeGenerator;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
-import com.helger.datetime.util.PDTXMLConverter;
 
 import eu.toop.edm.slot.SlotErrorOrigin;
 import eu.toop.edm.slot.SlotTimestamp;
@@ -191,7 +189,7 @@ public class EDMExceptionPojo
       case SlotTimestamp.NAME:
         if (aSlotValue instanceof DateTimeValueType)
         {
-          final XMLGregorianCalendar aValue = ((DateTimeValueType) aSlotValue).getValue ();
+          final LocalDateTime aValue = ((DateTimeValueType) aSlotValue).getValue ();
           aBuilder.timestamp (aValue);
         }
         break;
@@ -300,12 +298,6 @@ public class EDMExceptionPojo
     public Builder timestampNow ()
     {
       return timestamp (PDTFactory.getCurrentLocalDateTime ());
-    }
-
-    @Nonnull
-    public Builder timestamp (@Nullable final XMLGregorianCalendar a)
-    {
-      return timestamp (PDTXMLConverter.getLocalDateTime (a));
     }
 
     @Nonnull
