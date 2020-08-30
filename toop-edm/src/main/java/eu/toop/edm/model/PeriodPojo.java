@@ -89,13 +89,13 @@ public class PeriodPojo
   {
     final PeriodType ret = new PeriodType ();
     if (m_aStartDate != null)
-      ret.setStartDate (PDTXMLConverter.getXMLCalendarDate (m_aStartDate));
+      ret.setStartDate (m_aStartDate);
     if (m_aStartTime != null)
-      ret.setStartTime (PDTXMLConverter.getXMLCalendarTime (m_aStartTime));
+      ret.setStartTime (m_aStartTime);
     if (m_aEndDate != null)
-      ret.setEndDate (PDTXMLConverter.getXMLCalendarDate (m_aEndDate));
+      ret.setEndDate (m_aEndDate);
     if (m_aEndTime != null)
-      ret.setEndTime (PDTXMLConverter.getXMLCalendarTime (m_aEndTime));
+      ret.setEndTime (m_aEndTime);
     return ret;
   }
 

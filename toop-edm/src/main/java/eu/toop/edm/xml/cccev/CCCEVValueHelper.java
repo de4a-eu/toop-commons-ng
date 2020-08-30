@@ -23,11 +23,9 @@ import java.util.Collection;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.helger.commons.collection.impl.CommonsArrayList;
 import com.helger.commons.math.MathHelper;
-import com.helger.datetime.util.PDTXMLConverter;
 
 import eu.toop.edm.jaxb.cccev.CCCEVValueType;
 import eu.toop.edm.jaxb.cv.cac.PeriodType;
@@ -45,7 +43,7 @@ import eu.toop.edm.jaxb.cv.cbc.URIType;
 
 /**
  * Helper class to easily create {@link CCCEVValueType} objects from Java types.
- * 
+ *
  * @author Philip Helger
  */
 @Immutable
@@ -101,12 +99,6 @@ public final class CCCEVValueHelper
 
   @Nonnull
   public static CCCEVValueType create (@Nullable final LocalDate a)
-  {
-    return createDate (PDTXMLConverter.getXMLCalendarDate (a));
-  }
-
-  @Nonnull
-  public static CCCEVValueType createDate (@Nullable final XMLGregorianCalendar a)
   {
     return create (a == null ? null : new DateType (a));
   }
@@ -240,12 +232,6 @@ public final class CCCEVValueHelper
 
   @Nonnull
   public static CCCEVValueType create (@Nullable final LocalTime a)
-  {
-    return createTime (PDTXMLConverter.getXMLCalendarTime (a));
-  }
-
-  @Nonnull
-  public static CCCEVValueType createTime (@Nullable final XMLGregorianCalendar a)
   {
     return create (a == null ? null : new TimeType (a));
   }

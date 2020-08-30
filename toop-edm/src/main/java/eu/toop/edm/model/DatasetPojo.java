@@ -213,18 +213,18 @@ public class DatasetPojo
     for (final String sID : m_aIDs)
       ret.addIdentifier (sID);
     if (m_aIssuedDT != null)
-      ret.setIssued (PDTXMLConverter.getXMLCalendar (m_aIssuedDT));
+      ret.setIssued (m_aIssuedDT);
     if (StringHelper.hasText (m_sLanguage))
       ret.addLanguage (m_sLanguage);
     if (m_aLastModifiedDT != null)
-      ret.setModified (PDTXMLConverter.getXMLCalendar (m_aLastModifiedDT));
+      ret.setModified (m_aLastModifiedDT);
     if (m_aValidFrom != null || m_aValidTo != null)
     {
       final DCPeriodOfTimeType aPeriodOfType = new DCPeriodOfTimeType ();
       if (m_aValidFrom != null)
-        aPeriodOfType.addStartDate (PDTXMLConverter.getXMLCalendarDate (m_aValidFrom));
+        aPeriodOfType.addStartDate (m_aValidFrom);
       if (m_aValidTo != null)
-        aPeriodOfType.addEndDate (PDTXMLConverter.getXMLCalendarDate (m_aValidTo));
+        aPeriodOfType.addEndDate (m_aValidTo);
       ret.addTemporal (aPeriodOfType);
     }
     for (final QualifiedRelationPojo aItem : m_aQualifiedRelations)

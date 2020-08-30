@@ -16,32 +16,37 @@
     limitations under the License.
 
 -->
-<bindings xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<bindings version="2.1" 
+          xmlns="http://java.sun.com/xml/ns/jaxb"
+          xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" 
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-          xsi:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd" 
-          version="2.1" 
-          xmlns="http://java.sun.com/xml/ns/jaxb">
+          xsi:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd">
   <globalBindings fixedAttributeAsConstantProperty="true"
                   typesafeEnumMemberName="generateError"
                   underscoreBinding="asCharInWord">
+    <xjc:javaType name="java.time.LocalDateTime" xmlType="xsd:dateTime" adapter="com.helger.jaxb.adapter.AdapterLocalDateTime" />
+    <xjc:javaType name="java.time.LocalDate" xmlType="xsd:date" adapter="com.helger.jaxb.adapter.AdapterLocalDate" />
+    <xjc:javaType name="java.time.LocalTime" xmlType="xsd:time" adapter="com.helger.jaxb.adapter.AdapterLocalTime" />
+    <xjc:javaType name="java.time.Duration" xmlType="xsd:duration" adapter="com.helger.jaxb.adapter.AdapterDuration" />
   </globalBindings>
-  <bindings schemaLocation="../resources/schemas/CoreVocabularies-AggregateComponents-1.1.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/CoreVocabularies-AggregateComponents-1.1.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.w3.cv.ac" />
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/CoreVocabularies-BasicComponents-1.1.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/CoreVocabularies-BasicComponents-1.1.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.w3.cv.bc" />
     </schemaBindings>
   </bindings>
 
-  <bindings schemaLocation="../resources/schemas/adms.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/adms.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.w3.adms" />
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/cccev-2.0.0.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/cccev-2.0.0.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.cccev" />
       <nameXmlTransform>
@@ -49,45 +54,45 @@
       </nameXmlTransform>
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/CV-Agent.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/CV-Agent.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.cv.agent" />
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/CV-CommonAggregateComponents.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/CV-CommonAggregateComponents.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.cv.cac" />
     </schemaBindings>
-    <bindings node="//xs:attributeGroup[@name='ThingAttributes']">
-      <bindings node="./xs:attribute[@name='versionId']">
+    <bindings node="//xsd:attributeGroup[@name='ThingAttributes']">
+      <bindings node="./xsd:attribute[@name='versionId']">
         <property name="VersionIdAttr"/>
       </bindings>
     </bindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/CV-CommonBasicComponents.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/CV-CommonBasicComponents.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.cv.cbc" />
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/CV-DataTypes.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/CV-DataTypes.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.cv.dt" />
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/dcat-ap.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/dcat-ap.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.dcatap" />
       <nameXmlTransform>
         <typeName prefix="DCatAP"/>
       </nameXmlTransform>
     </schemaBindings>
-    <bindings node="//xs:complexType[@name='DatasetType']">
-      <bindings node=".//xs:element[@ref='adms:identifier']">
+    <bindings node="//xsd:complexType[@name='DatasetType']">
+      <bindings node=".//xsd:element[@ref='adms:identifier']">
         <property name="AdmsIdentifier"/>
       </bindings>
     </bindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/dcterms.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/dcterms.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.dcterms" />
       <nameXmlTransform>
@@ -95,7 +100,7 @@
       </nameXmlTransform>
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/foaf.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/foaf.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.foaf" />
       <nameXmlTransform>
@@ -103,47 +108,47 @@
       </nameXmlTransform>
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/locn.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/locn.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.w3.locn" />
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/odrl.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/odrl.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.w3.odrl" />
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/org.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/org.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.w3.org" />
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/rdf.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/rdf.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.rdf" />
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/regorg.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/regorg.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.w3.regorg" />
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/skos.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/skos.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.w3.skos" />
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/spdx.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/spdx.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.spdx" />
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/vcard.xsd" node="/xs:schema">
+  <bindings schemaLocation="../resources/schemas/vcard.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.vcard" />
     </schemaBindings>
-    <bindings node="//xs:complexType[@name='binaryElement']">
-      <bindings node=".//xs:attribute[@name='TYPE']">
+    <bindings node="//xsd:complexType[@name='binaryElement']">
+      <bindings node=".//xsd:attribute[@name='TYPE']">
         <property name="VCardTYPE"/>
       </bindings>
     </bindings>
