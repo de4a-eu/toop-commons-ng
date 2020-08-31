@@ -26,7 +26,7 @@ import com.helger.commons.version.Version;
  */
 abstract class AbstractMain
 {
-  public static final Version CODELIST_VERSION = new Version (3, 0, 0);
+  public static final Version CODELIST_VERSION = new Version (4, 0, 0);
   public static final String DO_NOT_EDIT = "This file was automatically generated.\nDo NOT edit!";
   public static final String CODELIST_XLSX_DIR = "../../toop/Code Lists/";
   private static final String CL_XML_DIRECTORY = CODELIST_XLSX_DIR;
