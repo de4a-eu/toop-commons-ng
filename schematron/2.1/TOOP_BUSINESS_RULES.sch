@@ -79,7 +79,7 @@
     
     <!--Check for unique ID's in concepts-->
     <pattern>
-        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element/cccev:Concept">
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element/cccev:concept">
             <assert test="count(//cbc:id) = count(distinct-values(//cbc:id))"
                 flag='ERROR' id="br_request_concept_id_not_unique">
                 In a QueryRequest,  two or more concepts can not share the same ID.
@@ -90,8 +90,8 @@
     
     <!--Check for unique QNames in same level concepts-->
     <pattern>
-        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element/cccev:Concept">
-            <assert test="count(cccev:Concept/cbc:qName) = count(distinct-values(cccev:Concept/cbc:qName))"
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'ConceptRequestList']/rim:SlotValue/rim:Element/cccev:concept">
+            <assert test="count(cccev:concept/cbc:qName) = count(distinct-values(cccev:concept/cbc:qName))"
                 flag='ERROR' id="br_request_concept_qname_not_unique">
                 In a QueryRequest,  two or more concepts at the same level (with a common parent) can not share the same Qname. 
             </assert>
@@ -190,7 +190,7 @@
     <pattern> 
         <let name="mimetypecodes" value="document('..\codelist\external\BinaryObjectMimeCode-2.2.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
         <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution/dcat:mediaType
-            | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution/dcat:mediaType" 
+            | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:dataset/dcat:distribution/dcat:mediaType" 
             flag='warning' id='br_check_doc_media_type'> 
             <assert test="$mimetypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">
                 A mimetype code SHOULD always be specified using the correct code list.</assert> 
@@ -247,7 +247,7 @@
     <!--Check codelist for currency-->
     <pattern> 
         <let name="currencytypecodes" value="document('..\codelist\external\CurrencyCode-2.2.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
-        <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element//cccev:Concept/cccev:value/cccev:amountValue" 
+        <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element//cccev:concept/cccev:value/cccev:amountValue" 
             flag='ERROR' id='br_check_currency_code'> 
             <assert test="$currencytypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/@currencyID)]">
                 A currency type code must always be specified using the correct code list.</assert> 
@@ -258,9 +258,9 @@
     <!--Check codelist for language-->
     <pattern> 
         <let name="languagecodes" value="document('..\codelist\external\LanguageCode-2.2.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
-        <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name='DocumentMetadata']/rim:SlotValue/dcat:Dataset/dct:language
+        <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name='DocumentMetadata']/rim:SlotValue/dcat:dataset/dct:language
                      | query:QueryRequest/rim:Slot[@name='Procedure']/rim:SlotValue/rim:Value/rim:LocalizedString/@xml:lang
-                     | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution/dcat:description/@languageID
+                     | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:dataset/dcat:distribution/dcat:description/@languageID
                      "
             flag='ERROR' id='br_check_language_code'> 
             <assert test="$languagecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]">A language code must always be specified using the correct code list.</assert> 
@@ -271,7 +271,7 @@
     <!--Check codelist for data element response error code-->
     <pattern> 
         <let name="dataelementresponseerrorcodes" value="document('..\codelist\toop\DataElementResponseErrorCode-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
-        <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element//cccev:Concept/cccev:value/cccev:error"> 
+        <rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name = 'ConceptValues']/rim:SlotValue/rim:Element//cccev:concept/cccev:value/cccev:error"> 
             <assert test="$dataelementresponseerrorcodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]"
                 flag='warning' id='br_check_error_data_element_response'>
                 An error code must always be specified using the correct code list.</assert> 
