@@ -136,7 +136,8 @@
     
     <!--Check the length of the LEI code.-->
     <pattern>
-        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID">
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID
+                     | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID">
             <assert test="( (@schemeID = 'LEI') and ( string-length(normalize-space(.)) = 20) or (@schemeID != 'LEI')   )" 
                 flag='warning' id='br_invalid_lei_length'>
                 The LEI code length should be 20.
@@ -282,7 +283,8 @@
     <!--Check codelist for standard industrial class code-->
     <pattern> 
         <let name="industrialtypecodes" value="document('..\codelist\toop\StandardIndustrialClassCode-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
-        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID">
+        <rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID
+                     | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID">
             <assert test="( (@schemeID = 'SIC') and ($industrialtypecodes/SimpleValue[normalize-space(.) = normalize-space(current()/.)]) or (@schemeID != 'SIC') )"
                 flag='warning' id='br_check_sic_code'>
                 A standard industrial classification code should always be specified using the correct code list.</assert> 
