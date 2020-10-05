@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--
-
-    Copyright (C) 2018-2020 toop.eu
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-            http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
--->
-<xsl:stylesheet xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:iso="http://purl.oclc.org/dsdl/schematron" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" xmlns:saxon="http://saxon.sf.net/" xmlns:schold="http://www.ascc.net/xml/schematron" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
+<xsl:stylesheet xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:iso="http://purl.oclc.org/dsdl/schematron" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:4.0" xmlns:saxon="http://saxon.sf.net/" xmlns:schold="http://www.ascc.net/xml/schematron" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
 <!--Implementers: please note that overriding process-prolog or process-root is 
     the preferred method for meta-stylesheets to use where possible. -->
 
@@ -170,7 +153,7 @@
 
 <!--SCHEMA SETUP-->
 <xsl:template match="/">
-    <svrl:schematron-output schemaVersion="" title="TOOP EDM - isRequest Checker">
+    <svrl:schematron-output schemaVersion="" title="TOOP EDM - isResponse Checker">
       <xsl:comment>
         <xsl:value-of select="$archiveDirParameter" />   
 		 <xsl:value-of select="$archiveNameParameter" />  
@@ -178,46 +161,57 @@
 		 <xsl:value-of select="$fileDirParameter" />
       </xsl:comment>
       <svrl:ns-prefix-in-attribute-values prefix="query" uri="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" />
+      <svrl:ns-prefix-in-attribute-values prefix="rs" uri="urn:oasis:names:tc:ebxml-regrep:xsd:rs:4.0" />
       <svrl:active-pattern>
         <xsl:attribute name="document">
           <xsl:value-of select="document-uri(/)" />
         </xsl:attribute>
         <xsl:apply-templates />
       </svrl:active-pattern>
-      <xsl:apply-templates mode="M2" select="/" />
+      <xsl:apply-templates mode="M3" select="/" />
     </svrl:schematron-output>
   </xsl:template>
 
 <!--SCHEMATRON PATTERNS-->
-<svrl:text>TOOP EDM - isRequest Checker</svrl:text>
+<svrl:text>TOOP EDM - isResponse Checker</svrl:text>
 
 <!--PATTERN -->
 
 
-	<!--RULE -->
-<xsl:template match="/" mode="M2" priority="1000">
-    <svrl:fired-rule context="/" />
+	<!--RULE NOT_A_RESPONSE-->
+<xsl:template match="/" mode="M3" priority="1000">
+    <svrl:fired-rule context="/" id="NOT_A_RESPONSE" />
 
 		<!--ASSERT -->
 <xsl:choose>
-      <xsl:when test="( (exists(query:QueryRequest)) )" />
+      <xsl:when test="( (exists(query:QueryResponse)) )" />
       <xsl:otherwise>
-        <svrl:failed-assert test="( (exists(query:QueryRequest)) )">
-          <xsl:attribute name="id">NOT_A_REQUEST</xsl:attribute>
-          <xsl:attribute name="flag">ERROR</xsl:attribute>
+        <svrl:failed-assert test="( (exists(query:QueryResponse)) )">
           <xsl:attribute name="location">
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
           </xsl:attribute>
           <svrl:text>
-                The message does not look like a QueryRequest. 
+                The message does not look like a QueryResponse. 
             </svrl:text>
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates mode="M2" select="*|comment()|processing-instruction()" />
+
+		<!--REPORT -->
+<xsl:if test="( exists(query:QueryResponse/rs:Exception) )">
+      <svrl:successful-report test="( exists(query:QueryResponse/rs:Exception) )">
+        <xsl:attribute name="location">
+          <xsl:apply-templates mode="schematron-select-full-path" select="." />
+        </xsl:attribute>
+        <svrl:text>
+                The message does not look like a QueryResponse with no Exceptions. 
+            </svrl:text>
+      </svrl:successful-report>
+    </xsl:if>
+    <xsl:apply-templates mode="M3" select="*|comment()|processing-instruction()" />
   </xsl:template>
-  <xsl:template match="text()" mode="M2" priority="-1" />
-  <xsl:template match="@*|node()" mode="M2" priority="-2">
-    <xsl:apply-templates mode="M2" select="*|comment()|processing-instruction()" />
+  <xsl:template match="text()" mode="M3" priority="-1" />
+  <xsl:template match="@*|node()" mode="M3" priority="-2">
+    <xsl:apply-templates mode="M3" select="*|comment()|processing-instruction()" />
   </xsl:template>
 </xsl:stylesheet>

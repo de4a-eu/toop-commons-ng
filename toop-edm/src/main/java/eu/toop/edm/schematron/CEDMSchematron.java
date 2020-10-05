@@ -35,21 +35,21 @@ public final class CEDMSchematron
     return CEDMSchematron.class.getClassLoader ();
   }
 
-  public static final ClassPathResource TOOP_IS_REQUEST = new ClassPathResource ("200/TOOP_is_request.xslt", _getCL ());
-  public static final ClassPathResource TOOP_IS_RESPONSE = new ClassPathResource ("200/TOOP_is_response.xslt", _getCL ());
-  public static final ClassPathResource TOOP_IS_ERROR_RESPONSE = new ClassPathResource ("200/TOOP_is_error.xslt", _getCL ());
+  public static final ClassPathResource TOOP_IS_REQUEST = new ClassPathResource ("210/TOOP_is_request.xslt", _getCL ());
+  public static final ClassPathResource TOOP_IS_RESPONSE = new ClassPathResource ("210/TOOP_is_response.xslt", _getCL ());
+  public static final ClassPathResource TOOP_IS_ERROR_RESPONSE = new ClassPathResource ("210/TOOP_is_error.xslt", _getCL ());
 
   /**
    * The resource with the rules. Important: this Schematron requires additional
    * code lists in a relative directory!
    */
-  public static final ClassPathResource TOOP_EDM2_XSLT = new ClassPathResource ("200/TOOP_EDM.xslt", _getCL ());
+  public static final ClassPathResource TOOP_EDM2_XSLT = new ClassPathResource ("210/TOOP_EDM.xslt", _getCL ());
 
   /**
    * The resource with the rules. Important: this Schematron requires additional
    * code lists in a relative directory!
    */
-  public static final ClassPathResource TOOP_BUSINESS_RULES_XSLT = new ClassPathResource ("200/TOOP_BUSINESS_RULES.xslt", _getCL ());
+  public static final ClassPathResource TOOP_BUSINESS_RULES_XSLT = new ClassPathResource ("210/TOOP_BUSINESS_RULES.xslt", _getCL ());
 
   private CEDMSchematron ()
   {}

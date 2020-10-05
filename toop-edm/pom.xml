@@ -225,7 +225,7 @@
       <plugin>
         <groupId>com.helger.maven</groupId>
         <artifactId>ph-schematron-maven-plugin</artifactId>
-        <version>5.6.2</version>
+        <version>5.6.3</version>
         <executions>
           <execution>
             <id>edm2</id>
@@ -233,8 +233,8 @@
               <goal>convert</goal>
             </goals>
             <configuration>
-              <schematronDirectory>src/main/resources/200</schematronDirectory>
-              <xsltDirectory>src/main/resources/200</xsltDirectory>
+              <schematronDirectory>src/main/resources/210</schematronDirectory>
+              <xsltDirectory>src/main/resources/210</xsltDirectory>
             </configuration>
           </execution>
         </executions>

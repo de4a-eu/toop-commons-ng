@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--
-
-    Copyright (C) 2018-2020 toop.eu
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-            http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
--->
-<xsl:stylesheet xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:cagv="https://semic.org/sa/cv/cagv/agent-2.0.0#" xmlns:cbc="https://semic.org/sa/cv/common/cbc-2.0.0#" xmlns:cbd="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:cccev="https://semic.org/sa/cv/cccev-2.0.0#" xmlns:cpov="http://www.w3.org/ns/corevocabulary/po" xmlns:cva="http://www.w3.org/ns/corevocabulary/AggregateComponents" xmlns:cvb="http://www.w3.org/ns/corevocabulary/BasicComponents" xmlns:dcat="http://data.europa.eu/r5r/" xmlns:dct="http://purl.org/dc/terms/" xmlns:gc="http://docs.oasis-open.org/codelist/ns/genericode/1.0/" xmlns:iso="http://purl.oclc.org/dsdl/schematron" xmlns:locn="http://www.w3.org/ns/locn#" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:4.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:4.0" xmlns:saxon="http://saxon.sf.net/" xmlns:schold="http://www.ascc.net/xml/schematron" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
+<xsl:stylesheet xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:cagv="https://semic.org/sa/cv/cagv/agent-2.0.0#" xmlns:cbc="https://data.europe.eu/semanticassets/ns/cv/common/cbc_v2.0.0#" xmlns:cbd="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:cccev="https://data.europe.eu/semanticassets/ns/cv/cccev_v2.0.0#" xmlns:cpov="http://www.w3.org/ns/corevocabulary/po" xmlns:cva="http://www.w3.org/ns/corevocabulary/AggregateComponents" xmlns:cvb="http://www.w3.org/ns/corevocabulary/BasicComponents" xmlns:dcat="http://data.europa.eu/r5r/" xmlns:dct="http://purl.org/dc/terms/" xmlns:gc="http://docs.oasis-open.org/codelist/ns/genericode/1.0/" xmlns:iso="http://purl.oclc.org/dsdl/schematron" xmlns:locn="http://www.w3.org/ns/locn#" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:4.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:4.0" xmlns:saxon="http://saxon.sf.net/" xmlns:schold="http://www.ascc.net/xml/schematron" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
 <!--Implementers: please note that overriding process-prolog or process-root is 
     the preferred method for meta-stylesheets to use where possible. -->
 
@@ -170,7 +153,7 @@
 
 <!--SCHEMA SETUP-->
 <xsl:template match="/">
-    <svrl:schematron-output schemaVersion="" title="TOOP EDM Business Rules (specs Version 2.0.1)">
+    <svrl:schematron-output schemaVersion="" title="TOOP EDM Business Rules (specs Version 2.1.0)">
       <xsl:comment>
         <xsl:value-of select="$archiveDirParameter" />   
 		 <xsl:value-of select="$archiveNameParameter" />  
@@ -185,9 +168,9 @@
       <svrl:ns-prefix-in-attribute-values prefix="rs" uri="urn:oasis:names:tc:ebxml-regrep:xsd:rs:4.0" />
       <svrl:ns-prefix-in-attribute-values prefix="cpov" uri="http://www.w3.org/ns/corevocabulary/po" />
       <svrl:ns-prefix-in-attribute-values prefix="cagv" uri="https://semic.org/sa/cv/cagv/agent-2.0.0#" />
-      <svrl:ns-prefix-in-attribute-values prefix="cbc" uri="https://semic.org/sa/cv/common/cbc-2.0.0#" />
+      <svrl:ns-prefix-in-attribute-values prefix="cbc" uri="https://data.europe.eu/semanticassets/ns/cv/common/cbc_v2.0.0#" />
       <svrl:ns-prefix-in-attribute-values prefix="locn" uri="http://www.w3.org/ns/locn#" />
-      <svrl:ns-prefix-in-attribute-values prefix="cccev" uri="https://semic.org/sa/cv/cccev-2.0.0#" />
+      <svrl:ns-prefix-in-attribute-values prefix="cccev" uri="https://data.europe.eu/semanticassets/ns/cv/cccev_v2.0.0#" />
       <svrl:ns-prefix-in-attribute-values prefix="dcat" uri="http://data.europa.eu/r5r/" />
       <svrl:ns-prefix-in-attribute-values prefix="dct" uri="http://purl.org/dc/terms/" />
       <svrl:ns-prefix-in-attribute-values prefix="xsi" uri="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" />
@@ -343,7 +326,7 @@
   </xsl:template>
 
 <!--SCHEMATRON PATTERNS-->
-<svrl:text>TOOP EDM Business Rules (specs Version 2.0.1)</svrl:text>
+<svrl:text>TOOP EDM Business Rules (specs Version 2.1.0)</svrl:text>
 
 <!--PATTERN -->
 
@@ -449,9 +432,9 @@
 
 		<!--ASSERT -->
 <xsl:choose>
-      <xsl:when test="count(cccev:concept/cbc:QName) = count(distinct-values(cccev:concept/cbc:QName))" />
+      <xsl:when test="count(cccev:concept/cbc:qName) = count(distinct-values(cccev:concept/cbc:qName))" />
       <xsl:otherwise>
-        <svrl:failed-assert test="count(cccev:concept/cbc:QName) = count(distinct-values(cccev:concept/cbc:QName))">
+        <svrl:failed-assert test="count(cccev:concept/cbc:qName) = count(distinct-values(cccev:concept/cbc:qName))">
           <xsl:attribute name="id">br_request_concept_qname_not_unique</xsl:attribute>
           <xsl:attribute name="flag">ERROR</xsl:attribute>
           <xsl:attribute name="location">
@@ -562,8 +545,8 @@
 
 
 	<!--RULE -->
-<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" mode="M23" priority="1000">
-    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" />
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID                      | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" mode="M23" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID                      | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" />
 
 		<!--ASSERT -->
 <xsl:choose>
@@ -690,8 +673,8 @@
 <xsl:variable name="mimetypecodes" select="document('..\codelist\external\BinaryObjectMimeCode-2.2.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
 
 	<!--RULE br_check_doc_media_type-->
-<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution/dcat:mediaType             | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution/cccev:documentType" mode="M26" priority="1000">
-    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution/dcat:mediaType             | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution/cccev:documentType" id="br_check_doc_media_type" />
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution/dcat:mediaType             | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:dataset/dcat:distribution/dcat:mediaType" mode="M26" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'DistributionRequestList']/rim:SlotValue/rim:Element/dcat:distribution/dcat:mediaType             | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:dataset/dcat:distribution/dcat:mediaType" id="br_check_doc_media_type" />
 
 		<!--ASSERT -->
 <xsl:choose>
@@ -868,8 +851,8 @@
 <xsl:variable name="languagecodes" select="document('..\codelist\external\LanguageCode-2.2.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
 
 	<!--RULE br_check_language_code-->
-<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name='DocumentMetadata']/rim:SlotValue/dcat:Dataset/dct:language                      | query:QueryRequest/rim:Slot[@name='Procedure']/rim:SlotValue/rim:Value/rim:LocalizedString/@xml:lang                      | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution/cccev:localeCode                      | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution/cccev:documentDescription/@languageID                      " mode="M32" priority="1000">
-    <svrl:fired-rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name='DocumentMetadata']/rim:SlotValue/dcat:Dataset/dct:language                      | query:QueryRequest/rim:Slot[@name='Procedure']/rim:SlotValue/rim:Value/rim:LocalizedString/@xml:lang                      | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution/cccev:localeCode                      | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:Dataset/dcat:distribution/cccev:documentDescription/@languageID                      " id="br_check_language_code" />
+<xsl:template match="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name='DocumentMetadata']/rim:SlotValue/dcat:dataset/dct:language                      | query:QueryRequest/rim:Slot[@name='Procedure']/rim:SlotValue/rim:Value/rim:LocalizedString/@xml:lang                      | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:dataset/dcat:distribution/dcat:description/@languageID                      " mode="M32" priority="1000">
+    <svrl:fired-rule context="query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot[@name='DocumentMetadata']/rim:SlotValue/dcat:dataset/dct:language                      | query:QueryRequest/rim:Slot[@name='Procedure']/rim:SlotValue/rim:Value/rim:LocalizedString/@xml:lang                      | query:QueryResponse/rim:RegistryObjectList/rim:RegistryObject/rim:Slot/rim:SlotValue/dcat:dataset/dcat:distribution/dcat:description/@languageID                      " id="br_check_language_code" />
 
 		<!--ASSERT -->
 <xsl:choose>
@@ -923,8 +906,8 @@
 <xsl:variable name="industrialtypecodes" select="document('..\codelist\toop\StandardIndustrialClassCode-CodeList.gc')/gc:CodeList/SimpleCodeList/Row/Value[@ColumnRef='code']" />
 
 	<!--RULE -->
-<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" mode="M34" priority="1000">
-    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID" />
+<xsl:template match="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID                      | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" mode="M34" priority="1000">
+    <svrl:fired-rule context="query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityID                      | query:QueryRequest/query:Query/rim:Slot[@name = 'LegalPerson']/rim:SlotValue/cva:CoreBusiness/cvb:LegalEntityLegalID" />
 
 		<!--ASSERT -->
 <xsl:choose>

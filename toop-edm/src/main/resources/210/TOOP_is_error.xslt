@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--
-
-    Copyright (C) 2018-2020 toop.eu
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-            http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
--->
 <xsl:stylesheet xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:iso="http://purl.oclc.org/dsdl/schematron" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:4.0" xmlns:saxon="http://saxon.sf.net/" xmlns:schold="http://www.ascc.net/xml/schematron" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
 <!--Implementers: please note that overriding process-prolog or process-root is 
     the preferred method for meta-stylesheets to use where possible. -->
@@ -170,7 +153,7 @@
 
 <!--SCHEMA SETUP-->
 <xsl:template match="/">
-    <svrl:schematron-output schemaVersion="" title="TOOP EDM - isResponse Checker">
+    <svrl:schematron-output schemaVersion="" title="TOOP EDM - isError Checker">
       <xsl:comment>
         <xsl:value-of select="$archiveDirParameter" />   
 		 <xsl:value-of select="$archiveNameParameter" />  
@@ -190,41 +173,31 @@
   </xsl:template>
 
 <!--SCHEMATRON PATTERNS-->
-<svrl:text>TOOP EDM - isResponse Checker</svrl:text>
+<svrl:text>TOOP EDM - isError Checker</svrl:text>
 
 <!--PATTERN -->
 
 
-	<!--RULE NOT_A_RESPONSE-->
+	<!--RULE -->
 <xsl:template match="/" mode="M3" priority="1000">
-    <svrl:fired-rule context="/" id="NOT_A_RESPONSE" />
+    <svrl:fired-rule context="/" />
 
 		<!--ASSERT -->
 <xsl:choose>
-      <xsl:when test="( (exists(query:QueryResponse)) )" />
+      <xsl:when test="( (exists(query:QueryResponse)) and (exists(query:QueryResponse/rs:Exception)) )" />
       <xsl:otherwise>
-        <svrl:failed-assert test="( (exists(query:QueryResponse)) )">
+        <svrl:failed-assert test="( (exists(query:QueryResponse)) and (exists(query:QueryResponse/rs:Exception)) )">
+          <xsl:attribute name="id">NOT_AN_ERROR</xsl:attribute>
+          <xsl:attribute name="flag">ERROR</xsl:attribute>
           <xsl:attribute name="location">
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
           </xsl:attribute>
           <svrl:text>
-                The message does not look like a QueryResponse. 
+                The message does not look like an Error (meaning: a  QueryResponse including Exceptions). 
             </svrl:text>
         </svrl:failed-assert>
       </xsl:otherwise>
     </xsl:choose>
-
-		<!--REPORT -->
-<xsl:if test="( exists(query:QueryResponse/rs:Exception) )">
-      <svrl:successful-report test="( exists(query:QueryResponse/rs:Exception) )">
-        <xsl:attribute name="location">
-          <xsl:apply-templates mode="schematron-select-full-path" select="." />
-        </xsl:attribute>
-        <svrl:text>
-                The message does not look like a QueryResponse with no Exceptions. 
-            </svrl:text>
-      </svrl:successful-report>
-    </xsl:if>
     <xsl:apply-templates mode="M3" select="*|comment()|processing-instruction()" />
   </xsl:template>
   <xsl:template match="text()" mode="M3" priority="-1" />
