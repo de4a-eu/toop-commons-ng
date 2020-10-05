@@ -81,6 +81,10 @@
       <artifactId>ph-ubl21</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.helger.ubl</groupId>
+      <artifactId>ph-ubl23</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.helger</groupId>
       <artifactId>ph-schematron</artifactId>
     </dependency>
@@ -176,7 +180,7 @@
             </episode>
             <episode>
               <groupId>com.helger.ubl</groupId>
-              <artifactId>ph-ubl21</artifactId>
+              <artifactId>ph-ubl23</artifactId>
             </episode>
             <episode>
               <groupId>com.helger.xsd</groupId>

@@ -17,7 +17,7 @@
     <xs:element name="addressId" type="xs:string"/>
 
     <!-- Object properties declarations-->
-<!--     <xs:element name="address" type="AddressType"/> -->
+    <xs:element name="address" type="AddressType"/>
 
     <!-- Classes declarations-->
     <xs:element name="Address" type="AddressType"/>
@@ -58,7 +58,7 @@
     
 <xs:complexType name="LocationType">
     <xs:sequence>
-        <xs:element name="address" type="AddressType" minOccurs="0"/>
+        <xs:element ref="address" minOccurs="0"/>
     </xs:sequence>
 </xs:complexType>
 

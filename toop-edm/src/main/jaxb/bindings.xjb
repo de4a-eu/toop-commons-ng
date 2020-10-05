@@ -118,9 +118,19 @@
       <package name="eu.toop.edm.jaxb.w3.odrl" />
     </schemaBindings>
   </bindings>
+  <bindings schemaLocation="../resources/schemas/owl.xsd">
+    <schemaBindings>
+      <package name="eu.toop.edm.jaxb.owl" />
+    </schemaBindings>
+  </bindings>
   <bindings schemaLocation="../resources/schemas/org.xsd">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.w3.org" />
+    </schemaBindings>
+  </bindings>
+  <bindings schemaLocation="../resources/schemas/prov.xsd">
+    <schemaBindings>
+      <package name="eu.toop.edm.jaxb.prov" />
     </schemaBindings>
   </bindings>
   <bindings schemaLocation="../resources/schemas/rdf.xsd">
