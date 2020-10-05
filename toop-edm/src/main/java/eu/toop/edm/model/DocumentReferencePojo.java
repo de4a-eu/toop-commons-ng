@@ -33,9 +33,8 @@ import com.helger.commons.hashcode.HashCodeGenerator;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 
-import eu.toop.edm.jaxb.cccev.CCCEVDocumentReferenceType;
-import eu.toop.edm.jaxb.cv.cbc.DescriptionType;
-import eu.toop.edm.jaxb.cv.cbc.IDType;
+import eu.toop.edm.jaxb.dcatap.DCatAPDistributionType;
+import eu.toop.edm.jaxb.dcterms.DCMediaType;
 
 /**
  * Represents a "Reference to a Document"
@@ -48,19 +47,16 @@ public class DocumentReferencePojo
   private final String m_sDocumentURI;
   private final ICommonsList <String> m_aDocumentDescriptions = new CommonsArrayList <> ();
   private final String m_sDocumentType;
-  private final String m_sLocaleCode;
 
   public DocumentReferencePojo (@Nonnull final String sDocumentURI,
                                 @Nullable final List <String> aDocumentDescriptions,
-                                @Nullable final String sDocumentType,
-                                @Nullable final String sLocaleCode)
+                                @Nullable final String sDocumentType)
   {
     ValueEnforcer.notNull (sDocumentURI, "DocumentURI");
 
     m_sDocumentURI = sDocumentURI;
     m_aDocumentDescriptions.addAll (aDocumentDescriptions);
     m_sDocumentType = sDocumentType;
-    m_sLocaleCode = sLocaleCode;
   }
 
   @Nullable
@@ -89,26 +85,20 @@ public class DocumentReferencePojo
     return m_sDocumentType;
   }
 
-  @Nullable
-  public final String getLocaleCode ()
-  {
-    return m_sLocaleCode;
-  }
-
   @Nonnull
-  public CCCEVDocumentReferenceType getAsDocumentReference ()
+  public DCatAPDistributionType getAsDocumentReference ()
   {
-    final CCCEVDocumentReferenceType ret = new CCCEVDocumentReferenceType ();
+    final DCatAPDistributionType ret = new DCatAPDistributionType ();
     // Mandatory element but not needed atm
-    ret.setAccessURL ("");
-    if (StringHelper.hasText (m_sDocumentURI))
-      ret.addDocumentURI (new IDType (m_sDocumentURI));
+    ret.setAccessURL (StringHelper.getNotNull (m_sDocumentURI));
     for (final String s : m_aDocumentDescriptions)
-      ret.addDocumentDescription (new DescriptionType (s));
+      ret.addDescription (s);
     if (StringHelper.hasText (m_sDocumentType))
-      ret.setDocumentType (m_sDocumentType);
-    if (StringHelper.hasText (m_sLocaleCode))
-      ret.setLocaleCode (m_sLocaleCode);
+    {
+      final DCMediaType dm = new DCMediaType ();
+      dm.addContent (m_sDocumentType);
+      ret.setMediaType (dm);
+    }
     return ret;
   }
 
@@ -122,18 +112,13 @@ public class DocumentReferencePojo
     final DocumentReferencePojo rhs = (DocumentReferencePojo) o;
     return EqualsHelper.equals (m_sDocumentURI, rhs.m_sDocumentURI) &&
            EqualsHelper.equals (m_aDocumentDescriptions, rhs.m_aDocumentDescriptions) &&
-           EqualsHelper.equals (m_sDocumentType, rhs.m_sDocumentType) &&
-           EqualsHelper.equals (m_sLocaleCode, rhs.m_sLocaleCode);
+           EqualsHelper.equals (m_sDocumentType, rhs.m_sDocumentType);
   }
 
   @Override
   public int hashCode ()
   {
-    return new HashCodeGenerator (this).append (m_sDocumentURI)
-                                       .append (m_aDocumentDescriptions)
-                                       .append (m_sDocumentType)
-                                       .append (m_sLocaleCode)
-                                       .getHashCode ();
+    return new HashCodeGenerator (this).append (m_sDocumentURI).append (m_aDocumentDescriptions).append (m_sDocumentType).getHashCode ();
   }
 
   @Override
@@ -142,7 +127,6 @@ public class DocumentReferencePojo
     return new ToStringGenerator (this).append ("DocumentURI", m_sDocumentURI)
                                        .append ("DocumentDescriptions", m_aDocumentDescriptions)
                                        .append ("DocumentType", m_sDocumentType)
-                                       .append ("LocaleCode", m_sLocaleCode)
                                        .getToString ();
   }
 
@@ -153,16 +137,15 @@ public class DocumentReferencePojo
   }
 
   @Nonnull
-  public static Builder builder (@Nullable final CCCEVDocumentReferenceType a)
+  public static Builder builder (@Nullable final DCatAPDistributionType a)
   {
     final Builder ret = new Builder ();
     if (a != null)
     {
-      if (a.hasDocumentURIEntries ())
-        ret.documentURI (a.getDocumentURIAtIndex (0).getValue ());
-      ret.documentDescriptions (new CommonsArrayList <> (a.getDocumentDescription (), DescriptionType::getValue))
-         .documentType (a.getDocumentTypeValue ())
-         .localeCode (a.getLocaleCodeValue ());
+      ret.documentURI (a.getAccessURL ());
+      ret.documentDescriptions (a.getDescription ());
+      if (a.getMediaType () != null && a.getMediaType ().hasContentEntries () && a.getMediaType ().getContentAtIndex (0) instanceof String)
+        ret.documentType ((String) a.getMediaType ().getContentAtIndex (0));
     }
     return ret;
   }
@@ -178,7 +161,6 @@ public class DocumentReferencePojo
     private String m_sDocumentURI;
     private final ICommonsList <String> m_aDocumentDescriptions = new CommonsArrayList <> ();
     private String m_sDocumentType;
-    private String m_sLocaleCode;
 
     public Builder ()
     {}
@@ -237,22 +219,9 @@ public class DocumentReferencePojo
     }
 
     @Nonnull
-    public Builder localeCode (@Nullable final EToopLanguageCode e)
-    {
-      return localeCode (e == null ? null : e.getID ());
-    }
-
-    @Nonnull
-    public Builder localeCode (@Nullable final String s)
-    {
-      m_sLocaleCode = s;
-      return this;
-    }
-
-    @Nonnull
     public DocumentReferencePojo build ()
     {
-      return new DocumentReferencePojo (m_sDocumentURI, m_aDocumentDescriptions, m_sDocumentType, m_sLocaleCode);
+      return new DocumentReferencePojo (m_sDocumentURI, m_aDocumentDescriptions, m_sDocumentType);
     }
   }
 }

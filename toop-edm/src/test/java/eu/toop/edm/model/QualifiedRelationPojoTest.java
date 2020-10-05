@@ -45,7 +45,7 @@ public final class QualifiedRelationPojoTest
     assertNotNull (aObj);
     CommonsTestHelper.testDefaultImplementationWithEqualContentObject (aObj, aObj.clone ());
 
-    final RelationshipMarshaller m = new RelationshipMarshaller ();
+    final RelationshipMarshaller m = new RelationshipMarshaller ("Relation");
     m.setFormattedOutput (true);
     assertNotNull (m.getAsDocument (aObj));
     if (false)

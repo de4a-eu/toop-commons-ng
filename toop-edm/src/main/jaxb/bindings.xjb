@@ -20,7 +20,8 @@
           xmlns="http://java.sun.com/xml/ns/jaxb"
           xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" 
           xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:adms="http://www.w3.org/ns/adms#"
           xsi:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd">
   <globalBindings fixedAttributeAsConstantProperty="true"
                   typesafeEnumMemberName="generateError"
@@ -79,7 +80,7 @@
       <package name="eu.toop.edm.jaxb.cv.dt" />
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/dcat-ap.xsd">
+  <bindings schemaLocation="../resources/schemas/dcat-ap.xsd" node="/xsd:schema">
     <schemaBindings>
       <package name="eu.toop.edm.jaxb.dcatap" />
       <nameXmlTransform>
@@ -89,10 +90,13 @@
     <!-- 
     <bindings node="//xsd:complexType[@name='DatasetType']">
       <bindings node=".//xsd:element[@ref='adms:identifier']">
-        <property name="AdmsIdentifier"/>
+        <property name="AdmsIdentifier" />
       </bindings>
     </bindings>
      -->
+    <bindings node="//xsd:complexType[@name='DatasetType']//xsd:element[@ref='dct:hasVersion']">
+      <property name="DCTHasVersion" />
+    </bindings>
   </bindings>
   <bindings schemaLocation="../resources/schemas/dcterms.xsd">
     <schemaBindings>

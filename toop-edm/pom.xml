@@ -153,6 +153,7 @@
           <catalog>src/main/jaxb/catalog.txt</catalog>
           <extension>true</extension>
           <strict>false</strict>
+          <verbose>false</verbose>
           <args>
             <arg>-no-header</arg>
             <arg>-Xph-default-locale</arg>

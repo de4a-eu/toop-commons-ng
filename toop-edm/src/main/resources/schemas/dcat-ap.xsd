@@ -150,7 +150,9 @@
 					<xsd:element ref="keyword" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element ref="theme" minOccurs="0" maxOccurs="unbounded"/>
 					<!--Optional elements-->
+          <!-- 
 					<xsd:element ref="adms:identifier" minOccurs="0" maxOccurs="unbounded"/>
+           -->
 					<xsd:element ref="adms:sample" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element ref="adms:versionNotes" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element ref="dct:accessRights" minOccurs="0"/>
