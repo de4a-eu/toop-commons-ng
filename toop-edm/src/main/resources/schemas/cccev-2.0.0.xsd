@@ -15,8 +15,7 @@
 		schemaLocation="CV-CommonAggregateComponents.xsd"/>
 	<xsd:import namespace="https://data.europe.eu/semanticassets/ns/cv/common/cbc_v2.0.0#"
 		schemaLocation="CV-CommonBasicComponents.xsd"/>
-	<xsd:import namespace="urn:un:unece:uncefact:data:specification:CoreComponentTypeSchemaModule:2"
-		schemaLocation="CCTS_CCT_SchemaModule-2.3.xsd"/>
+	<xsd:import namespace="urn:un:unece:uncefact:data:specification:CoreComponentTypeSchemaModule:2" />
 	<xsd:import namespace="http://data.europa.eu/r5r/"
 		schemaLocation="dcat-ap.xsd"/>
 	<xsd:import namespace="http://www.w3.org/2002/07/owl#"

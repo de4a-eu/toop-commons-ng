@@ -69,7 +69,8 @@
     </xsd:simpleContent>
   </xsd:complexType>
   <!-- Statement -->
-  <xsd:complexType name="Statement">
+  <!-- [ph] added "Type" -->
+  <xsd:complexType name="StatementType">
     <xsd:sequence>
       <xsd:element name="Statement" minOccurs="1" maxOccurs="1">
         <xsd:complexType>

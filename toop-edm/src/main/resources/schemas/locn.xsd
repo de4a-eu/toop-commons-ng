@@ -20,7 +20,9 @@
     <xs:element name="address" type="AddressType"/>
 
     <!-- Classes declarations-->
+    <!-- [ph] double 
     <xs:element name="Address" type="AddressType"/>
+     -->
     <xs:element name="Geometry" type="GeometryType"/>
     <xs:element name="Location" type="LocationType"/>
     

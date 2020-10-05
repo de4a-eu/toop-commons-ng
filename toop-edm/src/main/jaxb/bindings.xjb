@@ -86,11 +86,13 @@
         <typeName prefix="DCatAP"/>
       </nameXmlTransform>
     </schemaBindings>
+    <!-- 
     <bindings node="//xsd:complexType[@name='DatasetType']">
       <bindings node=".//xsd:element[@ref='adms:identifier']">
         <property name="AdmsIdentifier"/>
       </bindings>
     </bindings>
+     -->
   </bindings>
   <bindings schemaLocation="../resources/schemas/dcterms.xsd">
     <schemaBindings>
