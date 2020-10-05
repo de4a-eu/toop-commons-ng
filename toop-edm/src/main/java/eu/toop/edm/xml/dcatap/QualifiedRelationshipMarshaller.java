@@ -15,24 +15,18 @@
  */
 package eu.toop.edm.xml.dcatap;
 
-import javax.annotation.Nonnull;
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-
-import com.helger.commons.annotation.Nonempty;
-
 import eu.toop.edm.jaxb.dcatap.DCatAPRelationshipType;
+import eu.toop.edm.jaxb.dcatap.ObjectFactory;
 
 /**
  * XML marshaller for DCAT AP relationships
  *
  * @author Philip Helger
  */
-public class RelationshipMarshaller extends AbstractDCatMarshaller <DCatAPRelationshipType>
+public class QualifiedRelationshipMarshaller extends AbstractDCatMarshaller <DCatAPRelationshipType>
 {
-  public RelationshipMarshaller (@Nonnull @Nonempty final String sLocalName)
+  public QualifiedRelationshipMarshaller ()
   {
-    super (DCatAPRelationshipType.class,
-           x -> new JAXBElement <> (new QName ("http://data.europa.eu/r5r/", sLocalName), DCatAPRelationshipType.class, null, x));
+    super (DCatAPRelationshipType.class, x -> new ObjectFactory ().createQualifiedRelation (x));
   }
 }

@@ -44,6 +44,7 @@ public class AgentMarshaller extends GenericJAXBMarshaller <AgentType>
   {
     final Class <?> [] aClasses = new Class <?> [] { com.helger.xsds.ccts.cct.schemamodule.ObjectFactory.class,
                                                      com.helger.xsds.xlink.ObjectFactory.class,
+                                                     eu.toop.edm.jaxb.owl.ObjectFactory.class,
                                                      eu.toop.edm.jaxb.w3.skos.ObjectFactory.class,
                                                      eu.toop.edm.jaxb.w3.locn.ObjectFactory.class,
                                                      eu.toop.edm.jaxb.foaf.ObjectFactory.class,

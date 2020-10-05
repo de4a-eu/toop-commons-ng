@@ -43,6 +43,7 @@ public class CAGVNamespaceContext extends MapBasedNamespaceContext
     addMappings (CCVNamespaceContext.getInstance ());
     addMapping (CCCTS.DEFAULT_PREFIX, CCCTS.NAMESPACE_URI);
     addMapping (CXLink.DEFAULT_PREFIX, CXLink.NAMESPACE_URI);
+    addMapping ("owl", "http://www.w3.org/2002/07/owl#");
     addMapping ("skos", "http://www.w3.org/2004/02/skos/core#");
     addMapping ("locn", "http://www.w3.org/ns/locn#");
     addMapping ("foaf", "http://xmlns.com/foaf/0.1/");

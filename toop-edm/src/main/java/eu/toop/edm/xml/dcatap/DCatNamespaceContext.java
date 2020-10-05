@@ -46,6 +46,7 @@ public class DCatNamespaceContext extends MapBasedNamespaceContext
     addMapping ("locn", "http://www.w3.org/ns/locn#");
     addMapping ("skos", "http://www.w3.org/2004/02/skos/core#");
     addMapping ("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+    addMapping ("prov", "http://www.w3.org/ns/prov#");
     addMapping ("dct", "http://purl.org/dc/terms/");
     addMapping ("csdt", "https://data.europe.eu/semanticassets/ns/cv/common/dataTypes-2.0.0#");
     addMapping ("csbc", "https://data.europe.eu/semanticassets/ns/cv/common/cbc_v2.0.0#");

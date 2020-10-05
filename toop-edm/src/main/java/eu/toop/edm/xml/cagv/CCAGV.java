@@ -48,6 +48,7 @@ public final class CCAGV
     aList.addAll (CCCTS.getXSDResource (),
                   CXML_XSD.getXSDResource (),
                   CXLink.getXSDResource (),
+                  new ClassPathResource ("schemas/owl.xsd", _getCL ()),
                   new ClassPathResource ("schemas/skos.xsd", _getCL ()),
                   new ClassPathResource ("schemas/locn.xsd", _getCL ()),
                   new ClassPathResource ("schemas/foaf.xsd", _getCL ()),

@@ -20,7 +20,6 @@ import javax.annotation.Nonnull;
 import com.helger.commons.annotation.Singleton;
 import com.helger.xml.namespace.MapBasedNamespaceContext;
 
-import eu.toop.edm.xml.cagv.CAGVNamespaceContext;
 import eu.toop.edm.xml.dcatap.DCatNamespaceContext;
 
 /**
@@ -38,9 +37,8 @@ public class CCCEVNamespaceContext extends MapBasedNamespaceContext
 
   protected CCCEVNamespaceContext ()
   {
-    addMappings (CAGVNamespaceContext.getInstance ());
     setMappings (DCatNamespaceContext.getInstance ());
-    addMapping ("cccev", "https://semic.org/sa/cv/cccev-2.0.0#");
+    addMapping ("cccev", "https://data.europe.eu/semanticassets/ns/cv/cccev_v2.0.0#");
   }
 
   @Nonnull
