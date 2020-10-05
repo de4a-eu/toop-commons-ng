@@ -44,7 +44,6 @@ import com.helger.datetime.util.PDTXMLConverter;
 import eu.toop.edm.jaxb.cccev.CCCEVDocumentReferenceType;
 import eu.toop.edm.jaxb.cv.agent.AgentType;
 import eu.toop.edm.jaxb.dcatap.DCatAPDatasetType;
-import eu.toop.edm.jaxb.dcatap.DCatAPDistributionType;
 import eu.toop.edm.jaxb.dcatap.DCatAPRelationshipType;
 import eu.toop.edm.jaxb.dcterms.DCPeriodOfTimeType;
 
@@ -67,7 +66,6 @@ public class DatasetPojo
   private final LocalDate m_aValidFrom;
   private final LocalDate m_aValidTo;
   private final ICommonsList <QualifiedRelationPojo> m_aQualifiedRelations = new CommonsArrayList <> ();
-  private final String m_sLocaleCode;
 
   public DatasetPojo (@Nonnull @Nonempty final ICommonsList <String> aDescriptions,
                       @Nonnull @Nonempty final ICommonsList <String> aTitles,
@@ -79,8 +77,7 @@ public class DatasetPojo
                       @Nullable final LocalDateTime aLastModifiedDT,
                       @Nullable final LocalDate aValidFrom,
                       @Nullable final LocalDate aValidTo,
-                      @Nullable final ICommonsList <QualifiedRelationPojo> aQualifiedRelations,
-                      @Nullable final String sLocaleCode)
+                      @Nullable final ICommonsList <QualifiedRelationPojo> aQualifiedRelations)
   {
     ValueEnforcer.notEmptyNoNullValue (aDescriptions, "Descriptions");
     ValueEnforcer.notEmptyNoNullValue (aTitles, "Titles");
@@ -100,7 +97,6 @@ public class DatasetPojo
     m_aValidTo = aValidTo;
     if (aQualifiedRelations != null)
       m_aQualifiedRelations.addAll (aQualifiedRelations);
-    m_sLocaleCode = sLocaleCode;
   }
 
   @Nonnull
@@ -201,12 +197,6 @@ public class DatasetPojo
     return m_aQualifiedRelations.getClone ();
   }
 
-  @Nullable
-  public final String getLocaleCode ()
-  {
-    return m_sLocaleCode;
-  }
-
   @Nonnull
   public DCatAPDatasetType getAsDataset ()
   {
@@ -238,8 +228,6 @@ public class DatasetPojo
     }
     for (final QualifiedRelationPojo aItem : m_aQualifiedRelations)
       ret.addQualifiedRelation (aItem.getAsRelationship ());
-    if (StringHelper.hasText (m_sLocaleCode))
-      ret.addLanguage (m_sLocaleCode);
     return ret;
   }
 
@@ -261,8 +249,7 @@ public class DatasetPojo
            EqualsHelper.equals (m_aLastModifiedDT, rhs.m_aLastModifiedDT) &&
            EqualsHelper.equals (m_aValidFrom, rhs.m_aValidFrom) &&
            EqualsHelper.equals (m_aValidTo, rhs.m_aValidTo) &&
-           EqualsHelper.equals (m_aQualifiedRelations, rhs.m_aQualifiedRelations) &&
-           EqualsHelper.equals (m_sLocaleCode, rhs.m_sLocaleCode);
+           EqualsHelper.equals (m_aQualifiedRelations, rhs.m_aQualifiedRelations);
   }
 
   @Override
@@ -296,7 +283,6 @@ public class DatasetPojo
                                        .append ("ValidFrom", m_aValidFrom)
                                        .append ("ValidTo", m_aValidTo)
                                        .append ("QualifiedRelations", m_aQualifiedRelations)
-                                       .append ("LocaleCode", m_sLocaleCode)
                                        .getToString ();
   }
 
@@ -314,11 +300,7 @@ public class DatasetPojo
     {
       ret.descriptions (a.getDescription ()).titles (a.getTitle ());
       if (a.hasDistributionEntries ())
-      {
-        final DCatAPDistributionType aDist = a.getDistributionAtIndex (0);
-        if (aDist instanceof CCCEVDocumentReferenceType)
-          ret.distribution (DocumentReferencePojo.builder (aDist));
-      }
+        ret.distribution (DocumentReferencePojo.builder (a.getDistributionAtIndex (0)));
       if (a.getCreator () instanceof AgentType)
         ret.creator (AgentPojo.builder ((AgentType) a.getCreator ()));
       ret.ids (a.getIdentifier ()).issued (a.getIssued ());
@@ -335,8 +317,6 @@ public class DatasetPojo
       }
       for (final DCatAPRelationshipType aItem : a.getQualifiedRelation ())
         ret.addQualifiedRelation (QualifiedRelationPojo.builder (aItem));
-      if (a.hasLanguageEntries ())
-        ret.localeCode (a.getLanguageAtIndex (0));
     }
     return ret;
   }
@@ -360,7 +340,6 @@ public class DatasetPojo
     private LocalDate m_aValidFrom;
     private LocalDate m_aValidTo;
     private final ICommonsList <QualifiedRelationPojo> m_aQualifiedRelations = new CommonsArrayList <> ();
-    private String m_sLocaleCode;
 
     public Builder ()
     {}
@@ -564,6 +543,12 @@ public class DatasetPojo
     }
 
     @Nonnull
+    public Builder language (@Nullable final EToopLanguageCode e)
+    {
+      return language (e == null ? null : e.getID ());
+    }
+
+    @Nonnull
     public Builder language (@Nullable final String s)
     {
       m_sLanguage = s;
@@ -704,19 +689,6 @@ public class DatasetPojo
     }
 
     @Nonnull
-    public Builder localeCode (@Nullable final EToopLanguageCode e)
-    {
-      return localeCode (e == null ? null : e.getID ());
-    }
-
-    @Nonnull
-    public Builder localeCode (@Nullable final String s)
-    {
-      m_sLocaleCode = s;
-      return this;
-    }
-
-    @Nonnull
     public DatasetPojo build ()
     {
       return new DatasetPojo (m_aDescriptions,
@@ -729,8 +701,7 @@ public class DatasetPojo
                               m_aLastModifiedDT,
                               m_aValidFrom,
                               m_aValidTo,
-                              m_aQualifiedRelations,
-                              m_sLocaleCode);
+                              m_aQualifiedRelations);
     }
   }
 }

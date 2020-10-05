@@ -38,6 +38,7 @@ public class CCCEVNamespaceContext extends MapBasedNamespaceContext
   protected CCCEVNamespaceContext ()
   {
     setMappings (DCatNamespaceContext.getInstance ());
+    addMapping ("owl", "http://www.w3.org/2002/07/owl#");
     addMapping ("cccev", "https://data.europe.eu/semanticassets/ns/cv/cccev_v2.0.0#");
   }
 

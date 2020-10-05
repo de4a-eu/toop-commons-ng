@@ -50,9 +50,6 @@ public abstract class AbstractDCatMarshaller <T> extends GenericJAXBMarshaller <
   {
     final Class <?> [] aClasses = new Class <?> [] { com.helger.xsds.ccts.cct.schemamodule.ObjectFactory.class,
                                                      com.helger.xsds.xlink.ObjectFactory.class,
-                                                     eu.toop.edm.jaxb.cccev.ObjectFactory.class,
-                                                     eu.toop.edm.jaxb.cv.agent.ObjectFactory.class,
-                                                     eu.toop.edm.jaxb.cv.cac.ObjectFactory.class,
                                                      eu.toop.edm.jaxb.cv.cbc.ObjectFactory.class,
                                                      eu.toop.edm.jaxb.cv.dt.ObjectFactory.class,
                                                      eu.toop.edm.jaxb.dcatap.ObjectFactory.class,
