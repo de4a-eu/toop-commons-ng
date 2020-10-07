@@ -18,7 +18,7 @@ package eu.toop.edm.xml.cv;
 import javax.annotation.Nonnull;
 
 import com.helger.commons.annotation.Singleton;
-import com.helger.ubl21.UBL21NamespaceContext;
+import com.helger.ubl23.UBL23NamespaceContext;
 import com.helger.xml.namespace.MapBasedNamespaceContext;
 
 /**
@@ -36,8 +36,8 @@ public class CCVNamespaceContext extends MapBasedNamespaceContext
 
   protected CCVNamespaceContext ()
   {
-    // Include UBL 2.1
-    addMappings (UBL21NamespaceContext.getInstance ());
+    // Include UBL 2.3
+    addMappings (UBL23NamespaceContext.getInstance ());
     addMapping ("cva", "http://www.w3.org/ns/corevocabulary/AggregateComponents");
     addMapping ("cvb", "http://www.w3.org/ns/corevocabulary/BasicComponents");
   }

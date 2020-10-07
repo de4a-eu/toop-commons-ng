@@ -43,6 +43,7 @@ public class CAGVNamespaceContext extends MapBasedNamespaceContext
     addMappings (CCVNamespaceContext.getInstance ());
     addMapping (CCCTS.DEFAULT_PREFIX, CCCTS.NAMESPACE_URI);
     addMapping (CXLink.DEFAULT_PREFIX, CXLink.NAMESPACE_URI);
+    addMapping ("owl", "http://www.w3.org/2002/07/owl#");
     addMapping ("skos", "http://www.w3.org/2004/02/skos/core#");
     addMapping ("locn", "http://www.w3.org/ns/locn#");
     addMapping ("foaf", "http://xmlns.com/foaf/0.1/");
@@ -50,9 +51,9 @@ public class CAGVNamespaceContext extends MapBasedNamespaceContext
     addMapping ("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
     addMapping ("dct", "http://purl.org/dc/terms/");
     addMapping ("regorg", "http://www.w3.org/ns/regorg#");
-    addMapping ("csdt", "https://semic.org/sa/cv/common/dataTypes-2.0.0#");
-    addMapping ("csbc", "https://semic.org/sa/cv/common/cbc-2.0.0#");
-    addMapping ("csac", "https://semic.org/sa/cv/common/cac-2.0.0#");
+    addMapping ("csdt", "https://data.europe.eu/semanticassets/ns/cv/common/dataTypes-2.0.0#");
+    addMapping ("csbc", "https://data.europe.eu/semanticassets/ns/cv/common/cbc_v2.0.0#");
+    addMapping ("csac", "https://data.europe.eu/semanticassets/ns/cv/common/cac_v2.0.0#");
     addMapping ("cagv", "https://semic.org/sa/cv/cagv/agent-2.0.0#");
   }
 

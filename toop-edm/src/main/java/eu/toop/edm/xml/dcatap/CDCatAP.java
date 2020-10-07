@@ -27,7 +27,7 @@ import com.helger.xsds.xml.CXML_XSD;
 
 /**
  * Constants for handling DCatAP
- * 
+ *
  * @author Philip Helger
  */
 public final class CDCatAP
@@ -45,6 +45,7 @@ public final class CDCatAP
                                                                                new ClassPathResource ("schemas/locn.xsd", _getCL ()),
                                                                                new ClassPathResource ("schemas/skos.xsd", _getCL ()),
                                                                                new ClassPathResource ("schemas/rdf.xsd", _getCL ()),
+                                                                               new ClassPathResource ("schemas/prov.xsd", _getCL ()),
                                                                                new ClassPathResource ("schemas/dcterms.xsd", _getCL ()),
                                                                                new ClassPathResource ("schemas/CV-DataTypes.xsd",
                                                                                                       _getCL ()),

@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import com.helger.commons.mock.CommonsTestHelper;
 
 import eu.toop.edm.jaxb.dcatap.DCatAPRelationshipType;
-import eu.toop.edm.xml.dcatap.RelationshipMarshaller;
+import eu.toop.edm.xml.dcatap.QualifiedRelationshipMarshaller;
 
 /**
  * Test class for class {@link QualifiedRelationPojo}
@@ -45,7 +45,7 @@ public final class QualifiedRelationPojoTest
     assertNotNull (aObj);
     CommonsTestHelper.testDefaultImplementationWithEqualContentObject (aObj, aObj.clone ());
 
-    final RelationshipMarshaller m = new RelationshipMarshaller ();
+    final QualifiedRelationshipMarshaller m = new QualifiedRelationshipMarshaller ();
     m.setFormattedOutput (true);
     assertNotNull (m.getAsDocument (aObj));
     if (false)

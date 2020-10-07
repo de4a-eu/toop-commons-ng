@@ -23,13 +23,6 @@
     xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0"
     xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns:toop="urn:oasis:names:tc:ebxml-regrep:xsd:rim:4.0:toop"
-    xsi:schemaLocation="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0                        ../../../../xsd/regrep/query.xsd 
-    urn:oasis:names:tc:ebxml-regrep:xsd:rim:4.0                          ../../../../xsd/regrep/rim.xsd
-    urn:oasis:names:tc:ebxml-regrep:xsd:rs:4.0                           ../../../../xsd/regrep/rs.xsd 
-    http://www.w3.org/ns/corevocabulary/AggregateComponents              ../../../../xsd/cv/CoreVocabularies-AggregateComponents-1.1.xsd
-    https://semic.org/sa/cv/cagv/agent-2.0.0# ../../../../xsd/cagv/2.0.0/xml/xsd/CV-Agent.xsd
-    http://www.w3.org/ns/locn# ../../../../xsd/clv/2.0.0/xml/locn.xsd"
-    
     requestId="c4369c4d-740e-4b64-80f0-7b209a66d629"
     status="urn:oasis:names:tc:ebxml-regrep:ResponseStatusType:Success">
 
@@ -52,7 +45,7 @@
         <rim:SlotValue xsi:type="rim:AnyValueType">
             <!--   Expression of DP information using Agent class of CAGV   -->
             <cagv:Agent xmlns:cagv="https://semic.org/sa/cv/cagv/agent-2.0.0#"
-                xmlns:cbc="https://semic.org/sa/cv/common/cbc-2.0.0#"
+                xmlns:cbc="https://data.europe.eu/semanticassets/ns/cv/common/cbc_v2.0.0#"
                 xmlns:locn="http://www.w3.org/ns/locn#">
                 <cbc:id schemeID="VAT">12345678</cbc:id>
                 <cbc:name>DPName</cbc:name>
@@ -64,28 +57,22 @@
         <rim:RegistryObject xsi:type="rim:ExtrinsicObjectType" id="555555-740e-4b64-80f0-2462462462">
             <rim:Slot name="DocumentMetadata">
                 <rim:SlotValue xsi:type="rim:AnyValueType">
-                    <dcat:Dataset
-                        xmlns:cccev="https://semic.org/sa/cv/cccev-2.0.0#"
+                    <dcat:dataset
+                        xmlns:cccev="https://data.europe.eu/semanticassets/ns/cv/cccev_v2.0.0#"
                         xmlns:dcat="http://data.europa.eu/r5r/"
-                        xmlns:cbc="https://semic.org/sa/cv/common/cbc-2.0.0#"
-                        xsi:schemaLocation="http://data.europa.eu/r5r/ ../../../../xsd/dcat-ap/2.0.0/xml/dcat-ap.xsd
-                        https://semic.org/sa/cv/common/cbc-2.0.0# ../../../../xsd/common/2.0.0/xml/CV-CommonBasicComponents.xsd
-                        https://semic.org/sa/cv/cccev-2.0.0# ../../../../xsd/cccev/2.0.0/xml/xsd/cccev-2.0.0.xsd">
+                        xmlns:cbc="https://data.europe.eu/semanticassets/ns/cv/common/cbc_v2.0.0#">
                         <description xmlns="http://purl.org/dc/terms/">Extract from the Commercial register that contains details of all tradespeople and legal entities in the district of the register.</description>
                         <title xmlns="http://purl.org/dc/terms/">Name</title>
                         <!-- DocumentReference-->
-                        <dcat:distribution xmlns:cccev="https://semic.org/sa/cv/cccev-2.0.0#"
-                            xsi:schemaLocation="https://semic.org/sa/cv/cccev-2.0.0# ../../../../xsd/cccev/2.0.0/xml/xsd/cccev-2.0.0.xsd"
+                        <dcat:distribution xmlns:cccev="https://data.europe.eu/semanticassets/ns/cv/cccev_v2.0.0#"
+                            xmlns:dct="http://purl.org/dc/terms/"
                             xsi:type="cccev:DocumentReferenceType">
-                            <dcat:accessURL></dcat:accessURL>
-                            <cccev:documentURI>URI</cccev:documentURI>
-                            <cccev:documentDescription>DocumentDescription</cccev:documentDescription>
-                            <cccev:documentType>application/xml</cccev:documentType>
-                            <cccev:localeCode>DE</cccev:localeCode>
+                            <dcat:accessURL>URI</dcat:accessURL>
+                            <dct:description>DocumentDescription</dct:description>
+                            <dcat:mediaType>application/xml</dcat:mediaType>
                         </dcat:distribution>
                         <!-- Creator is an Agent OrganizationType-->
                         <creator xmlns:cagv="https://semic.org/sa/cv/cagv/agent-2.0.0#"
-                            xsi:schemaLocation="https://semic.org/sa/cv/cagv/agent-2.0.0# ../../../../xsd/cagv/2.0.0/xml/xsd/CV-Agent.xsd"
                             xmlns="http://purl.org/dc/terms/" xsi:type="cagv:OrganizationType">
                             <!--AgentIdentifier-->
                             <cbc:id>5555</cbc:id>
@@ -118,7 +105,7 @@
                                 <identifier>RE238918378</identifier>
                             </relation>
                         </dcat:qualifiedRelation> 
-                    </dcat:Dataset>
+                    </dcat:dataset>
                 </rim:SlotValue>
             </rim:Slot>
             <!-- The attached Document Provided as Evidence. Points to an AS4 attachment -->

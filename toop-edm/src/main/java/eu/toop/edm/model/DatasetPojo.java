@@ -44,7 +44,6 @@ import com.helger.datetime.util.PDTXMLConverter;
 import eu.toop.edm.jaxb.cccev.CCCEVDocumentReferenceType;
 import eu.toop.edm.jaxb.cv.agent.AgentType;
 import eu.toop.edm.jaxb.dcatap.DCatAPDatasetType;
-import eu.toop.edm.jaxb.dcatap.DCatAPDistributionType;
 import eu.toop.edm.jaxb.dcatap.DCatAPRelationshipType;
 import eu.toop.edm.jaxb.dcterms.DCPeriodOfTimeType;
 
@@ -301,11 +300,7 @@ public class DatasetPojo
     {
       ret.descriptions (a.getDescription ()).titles (a.getTitle ());
       if (a.hasDistributionEntries ())
-      {
-        final DCatAPDistributionType aDist = a.getDistributionAtIndex (0);
-        if (aDist instanceof CCCEVDocumentReferenceType)
-          ret.distribution (DocumentReferencePojo.builder ((CCCEVDocumentReferenceType) aDist));
-      }
+        ret.distribution (DocumentReferencePojo.builder (a.getDistributionAtIndex (0)));
       if (a.getCreator () instanceof AgentType)
         ret.creator (AgentPojo.builder ((AgentType) a.getCreator ()));
       ret.ids (a.getIdentifier ()).issued (a.getIssued ());
@@ -545,6 +540,12 @@ public class DatasetPojo
     {
       m_aIssuedDT = a == null ? null : a.truncatedTo (ChronoUnit.MILLIS);
       return this;
+    }
+
+    @Nonnull
+    public Builder language (@Nullable final EToopLanguageCode e)
+    {
+      return language (e == null ? null : e.getID ());
     }
 
     @Nonnull

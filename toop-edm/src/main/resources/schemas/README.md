@@ -1,4 +1,4 @@
-# TOOP EDM Schemas
+# TOOP EDM Schemas 2.1.0
 
 ## EDM Request
 
@@ -23,13 +23,14 @@ Dependencies:
 
 ## cccev-2.0.0.xsd
 
-Target namespace: `https://semic.org/sa/cv/cccev-2.0.0#`
+Target namespace (changed in EDM 2.1.0):
+`https://data.europe.eu/semanticassets/ns/cv/cccev_v2.0.0#`
 
 Dependencies:
 * CV-CommonAggregateComponents.xsd
 * CV-CommonBasicComponents.xsd
 * dcat-ap.xsd
-* CV-Agent.xsd
+* owl.xsd
 * foaf.xsd
 
 External dependencies:
@@ -46,8 +47,9 @@ Dependencies:
 
 Target namespace: `http://www.w3.org/ns/corevocabulary/BasicComponents`
 
-External dependencies:
-* `urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2`
+External dependencies (changed in EDM 2.1.0):
+* `urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2` (when using UBL 2.1)
+* `urn:oasis:names:specification:bdndr:schema:xsd:UnqualifiedDataTypes-1` (when using UBL 2.3)
 
 ## CV-Agent.xsd
 
@@ -60,27 +62,32 @@ Dependencies:
 * foaf.xsd
 * locn.xsd
 * org.xsd
+* owl.xsd
 * regorg.xsd
 * skos.xsd
 
 ## CV-CommonAggregateComponents.xsd
 
-Target namespace: `https://semic.org/sa/cv/common/cac-2.0.0#`
+Target namespace (changed in EDM 2.1.0):
+`https://data.europe.eu/semanticassets/ns/cv/common/cac_v2.0.0#`
 
 Dependencies:
 * CV-CommonBasicComponents.xsd
 * locn.xsd
+* owl.xsd
 
 ## CV-CommonBasicComponents.xsd
 
-Target namespace: `https://semic.org/sa/cv/common/cbc-2.0.0#`
+Target namespace (changed in EDM 2.1.0):
+`https://data.europe.eu/semanticassets/ns/cv/common/cbc_v2.0.0#`
 
 Dependencies:
 * CV-DataTypes.xsd
 
 ## CV-DataTypes.xsd
 
-Target namespace: `https://semic.org/sa/cv/common/dataTypes-2.0.0#`
+Target namespace (changed in EDM 2.1.0):
+`https://data.europe.eu/semanticassets/ns/cv/common/dataTypes-2.0.0#`
 
 External dependencies:
 * `urn:un:unece:uncefact:data:specification:CoreComponentTypeSchemaModule:2`
@@ -95,6 +102,7 @@ Dependencies:
 * foaf.xsd
 * adms.xsd
 * odrl.xsd
+* prov.xsd
 * rdf.xsd
 * skos.xsd
 * spdx.xsd
@@ -138,6 +146,15 @@ Target namespace: `http://www.w3.org/ns/org#`
 Dependencies:
 * foaf.xsd
 * skos.xsd
+
+## prov.xsd
+
+Added in EDM 2.1.0
+
+Target namespace: `http://www.w3.org/ns/prov#`
+
+Dependencies:
+* foaf.xsd
 
 ## rdf.xsd
 

@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.toop.edm.xml.cccev;
+package eu.toop.edm.xml.dcatap;
 
-import eu.toop.edm.jaxb.cccev.CCCEVDocumentReferenceType;
-import eu.toop.edm.jaxb.cccev.ObjectFactory;
+import eu.toop.edm.jaxb.dcatap.DCatAPRelationshipType;
+import eu.toop.edm.jaxb.dcatap.ObjectFactory;
 
 /**
- * XML marshaller for CCCEV document references
+ * XML marshaller for DCAT AP relationships
  *
  * @author Philip Helger
  */
-public class DocumentReferenceMarshaller extends AbstractCCCEVMarshaller <CCCEVDocumentReferenceType>
+public class QualifiedRelationshipMarshaller extends AbstractDCatMarshaller <DCatAPRelationshipType>
 {
-  public DocumentReferenceMarshaller ()
+  public QualifiedRelationshipMarshaller ()
   {
-    super (CCCEVDocumentReferenceType.class, x -> new ObjectFactory ().createDocumentReference (x));
+    super (DCatAPRelationshipType.class, x -> new ObjectFactory ().createQualifiedRelation (x));
   }
 }

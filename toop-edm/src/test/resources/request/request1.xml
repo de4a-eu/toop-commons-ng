@@ -46,7 +46,7 @@
   </rim:Slot>
   <rim:Slot name="DataConsumer">
     <rim:SlotValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rim:AnyValueType">
-      <cagv:Agent xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:regorg="http://www.w3.org/ns/regorg#" xmlns:locn="http://www.w3.org/ns/locn#" xmlns:cbc="https://semic.org/sa/cv/common/cbc-2.0.0#" xmlns:cac="https://semic.org/sa/cv/common/cac-2.0.0#" xmlns:cagv="https://semic.org/sa/cv/cagv/agent-2.0.0#">
+      <cagv:Agent xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:regorg="http://www.w3.org/ns/regorg#" xmlns:locn="http://www.w3.org/ns/locn#" xmlns:cbc="https://data.europe.eu/semanticassets/ns/cv/common/cbc_v2.0.0#" xmlns:cac="https://data.europe.eu/semanticassets/ns/cv/common/cac_v2.0.0#" xmlns:cagv="https://semic.org/sa/cv/cagv/agent-2.0.0#">
         <cbc:id schemeID="VAT">1234</cbc:id>
               <cbc:name>DC NAME</cbc:name>
               <cagv:location>
@@ -109,28 +109,28 @@
       <rim:Slot name="ConceptRequestList">
       <rim:SlotValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rim:CollectionValueType" collectionType="urn:oasis:names:tc:ebxml-regrep:CollectionType:Set">
         <rim:Element xsi:type="rim:AnyValueType">
-          <cccev:concept xmlns:spdx="spdx:xsd::1.0" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:regorg="http://www.w3.org/ns/regorg#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:r5r="http://data.europa.eu/r5r/" xmlns:odrl="http://www.w3.org/ns/odrl/2/" xmlns:locn="http://www.w3.org/ns/locn#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:cbc="https://semic.org/sa/cv/common/cbc-2.0.0#" xmlns:cagv="https://semic.org/sa/cv/cagv/agent-2.0.0#" xmlns:cac="https://semic.org/sa/cv/common/cac-2.0.0#" xmlns:adms="http://www.w3.org/ns/adms#" xmlns:cccev="https://semic.org/sa/cv/cccev-2.0.0#">
+          <cccev:concept xmlns:spdx="spdx:xsd::1.0" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:regorg="http://www.w3.org/ns/regorg#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:r5r="http://data.europa.eu/r5r/" xmlns:odrl="http://www.w3.org/ns/odrl/2/" xmlns:locn="http://www.w3.org/ns/locn#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:cbc="https://data.europe.eu/semanticassets/ns/cv/common/cbc_v2.0.0#" xmlns:cagv="https://semic.org/sa/cv/cagv/agent-2.0.0#" xmlns:cac="https://data.europe.eu/semanticassets/ns/cv/common/cac_v2.0.0#" xmlns:adms="http://www.w3.org/ns/adms#" xmlns:cccev="https://data.europe.eu/semanticassets/ns/cv/cccev_v2.0.0#">
             <cbc:id>5c2b77c0-19d0-41ba-8649-e07ab8b788b2</cbc:id>
-                      <cbc:QName xmlns="http://toop.eu/registered-organization">RegisteredOrganization</cbc:QName>
+                      <cbc:qName xmlns="http://toop.eu/registered-organization">RegisteredOrganization</cbc:qName>
                       <cccev:concept>
               <cbc:id>083ac8e6-f452-4f0a-a337-07a3b5058a4e</cbc:id>
-                          <cbc:QName xmlns="http://toop.eu/registered-organization">CompanyName</cbc:QName>
+                          <cbc:qName xmlns="http://toop.eu/registered-organization">CompanyName</cbc:qName>
             </cccev:concept>
                       <cccev:concept>
               <cbc:id>c3fc6964-28ee-4e55-bc13-da1fe7d57da3</cbc:id>
-                          <cbc:QName xmlns="http://toop.eu/registered-organization">CompanyCode</cbc:QName>
+                          <cbc:qName xmlns="http://toop.eu/registered-organization">CompanyCode</cbc:qName>
             </cccev:concept>
                       <cccev:concept>
               <cbc:id>4d6fba11-8e50-49e0-b5b8-133c9d305d6c</cbc:id>
-                          <cbc:QName xmlns="http://toop.eu/registered-organization">HasLegalRepresentative</cbc:QName>
+                          <cbc:qName xmlns="http://toop.eu/registered-organization">HasLegalRepresentative</cbc:qName>
             </cccev:concept>
                       <cccev:concept>
               <cbc:id>cae5e26e-385f-4d3d-a6c4-7ab2211c72bc</cbc:id>
-                          <cbc:QName xmlns="http://toop.eu/registered-organization">FoundationDate</cbc:QName>
+                          <cbc:qName xmlns="http://toop.eu/registered-organization">FoundationDate</cbc:qName>
             </cccev:concept>
                       <cccev:concept>
               <cbc:id>bc9e1fa0-0231-4b6c-a180-37de07eadc53</cbc:id>
-                          <cbc:QName xmlns="http://toop.eu/registered-organization">Custom_Concept_Numeric</cbc:QName>
+                          <cbc:qName xmlns="http://toop.eu/registered-organization">Custom_Concept_Numeric</cbc:qName>
             </cccev:concept>
           </cccev:concept>
         </rim:Element>
