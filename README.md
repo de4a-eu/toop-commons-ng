@@ -2,12 +2,15 @@
 
 This is the successor project of the old [toop-commons](https://github.com/TOOP4EU/toop-commons) project.
 The code contained in this project is used by:
-* https://github.com/TOOP4EU/toop-connector-ng - TOOP Connector NG
 * https://github.com/TOOP4EU/data-services-directory - Data Services Directory (DSD)
+* https://github.com/TOOP4EU/toop-connector-ng - TOOP Connector NG
 * https://github.com/TOOP4EU/toop-simulator-ng/ - TOOP Simulator NG
 * https://github.com/TOOP4EU/toop-playground-ng/ - Playground NG (the previous DemoUI)
 
 ## Status
+
+`v2.1.0` - work in progress
+* Updated to the new EDM 2.1.0
 
 2020-08-30: release of `v2.0.0`
 * Using Java 8 date time classes for JAXB generated classes
