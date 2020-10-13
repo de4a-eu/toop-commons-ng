@@ -11,6 +11,7 @@ The code contained in this project is used by:
 
 `v2.1.0` - work in progress
 * Updated to the new EDM 2.1.0
+* Added Jackson Databind for the Kafka Client
 
 2020-08-30: release of `v2.0.0`
 * Using Java 8 date time classes for JAXB generated classes
