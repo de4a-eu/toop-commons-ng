@@ -48,7 +48,7 @@ final class ToopKafkaManager
   private static final SimpleReadWriteLock s_aRWLock = new SimpleReadWriteLock ();
   @GuardedBy ("s_aRWLock")
   private static KafkaProducer <String, String> s_aProducer;
-  private static final ICommonsMap <String, String> s_aDefaultProps = new CommonsHashMap <> ();
+  private static final ICommonsMap <String, String> DEFAULT_PROPS = new CommonsHashMap <> ();
 
   static
   {
@@ -57,7 +57,7 @@ final class ToopKafkaManager
     // Server URL - MUST be configured
     // s_aProps.put ("bootstrap.servers", "193.10.8.211:7073");
     // Default: 5secs
-    s_aDefaultProps.put (ProducerConfig.MAX_BLOCK_MS_CONFIG, "5000");
+    DEFAULT_PROPS.put (ProducerConfig.MAX_BLOCK_MS_CONFIG, "5000");
   }
 
   /**
@@ -68,7 +68,7 @@ final class ToopKafkaManager
   @ReturnsMutableObject
   public static ICommonsMap <String, String> defaultProperties ()
   {
-    return s_aDefaultProps;
+    return DEFAULT_PROPS;
   }
 
   private ToopKafkaManager ()
@@ -80,7 +80,7 @@ final class ToopKafkaManager
   {
     final ICommonsMap <String, Object> aProps = new CommonsHashMap <> ();
     // Use all default props
-    aProps.putAll (s_aDefaultProps);
+    aProps.putAll (DEFAULT_PROPS);
     return aProps;
   }
 
