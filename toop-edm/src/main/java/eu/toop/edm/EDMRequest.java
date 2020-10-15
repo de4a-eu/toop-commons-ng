@@ -493,8 +493,10 @@ public class EDMRequest implements IEDMTopLevelObject
    * Generic Builder for an EDM request
    *
    * @author Philip Helger
+   * @param <IMPLTYPE>
+   *        The implementation class of this class
    */
-  public abstract static class AbstractBuilder <T extends AbstractBuilder <T>> implements IGenericImplTrait <T>
+  public abstract static class AbstractBuilder <IMPLTYPE extends AbstractBuilder <IMPLTYPE>> implements IGenericImplTrait <IMPLTYPE>
   {
     protected final EToopQueryDefinitionType m_eQueryDefinition;
     protected String m_sRequestID;
@@ -517,90 +519,90 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public final T randomID ()
+    public final IMPLTYPE randomID ()
     {
       return id (UUID.randomUUID ());
     }
 
     @Nonnull
-    public final T id (@Nullable final UUID a)
+    public final IMPLTYPE id (@Nullable final UUID a)
     {
       return id (a == null ? null : a.toString ());
     }
 
     @Nonnull
-    public final T id (@Nullable final String s)
+    public final IMPLTYPE id (@Nullable final String s)
     {
       m_sRequestID = s;
       return thisAsT ();
     }
 
     @Nonnull
-    public final T responseOption (@Nullable final EToopResponseOptionType e)
+    public final IMPLTYPE responseOption (@Nullable final EToopResponseOptionType e)
     {
       m_eResponseOption = e;
       return thisAsT ();
     }
 
     @Nonnull
-    public final T specificationIdentifier (@Nullable final String s)
+    public final IMPLTYPE specificationIdentifier (@Nullable final String s)
     {
       m_sSpecificationIdentifier = s;
       return thisAsT ();
     }
 
     @Nonnull
-    public final T issueDateTimeNow ()
+    public final IMPLTYPE issueDateTimeNow ()
     {
       return issueDateTime (PDTFactory.getCurrentLocalDateTime ());
     }
 
     @Nonnull
-    public final T issueDateTime (@Nullable final LocalDateTime a)
+    public final IMPLTYPE issueDateTime (@Nullable final LocalDateTime a)
     {
       m_aIssueDateTime = a == null ? null : a.truncatedTo (ChronoUnit.MILLIS);
       return thisAsT ();
     }
 
     @Nonnull
-    public final T procedure (@Nullable final LocalizedStringType... a)
+    public final IMPLTYPE procedure (@Nullable final LocalizedStringType... a)
     {
       return procedure (a == null ? null : SlotHelper.createInternationalStringType (a));
     }
 
     @Nonnull
-    public final T procedure (@Nonnull final Locale aLocale, @Nonnull final String sText)
+    public final IMPLTYPE procedure (@Nonnull final Locale aLocale, @Nonnull final String sText)
     {
       return procedure (SlotHelper.createLocalizedString (aLocale, sText));
     }
 
     @Nonnull
-    public final T procedure (@Nonnull @Nonempty final String sLanguage, @Nonnull final String sText)
+    public final IMPLTYPE procedure (@Nonnull @Nonempty final String sLanguage, @Nonnull final String sText)
     {
       return procedure (SlotHelper.createLocalizedString (sLanguage, sText));
     }
 
     @Nonnull
-    public final T procedure (@Nonnull final EToopLanguageCode eLanguage, @Nonnull final String sText)
+    public final IMPLTYPE procedure (@Nonnull final EToopLanguageCode eLanguage, @Nonnull final String sText)
     {
       return procedure (SlotHelper.createLocalizedString (eLanguage.getID (), sText));
     }
 
     @Nonnull
-    public final T procedure (@Nullable final Map <String, String> a)
+    public final IMPLTYPE procedure (@Nullable final Map <String, String> a)
     {
       return procedure (a == null ? null : SlotHelper.createInternationalStringType (a));
     }
 
     @Nonnull
-    public final T procedure (@Nullable final InternationalStringType a)
+    public final IMPLTYPE procedure (@Nullable final InternationalStringType a)
     {
       m_aProcedure = a;
       return thisAsT ();
     }
 
     @Nonnull
-    public final T addFullfillingRequirement (@Nullable final CCCEVRequirementType a)
+    public final IMPLTYPE addFullfillingRequirement (@Nullable final CCCEVRequirementType a)
     {
       if (a != null)
         m_aFullfillingRequirements.add (a);
@@ -608,7 +610,7 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public final T fullfillingRequirement (@Nullable final CCCEVRequirementType a)
+    public final IMPLTYPE fullfillingRequirement (@Nullable final CCCEVRequirementType a)
     {
       if (a != null)
         m_aFullfillingRequirements.set (a);
@@ -618,43 +620,43 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public final T fullfillingRequirements (@Nullable final CCCEVRequirementType... a)
+    public final IMPLTYPE fullfillingRequirements (@Nullable final CCCEVRequirementType... a)
     {
       m_aFullfillingRequirements.setAll (a);
       return thisAsT ();
     }
 
     @Nonnull
-    public final T fullfillingRequirements (@Nullable final Iterable <? extends CCCEVRequirementType> a)
+    public final IMPLTYPE fullfillingRequirements (@Nullable final Iterable <? extends CCCEVRequirementType> a)
     {
       m_aFullfillingRequirements.setAll (a);
       return thisAsT ();
     }
 
     @Nonnull
-    public final <U> T fullfillingRequirements (@Nullable final Iterable <? extends U> a,
-                                                @Nonnull final Function <? super U, CCCEVRequirementType> aMapper)
+    public final <U> IMPLTYPE fullfillingRequirements (@Nullable final Iterable <? extends U> a,
+                                                       @Nonnull final Function <? super U, CCCEVRequirementType> aMapper)
     {
       m_aFullfillingRequirements.setAllMapped (a, aMapper);
       return thisAsT ();
     }
 
     @Nonnull
-    public final T consentToken (@Nullable final String s)
+    public final IMPLTYPE consentToken (@Nullable final String s)
     {
       m_sConsentToken = s;
       return thisAsT ();
     }
 
     @Nonnull
-    public final T datasetIdentifier (@Nullable final String s)
+    public final IMPLTYPE datasetIdentifier (@Nullable final String s)
     {
       m_sDatasetIdentifier = s;
       return thisAsT ();
     }
 
     @Nonnull
-    public final T dataConsumer (@Nullable final Consumer <? super AgentPojo.Builder> a)
+    public final IMPLTYPE dataConsumer (@Nullable final Consumer <? super AgentPojo.Builder> a)
     {
       if (a != null)
       {
@@ -666,26 +668,26 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public final T dataConsumer (@Nullable final AgentType a)
+    public final IMPLTYPE dataConsumer (@Nullable final AgentType a)
     {
       return dataConsumer (a == null ? null : AgentPojo.builder (a));
     }
 
     @Nonnull
-    public final T dataConsumer (@Nullable final AgentPojo.Builder a)
+    public final IMPLTYPE dataConsumer (@Nullable final AgentPojo.Builder a)
     {
       return dataConsumer (a == null ? null : a.build ());
     }
 
     @Nonnull
-    public final T dataConsumer (@Nullable final AgentPojo a)
+    public final IMPLTYPE dataConsumer (@Nullable final AgentPojo a)
     {
       m_aDataConsumer = a;
       return thisAsT ();
     }
 
     @Nonnull
-    public final T dataSubjectBusiness (@Nullable final Consumer <? super BusinessPojo.Builder> a)
+    public final IMPLTYPE dataSubjectBusiness (@Nullable final Consumer <? super BusinessPojo.Builder> a)
     {
       if (a != null)
       {
@@ -697,19 +699,19 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public final T dataSubject (@Nullable final CoreBusinessType a)
+    public final IMPLTYPE dataSubject (@Nullable final CoreBusinessType a)
     {
       return dataSubject (a == null ? null : BusinessPojo.builder (a));
     }
 
     @Nonnull
-    public final T dataSubject (@Nullable final BusinessPojo.Builder a)
+    public final IMPLTYPE dataSubject (@Nullable final BusinessPojo.Builder a)
     {
       return dataSubject (a == null ? null : a.build ());
     }
 
     @Nonnull
-    public final T dataSubject (@Nullable final BusinessPojo a)
+    public final IMPLTYPE dataSubject (@Nullable final BusinessPojo a)
     {
       m_aDataSubjectLegalPerson = a;
       m_aDataSubjectNaturalPerson = null;
@@ -717,7 +719,7 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public final T dataSubjectPerson (@Nullable final Consumer <? super PersonPojo.Builder> a)
+    public final IMPLTYPE dataSubjectPerson (@Nullable final Consumer <? super PersonPojo.Builder> a)
     {
       if (a != null)
       {
@@ -729,19 +731,19 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public final T dataSubject (@Nullable final CorePersonType a)
+    public final IMPLTYPE dataSubject (@Nullable final CorePersonType a)
     {
       return dataSubject (a == null ? null : PersonPojo.builder (a));
     }
 
     @Nonnull
-    public final T dataSubject (@Nullable final PersonPojo.Builder a)
+    public final IMPLTYPE dataSubject (@Nullable final PersonPojo.Builder a)
     {
       return dataSubject (a == null ? null : a.build ());
     }
 
     @Nonnull
-    public final T dataSubject (@Nullable final PersonPojo a)
+    public final IMPLTYPE dataSubject (@Nullable final PersonPojo a)
     {
       m_aDataSubjectLegalPerson = null;
       m_aDataSubjectNaturalPerson = a;
@@ -749,7 +751,7 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public final T authorizedRepresentative (@Nullable final Consumer <? super PersonPojo.Builder> a)
+    public final IMPLTYPE authorizedRepresentative (@Nullable final Consumer <? super PersonPojo.Builder> a)
     {
       if (a != null)
       {
@@ -761,19 +763,19 @@ public class EDMRequest implements IEDMTopLevelObject
     }
 
     @Nonnull
-    public final T authorizedRepresentative (@Nullable final CorePersonType a)
+    public final IMPLTYPE authorizedRepresentative (@Nullable final CorePersonType a)
     {
       return authorizedRepresentative (a == null ? null : PersonPojo.builder (a));
     }
 
     @Nonnull
-    public final T authorizedRepresentative (@Nullable final PersonPojo.Builder a)
+    public final IMPLTYPE authorizedRepresentative (@Nullable final PersonPojo.Builder a)
     {
       return authorizedRepresentative (a == null ? null : a.build ());
     }
 
     @Nonnull
-    public final T authorizedRepresentative (@Nullable final PersonPojo a)
+    public final IMPLTYPE authorizedRepresentative (@Nullable final PersonPojo a)
     {
       m_aAuthorizedRepresentative = a;
       return thisAsT ();
