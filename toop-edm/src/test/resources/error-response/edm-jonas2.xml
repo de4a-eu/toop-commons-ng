@@ -19,7 +19,7 @@
 <query:QueryResponse xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:4.0" xmlns:spi="urn:oasis:names:tc:ebxml-regrep:xsd:spi:4.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:4.0" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:4.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:4.0" status="urn:oasis:names:tc:ebxml-regrep:ResponseStatusType:Failure" requestId="8ad2f89a-f566-4c91-9b4d-9b40f095a78c">
   <rim:Slot name="SpecificationIdentifier">
     <rim:SlotValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rim:StringValueType">
-      <rim:Value>toop-edm:v2.0</rim:Value>
+      <rim:Value>toop-edm:v2.1</rim:Value>
     </rim:SlotValue>
   </rim:Slot>
   <rim:Slot name="ErrorProvider">

@@ -117,7 +117,7 @@ import eu.toop.regrep.slot.predefined.SlotId;
  * <li>Request ID - the internal ID of the request that must be part of the
  * response. Can be a UUID.</li>
  * <li>Specification Identifier - must be the value
- * {@link CToopEDM#SPECIFICATION_IDENTIFIER_TOOP_EDM_V20}.</li>
+ * {@link CToopEDM#SPECIFICATION_IDENTIFIER_TOOP_EDM_V21}.</li>
  * <li>Issue date time - when the request was created. Ideally in UTC.</li>
  * <li>Data Consumer - the basic infos of the DC</li>
  * <li>Data Subject - either as Legal Person or as Natural Person, but not
@@ -461,21 +461,21 @@ public class EDMRequest implements IEDMTopLevelObject
   @Nonnull
   public static BuilderConcept builderConcept ()
   {
-    return new BuilderConcept ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+    return new BuilderConcept ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V21)
                                 .responseOption (EToopResponseOptionType.INLINE);
   }
 
   @Nonnull
   public static BuilderDocumentsByDistribution builderDocumentsByDistribution ()
   {
-    return new BuilderDocumentsByDistribution ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+    return new BuilderDocumentsByDistribution ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V21)
                                                 .responseOption (EToopResponseOptionType.INLINE);
   }
 
   @Nonnull
   public static BuilderDocumentsByDistribution builderDocumentReferencesByDistribution ()
   {
-    return new BuilderDocumentsByDistribution ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+    return new BuilderDocumentsByDistribution ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V21)
                                                 .responseOption (EToopResponseOptionType.REFERENCE);
   }
 
@@ -485,7 +485,7 @@ public class EDMRequest implements IEDMTopLevelObject
   @Nonnull
   public static BuilderDocumentByID builderDocumentByID ()
   {
-    return new BuilderDocumentByID ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+    return new BuilderDocumentByID ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V21)
                                      .responseOption (EToopResponseOptionType.INLINE);
   }
 

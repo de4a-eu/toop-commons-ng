@@ -84,7 +84,7 @@ public final class EDMResponseTest
   {
     return aBuilder.requestID (UUID.randomUUID ())
                    .issueDateTimeNow ()
-                   .specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+                   .specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V21)
                    .dataProvider (x -> x.address (y -> y.town ("MyTown")
                                                         .streetName ("MyStreet")
                                                         .buildingNumber ("22")

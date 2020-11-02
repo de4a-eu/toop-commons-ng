@@ -87,7 +87,7 @@ public final class EDMRequestTest
   @Nonnull
   private static <T extends EDMRequest.AbstractBuilder <T>> T _req (@Nonnull final T aBuilder)
   {
-    return aBuilder.specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+    return aBuilder.specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V21)
                    .responseOption (EToopResponseOptionType.INLINE)
                    .randomID ()
                    .issueDateTimeNow ()

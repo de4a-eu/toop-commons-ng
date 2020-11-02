@@ -92,7 +92,7 @@ import eu.toop.regrep.slot.ISlotProvider;
  * <li>Request ID - the ID of the request to which this response
  * correlates.</li>
  * <li>Specification Identifier - must be the value
- * {@link CToopEDM#SPECIFICATION_IDENTIFIER_TOOP_EDM_V20}.</li>
+ * {@link CToopEDM#SPECIFICATION_IDENTIFIER_TOOP_EDM_V21}.</li>
  * <li>Issue date time - when the response was created. Ideally in UTC.</li>
  * <li>Data Provider - the basic infos of the DP</li>
  * <li>If it is a "ConceptQuery" the response Concepts must be provided.</li>
@@ -331,19 +331,19 @@ public class EDMResponse implements IEDMTopLevelObject
   {
     // RegistryObjectID doesn't matter for concepts but must be settable in
     // import for comparison
-    return new BuilderConcept ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20).randomRegistryObjectID ();
+    return new BuilderConcept ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V21).randomRegistryObjectID ();
   }
 
   @Nonnull
   public static BuilderDocument builderDocument ()
   {
-    return new BuilderDocument ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20);
+    return new BuilderDocument ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V21);
   }
 
   @Nonnull
   public static BuilderDocumentReference builderDocumentReference ()
   {
-    return new BuilderDocumentReference ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20);
+    return new BuilderDocumentReference ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V21);
   }
 
   /**

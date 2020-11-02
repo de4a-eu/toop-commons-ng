@@ -389,16 +389,16 @@
 
 		<!--ASSERT -->
 <xsl:choose>
-      <xsl:when test="matches(rim:Slot[@name = 'SpecificationIdentifier']/rim:SlotValue/rim:Value/text(),'toop-edm:v2.0')" />
+      <xsl:when test="matches(rim:Slot[@name = 'SpecificationIdentifier']/rim:SlotValue/rim:Value/text(),'toop-edm:v2.1')" />
       <xsl:otherwise>
-        <svrl:failed-assert test="matches(rim:Slot[@name = 'SpecificationIdentifier']/rim:SlotValue/rim:Value/text(),'toop-edm:v2.0')">
+        <svrl:failed-assert test="matches(rim:Slot[@name = 'SpecificationIdentifier']/rim:SlotValue/rim:Value/text(),'toop-edm:v2.1')">
           <xsl:attribute name="id">br_mandatory_res_specs_id</xsl:attribute>
           <xsl:attribute name="flag">ERROR</xsl:attribute>
           <xsl:attribute name="location">
             <xsl:apply-templates mode="schematron-select-full-path" select="." />
           </xsl:attribute>
           <svrl:text>
-                Rule: The message MUST have the specification identifier "toop-edm:v2.0".
+                Rule: The message MUST have the specification identifier "toop-edm:v2.1".
             </svrl:text>
         </svrl:failed-assert>
       </xsl:otherwise>

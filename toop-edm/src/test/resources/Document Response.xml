@@ -29,7 +29,7 @@
     <!-- SPECIFICATION IDENTIFIER -->
     <rim:Slot name="SpecificationIdentifier">
         <rim:SlotValue xsi:type="rim:StringValueType">
-            <rim:Value>toop-edm:v2.0</rim:Value>
+            <rim:Value>toop-edm:v2.1</rim:Value>
         </rim:SlotValue>
     </rim:Slot>
 

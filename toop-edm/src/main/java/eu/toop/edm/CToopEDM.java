@@ -19,14 +19,14 @@ import javax.annotation.concurrent.Immutable;
 
 /**
  * Constants for the TOOP EDM.
- * 
+ *
  * @author Philip Helger
  */
 @Immutable
 public final class CToopEDM
 {
-  /** Default value for TOOP EDM 2.0 */
-  public static final String SPECIFICATION_IDENTIFIER_TOOP_EDM_V20 = "toop-edm:v2.0";
+  /** Default value for TOOP EDM 2.1 */
+  public static final String SPECIFICATION_IDENTIFIER_TOOP_EDM_V21 = "toop-edm:v2.1";
 
   private CToopEDM ()
   {}

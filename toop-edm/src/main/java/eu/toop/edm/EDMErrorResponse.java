@@ -235,7 +235,7 @@ public class EDMErrorResponse implements IEDMTopLevelObject
   {
     // Use the default specification identifier
     // Failure by default
-    return new Builder ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V20)
+    return new Builder ().specificationIdentifier (CToopEDM.SPECIFICATION_IDENTIFIER_TOOP_EDM_V21)
                          .responseStatus (ERegRepResponseStatus.FAILURE);
   }
 

@@ -54,9 +54,9 @@
     <!--Check the Specification Identifier-->
     <pattern>
         <rule context="query:QueryRequest | query:QueryResponse">
-            <assert test="matches(rim:Slot[@name = 'SpecificationIdentifier']/rim:SlotValue/rim:Value/text(),'toop-edm:v2.0')" 
+            <assert test="matches(rim:Slot[@name = 'SpecificationIdentifier']/rim:SlotValue/rim:Value/text(),'toop-edm:v2.1')" 
                 flag='ERROR' id="br_mandatory_res_specs_id">
-                Rule: The message MUST have the specification identifier "toop-edm:v2.0".
+                Rule: The message MUST have the specification identifier "toop-edm:v2.1".
             </assert>
         </rule>
     </pattern>
