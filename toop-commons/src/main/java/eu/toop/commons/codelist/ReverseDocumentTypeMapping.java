@@ -30,6 +30,7 @@ import com.helger.commons.collection.impl.ICommonsMap;
  *
  * @author Philip Helger
  */
+@SuppressWarnings ("deprecation")
 public final class ReverseDocumentTypeMapping
 {
   private static final ICommonsMap <EPredefinedDocumentTypeIdentifier, EPredefinedDocumentTypeIdentifier> MAP = new CommonsEnumMap <> (EPredefinedDocumentTypeIdentifier.class);
@@ -68,6 +69,12 @@ public final class ReverseDocumentTypeMapping
           EPredefinedDocumentTypeIdentifier.QUERYRESPONSE_TOOP_EDM_V2_0);
     _add (EPredefinedDocumentTypeIdentifier.FINANCIALRECORD_FINANCIAL_RECORD_TYPE_UNSTRUCTURED_TOOP_EDM_V2_0,
           EPredefinedDocumentTypeIdentifier.QUERYRESPONSE_TOOP_EDM_V2_0);
+
+    // EDM v2.1, Codelist v5
+    _add (EPredefinedDocumentTypeIdentifier.REGISTEREDORGANIZATION_REGISTERED_ORGANIZATION_TYPE_CONCEPT_CCCEV_TOOP_EDM_V2_1,
+          EPredefinedDocumentTypeIdentifier.QUERYRESPONSE_TOOP_EDM_V2_1);
+    _add (EPredefinedDocumentTypeIdentifier.FINANCIALRECORD_FINANCIAL_RECORD_TYPE_UNSTRUCTURED_TOOP_EDM_V2_1,
+          EPredefinedDocumentTypeIdentifier.QUERYRESPONSE_TOOP_EDM_V2_1);
   }
 
   private ReverseDocumentTypeMapping ()
