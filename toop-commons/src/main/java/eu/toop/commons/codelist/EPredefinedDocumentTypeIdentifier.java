@@ -236,21 +236,7 @@ public enum EPredefinedDocumentTypeIdentifier
      * 
      * @since code list v5
      */
-    QUERYRESPONSE_TOOP_EDM_V2_1("EDM Response 2.1", "QueryResponse::toop-edm:v2.1", Version.parse("5"), false, null),
-
-    /**
-     * Ship Certificate Data 2.1 - <code>ShipCertificate::SHIPCERTIFICATE_TYPE::UNSTRUCTURED::toop-edm:v2.1</code><br>
-     * 
-     * @since code list v5
-     */
-    SHIPCERTIFICATE_SHIPCERTIFICATE_TYPE_UNSTRUCTURED_TOOP_EDM_V2_1("Ship Certificate Data 2.1", "ShipCertificate::SHIPCERTIFICATE_TYPE::UNSTRUCTURED::toop-edm:v2.1", Version.parse("5"), false, null),
-
-    /**
-     * Crew Certificate Data 2.1 - <code>CrewCertificate::CREWCERTIFICATE_TYPE::UNSTRUCTURED::toop-edm:v2.1</code><br>
-     * 
-     * @since code list v5
-     */
-    CREWCERTIFICATE_CREWCERTIFICATE_TYPE_UNSTRUCTURED_TOOP_EDM_V2_1("Crew Certificate Data 2.1", "CrewCertificate::CREWCERTIFICATE_TYPE::UNSTRUCTURED::toop-edm:v2.1", Version.parse("5"), false, null);
+    QUERYRESPONSE_TOOP_EDM_V2_1("EDM Response 2.1", "QueryResponse::toop-edm:v2.1", Version.parse("5"), false, null);
     public static final EPredefinedDocumentTypeIdentifier CCCEV = EPredefinedDocumentTypeIdentifier.REGISTEREDORGANIZATION_REGISTERED_ORGANIZATION_TYPE_CONCEPT_CCCEV_TOOP_EDM_V2_1;
     public static final String DOC_TYPE_SCHEME = "toop-doctypeid-qns";
     private final String m_sName;
