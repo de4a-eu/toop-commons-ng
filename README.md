@@ -1,17 +1,17 @@
 # TOOP Commons NG
 
-This is the successor project of the old [toop-commons](https://github.com/TOOP4EU/toop-commons) project.
 The code contained in this project is used by:
 * https://github.com/TOOP4EU/data-services-directory - Data Services Directory (DSD)
 * https://github.com/TOOP4EU/toop-connector-ng - TOOP Connector NG
 * https://github.com/TOOP4EU/toop-simulator-ng/ - TOOP Simulator NG
-* https://github.com/TOOP4EU/toop-playground-ng/ - Playground NG (the previous DemoUI)
+* https://github.com/TOOP4EU/toop-playground-ng/ - Playground NG
 
 ## Status
 
-`v2.1.0` - work in progress
+2020-11-04: release `v2.1.0`
 * Updated to the new EDM 2.1.0
 * Added Jackson Databind for the Kafka Client
+* Updated the code lists to v5 according to https://github.com/TOOP4EU/toop/tree/master/Code%20Lists
 
 2020-08-30: release of `v2.0.0`
 * Using Java 8 date time classes for JAXB generated classes
