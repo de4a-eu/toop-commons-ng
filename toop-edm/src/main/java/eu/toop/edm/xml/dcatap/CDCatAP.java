@@ -33,7 +33,7 @@ import com.helger.xsds.xml.CXML_XSD;
 public final class CDCatAP
 {
   @Nonnull
-  private static final ClassLoader _getCL ()
+  private static ClassLoader _getCL ()
   {
     return CDCatAP.class.getClassLoader ();
   }
@@ -44,6 +44,7 @@ public final class CDCatAP
                                                                                new ClassPathResource ("schemas/foaf.xsd", _getCL ()),
                                                                                new ClassPathResource ("schemas/locn.xsd", _getCL ()),
                                                                                new ClassPathResource ("schemas/skos.xsd", _getCL ()),
+                                                                               new ClassPathResource ("schemas/org.xsd", _getCL ()),
                                                                                new ClassPathResource ("schemas/rdf.xsd", _getCL ()),
                                                                                new ClassPathResource ("schemas/prov.xsd", _getCL ()),
                                                                                new ClassPathResource ("schemas/dcterms.xsd", _getCL ()),

@@ -43,6 +43,7 @@ public abstract class AbstractDCatMarshaller <T> extends GenericJAXBMarshaller <
   {
     super (aType, CCCEV.XSDS, aJAXBElementWrapper);
     setNamespaceContext (CCCEVNamespaceContext.getInstance ());
+    setIndentString ("  ");
   }
 
   @Override
@@ -61,6 +62,7 @@ public abstract class AbstractDCatMarshaller <T> extends GenericJAXBMarshaller <
                                                      eu.toop.edm.jaxb.w3.adms.ObjectFactory.class,
                                                      eu.toop.edm.jaxb.w3.locn.ObjectFactory.class,
                                                      eu.toop.edm.jaxb.w3.odrl.ObjectFactory.class,
+                                                     eu.toop.edm.jaxb.w3.org.ObjectFactory.class,
                                                      eu.toop.edm.jaxb.w3.skos.ObjectFactory.class };
 
     if (isUseContextCache ())
