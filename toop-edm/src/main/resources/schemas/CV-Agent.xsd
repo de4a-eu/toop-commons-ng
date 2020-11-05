@@ -69,12 +69,12 @@
 	
 	<!-- Classe declarations  -->
 	<xsd:element name="Agent" type="AgentType"/>
-  <!-- [ph] ignored	
+  <!-- [TOOP] ignored	
 	<xsd:element name="Channel" type="ChannelType"/>
    -->
 	<xsd:element name="ContactPoint" type="ContactPointType"/>
 	<xsd:element name="FormalOrganization" type="FormalOrganizationType"/>
-  <!-- [ph] ignored 
+  <!-- [TOOP] ignored 
 	<xsd:element name="Location" type="LocationType"/>
   -->
 	<xsd:element name="OpeningHoursSpecificationHours" type="OpeningHoursSpecificationType"/>	
@@ -82,7 +82,7 @@
 	<xsd:element name="Person" type="PersonType"/>
 	<xsd:element name="PublicOrganization" type="PublicOrganizationType"/>
 	<xsd:element name="RegisteredOrganization" type="RegisteredOrganizationType"/>
-  <!-- [ph] ignored 
+  <!-- [TOOP] ignored 
 	<xsd:element name="Role" type="RoleType"/>
   -->
 	<xsd:element name="System" type="SystemType"/>
@@ -154,7 +154,7 @@
 				<xsd:sequence>
 					<xsd:element ref="size" minOccurs="0"/>
 				</xsd:sequence>
-        <!-- [ph]
+        <!-- [TOOP]
 				<xsd:attributeGroup ref="cac:ThingAttributes"/>
          -->
 			</xsd:extension>
@@ -210,7 +210,7 @@
 				<xsd:sequence>
 					<xsd:group ref="org_OrganizationElements"/>
 				</xsd:sequence>
-        <!-- [ph]
+        <!-- [TOOP]
 				<xsd:attributeGroup ref="cac:ThingAttributes"/>
         -->
 			</xsd:extension>
@@ -226,7 +226,7 @@
 					<xsd:element ref="formalName" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element ref="formalLocation" minOccurs="0"/>
 				</xsd:sequence>
-        <!-- [ph]
+        <!-- [TOOP]
 				<xsd:attributeGroup ref="cac:ThingAttributes"/>
         -->        
 			</xsd:extension>
@@ -266,7 +266,7 @@
 					<xsd:element ref="placeOfBirth" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element ref="placeOfDeath" minOccurs="0" maxOccurs="unbounded"/>					
 				</xsd:sequence>
-        <!-- [ph]
+        <!-- [TOOP]
 				<xsd:attributeGroup ref="cac:ThingAttributes"/>
         -->
 			</xsd:extension>
@@ -289,7 +289,7 @@
 					<xsd:element ref="legalForm" minOccurs="0"/>
 					<xsd:element ref="registeredLocation" minOccurs="0"/>
 				</xsd:sequence>
-        <!-- [ph]
+        <!-- [TOOP]
 				<xsd:attributeGroup ref="cac:ThingAttributes"/>
         -->
 			</xsd:extension>
@@ -313,7 +313,7 @@
 				<xsd:sequence>
 					<xsd:element name="isOwnedBy"/>
 				</xsd:sequence>
-        <!-- [ph]
+        <!-- [TOOP]
 				<xsd:attributeGroup ref="cac:ThingAttributes"/>
         -->
 			</xsd:extension>

@@ -1,5 +1,7 @@
 # TOOP EDM Schemas 2.1.0
 
+**Note:** all changes to the default XSDs (except include resolution) are annotated with `[TOOP]` inside the XSD.
+
 ## EDM Request
 
 * Base file: `CV-Agent.xsd`
