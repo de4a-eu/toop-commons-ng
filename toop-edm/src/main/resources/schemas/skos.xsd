@@ -19,7 +19,8 @@
     <xsd:element name="Definition" type="DefinitionType"/>
 
     <!-- Element definition -->
-    <xsd:complexType name="ConceptType">
+    <!-- [TOOP] added mixed=true" -->
+    <xsd:complexType name="ConceptType" mixed="true">
         <xsd:complexContent>
             <xsd:extension base="xsd:anyType">
                 <xsd:sequence/>
