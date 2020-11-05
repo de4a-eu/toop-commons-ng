@@ -286,7 +286,7 @@
             <let name="countLegalPersons" value="count(rim:Slot[@name = 'LegalPerson'])"/>   
             <let name="countNaturalPersons" value="count(rim:Slot[@name = 'NaturalPerson'])"/> 
             
-            <assert test="( $countLegalPersons+$countNaturalPersons=1 )"  flag='ERROR' id="mandatory_legal_or_natural_person">
+            <assert test="( ($countLegalPersons+$countNaturalPersons=1) or (exists(rim:Slot[@name = 'id'])) )"  flag='ERROR' id="mandatory_legal_or_natural_person">
                 The Query must contain either ONE LegalPerson or ONE NaturalPerson. (found: <value-of select="$countLegalPersons"/> LegalPerson(s) and <value-of select="$countNaturalPersons"/> NaturalPerson(s))
             </assert>
             

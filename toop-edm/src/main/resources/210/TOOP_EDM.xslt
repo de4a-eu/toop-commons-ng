@@ -1189,9 +1189,9 @@
 
 		<!--ASSERT -->
 <xsl:choose>
-      <xsl:when test="( $countLegalPersons+$countNaturalPersons=1 )" />
+      <xsl:when test="( ($countLegalPersons+$countNaturalPersons=1) or (exists(rim:Slot[@name = 'id'])) )" />
       <xsl:otherwise>
-        <svrl:failed-assert test="( $countLegalPersons+$countNaturalPersons=1 )">
+        <svrl:failed-assert test="( ($countLegalPersons+$countNaturalPersons=1) or (exists(rim:Slot[@name = 'id'])) )">
           <xsl:attribute name="id">mandatory_legal_or_natural_person</xsl:attribute>
           <xsl:attribute name="flag">ERROR</xsl:attribute>
           <xsl:attribute name="location">
