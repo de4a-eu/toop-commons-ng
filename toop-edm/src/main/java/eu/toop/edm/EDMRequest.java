@@ -798,9 +798,17 @@ public class EDMRequest implements IEDMTopLevelObject
         throw new IllegalStateException ("Cata Consumer must be present");
 
       if (m_aDataSubjectLegalPerson == null && m_aDataSubjectNaturalPerson == null)
-        throw new IllegalStateException ("Data Subject must be present");
-      if (m_aDataSubjectLegalPerson != null && m_aDataSubjectNaturalPerson != null)
-        throw new IllegalStateException ("Data Subject MUST be either legal person OR natural person");
+      {
+        // No DS is present
+        if (!m_eQueryDefinition.isDataSujectOptional ())
+          throw new IllegalStateException ("Data Subject must be present");
+      }
+      else
+      {
+        // More than one DS is present?
+        if (m_aDataSubjectLegalPerson != null && m_aDataSubjectNaturalPerson != null)
+          throw new IllegalStateException ("Data Subject MUST be either legal person OR natural person");
+      }
     }
 
     @Nonnull

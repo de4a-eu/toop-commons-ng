@@ -58,6 +58,15 @@ public enum EToopQueryDefinitionType implements IHasID <String>
     return m_sID;
   }
 
+  /**
+   * @return <code>true</code> if no data subject is required.
+   * @since 2.1.0
+   */
+  public boolean isDataSujectOptional ()
+  {
+    return this == DOCUMENT_BY_ID;
+  }
+
   @Nullable
   public static EToopQueryDefinitionType getFromIDOrNull (@Nullable final String sID)
   {
