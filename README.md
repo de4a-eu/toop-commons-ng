@@ -8,7 +8,7 @@ The code contained in this project is used by:
 
 ## Status
 
-2020-11-04: release `v2.1.0`
+2020-11-05: release `v2.1.0`
 * Updated to the new EDM 2.1.0
 * Added Jackson Databind for the Kafka Client
 * Updated the code lists to v5 according to https://github.com/TOOP4EU/toop/tree/master/Code%20Lists
