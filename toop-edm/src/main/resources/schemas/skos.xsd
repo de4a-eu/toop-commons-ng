@@ -13,14 +13,15 @@
     <xsd:element name="prefLabel" type="xsd:string"/>
     <xsd:element name="altLabel" type="xsd:string"/>
     <xsd:element name="notation" type="xsd:anySimpleType"/>
+    <!-- [TOOP] added -->
+    <xsd:element name="name" type="xsd:string"/>
     
     <xsd:element name="Concept" type="ConceptType"/>
     <xsd:element name="ConceptScheme" type="ConceptSchemeType"/>
     <xsd:element name="Definition" type="DefinitionType"/>
 
     <!-- Element definition -->
-    <!-- [TOOP] added mixed=true" -->
-    <xsd:complexType name="ConceptType" mixed="true">
+    <xsd:complexType name="ConceptType">
         <xsd:complexContent>
             <xsd:extension base="xsd:anyType">
                 <xsd:sequence/>
