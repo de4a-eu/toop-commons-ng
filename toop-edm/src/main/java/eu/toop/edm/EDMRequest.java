@@ -181,9 +181,10 @@ public class EDMRequest implements IEDMTopLevelObject
     ValueEnforcer.notNull (aIssueDateTime, "IssueDateTime");
     ValueEnforcer.noNullValue (aFullfillingRequirements, "FullfillingRequirements");
     ValueEnforcer.notNull (aDataConsumer, "DataConsumer");
-    ValueEnforcer.isFalse ((aDataSubjectLegalPerson == null && aDataSubjectNaturalPerson == null) ||
-                           (aDataSubjectLegalPerson != null && aDataSubjectNaturalPerson != null),
-                           "Exactly one DataSubject must be set");
+    if (!eQueryDefinition.isDataSujectOptional ())
+      ValueEnforcer.isFalse (aDataSubjectLegalPerson == null && aDataSubjectNaturalPerson == null, "A DataSubject must be set");
+    ValueEnforcer.isFalse (aDataSubjectLegalPerson != null && aDataSubjectNaturalPerson != null,
+                           "Not more than one DataSubject must be set");
     ValueEnforcer.notNull (aRPP, "RequestPayloadProvider");
 
     m_eQueryDefinition = eQueryDefinition;
@@ -203,12 +204,19 @@ public class EDMRequest implements IEDMTopLevelObject
     m_aPayloadProvider = aRPP;
   }
 
+  /**
+   * @return The query definition type as provided in the constructor. Never
+   *         <code>null</code>.
+   */
   @Nonnull
   public final EToopQueryDefinitionType getQueryDefinition ()
   {
     return m_eQueryDefinition;
   }
 
+  /**
+   * @return The TOOP internal request ID. Neither <code>null</code> nor empty.
+   */
   @Nonnull
   @Nonempty
   public final String getRequestID ()
@@ -216,12 +224,20 @@ public class EDMRequest implements IEDMTopLevelObject
     return m_sRequestID;
   }
 
+  /**
+   * @return The response option to be used. Never <code>null</code>.
+   */
   @Nonnull
   public final EToopResponseOptionType getResponseOption ()
   {
     return m_eResponseOption;
   }
 
+  /**
+   * @return The specification identifier that identifies the data model in use.
+   *         See {@link CToopEDM#SPECIFICATION_IDENTIFIER_TOOP_EDM_V21} for the
+   *         current one.
+   */
   @Nonnull
   @Nonempty
   public final String getSpecificationIdentifier ()
@@ -229,6 +245,10 @@ public class EDMRequest implements IEDMTopLevelObject
     return m_sSpecificationIdentifier;
   }
 
+  /**
+   * @return The local date and time when the EDM request was created. Never
+   *         <code>null</code>.
+   */
   @Nonnull
   public final LocalDateTime getIssueDateTime ()
   {
@@ -686,6 +706,14 @@ public class EDMRequest implements IEDMTopLevelObject
       return thisAsT ();
     }
 
+    /**
+     * Set a legal person as data subject. This method nulls an eventually set
+     * natural person data subject.
+     *
+     * @param a
+     *        The value to set. May be <code>null</code>.
+     * @return this for chaining.
+     */
     @Nonnull
     public final IMPLTYPE dataSubjectBusiness (@Nullable final Consumer <? super BusinessPojo.Builder> a)
     {
@@ -698,18 +726,42 @@ public class EDMRequest implements IEDMTopLevelObject
       return thisAsT ();
     }
 
+    /**
+     * Set a legal person as data subject. This method nulls an eventually set
+     * natural person data subject.
+     *
+     * @param a
+     *        The value to set. May be <code>null</code>.
+     * @return this for chaining.
+     */
     @Nonnull
     public final IMPLTYPE dataSubject (@Nullable final CoreBusinessType a)
     {
       return dataSubject (a == null ? null : BusinessPojo.builder (a));
     }
 
+    /**
+     * Set a legal person as data subject. This method nulls an eventually set
+     * natural person data subject.
+     *
+     * @param a
+     *        The value to set. May be <code>null</code>.
+     * @return this for chaining.
+     */
     @Nonnull
     public final IMPLTYPE dataSubject (@Nullable final BusinessPojo.Builder a)
     {
       return dataSubject (a == null ? null : a.build ());
     }
 
+    /**
+     * Set a legal person as data subject. This method nulls an eventually set
+     * natural person data subject.
+     *
+     * @param a
+     *        The value to set. May be <code>null</code>.
+     * @return this for chaining.
+     */
     @Nonnull
     public final IMPLTYPE dataSubject (@Nullable final BusinessPojo a)
     {
@@ -718,6 +770,14 @@ public class EDMRequest implements IEDMTopLevelObject
       return thisAsT ();
     }
 
+    /**
+     * Set a natural person as data subject. This method nulls an eventually set
+     * legal person data subject.
+     *
+     * @param a
+     *        The value to set. May be <code>null</code>.
+     * @return this for chaining.
+     */
     @Nonnull
     public final IMPLTYPE dataSubjectPerson (@Nullable final Consumer <? super PersonPojo.Builder> a)
     {
@@ -730,18 +790,42 @@ public class EDMRequest implements IEDMTopLevelObject
       return thisAsT ();
     }
 
+    /**
+     * Set a natural person as data subject. This method nulls an eventually set
+     * legal person data subject.
+     *
+     * @param a
+     *        The value to set. May be <code>null</code>.
+     * @return this for chaining.
+     */
     @Nonnull
     public final IMPLTYPE dataSubject (@Nullable final CorePersonType a)
     {
       return dataSubject (a == null ? null : PersonPojo.builder (a));
     }
 
+    /**
+     * Set a natural person as data subject. This method nulls an eventually set
+     * legal person data subject.
+     *
+     * @param a
+     *        The value to set. May be <code>null</code>.
+     * @return this for chaining.
+     */
     @Nonnull
     public final IMPLTYPE dataSubject (@Nullable final PersonPojo.Builder a)
     {
       return dataSubject (a == null ? null : a.build ());
     }
 
+    /**
+     * Set a natural person as data subject. This method nulls an eventually set
+     * legal person data subject.
+     *
+     * @param a
+     *        The value to set. May be <code>null</code>.
+     * @return this for chaining.
+     */
     @Nonnull
     public final IMPLTYPE dataSubject (@Nullable final PersonPojo a)
     {

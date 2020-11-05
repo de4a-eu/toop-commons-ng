@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.time.Month;
 import java.util.Locale;
@@ -195,6 +196,21 @@ public final class EDMRequestTest
   }
 
   @Test
+  public void createEDMConceptRequestNoDS ()
+  {
+    // DataSubject is required
+    try
+    {
+      _reqConcept ().build ();
+      fail ();
+    }
+    catch (final IllegalStateException ex)
+    {
+      // expected
+    }
+  }
+
+  @Test
   public void createEDMDocumentRequestLP ()
   {
     final EDMRequest aRequest = _reqDocument ().dataSubject (_lp ()).build ();
@@ -209,6 +225,21 @@ public final class EDMRequestTest
   }
 
   @Test
+  public void createEDMDocumentRequestNoDS ()
+  {
+    // DataSubject is required
+    try
+    {
+      _reqDocument ().build ();
+      fail ();
+    }
+    catch (final IllegalStateException ex)
+    {
+      // expected
+    }
+  }
+
+  @Test
   public void createEDMDocumentGetByIDRequestLP ()
   {
     final EDMRequest aRequest = _reqDocumentByID ().dataSubject (_lp ()).build ();
@@ -219,6 +250,14 @@ public final class EDMRequestTest
   public void createEDMDocumentGetByIDRequestNP ()
   {
     final EDMRequest aRequest = _reqDocumentByID ().dataSubject (_np ()).build ();
+    _testWriteAndRead (aRequest);
+  }
+
+  @Test
+  public void createEDMDocumentGetByIDRequestNoDS ()
+  {
+    // No DataSubject is okay when querying by ID
+    final EDMRequest aRequest = _reqDocumentByID ().build ();
     _testWriteAndRead (aRequest);
   }
 
