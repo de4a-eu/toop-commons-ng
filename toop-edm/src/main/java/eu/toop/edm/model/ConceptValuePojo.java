@@ -217,7 +217,7 @@ public class ConceptValuePojo
       return m_aPeriod.getAsString ();
     if (m_aQuantity != null)
       return m_aQuantity.getAsString ();
-    if (m_aText != null)
+    if (m_aText.isNotEmpty ())
       return StringHelper.getImploded ('\n', m_aText);
     if (m_aTime != null)
       return m_aTime.toString ();
