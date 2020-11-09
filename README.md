@@ -8,6 +8,9 @@ The code contained in this project is used by:
 
 ## Status
 
+2020-11-09: release `v2.1.0-1`
+* No changes, just for consistency
+
 2020-11-06: release `v2.1.0`
 * Updated to the new EDM 2.1.0
 * Added Jackson Databind for the Kafka Client
