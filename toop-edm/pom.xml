@@ -81,8 +81,8 @@
       <artifactId>ph-ubl23</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.helger</groupId>
-      <artifactId>ph-schematron</artifactId>
+      <groupId>com.helger.schematron</groupId>
+      <artifactId>ph-schematron-xslt</artifactId>
     </dependency>
     <dependency>
       <groupId>eu.toop</groupId>
