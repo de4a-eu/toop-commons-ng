@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (C) 2018-2020 toop.eu
+    Copyright (C) 2018-2021 toop.eu
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -28,7 +28,6 @@
   <name>toop-edm</name>
   <url>https://github.com/toop4eu/toop-commons-ng/toop-edm</url>
   <inceptionYear>2020</inceptionYear>
- 
   <licenses>
     <license>
       <name>Apache 2</name>
@@ -36,12 +35,10 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-
   <organization>
     <name>toop.eu</name>
     <url>http://www.toop.eu</url>
   </organization>
-
   <developers>
     <developer>
       <id>philip</id>
@@ -50,7 +47,6 @@
       <url>http://www.helger.com</url>
     </developer>
   </developers>
-
   <dependencies>
     <dependency>
       <groupId>com.helger</groupId>
@@ -92,14 +88,12 @@
       <groupId>com.sun.activation</groupId>
       <artifactId>jakarta.activation</artifactId>
     </dependency>
-  
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- JUnit 4 for testing -->
-    <dependency>
+    <!-- JUnit 4 for testing -->    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
@@ -110,7 +104,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  
   <build>
     <plugins>
       <plugin>
@@ -121,6 +114,8 @@
             <Automatic-Module-Name>eu.toop.edm</Automatic-Module-Name>
             <Export-Package>eu.toop.edm.*</Export-Package>
             <Import-Package>!javax.annotation.*,*</Import-Package>
+            <Require-Capability>osgi.extender; filter:="(osgi.extender=osgi.serviceloader.registrar)"</Require-Capability>
+            <Provide-Capability>osgi.serviceloader; osgi.serviceloader=com.helger.schematron.svrl.ISVRLLocationBeautifierSPI</Provide-Capability>
           </instructions>
         </configuration>
       </plugin>
@@ -196,8 +191,7 @@
           </episodes>
         </configuration>
         <dependencies>
-          <!-- Required for VCard -->
-          <dependency>
+          <!-- Required for VCard -->          <dependency>
             <groupId>eu.toop</groupId>
             <artifactId>toop-regrep</artifactId>
             <version>${project.version}</version>
