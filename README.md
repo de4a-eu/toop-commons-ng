@@ -8,6 +8,10 @@ The code contained in this project is used by:
 
 ## Status
 
+`v2.1.1` - work in progress
+* The project is now dual licensed under Apache License, Version 2.0 and EUPL 1.2
+* No code changes
+
 2020-11-09: release `v2.1.0-1`
 * No changes, just for consistency
 
