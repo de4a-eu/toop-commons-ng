@@ -52,7 +52,7 @@ import com.helger.commons.collection.impl.ICommonsMap;
  */
 public final class ToopKafkaSettings
 {
-  public static final String DEFAULT_KAFKA_TOPIC = "toop";
+  public static final String DEFAULT_KAFKA_TOPIC = "de4a";
 
   private static final Logger LOGGER = LoggerFactory.getLogger (ToopKafkaSettings.class);
   private static final AtomicBoolean s_aLoggingEnabled = new AtomicBoolean (true);

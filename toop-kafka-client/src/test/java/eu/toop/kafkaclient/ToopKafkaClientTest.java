@@ -67,6 +67,7 @@ public final class ToopKafkaClientTest
   @Test
   public void testBasic ()
   {
+      ToopKafkaSettings.defaultProperties().put("bootstrap.servers","de4a-dev-kafka.egovlab.eu:9092");
     try
     {
       // Don't send too many - will take forever if no Kafka server is up and
